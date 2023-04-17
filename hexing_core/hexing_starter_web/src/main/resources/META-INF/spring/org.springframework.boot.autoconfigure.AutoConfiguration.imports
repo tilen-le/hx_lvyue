@@ -1,0 +1,6 @@
+com.hexing.web.apilog.config.HxApiLogAutoConfiguration
+com.hexing.web.jackson.config.HxJacksonAutoConfiguration
+com.github.xiaoymin.knife4j.spring.configuration.Knife4jAutoConfiguration
+com.hexing.web.swagger.config.HxSwaggerAutoConfiguration
+com.hexing.web.web.config.HxWebAutoConfiguration
+com.hexing.web.xss.config.HxXssAutoConfiguration

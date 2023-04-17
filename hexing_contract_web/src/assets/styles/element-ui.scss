@@ -1,0 +1,144 @@
+// cover some element-ui styles
+
+.el-breadcrumb__inner,
+.el-breadcrumb__inner a {
+  font-weight: 400 !important;
+}
+
+.el-upload {
+  input[type="file"] {
+    display: none !important;
+  }
+}
+
+.el-upload__input {
+  display: none;
+}
+
+.cell {
+  .el-tag {
+    margin-right: 0px;
+  }
+}
+
+.small-padding {
+  .cell {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+.fixed-width {
+  .el-button--mini {
+    padding: 7px 10px;
+    width: 60px;
+  }
+}
+
+.status-col {
+  .cell {
+    padding: 0 10px;
+    text-align: center;
+
+    .el-tag {
+      margin-right: 0px;
+    }
+  }
+}
+
+// to fixed https://github.com/ElemeFE/element/issues/2461
+.el-overlay-dialog {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  .el-dialog {
+    .el-dialog__header {
+      padding: 16px 20px;
+      margin-right: 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .el-dialog__title {
+      font-size: 18px;
+      color: #333;
+      font-weight: 600 !important;
+    }
+
+    .el-dialog__close {
+      font-weight: 600 !important;
+      font-size: 18px !important;
+    }
+
+    .el-dialog__body {
+      padding: 15px 20px !important;
+      max-height: calc(100vh - 57px - 55px - 15vh);
+      overflow: auto;
+    }
+
+    .el-dialog__footer {
+      padding: 10px 15px !important;
+      border-top: 1px solid #f0f0f0;
+      background-color: #F7F8FA;
+      text-align: center;
+    }
+  }
+}
+
+
+// refine element ui upload
+.upload-container {
+  .el-upload {
+    width: 100%;
+
+    .el-upload-dragger {
+      width: 100%;
+      height: 200px;
+    }
+  }
+}
+
+// dropdown
+.el-dropdown-menu {
+  a {
+    display: block
+  }
+}
+
+// 自定义表单样式
+.el-form-item {
+  &.el-form-item--small {
+    margin-bottom: 16px;
+  }
+
+  .el-form-item__label {
+    font-size: 13px;
+    color: #333;
+    font-weight: bold !important;
+  }
+
+}
+
+// fix date-picker ui bug in filter-item
+.el-range-editor.el-input__inner {
+  display: inline-flex !important;
+}
+
+// to fix el-date-picker css style
+.el-range-separator {
+  box-sizing: content-box;
+}
+
+.el-menu--collapse
+> div
+> .el-submenu
+> .el-submenu__title
+.el-submenu__icon-arrow {
+  display: none;
+}
+
+.el-dropdown .el-dropdown-link {
+  color: var(--el-color-primary) !important;
+}

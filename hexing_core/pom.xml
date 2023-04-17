@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>contract</artifactId>
+        <groupId>com.hexing</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <packaging>pom</packaging>
+    <modules>
+        <module>hexing_common</module>
+        <module>hexing_starter_mybatis</module>
+        <module>hexing_starter_redis</module>
+        <module>hexing_starter_web</module>
+        <module>hexing_starter_security</module>
+
+        <module>hexing_starter_file</module>
+        <module>hexing_starter_monitor</module>
+        <module>hexing_starter_protection</module>
+        <module>hexing_starter_job</module>
+        <module>hexing_starter_mq</module>
+
+        <module>hexing_starter_excel</module>
+        <module>hexing_starter_test</module>
+
+        <module>hexing_starter_biz_operatelog</module>
+        <module>hexing_starter_biz_dict</module>
+        <module>hexing_starter_biz_sms</module>
+        <module>hexing_starter_biz_tenant</module>
+
+        <module>hexing_starter_biz_pay</module>
+        <module>hexing_starter_biz_data_permission</module>
+        <module>hexing_starter_biz_error_code</module>
+        <module>hexing_starter_biz_ip</module>
+        <module>hexing_starter_flowable</module>
+        <module>hexing_starter_captcha</module>
+        <module>hexing_starter_ws</module>
+        <module>hexing_starter_desensitize</module>
+    </modules>
+
+    <artifactId>hexing_core</artifactId>
+
+</project>

@@ -1,0 +1,2 @@
+com.hexing.quartz.config.HxQuartzAutoConfiguration
+com.hexing.quartz.config.HxAsyncAutoConfiguration

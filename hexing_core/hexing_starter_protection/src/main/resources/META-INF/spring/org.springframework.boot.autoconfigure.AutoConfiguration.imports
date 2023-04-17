@@ -1,0 +1,2 @@
+com.hexing.protection.idempotent.config.HxIdempotentConfiguration
+com.hexing.protection.lock4j.config.HxLock4jConfiguration

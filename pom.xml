@@ -3,28 +3,25 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>cn.iocoder.boot</groupId>
-    <artifactId>yudao</artifactId>
-    <version>${revision}</version>
+    <groupId>com.hexing</groupId>
+    <artifactId>contract</artifactId>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
     <modules>
-        <module>yudao-dependencies</module>
-        <module>yudao-framework</module>
-        <module>yudao-server</module>
-        <module>yudao-module-member</module>
-        <module>yudao-module-system</module>
-        <module>yudao-module-infra</module>
-        <module>yudao-module-pay</module>
-        <module>yudao-module-bpm</module>
-        <module>yudao-module-report</module>
+        <module>hexing_bom</module>
+        <module>hexing_core</module>
+        <module>hexing_manager</module>
+        <module>hexing_system</module>
+        <module>hexing_base</module>
+        <module>hexing_pay</module>
+        <module>hexing_workflow</module>
+        <module>hexing_report</module>
     </modules>
 
     <name>${project.artifactId}</name>
-    <description>芋道项目基础脚手架</description>
+    <description>hexing项目基础脚手架</description>
 
     <properties>
-        <revision>1.7.1-snapshot</revision>
-        <!-- Maven 相关 -->
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -40,15 +37,41 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>cn.iocoder.boot</groupId>
-                <artifactId>yudao-dependencies</artifactId>
-                <version>${revision}</version>
+                <groupId>com.hexing</groupId>
+                <artifactId>hexing_bom</artifactId>
+                <version>1.0.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
-
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <profiles.active>local</profiles.active>
+                <logging.level>debug</logging.level>
+            </properties>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <profiles.active>dev</profiles.active>
+                <logging.level>debug</logging.level>
+            </properties>
+            <activation>
+                <!-- default -->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <profiles.active>prod</profiles.active>
+                <logging.level>warn</logging.level>
+            </properties>
+        </profile>
+    </profiles>
     <build>
         <pluginManagement>
             <plugins>
@@ -60,7 +83,6 @@
                     <version>${maven-surefire-plugin.version}</version>
                 </plugin>
                 <!-- maven-compiler-plugin 插件，解决 spring-boot-configuration-processor + Lombok + MapStruct 组合 -->
-                <!-- https://stackoverflow.com/questions/33483697/re-run-spring-boot-configuration-annotation-processor-to-update-generated-metada -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
