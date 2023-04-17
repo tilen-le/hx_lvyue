@@ -7,7 +7,7 @@ import com.hexing.system.controller.admin.notify.vo.message.NotifyMessageMyPageR
 import com.hexing.system.controller.admin.notify.vo.message.NotifyMessagePageReqVO;
 import com.hexing.system.controller.admin.notify.vo.message.NotifyMessageRespVO;
 import com.hexing.system.convert.notify.NotifyMessageConvert;
-import com.hexing.system.dal.dataobject.notify.NotifyMessageDO;
+import com.hexing.system.entity.notify.NotifyMessageDO;
 import com.hexing.system.service.notify.NotifyMessageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

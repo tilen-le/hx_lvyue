@@ -5,7 +5,7 @@ import com.hexing.system.controller.admin.dict.vo.data.DictDataCreateReqVO;
 import com.hexing.system.controller.admin.dict.vo.data.DictDataExportReqVO;
 import com.hexing.system.controller.admin.dict.vo.data.DictDataPageReqVO;
 import com.hexing.system.controller.admin.dict.vo.data.DictDataUpdateReqVO;
-import com.hexing.system.dal.dataobject.dict.DictDataDO;
+import com.hexing.system.entity.dict.DictDataDO;
 
 import java.util.Collection;
 import java.util.List;

@@ -16,6 +16,7 @@
         <module>hexing_pay</module>
         <module>hexing_workflow</module>
         <module>hexing_report</module>
+        <module>hexing_service</module>
     </modules>
 
     <name>${project.artifactId}</name>

@@ -4,7 +4,7 @@ import com.hexing.system.controller.admin.sms.vo.template.SmsTemplateCreateReqVO
 import com.hexing.system.controller.admin.sms.vo.template.SmsTemplateExcelVO;
 import com.hexing.system.controller.admin.sms.vo.template.SmsTemplateRespVO;
 import com.hexing.system.controller.admin.sms.vo.template.SmsTemplateUpdateReqVO;
-import com.hexing.system.dal.dataobject.sms.SmsTemplateDO;
+import com.hexing.system.entity.sms.SmsTemplateDO;
 import com.hexing.common.pojo.PageResult;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

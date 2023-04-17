@@ -2,8 +2,8 @@ package com.hexing.system.convert.logger;
 
 import com.hexing.system.controller.admin.logger.vo.operatelog.OperateLogExcelVO;
 import com.hexing.system.controller.admin.logger.vo.operatelog.OperateLogRespVO;
-import com.hexing.system.dal.dataobject.logger.OperateLogDO;
-import com.hexing.system.dal.dataobject.user.AdminUserDO;
+import com.hexing.system.entity.logger.OperateLogDO;
+import com.hexing.system.entity.user.AdminUserDO;
 import com.hexing.common.pojo.PageResult;
 import com.hexing.common.util.collection.MapUtils;
 import com.hexing.system.api.logger.dto.OperateLogCreateReqDTO;

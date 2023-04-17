@@ -5,8 +5,8 @@ import com.hexing.system.controller.admin.logger.vo.operatelog.OperateLogExportR
 import com.hexing.system.controller.admin.logger.vo.operatelog.OperateLogPageReqVO;
 import com.hexing.system.controller.admin.logger.vo.operatelog.OperateLogRespVO;
 import com.hexing.system.convert.logger.OperateLogConvert;
-import com.hexing.system.dal.dataobject.logger.OperateLogDO;
-import com.hexing.system.dal.dataobject.user.AdminUserDO;
+import com.hexing.system.entity.logger.OperateLogDO;
+import com.hexing.system.entity.user.AdminUserDO;
 import com.hexing.system.service.logger.OperateLogService;
 import com.hexing.common.pojo.CommonResult;
 import com.hexing.common.pojo.PageResult;

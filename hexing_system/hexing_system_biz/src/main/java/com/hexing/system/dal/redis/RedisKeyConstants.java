@@ -1,7 +1,7 @@
 package com.hexing.system.dal.redis;
 
 import com.hexing.redis.core.RedisKeyDefine;
-import com.hexing.system.dal.dataobject.oauth2.OAuth2AccessTokenDO;
+import com.hexing.system.entity.oauth2.OAuth2AccessTokenDO;
 
 import java.time.Duration;
 

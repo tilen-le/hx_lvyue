@@ -7,7 +7,7 @@ import com.hexing.system.controller.admin.errorcode.vo.ErrorCodeCreateReqVO;
 import com.hexing.system.controller.admin.errorcode.vo.ErrorCodeExportReqVO;
 import com.hexing.system.controller.admin.errorcode.vo.ErrorCodePageReqVO;
 import com.hexing.system.controller.admin.errorcode.vo.ErrorCodeUpdateReqVO;
-import com.hexing.system.dal.dataobject.errorcode.ErrorCodeDO;
+import com.hexing.system.entity.errorcode.ErrorCodeDO;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;

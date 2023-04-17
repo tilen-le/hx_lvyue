@@ -3,8 +3,8 @@ package com.hexing.system.service.notify;
 import com.hexing.common.pojo.PageResult;
 import com.hexing.system.controller.admin.notify.vo.message.NotifyMessageMyPageReqVO;
 import com.hexing.system.controller.admin.notify.vo.message.NotifyMessagePageReqVO;
-import com.hexing.system.dal.dataobject.notify.NotifyMessageDO;
-import com.hexing.system.dal.dataobject.notify.NotifyTemplateDO;
+import com.hexing.system.entity.notify.NotifyMessageDO;
+import com.hexing.system.entity.notify.NotifyTemplateDO;
 
 import java.util.Collection;
 import java.util.List;

@@ -4,7 +4,7 @@ import com.hexing.system.controller.admin.permission.vo.menu.MenuCreateReqVO;
 import com.hexing.system.controller.admin.permission.vo.menu.MenuRespVO;
 import com.hexing.system.controller.admin.permission.vo.menu.MenuSimpleRespVO;
 import com.hexing.system.controller.admin.permission.vo.menu.MenuUpdateReqVO;
-import com.hexing.system.dal.dataobject.permission.MenuDO;
+import com.hexing.system.entity.permission.MenuDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

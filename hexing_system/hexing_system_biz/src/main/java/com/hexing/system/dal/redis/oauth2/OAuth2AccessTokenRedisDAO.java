@@ -3,7 +3,7 @@ package com.hexing.system.dal.redis.oauth2;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import com.hexing.common.util.collection.CollectionUtils;
 import com.hexing.common.util.json.JsonUtils;
-import com.hexing.system.dal.dataobject.oauth2.OAuth2AccessTokenDO;
+import com.hexing.system.entity.oauth2.OAuth2AccessTokenDO;
 import com.hexing.system.dal.redis.RedisKeyConstants;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;

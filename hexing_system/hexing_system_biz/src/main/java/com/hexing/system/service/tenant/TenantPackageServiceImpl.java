@@ -8,8 +8,8 @@ import com.hexing.system.controller.admin.tenant.vo.packages.TenantPackageCreate
 import com.hexing.system.controller.admin.tenant.vo.packages.TenantPackagePageReqVO;
 import com.hexing.system.controller.admin.tenant.vo.packages.TenantPackageUpdateReqVO;
 import com.hexing.system.convert.tenant.TenantPackageConvert;
-import com.hexing.system.dal.dataobject.tenant.TenantDO;
-import com.hexing.system.dal.dataobject.tenant.TenantPackageDO;
+import com.hexing.system.entity.tenant.TenantDO;
+import com.hexing.system.entity.tenant.TenantPackageDO;
 import com.hexing.system.dal.mysql.tenant.TenantPackageMapper;
 import com.hexing.system.enums.ErrorCodeConstants;
 import org.springframework.context.annotation.Lazy;

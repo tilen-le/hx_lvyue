@@ -5,7 +5,7 @@ import com.hexing.common.pojo.CommonResult;
 import com.hexing.common.pojo.PageResult;
 import com.hexing.system.controller.admin.tenant.vo.packages.*;
 import com.hexing.system.convert.tenant.TenantPackageConvert;
-import com.hexing.system.dal.dataobject.tenant.TenantPackageDO;
+import com.hexing.system.entity.tenant.TenantPackageDO;
 import com.hexing.system.service.tenant.TenantPackageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

@@ -5,7 +5,7 @@ import com.hexing.system.controller.admin.sms.vo.log.SmsLogExportReqVO;
 import com.hexing.system.controller.admin.sms.vo.log.SmsLogPageReqVO;
 import com.hexing.system.controller.admin.sms.vo.log.SmsLogRespVO;
 import com.hexing.system.convert.sms.SmsLogConvert;
-import com.hexing.system.dal.dataobject.sms.SmsLogDO;
+import com.hexing.system.entity.sms.SmsLogDO;
 import com.hexing.system.service.sms.SmsLogService;
 import com.hexing.common.pojo.CommonResult;
 import com.hexing.common.pojo.PageResult;

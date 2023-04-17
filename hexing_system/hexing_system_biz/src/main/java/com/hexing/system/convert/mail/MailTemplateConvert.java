@@ -5,7 +5,7 @@ import com.hexing.system.controller.admin.mail.vo.template.MailTemplateCreateReq
 import com.hexing.system.controller.admin.mail.vo.template.MailTemplateRespVO;
 import com.hexing.system.controller.admin.mail.vo.template.MailTemplateSimpleRespVO;
 import com.hexing.system.controller.admin.mail.vo.template.MailTemplateUpdateReqVO;
-import com.hexing.system.dal.dataobject.mail.MailTemplateDO;
+import com.hexing.system.entity.mail.MailTemplateDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

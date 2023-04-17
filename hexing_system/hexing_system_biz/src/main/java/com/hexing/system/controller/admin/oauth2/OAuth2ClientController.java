@@ -7,7 +7,7 @@ import com.hexing.system.controller.admin.oauth2.vo.client.OAuth2ClientPageReqVO
 import com.hexing.system.controller.admin.oauth2.vo.client.OAuth2ClientRespVO;
 import com.hexing.system.controller.admin.oauth2.vo.client.OAuth2ClientUpdateReqVO;
 import com.hexing.system.convert.auth.OAuth2ClientConvert;
-import com.hexing.system.dal.dataobject.oauth2.OAuth2ClientDO;
+import com.hexing.system.entity.oauth2.OAuth2ClientDO;
 import com.hexing.system.service.oauth2.OAuth2ClientService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;

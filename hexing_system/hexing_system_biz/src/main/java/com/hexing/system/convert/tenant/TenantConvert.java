@@ -6,7 +6,7 @@ import com.hexing.system.controller.admin.tenant.vo.tenant.TenantExcelVO;
 import com.hexing.system.controller.admin.tenant.vo.tenant.TenantRespVO;
 import com.hexing.system.controller.admin.tenant.vo.tenant.TenantUpdateReqVO;
 import com.hexing.system.controller.admin.user.vo.user.UserCreateReqVO;
-import com.hexing.system.dal.dataobject.tenant.TenantDO;
+import com.hexing.system.entity.tenant.TenantDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

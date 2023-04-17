@@ -1,6 +1,6 @@
 package com.hexing.system.dal.mysql.social;
 
-import com.hexing.system.dal.dataobject.social.SocialUserDO;
+import com.hexing.system.entity.social.SocialUserDO;
 import com.hexing.database.mybatis.core.mapper.BaseMapperX;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.ibatis.annotations.Mapper;

@@ -2,7 +2,7 @@ package com.hexing.system.api.dict;
 
 import com.hexing.system.api.dict.dto.DictDataRespDTO;
 import com.hexing.system.convert.dict.DictDataConvert;
-import com.hexing.system.dal.dataobject.dict.DictDataDO;
+import com.hexing.system.entity.dict.DictDataDO;
 import com.hexing.system.service.dict.DictDataService;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
 package com.hexing.system.dal.mysql.oauth2;
 
 import com.hexing.database.mybatis.core.mapper.BaseMapperX;
-import com.hexing.system.dal.dataobject.oauth2.OAuth2CodeDO;
+import com.hexing.system.entity.oauth2.OAuth2CodeDO;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

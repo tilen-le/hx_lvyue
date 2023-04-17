@@ -5,7 +5,7 @@ import com.hexing.system.controller.admin.dict.vo.type.DictTypeCreateReqVO;
 import com.hexing.system.controller.admin.dict.vo.type.DictTypeExportReqVO;
 import com.hexing.system.controller.admin.dict.vo.type.DictTypePageReqVO;
 import com.hexing.system.controller.admin.dict.vo.type.DictTypeUpdateReqVO;
-import com.hexing.system.dal.dataobject.dict.DictTypeDO;
+import com.hexing.system.entity.dict.DictTypeDO;
 
 import java.util.List;
 

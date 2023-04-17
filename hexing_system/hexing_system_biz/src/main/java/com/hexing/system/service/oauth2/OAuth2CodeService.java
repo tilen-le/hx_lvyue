@@ -1,6 +1,6 @@
 package com.hexing.system.service.oauth2;
 
-import com.hexing.system.dal.dataobject.oauth2.OAuth2CodeDO;
+import com.hexing.system.entity.oauth2.OAuth2CodeDO;
 
 import java.util.List;
 

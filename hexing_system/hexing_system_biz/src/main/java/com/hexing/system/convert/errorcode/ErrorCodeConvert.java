@@ -7,7 +7,7 @@ import com.hexing.system.controller.admin.errorcode.vo.ErrorCodeCreateReqVO;
 import com.hexing.system.controller.admin.errorcode.vo.ErrorCodeExcelVO;
 import com.hexing.system.controller.admin.errorcode.vo.ErrorCodeRespVO;
 import com.hexing.system.controller.admin.errorcode.vo.ErrorCodeUpdateReqVO;
-import com.hexing.system.dal.dataobject.errorcode.ErrorCodeDO;
+import com.hexing.system.entity.errorcode.ErrorCodeDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

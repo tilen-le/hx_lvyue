@@ -5,7 +5,7 @@ import com.hexing.system.controller.admin.dept.vo.dept.DeptCreateReqVO;
 import com.hexing.system.controller.admin.dept.vo.dept.DeptRespVO;
 import com.hexing.system.controller.admin.dept.vo.dept.DeptSimpleRespVO;
 import com.hexing.system.controller.admin.dept.vo.dept.DeptUpdateReqVO;
-import com.hexing.system.dal.dataobject.dept.DeptDO;
+import com.hexing.system.entity.dept.DeptDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

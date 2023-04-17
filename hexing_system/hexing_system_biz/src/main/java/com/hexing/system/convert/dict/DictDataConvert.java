@@ -3,7 +3,7 @@ package com.hexing.system.convert.dict;
 import com.hexing.common.pojo.PageResult;
 import com.hexing.system.api.dict.dto.DictDataRespDTO;
 import com.hexing.system.controller.admin.dict.vo.data.*;
-import com.hexing.system.dal.dataobject.dict.DictDataDO;
+import com.hexing.system.entity.dict.DictDataDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

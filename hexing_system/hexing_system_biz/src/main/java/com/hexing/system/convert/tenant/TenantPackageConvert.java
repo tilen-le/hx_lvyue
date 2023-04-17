@@ -5,7 +5,7 @@ import com.hexing.system.controller.admin.tenant.vo.packages.TenantPackageCreate
 import com.hexing.system.controller.admin.tenant.vo.packages.TenantPackageRespVO;
 import com.hexing.system.controller.admin.tenant.vo.packages.TenantPackageSimpleRespVO;
 import com.hexing.system.controller.admin.tenant.vo.packages.TenantPackageUpdateReqVO;
-import com.hexing.system.dal.dataobject.tenant.TenantPackageDO;
+import com.hexing.system.entity.tenant.TenantPackageDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

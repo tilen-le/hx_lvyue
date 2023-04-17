@@ -4,7 +4,7 @@ import com.hexing.common.pojo.PageResult;
 import com.hexing.system.controller.admin.notice.vo.NoticeCreateReqVO;
 import com.hexing.system.controller.admin.notice.vo.NoticeRespVO;
 import com.hexing.system.controller.admin.notice.vo.NoticeUpdateReqVO;
-import com.hexing.system.dal.dataobject.notice.NoticeDO;
+import com.hexing.system.entity.notice.NoticeDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

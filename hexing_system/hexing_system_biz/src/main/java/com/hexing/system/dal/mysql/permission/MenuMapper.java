@@ -3,7 +3,7 @@ package com.hexing.system.dal.mysql.permission;
 import com.hexing.database.mybatis.core.mapper.BaseMapperX;
 import com.hexing.database.mybatis.core.query.LambdaQueryWrapperX;
 import com.hexing.system.controller.admin.permission.vo.menu.MenuListReqVO;
-import com.hexing.system.dal.dataobject.permission.MenuDO;
+import com.hexing.system.entity.permission.MenuDO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

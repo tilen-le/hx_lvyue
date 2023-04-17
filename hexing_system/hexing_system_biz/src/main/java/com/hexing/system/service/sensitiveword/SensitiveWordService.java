@@ -5,7 +5,7 @@ import com.hexing.system.controller.admin.sensitiveword.vo.SensitiveWordCreateRe
 import com.hexing.system.controller.admin.sensitiveword.vo.SensitiveWordExportReqVO;
 import com.hexing.system.controller.admin.sensitiveword.vo.SensitiveWordPageReqVO;
 import com.hexing.system.controller.admin.sensitiveword.vo.SensitiveWordUpdateReqVO;
-import com.hexing.system.dal.dataobject.sensitiveword.SensitiveWordDO;
+import com.hexing.system.entity.sensitiveword.SensitiveWordDO;
 
 import javax.validation.Valid;
 import java.util.List;

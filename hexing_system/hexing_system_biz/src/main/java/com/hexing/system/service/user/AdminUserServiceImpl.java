@@ -16,9 +16,9 @@ import com.hexing.system.controller.admin.user.vo.profile.UserProfileUpdatePassw
 import com.hexing.system.controller.admin.user.vo.profile.UserProfileUpdateReqVO;
 import com.hexing.system.controller.admin.user.vo.user.*;
 import com.hexing.system.convert.user.UserConvert;
-import com.hexing.system.dal.dataobject.dept.DeptDO;
-import com.hexing.system.dal.dataobject.dept.UserPostDO;
-import com.hexing.system.dal.dataobject.user.AdminUserDO;
+import com.hexing.system.entity.dept.DeptDO;
+import com.hexing.system.entity.dept.UserPostDO;
+import com.hexing.system.entity.user.AdminUserDO;
 import com.hexing.system.dal.mysql.dept.UserPostMapper;
 import com.hexing.system.dal.mysql.user.AdminUserMapper;
 import com.hexing.system.enums.ErrorCodeConstants;

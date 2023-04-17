@@ -2,7 +2,7 @@ package com.hexing.system.convert.notify;
 
 import com.hexing.common.pojo.PageResult;
 import com.hexing.system.controller.admin.notify.vo.message.NotifyMessageRespVO;
-import com.hexing.system.dal.dataobject.notify.NotifyMessageDO;
+import com.hexing.system.entity.notify.NotifyMessageDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

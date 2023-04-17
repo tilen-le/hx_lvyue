@@ -2,7 +2,7 @@ package com.hexing.system.dal.mysql.sms;
 
 import com.hexing.database.mybatis.core.mapper.BaseMapperX;
 import com.hexing.database.mybatis.core.query.QueryWrapperX;
-import com.hexing.system.dal.dataobject.sms.SmsCodeDO;
+import com.hexing.system.entity.sms.SmsCodeDO;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

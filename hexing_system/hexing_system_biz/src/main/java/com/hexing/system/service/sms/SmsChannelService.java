@@ -4,7 +4,7 @@ import com.hexing.common.pojo.PageResult;
 import com.hexing.system.controller.admin.sms.vo.channel.SmsChannelCreateReqVO;
 import com.hexing.system.controller.admin.sms.vo.channel.SmsChannelPageReqVO;
 import com.hexing.system.controller.admin.sms.vo.channel.SmsChannelUpdateReqVO;
-import com.hexing.system.dal.dataobject.sms.SmsChannelDO;
+import com.hexing.system.entity.sms.SmsChannelDO;
 
 import javax.validation.Valid;
 import java.util.List;

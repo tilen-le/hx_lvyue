@@ -1,18 +1,16 @@
 package com.hexing.system.controller.admin.user;
 
 import cn.hutool.core.collection.CollUtil;
-import com.hexing.common.enums.UserTypeEnum;
 import com.hexing.common.pojo.CommonResult;
 import com.hexing.datapermission.core.annotation.DataPermission;
 import com.hexing.system.controller.admin.user.vo.profile.UserProfileRespVO;
 import com.hexing.system.controller.admin.user.vo.profile.UserProfileUpdatePasswordReqVO;
 import com.hexing.system.controller.admin.user.vo.profile.UserProfileUpdateReqVO;
 import com.hexing.system.convert.user.UserConvert;
-import com.hexing.system.dal.dataobject.dept.DeptDO;
-import com.hexing.system.dal.dataobject.dept.PostDO;
-import com.hexing.system.dal.dataobject.permission.RoleDO;
-import com.hexing.system.dal.dataobject.social.SocialUserDO;
-import com.hexing.system.dal.dataobject.user.AdminUserDO;
+import com.hexing.system.entity.dept.DeptDO;
+import com.hexing.system.entity.dept.PostDO;
+import com.hexing.system.entity.permission.RoleDO;
+import com.hexing.system.entity.user.AdminUserDO;
 import com.hexing.system.service.dept.DeptService;
 import com.hexing.system.service.dept.PostService;
 import com.hexing.system.service.permission.PermissionService;

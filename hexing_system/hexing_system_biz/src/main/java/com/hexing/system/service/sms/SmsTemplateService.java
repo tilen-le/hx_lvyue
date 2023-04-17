@@ -4,7 +4,7 @@ import com.hexing.system.controller.admin.sms.vo.template.SmsTemplateCreateReqVO
 import com.hexing.system.controller.admin.sms.vo.template.SmsTemplateExportReqVO;
 import com.hexing.system.controller.admin.sms.vo.template.SmsTemplatePageReqVO;
 import com.hexing.system.controller.admin.sms.vo.template.SmsTemplateUpdateReqVO;
-import com.hexing.system.dal.dataobject.sms.SmsTemplateDO;
+import com.hexing.system.entity.sms.SmsTemplateDO;
 import com.hexing.common.pojo.PageResult;
 
 import javax.validation.Valid;

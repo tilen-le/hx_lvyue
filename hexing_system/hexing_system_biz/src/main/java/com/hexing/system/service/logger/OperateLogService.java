@@ -4,7 +4,7 @@ import com.hexing.common.pojo.PageResult;
 import com.hexing.system.api.logger.dto.OperateLogCreateReqDTO;
 import com.hexing.system.controller.admin.logger.vo.operatelog.OperateLogExportReqVO;
 import com.hexing.system.controller.admin.logger.vo.operatelog.OperateLogPageReqVO;
-import com.hexing.system.dal.dataobject.logger.OperateLogDO;
+import com.hexing.system.entity.logger.OperateLogDO;
 
 import java.util.List;
 

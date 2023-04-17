@@ -5,7 +5,7 @@ import com.hexing.database.mybatis.core.mapper.BaseMapperX;
 import com.hexing.database.mybatis.core.query.LambdaQueryWrapperX;
 import com.hexing.system.controller.admin.dept.vo.post.PostExportReqVO;
 import com.hexing.system.controller.admin.dept.vo.post.PostPageReqVO;
-import com.hexing.system.dal.dataobject.dept.PostDO;
+import com.hexing.system.entity.dept.PostDO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Collection;

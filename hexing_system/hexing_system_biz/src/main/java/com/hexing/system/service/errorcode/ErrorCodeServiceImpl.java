@@ -10,7 +10,7 @@ import com.hexing.system.controller.admin.errorcode.vo.ErrorCodeExportReqVO;
 import com.hexing.system.controller.admin.errorcode.vo.ErrorCodePageReqVO;
 import com.hexing.system.controller.admin.errorcode.vo.ErrorCodeUpdateReqVO;
 import com.hexing.system.convert.errorcode.ErrorCodeConvert;
-import com.hexing.system.dal.dataobject.errorcode.ErrorCodeDO;
+import com.hexing.system.entity.errorcode.ErrorCodeDO;
 import com.hexing.system.dal.mysql.errorcode.ErrorCodeMapper;
 import com.hexing.system.enums.errorcode.ErrorCodeTypeEnum;
 import com.google.common.annotations.VisibleForTesting;

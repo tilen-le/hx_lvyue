@@ -2,7 +2,7 @@ package com.hexing.system.convert.dept;
 
 import com.hexing.common.pojo.PageResult;
 import com.hexing.system.controller.admin.dept.vo.post.*;
-import com.hexing.system.dal.dataobject.dept.PostDO;
+import com.hexing.system.entity.dept.PostDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

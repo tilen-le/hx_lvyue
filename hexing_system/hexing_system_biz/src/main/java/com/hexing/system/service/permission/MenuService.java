@@ -3,7 +3,7 @@ package com.hexing.system.service.permission;
 import com.hexing.system.controller.admin.permission.vo.menu.MenuCreateReqVO;
 import com.hexing.system.controller.admin.permission.vo.menu.MenuListReqVO;
 import com.hexing.system.controller.admin.permission.vo.menu.MenuUpdateReqVO;
-import com.hexing.system.dal.dataobject.permission.MenuDO;
+import com.hexing.system.entity.permission.MenuDO;
 
 import java.util.Collection;
 import java.util.List;

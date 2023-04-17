@@ -6,7 +6,7 @@ import com.hexing.excel.core.util.ExcelUtils;
 import com.hexing.operatelog.core.annotations.OperateLog;
 import com.hexing.system.controller.admin.errorcode.vo.*;
 import com.hexing.system.convert.errorcode.ErrorCodeConvert;
-import com.hexing.system.dal.dataobject.errorcode.ErrorCodeDO;
+import com.hexing.system.entity.errorcode.ErrorCodeDO;
 import com.hexing.system.service.errorcode.ErrorCodeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

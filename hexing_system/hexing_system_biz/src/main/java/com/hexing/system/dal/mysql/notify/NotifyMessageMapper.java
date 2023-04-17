@@ -6,7 +6,7 @@ import com.hexing.database.mybatis.core.query.LambdaQueryWrapperX;
 import com.hexing.database.mybatis.core.query.QueryWrapperX;
 import com.hexing.system.controller.admin.notify.vo.message.NotifyMessageMyPageReqVO;
 import com.hexing.system.controller.admin.notify.vo.message.NotifyMessagePageReqVO;
-import com.hexing.system.dal.dataobject.notify.NotifyMessageDO;
+import com.hexing.system.entity.notify.NotifyMessageDO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.time.LocalDateTime;

@@ -4,7 +4,7 @@ import com.hexing.common.pojo.PageResult;
 import com.hexing.system.controller.admin.oauth2.vo.client.OAuth2ClientCreateReqVO;
 import com.hexing.system.controller.admin.oauth2.vo.client.OAuth2ClientRespVO;
 import com.hexing.system.controller.admin.oauth2.vo.client.OAuth2ClientUpdateReqVO;
-import com.hexing.system.dal.dataobject.oauth2.OAuth2ClientDO;
+import com.hexing.system.entity.oauth2.OAuth2ClientDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

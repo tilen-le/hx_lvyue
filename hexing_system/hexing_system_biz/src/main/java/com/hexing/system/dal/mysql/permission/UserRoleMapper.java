@@ -1,7 +1,7 @@
 package com.hexing.system.dal.mysql.permission;
 
 import com.hexing.database.mybatis.core.mapper.BaseMapperX;
-import com.hexing.system.dal.dataobject.permission.UserRoleDO;
+import com.hexing.system.entity.permission.UserRoleDO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.ibatis.annotations.Mapper;
 

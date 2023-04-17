@@ -2,7 +2,7 @@ package com.hexing.system.dal.mysql.oauth2;
 
 import com.hexing.database.mybatis.core.mapper.BaseMapperX;
 import com.hexing.database.mybatis.core.query.LambdaQueryWrapperX;
-import com.hexing.system.dal.dataobject.oauth2.OAuth2ApproveDO;
+import com.hexing.system.entity.oauth2.OAuth2ApproveDO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

@@ -5,7 +5,7 @@ import com.hexing.system.controller.admin.sensitiveword.vo.SensitiveWordCreateRe
 import com.hexing.system.controller.admin.sensitiveword.vo.SensitiveWordExcelVO;
 import com.hexing.system.controller.admin.sensitiveword.vo.SensitiveWordRespVO;
 import com.hexing.system.controller.admin.sensitiveword.vo.SensitiveWordUpdateReqVO;
-import com.hexing.system.dal.dataobject.sensitiveword.SensitiveWordDO;
+import com.hexing.system.entity.sensitiveword.SensitiveWordDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

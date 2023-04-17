@@ -15,8 +15,8 @@ import com.hexing.system.controller.admin.sms.vo.template.SmsTemplateExportReqVO
 import com.hexing.system.controller.admin.sms.vo.template.SmsTemplatePageReqVO;
 import com.hexing.system.controller.admin.sms.vo.template.SmsTemplateUpdateReqVO;
 import com.hexing.system.convert.sms.SmsTemplateConvert;
-import com.hexing.system.dal.dataobject.sms.SmsChannelDO;
-import com.hexing.system.dal.dataobject.sms.SmsTemplateDO;
+import com.hexing.system.entity.sms.SmsChannelDO;
+import com.hexing.system.entity.sms.SmsTemplateDO;
 import com.hexing.system.dal.mysql.sms.SmsTemplateMapper;
 import com.hexing.system.mq.producer.sms.SmsProducer;
 import com.google.common.annotations.VisibleForTesting;

@@ -6,7 +6,7 @@ import com.hexing.excel.core.util.ExcelUtils;
 import com.hexing.operatelog.core.annotations.OperateLog;
 import com.hexing.system.controller.admin.tenant.vo.tenant.*;
 import com.hexing.system.convert.tenant.TenantConvert;
-import com.hexing.system.dal.dataobject.tenant.TenantDO;
+import com.hexing.system.entity.tenant.TenantDO;
 import com.hexing.system.service.tenant.TenantService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

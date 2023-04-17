@@ -3,7 +3,7 @@ package com.hexing.system.service.oauth2;
 import cn.hutool.core.util.IdUtil;
 import com.hexing.common.exception.util.ServiceExceptionUtil;
 import com.hexing.common.util.date.DateUtils;
-import com.hexing.system.dal.dataobject.oauth2.OAuth2CodeDO;
+import com.hexing.system.entity.oauth2.OAuth2CodeDO;
 import com.hexing.system.dal.mysql.oauth2.OAuth2CodeMapper;
 import com.hexing.system.enums.ErrorCodeConstants;
 import org.springframework.stereotype.Service;

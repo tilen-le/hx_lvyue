@@ -5,11 +5,11 @@ import com.hexing.system.controller.admin.user.vo.profile.UserProfileRespVO;
 import com.hexing.system.controller.admin.user.vo.profile.UserProfileUpdatePasswordReqVO;
 import com.hexing.system.controller.admin.user.vo.profile.UserProfileUpdateReqVO;
 import com.hexing.system.controller.admin.user.vo.user.*;
-import com.hexing.system.dal.dataobject.dept.DeptDO;
-import com.hexing.system.dal.dataobject.dept.PostDO;
-import com.hexing.system.dal.dataobject.permission.RoleDO;
-import com.hexing.system.dal.dataobject.social.SocialUserDO;
-import com.hexing.system.dal.dataobject.user.AdminUserDO;
+import com.hexing.system.entity.dept.DeptDO;
+import com.hexing.system.entity.dept.PostDO;
+import com.hexing.system.entity.permission.RoleDO;
+import com.hexing.system.entity.social.SocialUserDO;
+import com.hexing.system.entity.user.AdminUserDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

@@ -32,7 +32,7 @@
     </el-form>
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" icon="el-icon-plus"  @click="handleAdd"
+        <el-button type="primary" icon="el-icon-plus" @click="handleAdd"
                    v-hasPermi="['system:user:create']">新增
         </el-button>
       </el-col>
@@ -64,6 +64,7 @@
 
 <script>
 import {DICT_TYPE, getDictDatas} from "@/utils/dict";
+import {listCustomer} from "@/api/customer";
 
 export default {
   name: "ClientList",
@@ -79,7 +80,7 @@ export default {
         status: undefined,
         createTime: []
       },
-      total:0,
+      total: 0,
       loading: false,
       clientList: [],
       statusDict: getDictDatas(DICT_TYPE.COMMON_STATUS),
@@ -95,6 +96,9 @@ export default {
       ],
     }
   },
+  mounted() {
+    this.getList()
+  },
   methods: {
     handleQuery() {
 
@@ -103,7 +107,9 @@ export default {
 
     },
     getList() {
+      listCustomer(this.queryParams).then(res => {
 
+      })
     },
     handleAdd() {
 

@@ -4,7 +4,7 @@ import com.hexing.common.pojo.PageResult;
 import com.hexing.system.api.logger.dto.LoginLogCreateReqDTO;
 import com.hexing.system.controller.admin.logger.vo.loginlog.LoginLogExcelVO;
 import com.hexing.system.controller.admin.logger.vo.loginlog.LoginLogRespVO;
-import com.hexing.system.dal.dataobject.logger.LoginLogDO;
+import com.hexing.system.entity.logger.LoginLogDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

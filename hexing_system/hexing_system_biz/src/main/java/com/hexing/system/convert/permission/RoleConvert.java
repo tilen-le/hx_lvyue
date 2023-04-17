@@ -1,7 +1,7 @@
 package com.hexing.system.convert.permission;
 
 import com.hexing.system.controller.admin.permission.vo.role.*;
-import com.hexing.system.dal.dataobject.permission.RoleDO;
+import com.hexing.system.entity.permission.RoleDO;
 import com.hexing.system.service.permission.bo.RoleCreateReqBO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

@@ -2,7 +2,7 @@ package com.hexing.system.service.notify;
 
 import com.hexing.common.enums.CommonStatusEnum;
 import com.hexing.common.enums.UserTypeEnum;
-import com.hexing.system.dal.dataobject.notify.NotifyTemplateDO;
+import com.hexing.system.entity.notify.NotifyTemplateDO;
 import com.google.common.annotations.VisibleForTesting;
 import com.hexing.common.exception.util.ServiceExceptionUtil;
 import com.hexing.system.enums.ErrorCodeConstants;

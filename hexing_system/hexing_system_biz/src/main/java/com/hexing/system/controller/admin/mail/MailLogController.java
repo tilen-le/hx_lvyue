@@ -5,7 +5,7 @@ import com.hexing.common.pojo.PageResult;
 import com.hexing.system.controller.admin.mail.vo.log.MailLogPageReqVO;
 import com.hexing.system.controller.admin.mail.vo.log.MailLogRespVO;
 import com.hexing.system.convert.mail.MailLogConvert;
-import com.hexing.system.dal.dataobject.mail.MailLogDO;
+import com.hexing.system.entity.mail.MailLogDO;
 import com.hexing.system.service.mail.MailLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

@@ -2,7 +2,7 @@ package com.hexing.system.service.logger;
 
 import com.hexing.system.controller.admin.logger.vo.loginlog.LoginLogExportReqVO;
 import com.hexing.system.controller.admin.logger.vo.loginlog.LoginLogPageReqVO;
-import com.hexing.system.dal.dataobject.logger.LoginLogDO;
+import com.hexing.system.entity.logger.LoginLogDO;
 import com.hexing.common.pojo.PageResult;
 import com.hexing.system.api.logger.dto.LoginLogCreateReqDTO;
 

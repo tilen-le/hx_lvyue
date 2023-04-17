@@ -9,7 +9,7 @@ import com.hexing.system.controller.admin.dict.vo.type.DictTypeExportReqVO;
 import com.hexing.system.controller.admin.dict.vo.type.DictTypePageReqVO;
 import com.hexing.system.controller.admin.dict.vo.type.DictTypeUpdateReqVO;
 import com.hexing.system.convert.dict.DictTypeConvert;
-import com.hexing.system.dal.dataobject.dict.DictTypeDO;
+import com.hexing.system.entity.dict.DictTypeDO;
 import com.hexing.system.dal.mysql.dict.DictTypeMapper;
 import com.google.common.annotations.VisibleForTesting;
 import com.hexing.system.enums.ErrorCodeConstants;

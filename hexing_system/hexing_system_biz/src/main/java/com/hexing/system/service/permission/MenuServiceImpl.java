@@ -8,7 +8,7 @@ import com.hexing.system.controller.admin.permission.vo.menu.MenuCreateReqVO;
 import com.hexing.system.controller.admin.permission.vo.menu.MenuListReqVO;
 import com.hexing.system.controller.admin.permission.vo.menu.MenuUpdateReqVO;
 import com.hexing.system.convert.permission.MenuConvert;
-import com.hexing.system.dal.dataobject.permission.MenuDO;
+import com.hexing.system.entity.permission.MenuDO;
 import com.hexing.system.dal.mysql.permission.MenuMapper;
 import com.hexing.system.enums.permission.MenuTypeEnum;
 import com.hexing.system.mq.producer.permission.MenuProducer;

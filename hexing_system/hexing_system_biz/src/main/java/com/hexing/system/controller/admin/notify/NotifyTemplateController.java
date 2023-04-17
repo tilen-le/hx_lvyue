@@ -4,7 +4,7 @@ import com.hexing.common.pojo.CommonResult;
 import com.hexing.common.pojo.PageResult;
 import com.hexing.system.controller.admin.notify.vo.template.*;
 import com.hexing.system.convert.notify.NotifyTemplateConvert;
-import com.hexing.system.dal.dataobject.notify.NotifyTemplateDO;
+import com.hexing.system.entity.notify.NotifyTemplateDO;
 import com.hexing.system.service.notify.NotifySendService;
 import com.hexing.system.service.notify.NotifyTemplateService;
 import io.swagger.v3.oas.annotations.Operation;

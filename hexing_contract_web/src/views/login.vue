@@ -178,7 +178,7 @@ export default {
   },
   created() {
     // 租户开关
-    // this.tenantEnable = getTenantEnable();
+    this.tenantEnable = getTenantEnable();
     if (this.tenantEnable) {
       getTenantIdByName(this.loginForm.tenantName).then(res => { // 设置租户
         const tenantId = res.data;

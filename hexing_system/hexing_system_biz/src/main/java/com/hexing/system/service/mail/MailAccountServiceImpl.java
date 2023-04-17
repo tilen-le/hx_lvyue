@@ -6,7 +6,7 @@ import com.hexing.system.controller.admin.mail.vo.account.MailAccountCreateReqVO
 import com.hexing.system.controller.admin.mail.vo.account.MailAccountPageReqVO;
 import com.hexing.system.controller.admin.mail.vo.account.MailAccountUpdateReqVO;
 import com.hexing.system.convert.mail.MailAccountConvert;
-import com.hexing.system.dal.dataobject.mail.MailAccountDO;
+import com.hexing.system.entity.mail.MailAccountDO;
 import com.hexing.system.dal.mysql.mail.MailAccountMapper;
 import com.hexing.system.mq.producer.mail.MailProducer;
 import com.hexing.system.enums.ErrorCodeConstants;

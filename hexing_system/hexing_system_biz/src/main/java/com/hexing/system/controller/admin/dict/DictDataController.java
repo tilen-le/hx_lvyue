@@ -6,7 +6,7 @@ import com.hexing.excel.core.util.ExcelUtils;
 import com.hexing.operatelog.core.annotations.OperateLog;
 import com.hexing.system.controller.admin.dict.vo.data.*;
 import com.hexing.system.convert.dict.DictDataConvert;
-import com.hexing.system.dal.dataobject.dict.DictDataDO;
+import com.hexing.system.entity.dict.DictDataDO;
 import com.hexing.system.service.dict.DictDataService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

@@ -5,7 +5,7 @@ import com.hexing.system.controller.admin.permission.vo.role.RoleCreateReqVO;
 import com.hexing.system.controller.admin.permission.vo.role.RoleExportReqVO;
 import com.hexing.system.controller.admin.permission.vo.role.RolePageReqVO;
 import com.hexing.system.controller.admin.permission.vo.role.RoleUpdateReqVO;
-import com.hexing.system.dal.dataobject.permission.RoleDO;
+import com.hexing.system.entity.permission.RoleDO;
 import org.springframework.lang.Nullable;
 
 import javax.validation.Valid;

@@ -5,7 +5,7 @@ import com.hexing.database.mybatis.core.mapper.BaseMapperX;
 import com.hexing.database.mybatis.core.query.LambdaQueryWrapperX;
 import com.hexing.system.controller.admin.logger.vo.loginlog.LoginLogExportReqVO;
 import com.hexing.system.controller.admin.logger.vo.loginlog.LoginLogPageReqVO;
-import com.hexing.system.dal.dataobject.logger.LoginLogDO;
+import com.hexing.system.entity.logger.LoginLogDO;
 import com.hexing.system.enums.logger.LoginResultEnum;
 import org.apache.ibatis.annotations.Mapper;
 

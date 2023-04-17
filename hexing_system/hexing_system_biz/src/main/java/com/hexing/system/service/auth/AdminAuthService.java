@@ -1,7 +1,7 @@
 package com.hexing.system.service.auth;
 
 import com.hexing.system.controller.admin.auth.vo.*;
-import com.hexing.system.dal.dataobject.user.AdminUserDO;
+import com.hexing.system.entity.user.AdminUserDO;
 
 import javax.validation.Valid;
 

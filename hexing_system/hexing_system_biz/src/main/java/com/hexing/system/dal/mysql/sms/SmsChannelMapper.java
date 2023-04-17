@@ -4,7 +4,7 @@ import com.hexing.common.pojo.PageResult;
 import com.hexing.database.mybatis.core.mapper.BaseMapperX;
 import com.hexing.database.mybatis.core.query.LambdaQueryWrapperX;
 import com.hexing.system.controller.admin.sms.vo.channel.SmsChannelPageReqVO;
-import com.hexing.system.dal.dataobject.sms.SmsChannelDO;
+import com.hexing.system.entity.sms.SmsChannelDO;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

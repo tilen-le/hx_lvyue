@@ -4,7 +4,7 @@ import com.hexing.system.api.oauth2.dto.OAuth2AccessTokenCheckRespDTO;
 import com.hexing.system.api.oauth2.dto.OAuth2AccessTokenCreateReqDTO;
 import com.hexing.system.api.oauth2.dto.OAuth2AccessTokenRespDTO;
 import com.hexing.system.convert.auth.OAuth2TokenConvert;
-import com.hexing.system.dal.dataobject.oauth2.OAuth2AccessTokenDO;
+import com.hexing.system.entity.oauth2.OAuth2AccessTokenDO;
 import com.hexing.system.service.oauth2.OAuth2TokenService;
 import org.springframework.stereotype.Service;
 

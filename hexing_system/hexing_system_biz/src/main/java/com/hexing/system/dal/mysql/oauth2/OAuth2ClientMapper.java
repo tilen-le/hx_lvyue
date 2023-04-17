@@ -4,7 +4,7 @@ import com.hexing.common.pojo.PageResult;
 import com.hexing.database.mybatis.core.mapper.BaseMapperX;
 import com.hexing.database.mybatis.core.query.LambdaQueryWrapperX;
 import com.hexing.system.controller.admin.oauth2.vo.client.OAuth2ClientPageReqVO;
-import com.hexing.system.dal.dataobject.oauth2.OAuth2ClientDO;
+import com.hexing.system.entity.oauth2.OAuth2ClientDO;
 import org.apache.ibatis.annotations.Mapper;
 
 

@@ -1,6 +1,6 @@
 package com.hexing.system.controller.admin.logger;
 
-import com.hexing.system.dal.dataobject.logger.LoginLogDO;
+import com.hexing.system.entity.logger.LoginLogDO;
 import com.hexing.common.pojo.CommonResult;
 import com.hexing.common.pojo.PageResult;
 import com.hexing.excel.core.util.ExcelUtils;

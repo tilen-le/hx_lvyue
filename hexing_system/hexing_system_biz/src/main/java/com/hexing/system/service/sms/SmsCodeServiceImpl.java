@@ -6,7 +6,7 @@ import cn.hutool.core.map.MapUtil;
 import com.hexing.system.api.sms.dto.code.SmsCodeSendReqDTO;
 import com.hexing.system.api.sms.dto.code.SmsCodeUseReqDTO;
 import com.hexing.system.api.sms.dto.code.SmsCodeValidateReqDTO;
-import com.hexing.system.dal.dataobject.sms.SmsCodeDO;
+import com.hexing.system.entity.sms.SmsCodeDO;
 import com.hexing.system.dal.mysql.sms.SmsCodeMapper;
 import com.hexing.system.enums.sms.SmsSceneEnum;
 import com.hexing.system.framework.sms.SmsCodeProperties;

@@ -9,7 +9,7 @@ import com.hexing.system.controller.admin.notify.vo.template.NotifyTemplateCreat
 import com.hexing.system.controller.admin.notify.vo.template.NotifyTemplatePageReqVO;
 import com.hexing.system.controller.admin.notify.vo.template.NotifyTemplateUpdateReqVO;
 import com.hexing.system.convert.notify.NotifyTemplateConvert;
-import com.hexing.system.dal.dataobject.notify.NotifyTemplateDO;
+import com.hexing.system.entity.notify.NotifyTemplateDO;
 import com.hexing.system.dal.mysql.notify.NotifyTemplateMapper;
 import com.hexing.system.mq.producer.notify.NotifyProducer;
 import com.google.common.annotations.VisibleForTesting;

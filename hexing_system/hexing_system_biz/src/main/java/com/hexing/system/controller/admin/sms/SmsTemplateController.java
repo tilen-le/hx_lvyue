@@ -6,7 +6,7 @@ import com.hexing.excel.core.util.ExcelUtils;
 import com.hexing.operatelog.core.annotations.OperateLog;
 import com.hexing.system.controller.admin.sms.vo.template.*;
 import com.hexing.system.convert.sms.SmsTemplateConvert;
-import com.hexing.system.dal.dataobject.sms.SmsTemplateDO;
+import com.hexing.system.entity.sms.SmsTemplateDO;
 import com.hexing.system.service.sms.SmsSendService;
 import com.hexing.system.service.sms.SmsTemplateService;
 import io.swagger.v3.oas.annotations.Operation;

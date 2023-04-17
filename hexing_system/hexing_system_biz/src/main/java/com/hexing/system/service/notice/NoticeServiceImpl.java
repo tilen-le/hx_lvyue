@@ -6,7 +6,7 @@ import com.hexing.system.controller.admin.notice.vo.NoticeCreateReqVO;
 import com.hexing.system.controller.admin.notice.vo.NoticePageReqVO;
 import com.hexing.system.controller.admin.notice.vo.NoticeUpdateReqVO;
 import com.hexing.system.convert.notice.NoticeConvert;
-import com.hexing.system.dal.dataobject.notice.NoticeDO;
+import com.hexing.system.entity.notice.NoticeDO;
 import com.hexing.system.dal.mysql.notice.NoticeMapper;
 import com.google.common.annotations.VisibleForTesting;
 import com.hexing.system.enums.ErrorCodeConstants;

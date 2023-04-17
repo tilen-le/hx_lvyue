@@ -3,7 +3,7 @@ package com.hexing.system.job;
 import com.hexing.quartz.core.handler.JobHandler;
 import com.hexing.tenant.core.context.TenantContextHolder;
 import com.hexing.tenant.core.job.TenantJob;
-import com.hexing.system.dal.dataobject.user.AdminUserDO;
+import com.hexing.system.entity.user.AdminUserDO;
 import com.hexing.system.dal.mysql.user.AdminUserMapper;
 import org.springframework.stereotype.Component;
 

@@ -5,7 +5,7 @@ import com.hexing.system.api.logger.dto.LoginLogCreateReqDTO;
 import com.hexing.system.controller.admin.logger.vo.loginlog.LoginLogExportReqVO;
 import com.hexing.system.controller.admin.logger.vo.loginlog.LoginLogPageReqVO;
 import com.hexing.system.convert.logger.LoginLogConvert;
-import com.hexing.system.dal.dataobject.logger.LoginLogDO;
+import com.hexing.system.entity.logger.LoginLogDO;
 import com.hexing.system.dal.mysql.logger.LoginLogMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;

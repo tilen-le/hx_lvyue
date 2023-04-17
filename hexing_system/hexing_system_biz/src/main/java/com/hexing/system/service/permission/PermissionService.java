@@ -1,7 +1,7 @@
 package com.hexing.system.service.permission;
 
 import com.hexing.system.api.permission.dto.DeptDataPermissionRespDTO;
-import com.hexing.system.dal.dataobject.permission.MenuDO;
+import com.hexing.system.entity.permission.MenuDO;
 import org.springframework.lang.Nullable;
 
 import java.util.Collection;

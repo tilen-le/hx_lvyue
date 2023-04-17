@@ -4,7 +4,7 @@ import com.hexing.common.pojo.PageResult;
 import com.hexing.system.controller.admin.notice.vo.NoticeCreateReqVO;
 import com.hexing.system.controller.admin.notice.vo.NoticePageReqVO;
 import com.hexing.system.controller.admin.notice.vo.NoticeUpdateReqVO;
-import com.hexing.system.dal.dataobject.notice.NoticeDO;
+import com.hexing.system.entity.notice.NoticeDO;
 
 /**
  * 通知公告 Service 接口

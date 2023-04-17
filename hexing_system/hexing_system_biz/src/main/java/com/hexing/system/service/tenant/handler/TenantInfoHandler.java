@@ -1,6 +1,6 @@
 package com.hexing.system.service.tenant.handler;
 
-import com.hexing.system.dal.dataobject.tenant.TenantDO;
+import com.hexing.system.entity.tenant.TenantDO;
 
 /**
  * 租户信息处理

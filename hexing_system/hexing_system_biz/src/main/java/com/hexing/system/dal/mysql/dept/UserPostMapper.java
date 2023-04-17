@@ -2,7 +2,7 @@ package com.hexing.system.dal.mysql.dept;
 
 import com.hexing.database.mybatis.core.mapper.BaseMapperX;
 import com.hexing.database.mybatis.core.query.LambdaQueryWrapperX;
-import com.hexing.system.dal.dataobject.dept.UserPostDO;
+import com.hexing.system.entity.dept.UserPostDO;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.ibatis.annotations.Mapper;
 

@@ -7,7 +7,7 @@ import com.hexing.excel.core.util.ExcelUtils;
 import com.hexing.operatelog.core.annotations.OperateLog;
 import com.hexing.system.controller.admin.permission.vo.role.*;
 import com.hexing.system.convert.permission.RoleConvert;
-import com.hexing.system.dal.dataobject.permission.RoleDO;
+import com.hexing.system.entity.permission.RoleDO;
 import com.hexing.system.service.permission.RoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

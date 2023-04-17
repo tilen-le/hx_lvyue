@@ -7,7 +7,7 @@ import com.hexing.excel.core.util.ExcelUtils;
 import com.hexing.operatelog.core.annotations.OperateLog;
 import com.hexing.system.controller.admin.dept.vo.post.*;
 import com.hexing.system.convert.dept.PostConvert;
-import com.hexing.system.dal.dataobject.dept.PostDO;
+import com.hexing.system.entity.dept.PostDO;
 import com.hexing.system.service.dept.PostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

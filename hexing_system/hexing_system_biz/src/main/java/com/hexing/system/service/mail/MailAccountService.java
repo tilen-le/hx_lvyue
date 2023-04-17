@@ -4,7 +4,7 @@ import com.hexing.common.pojo.PageResult;
 import com.hexing.system.controller.admin.mail.vo.account.MailAccountCreateReqVO;
 import com.hexing.system.controller.admin.mail.vo.account.MailAccountPageReqVO;
 import com.hexing.system.controller.admin.mail.vo.account.MailAccountUpdateReqVO;
-import com.hexing.system.dal.dataobject.mail.MailAccountDO;
+import com.hexing.system.entity.mail.MailAccountDO;
 
 import javax.validation.Valid;
 import java.util.List;

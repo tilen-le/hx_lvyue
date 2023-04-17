@@ -4,7 +4,7 @@ import com.hexing.common.pojo.CommonResult;
 import com.hexing.common.pojo.PageResult;
 import com.hexing.system.controller.admin.mail.vo.template.*;
 import com.hexing.system.convert.mail.MailTemplateConvert;
-import com.hexing.system.dal.dataobject.mail.MailTemplateDO;
+import com.hexing.system.entity.mail.MailTemplateDO;
 import com.hexing.system.service.mail.MailSendService;
 import com.hexing.system.service.mail.MailTemplateService;
 import io.swagger.v3.oas.annotations.Operation;

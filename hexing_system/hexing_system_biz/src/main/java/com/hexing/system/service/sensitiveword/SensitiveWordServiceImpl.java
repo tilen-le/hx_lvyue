@@ -10,7 +10,7 @@ import com.hexing.system.controller.admin.sensitiveword.vo.SensitiveWordExportRe
 import com.hexing.system.controller.admin.sensitiveword.vo.SensitiveWordPageReqVO;
 import com.hexing.system.controller.admin.sensitiveword.vo.SensitiveWordUpdateReqVO;
 import com.hexing.system.convert.sensitiveword.SensitiveWordConvert;
-import com.hexing.system.dal.dataobject.sensitiveword.SensitiveWordDO;
+import com.hexing.system.entity.sensitiveword.SensitiveWordDO;
 import com.hexing.system.dal.mysql.sensitiveword.SensitiveWordMapper;
 import com.hexing.system.mq.producer.sensitiveword.SensitiveWordProducer;
 import com.hexing.system.util.collection.SimpleTrie;

@@ -8,7 +8,7 @@ import com.hexing.system.controller.admin.dept.vo.dept.DeptCreateReqVO;
 import com.hexing.system.controller.admin.dept.vo.dept.DeptListReqVO;
 import com.hexing.system.controller.admin.dept.vo.dept.DeptUpdateReqVO;
 import com.hexing.system.convert.dept.DeptConvert;
-import com.hexing.system.dal.dataobject.dept.DeptDO;
+import com.hexing.system.entity.dept.DeptDO;
 import com.hexing.system.dal.mysql.dept.DeptMapper;
 import com.hexing.system.enums.dept.DeptIdEnum;
 import com.hexing.system.mq.producer.dept.DeptProducer;

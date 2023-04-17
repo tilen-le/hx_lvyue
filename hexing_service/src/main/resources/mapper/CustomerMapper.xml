@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hexing.customer.mapper.CustomerMapper">
+
+    <resultMap id="customerMap" type="fcCustomer">
+        <id column="id" property="id"/>
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="credit_limit" property="creditLimit"/>
+        <result column="nation" property="nation"/>
+        <result column="status" property="status"/>
+        <collection property="receiverIfs" ofType="com.hexing.customer.entity.FcCustomerConsignment" select="selectCons"
+                    column="id"/>
+    </resultMap>
+
+    <select id="selectCons" resultType="com.hexing.customer.entity.FcCustomerConsignment">
+        select cons.id,
+               cons.customer_id,
+               cons.name,
+               cons.phone,
+               cons.addess
+        from fc_customer_consignment cons
+        where cons.customer_id = #{id}
+          and cons.deleted = '0'
+
+    </select>
+
+    <select id="selectPage" resultType="com.hexing.customer.entity.FcCustomer">
+        select cus.id,
+        cus.code,
+        cus.name,
+        cus.credit_limit,
+        cus.status
+        from fc_customer cus
+        where cus.deleted='0'
+        <if test="customer.name!=null and customer.name!=''">
+            and cus.name like concat('%', #{customer.name},'%'))
+        </if>
+        <if test="customer.status!=null and customer.status!=''">
+            and cus.status =#{customer.status}
+        </if>
+    </select>
+</mapper>

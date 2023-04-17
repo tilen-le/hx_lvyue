@@ -2,7 +2,7 @@ package com.hexing.system.convert.dict;
 
 import com.hexing.common.pojo.PageResult;
 import com.hexing.system.controller.admin.dict.vo.type.*;
-import com.hexing.system.dal.dataobject.dict.DictTypeDO;
+import com.hexing.system.entity.dict.DictTypeDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

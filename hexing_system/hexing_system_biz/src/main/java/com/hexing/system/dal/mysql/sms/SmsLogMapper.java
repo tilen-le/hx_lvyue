@@ -5,7 +5,7 @@ import com.hexing.database.mybatis.core.mapper.BaseMapperX;
 import com.hexing.database.mybatis.core.query.LambdaQueryWrapperX;
 import com.hexing.system.controller.admin.sms.vo.log.SmsLogExportReqVO;
 import com.hexing.system.controller.admin.sms.vo.log.SmsLogPageReqVO;
-import com.hexing.system.dal.dataobject.sms.SmsLogDO;
+import com.hexing.system.entity.sms.SmsLogDO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

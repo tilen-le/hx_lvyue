@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.mail.MailAccount;
 import com.hexing.common.pojo.PageResult;
 import com.hexing.system.controller.admin.mail.vo.account.*;
-import com.hexing.system.dal.dataobject.mail.MailAccountDO;
+import com.hexing.system.entity.mail.MailAccountDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

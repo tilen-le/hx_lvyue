@@ -2,7 +2,7 @@ package com.hexing.system.api.dept;
 
 import com.hexing.system.api.dept.dto.DeptRespDTO;
 import com.hexing.system.convert.dept.DeptConvert;
-import com.hexing.system.dal.dataobject.dept.DeptDO;
+import com.hexing.system.entity.dept.DeptDO;
 import com.hexing.system.service.dept.DeptService;
 import org.springframework.stereotype.Service;
 

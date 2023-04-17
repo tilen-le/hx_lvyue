@@ -6,7 +6,7 @@ import com.hexing.common.util.collection.CollectionUtils;
 import com.hexing.system.controller.admin.user.vo.profile.UserProfileUpdatePasswordReqVO;
 import com.hexing.system.controller.admin.user.vo.profile.UserProfileUpdateReqVO;
 import com.hexing.system.controller.admin.user.vo.user.*;
-import com.hexing.system.dal.dataobject.user.AdminUserDO;
+import com.hexing.system.entity.user.AdminUserDO;
 
 import javax.validation.Valid;
 import java.io.InputStream;

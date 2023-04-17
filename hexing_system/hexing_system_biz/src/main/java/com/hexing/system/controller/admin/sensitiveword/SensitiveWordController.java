@@ -6,7 +6,7 @@ import com.hexing.excel.core.util.ExcelUtils;
 import com.hexing.operatelog.core.annotations.OperateLog;
 import com.hexing.system.controller.admin.sensitiveword.vo.*;
 import com.hexing.system.convert.sensitiveword.SensitiveWordConvert;
-import com.hexing.system.dal.dataobject.sensitiveword.SensitiveWordDO;
+import com.hexing.system.entity.sensitiveword.SensitiveWordDO;
 import com.hexing.system.service.sensitiveword.SensitiveWordService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

@@ -5,7 +5,7 @@ import com.hexing.database.mybatis.core.mapper.BaseMapperX;
 import com.hexing.database.mybatis.core.query.LambdaQueryWrapperX;
 import com.hexing.system.controller.admin.user.vo.user.UserExportReqVO;
 import com.hexing.system.controller.admin.user.vo.user.UserPageReqVO;
-import com.hexing.system.dal.dataobject.user.AdminUserDO;
+import com.hexing.system.entity.user.AdminUserDO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Collection;

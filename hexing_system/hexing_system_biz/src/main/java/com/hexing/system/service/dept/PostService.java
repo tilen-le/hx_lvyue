@@ -6,7 +6,7 @@ import com.hexing.system.controller.admin.dept.vo.post.PostCreateReqVO;
 import com.hexing.system.controller.admin.dept.vo.post.PostExportReqVO;
 import com.hexing.system.controller.admin.dept.vo.post.PostPageReqVO;
 import com.hexing.system.controller.admin.dept.vo.post.PostUpdateReqVO;
-import com.hexing.system.dal.dataobject.dept.PostDO;
+import com.hexing.system.entity.dept.PostDO;
 import org.springframework.lang.Nullable;
 
 import java.util.Collection;

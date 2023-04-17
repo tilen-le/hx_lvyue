@@ -2,7 +2,7 @@ package com.hexing.system.api.user;
 
 import com.hexing.system.api.user.dto.AdminUserRespDTO;
 import com.hexing.system.convert.user.UserConvert;
-import com.hexing.system.dal.dataobject.user.AdminUserDO;
+import com.hexing.system.entity.user.AdminUserDO;
 import com.hexing.system.service.user.AdminUserService;
 import org.springframework.stereotype.Service;
 

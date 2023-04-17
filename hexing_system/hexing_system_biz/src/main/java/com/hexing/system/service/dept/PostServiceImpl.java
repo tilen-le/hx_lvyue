@@ -9,7 +9,7 @@ import com.hexing.system.controller.admin.dept.vo.post.PostExportReqVO;
 import com.hexing.system.controller.admin.dept.vo.post.PostPageReqVO;
 import com.hexing.system.controller.admin.dept.vo.post.PostUpdateReqVO;
 import com.hexing.system.convert.dept.PostConvert;
-import com.hexing.system.dal.dataobject.dept.PostDO;
+import com.hexing.system.entity.dept.PostDO;
 import com.hexing.system.dal.mysql.dept.PostMapper;
 import com.hexing.system.enums.ErrorCodeConstants;
 import org.springframework.stereotype.Service;

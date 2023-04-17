@@ -6,7 +6,7 @@ import com.hexing.database.mybatis.core.mapper.BaseMapperX;
 import com.hexing.database.mybatis.core.query.LambdaQueryWrapperX;
 import com.hexing.system.controller.admin.permission.vo.role.RoleExportReqVO;
 import com.hexing.system.controller.admin.permission.vo.role.RolePageReqVO;
-import com.hexing.system.dal.dataobject.permission.RoleDO;
+import com.hexing.system.entity.permission.RoleDO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.lang.Nullable;
 

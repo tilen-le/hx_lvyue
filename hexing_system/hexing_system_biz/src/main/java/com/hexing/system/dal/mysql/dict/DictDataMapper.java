@@ -5,7 +5,7 @@ import com.hexing.database.mybatis.core.mapper.BaseMapperX;
 import com.hexing.database.mybatis.core.query.LambdaQueryWrapperX;
 import com.hexing.system.controller.admin.dict.vo.data.DictDataExportReqVO;
 import com.hexing.system.controller.admin.dict.vo.data.DictDataPageReqVO;
-import com.hexing.system.dal.dataobject.dict.DictDataDO;
+import com.hexing.system.entity.dict.DictDataDO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.ibatis.annotations.Mapper;
 

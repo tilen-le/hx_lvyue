@@ -6,7 +6,7 @@ import com.hexing.system.controller.admin.tenant.vo.tenant.TenantCreateReqVO;
 import com.hexing.system.controller.admin.tenant.vo.tenant.TenantExportReqVO;
 import com.hexing.system.controller.admin.tenant.vo.tenant.TenantPageReqVO;
 import com.hexing.system.controller.admin.tenant.vo.tenant.TenantUpdateReqVO;
-import com.hexing.system.dal.dataobject.tenant.TenantDO;
+import com.hexing.system.entity.tenant.TenantDO;
 import com.hexing.system.service.tenant.handler.TenantInfoHandler;
 import com.hexing.system.service.tenant.handler.TenantMenuHandler;
 

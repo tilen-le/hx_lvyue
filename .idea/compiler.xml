@@ -30,6 +30,7 @@
         <module name="hexing_workflow_biz" />
         <module name="hexing_report_api" />
         <module name="hexing_common" />
+        <module name="hexing_service" />
         <module name="hexing_starter_mybatis" />
         <module name="hexing_workflow_api" />
         <module name="hexing_starter_biz_sms" />
@@ -43,9 +44,9 @@
         <module name="hexing_starter_file" />
         <module name="hexing_starter_biz_tenant" />
         <module name="hexing_starter_biz_error_code" />
+        <module name="hexing_starter_biz_ip" />
         <module name="hexing_starter_ws" />
         <module name="hexing_pay_api" />
-        <module name="hexing_starter_biz_ip" />
         <module name="hexing_starter_test" />
         <module name="hexing_starter_biz_data_permission" />
         <module name="hexing_base_biz" />

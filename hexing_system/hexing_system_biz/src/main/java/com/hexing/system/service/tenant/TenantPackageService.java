@@ -4,7 +4,7 @@ import com.hexing.common.pojo.PageResult;
 import com.hexing.system.controller.admin.tenant.vo.packages.TenantPackageCreateReqVO;
 import com.hexing.system.controller.admin.tenant.vo.packages.TenantPackagePageReqVO;
 import com.hexing.system.controller.admin.tenant.vo.packages.TenantPackageUpdateReqVO;
-import com.hexing.system.dal.dataobject.tenant.TenantPackageDO;
+import com.hexing.system.entity.tenant.TenantPackageDO;
 
 import javax.validation.Valid;
 import java.util.List;

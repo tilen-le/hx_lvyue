@@ -4,7 +4,7 @@ import com.hexing.common.pojo.PageResult;
 import com.hexing.database.mybatis.core.mapper.BaseMapperX;
 import com.hexing.database.mybatis.core.query.LambdaQueryWrapperX;
 import com.hexing.system.controller.admin.tenant.vo.packages.TenantPackagePageReqVO;
-import com.hexing.system.dal.dataobject.tenant.TenantPackageDO;
+import com.hexing.system.entity.tenant.TenantPackageDO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

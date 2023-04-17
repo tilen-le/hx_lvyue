@@ -4,7 +4,7 @@ import com.hexing.system.controller.admin.sms.vo.channel.SmsChannelCreateReqVO;
 import com.hexing.system.controller.admin.sms.vo.channel.SmsChannelRespVO;
 import com.hexing.system.controller.admin.sms.vo.channel.SmsChannelSimpleRespVO;
 import com.hexing.system.controller.admin.sms.vo.channel.SmsChannelUpdateReqVO;
-import com.hexing.system.dal.dataobject.sms.SmsChannelDO;
+import com.hexing.system.entity.sms.SmsChannelDO;
 import com.hexing.common.pojo.PageResult;
 import com.hexing.sms.core.property.SmsChannelProperties;
 import org.mapstruct.Mapper;

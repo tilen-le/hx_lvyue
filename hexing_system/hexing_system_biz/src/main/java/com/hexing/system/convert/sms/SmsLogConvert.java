@@ -2,7 +2,7 @@ package com.hexing.system.convert.sms;
 
 import com.hexing.system.controller.admin.sms.vo.log.SmsLogExcelVO;
 import com.hexing.system.controller.admin.sms.vo.log.SmsLogRespVO;
-import com.hexing.system.dal.dataobject.sms.SmsLogDO;
+import com.hexing.system.entity.sms.SmsLogDO;
 import com.hexing.common.pojo.PageResult;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

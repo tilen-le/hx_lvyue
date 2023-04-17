@@ -3,9 +3,9 @@ package com.hexing.system.convert.oauth2;
 import com.hexing.system.controller.admin.oauth2.vo.user.OAuth2UserInfoRespVO;
 import com.hexing.system.controller.admin.oauth2.vo.user.OAuth2UserUpdateReqVO;
 import com.hexing.system.controller.admin.user.vo.profile.UserProfileUpdateReqVO;
-import com.hexing.system.dal.dataobject.dept.DeptDO;
-import com.hexing.system.dal.dataobject.dept.PostDO;
-import com.hexing.system.dal.dataobject.user.AdminUserDO;
+import com.hexing.system.entity.dept.DeptDO;
+import com.hexing.system.entity.dept.PostDO;
+import com.hexing.system.entity.user.AdminUserDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

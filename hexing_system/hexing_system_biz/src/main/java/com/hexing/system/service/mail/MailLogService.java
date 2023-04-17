@@ -2,9 +2,9 @@ package com.hexing.system.service.mail;
 
 import com.hexing.common.pojo.PageResult;
 import com.hexing.system.controller.admin.mail.vo.log.MailLogPageReqVO;
-import com.hexing.system.dal.dataobject.mail.MailAccountDO;
-import com.hexing.system.dal.dataobject.mail.MailLogDO;
-import com.hexing.system.dal.dataobject.mail.MailTemplateDO;
+import com.hexing.system.entity.mail.MailAccountDO;
+import com.hexing.system.entity.mail.MailLogDO;
+import com.hexing.system.entity.mail.MailTemplateDO;
 
 import java.util.Map;
 

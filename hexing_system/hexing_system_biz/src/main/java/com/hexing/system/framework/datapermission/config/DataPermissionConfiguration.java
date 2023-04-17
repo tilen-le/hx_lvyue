@@ -1,7 +1,7 @@
 package com.hexing.system.framework.datapermission.config;
 
-import com.hexing.system.dal.dataobject.dept.DeptDO;
-import com.hexing.system.dal.dataobject.user.AdminUserDO;
+import com.hexing.system.entity.dept.DeptDO;
+import com.hexing.system.entity.user.AdminUserDO;
 import com.hexing.datapermission.core.rule.dept.DeptDataPermissionRuleCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

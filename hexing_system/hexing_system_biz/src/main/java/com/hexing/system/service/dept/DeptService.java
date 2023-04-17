@@ -5,7 +5,7 @@ import com.hexing.common.util.collection.CollectionUtils;
 import com.hexing.system.controller.admin.dept.vo.dept.DeptCreateReqVO;
 import com.hexing.system.controller.admin.dept.vo.dept.DeptListReqVO;
 import com.hexing.system.controller.admin.dept.vo.dept.DeptUpdateReqVO;
-import com.hexing.system.dal.dataobject.dept.DeptDO;
+import com.hexing.system.entity.dept.DeptDO;
 
 import java.util.Collection;
 import java.util.Collections;

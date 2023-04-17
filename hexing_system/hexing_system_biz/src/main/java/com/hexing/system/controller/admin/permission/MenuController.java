@@ -4,7 +4,7 @@ import com.hexing.common.enums.CommonStatusEnum;
 import com.hexing.common.pojo.CommonResult;
 import com.hexing.system.controller.admin.permission.vo.menu.*;
 import com.hexing.system.convert.permission.MenuConvert;
-import com.hexing.system.dal.dataobject.permission.MenuDO;
+import com.hexing.system.entity.permission.MenuDO;
 import com.hexing.system.service.permission.MenuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

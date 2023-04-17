@@ -13,9 +13,9 @@ import com.hexing.system.controller.admin.oauth2.vo.open.OAuth2OpenAccessTokenRe
 import com.hexing.system.controller.admin.oauth2.vo.open.OAuth2OpenAuthorizeInfoRespVO;
 import com.hexing.system.controller.admin.oauth2.vo.open.OAuth2OpenCheckTokenRespVO;
 import com.hexing.system.convert.oauth2.OAuth2OpenConvert;
-import com.hexing.system.dal.dataobject.oauth2.OAuth2AccessTokenDO;
-import com.hexing.system.dal.dataobject.oauth2.OAuth2ApproveDO;
-import com.hexing.system.dal.dataobject.oauth2.OAuth2ClientDO;
+import com.hexing.system.entity.oauth2.OAuth2AccessTokenDO;
+import com.hexing.system.entity.oauth2.OAuth2ApproveDO;
+import com.hexing.system.entity.oauth2.OAuth2ClientDO;
 import com.hexing.system.enums.oauth2.OAuth2GrantTypeEnum;
 import com.hexing.system.service.oauth2.OAuth2ApproveService;
 import com.hexing.system.service.oauth2.OAuth2ClientService;

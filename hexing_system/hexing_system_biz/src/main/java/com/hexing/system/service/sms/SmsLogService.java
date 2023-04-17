@@ -2,9 +2,9 @@ package com.hexing.system.service.sms;
 
 import com.hexing.system.controller.admin.sms.vo.log.SmsLogExportReqVO;
 import com.hexing.system.controller.admin.sms.vo.log.SmsLogPageReqVO;
-import com.hexing.system.dal.dataobject.sms.SmsLogDO;
+import com.hexing.system.entity.sms.SmsLogDO;
 import com.hexing.common.pojo.PageResult;
-import com.hexing.system.dal.dataobject.sms.SmsTemplateDO;
+import com.hexing.system.entity.sms.SmsTemplateDO;
 
 import java.time.LocalDateTime;
 import java.util.List;

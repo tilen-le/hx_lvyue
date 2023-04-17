@@ -4,7 +4,7 @@ import com.hexing.common.pojo.CommonResult;
 import com.hexing.common.pojo.PageResult;
 import com.hexing.system.controller.admin.sms.vo.channel.*;
 import com.hexing.system.convert.sms.SmsChannelConvert;
-import com.hexing.system.dal.dataobject.sms.SmsChannelDO;
+import com.hexing.system.entity.sms.SmsChannelDO;
 import com.hexing.system.service.sms.SmsChannelService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

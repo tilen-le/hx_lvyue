@@ -9,7 +9,7 @@ import com.hexing.system.controller.admin.mail.vo.template.MailTemplateCreateReq
 import com.hexing.system.controller.admin.mail.vo.template.MailTemplatePageReqVO;
 import com.hexing.system.controller.admin.mail.vo.template.MailTemplateUpdateReqVO;
 import com.hexing.system.convert.mail.MailTemplateConvert;
-import com.hexing.system.dal.dataobject.mail.MailTemplateDO;
+import com.hexing.system.entity.mail.MailTemplateDO;
 import com.hexing.system.dal.mysql.mail.MailTemplateMapper;
 import com.hexing.system.mq.producer.mail.MailProducer;
 import com.google.common.annotations.VisibleForTesting;
