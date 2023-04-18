@@ -1,0 +1,1 @@
+{"doc":" @program: ruoyi-vue-plus\n @description: 流程节点视图\n @author: firerock_tech\n @created: 2022-02-26\n","fields":[{"name":"nodeId","doc":" 节点id\n"},{"name":"nodeName","doc":" 节点名称\n"},{"name":"processDefinitionId","doc":" 流程定义id\n"},{"name":"index","doc":" 索引下标\n"}],"enumConstants":[],"methods":[],"constructors":[]}

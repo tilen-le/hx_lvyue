@@ -1,0 +1,51 @@
+{
+  "groups": [
+    {
+      "name": "ruoyi",
+      "type": "com.hexing.common.config.RuoYiConfig",
+      "sourceType": "com.hexing.common.config.RuoYiConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "ruoyi.address-enabled",
+      "type": "java.lang.Boolean",
+      "description": "获取地址开关",
+      "sourceType": "com.hexing.common.config.RuoYiConfig",
+      "defaultValue": false
+    },
+    {
+      "name": "ruoyi.cache-lazy",
+      "type": "java.lang.Boolean",
+      "description": "缓存懒加载",
+      "sourceType": "com.hexing.common.config.RuoYiConfig",
+      "defaultValue": false
+    },
+    {
+      "name": "ruoyi.copyright-year",
+      "type": "java.lang.String",
+      "description": "版权年份",
+      "sourceType": "com.hexing.common.config.RuoYiConfig"
+    },
+    {
+      "name": "ruoyi.demo-enabled",
+      "type": "java.lang.Boolean",
+      "description": "实例演示开关",
+      "sourceType": "com.hexing.common.config.RuoYiConfig",
+      "defaultValue": false
+    },
+    {
+      "name": "ruoyi.name",
+      "type": "java.lang.String",
+      "description": "项目名称",
+      "sourceType": "com.hexing.common.config.RuoYiConfig"
+    },
+    {
+      "name": "ruoyi.version",
+      "type": "java.lang.String",
+      "description": "版本",
+      "sourceType": "com.hexing.common.config.RuoYiConfig"
+    }
+  ],
+  "hints": []
+}

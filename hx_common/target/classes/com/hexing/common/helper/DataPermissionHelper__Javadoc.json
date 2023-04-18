@@ -1,0 +1,1 @@
+{"doc":" 数据权限助手\n\n @author firerock_tech\n @version 3.5.0\n","fields":[],"enumConstants":[],"methods":[{"name":"enableIgnore","paramTypes":[],"doc":" 开启忽略数据权限(开启后需手动调用 {@link #disableIgnore()} 关闭)\n"},{"name":"disableIgnore","paramTypes":[],"doc":" 关闭忽略数据权限\n"}],"constructors":[]}

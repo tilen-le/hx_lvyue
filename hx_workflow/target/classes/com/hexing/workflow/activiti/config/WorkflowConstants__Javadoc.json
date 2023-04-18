@@ -1,0 +1,1 @@
+{"doc":" 常量类\n","fields":[{"name":"COLOR_NORMAL","doc":"动态流程图颜色定义 "},{"name":"PROCESS_PADDING","doc":"定义生成流程图时的边距(像素) "}],"enumConstants":[],"methods":[],"constructors":[]}

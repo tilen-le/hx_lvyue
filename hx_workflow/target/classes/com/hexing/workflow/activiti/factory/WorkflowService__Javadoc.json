@@ -1,0 +1,1 @@
+{"doc":" 统一管理activity提供的服务接口\n","fields":[{"name":"processEngine","doc":" 流程引擎\n"},{"name":"repositoryService","doc":" 流程仓库服务类\n"},{"name":"runtimeService","doc":" 查询运行信息\n"},{"name":"taskService","doc":" 查询任务信息\n"},{"name":"historyService","doc":" 查询历史信息\n"}],"enumConstants":[],"methods":[],"constructors":[]}

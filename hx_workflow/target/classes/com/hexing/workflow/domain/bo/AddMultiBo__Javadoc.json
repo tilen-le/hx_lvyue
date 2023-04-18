@@ -1,0 +1,1 @@
+{"doc":" @program: ruoyi-vue-plus\n @description: 加签参数请求\n @author: firerock_tech\n @created: 2022年4月15日13:01:36\n","fields":[{"name":"taskId","doc":" 任务ID\n"},{"name":"assignees","doc":" 加签人员id\n"},{"name":"assigneeNames","doc":" 加签人员名称\n"}],"enumConstants":[],"methods":[],"constructors":[]}

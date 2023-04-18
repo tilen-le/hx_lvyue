@@ -1,0 +1,1 @@
+{"doc":" 业务规则业务对象 act_business_rule\n\n @author firerock_tech\n @date 2021-12-16\n","fields":[{"name":"id","doc":" id\n"},{"name":"beanName","doc":" 全类名\n"},{"name":"method","doc":" 方法名\n"},{"name":"param","doc":" 参数\n"},{"name":"remark","doc":" 备注\n"},{"name":"businessRuleParams","doc":" 参数\n"}],"enumConstants":[],"methods":[],"constructors":[]}

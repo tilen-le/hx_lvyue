@@ -1,0 +1,1 @@
+{"doc":"","fields":[],"enumConstants":[],"methods":[{"name":"configure","paramTypes":["org.activiti.spring.SpringProcessEngineConfiguration"],"doc":" 解決工作流生成图片乱码问题\n\n @param processEngineConfiguration\n"}],"constructors":[]}

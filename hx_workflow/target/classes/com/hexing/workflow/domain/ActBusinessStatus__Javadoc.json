@@ -1,0 +1,1 @@
+{"doc":" 业务状态实体对象 act_business_status\n\n @author firerock_tech\n @date 2021-10-10\n","fields":[{"name":"id","doc":" ID\n"},{"name":"businessKey","doc":" 业务ID\n"},{"name":"processInstanceId","doc":" 流程实例ID\n"},{"name":"status","doc":" 状态\n"},{"name":"classFullName","doc":" 全类名\n"},{"name":"suspendedReason","doc":" 挂起流程原因\n"}],"enumConstants":[],"methods":[],"constructors":[]}

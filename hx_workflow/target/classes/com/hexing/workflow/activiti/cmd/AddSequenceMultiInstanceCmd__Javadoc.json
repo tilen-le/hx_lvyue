@@ -1,0 +1,1 @@
+{"doc":" @program: ruoyi-vue-plus\n @description: 串行加签\n @author: firerock_tech\n @created: 2022/4/20 20:57\n","fields":[{"name":"executionId","doc":" 执行id\n"},{"name":"assigneeList","doc":" 会签人员集合KEY\n"},{"name":"assignees","doc":" 加签人员\n"}],"enumConstants":[],"methods":[],"constructors":[]}
