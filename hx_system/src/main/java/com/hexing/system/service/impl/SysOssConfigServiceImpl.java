@@ -15,7 +15,7 @@ import com.hexing.common.utils.JsonUtils;
 import com.hexing.common.utils.StringUtils;
 import com.hexing.common.utils.redis.CacheUtils;
 import com.hexing.common.utils.redis.RedisUtils;
-import com.hexing.oss.constant.OssConstant;
+import com.hexing.resource.oss.constant.OssConstant;
 import com.hexing.system.domain.SysOssConfig;
 import com.hexing.system.domain.bo.SysOssConfigBo;
 import com.hexing.system.domain.vo.SysOssConfigVo;

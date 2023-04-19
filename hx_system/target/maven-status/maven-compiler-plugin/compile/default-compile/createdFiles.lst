@@ -3,11 +3,13 @@ com/hexing/system/service/impl/SysOssServiceImpl.class
 com/hexing/system/service/impl/SysOperLogServiceImpl.class
 com/hexing/system/service/impl/SysDeptServiceImpl.class
 com/hexing/system/service/ISysPostService__Javadoc.json
+com/hexing/system/domain/FcCustomer.class
 com/hexing/system/mapper/SysUserRoleMapper.class
 com/hexing/system/domain/SysPost.class
 com/hexing/system/service/impl/SysSensitiveServiceImpl.class
 com/hexing/system/domain/SysCache.class
 com/hexing/system/service/SysRegisterService.class
+com/hexing/system/domain/FcContract.class
 com/hexing/system/mapper/SysOperLogMapper__Javadoc.json
 com/hexing/system/service/impl/SysDataScopeServiceImpl.class
 com/hexing/system/service/ISysLogininforService.class
@@ -43,6 +45,7 @@ com/hexing/system/service/impl/SysUserServiceImpl__Javadoc.json
 com/hexing/system/domain/bo/SysOssConfigBo__Javadoc.json
 com/hexing/system/domain/SysConfig.class
 com/hexing/system/domain/SysUserPost__Javadoc.json
+com/hexing/system/domain/FcContract__Javadoc.json
 com/hexing/system/domain/vo/SysOssConfigVo__Javadoc.json
 com/hexing/system/domain/SysCache__Javadoc.json
 com/hexing/system/mapper/SysLogininforMapper__Javadoc.json
@@ -85,6 +88,7 @@ com/hexing/system/service/ISysDictDataService__Javadoc.json
 com/hexing/system/mapper/SysRoleMapper__Javadoc.json
 com/hexing/system/service/impl/SysRoleServiceImpl.class
 com/hexing/system/service/SysLoginService.class
+com/hexing/system/domain/FcCustomerConsignment.class
 com/hexing/system/mapper/SysUserMapper__Javadoc.json
 com/hexing/system/domain/vo/MetaVo.class
 com/hexing/system/service/impl/SysDataScopeServiceImpl__Javadoc.json
@@ -101,6 +105,7 @@ com/hexing/system/domain/SysOperLog.class
 com/hexing/system/service/impl/SysOperLogServiceImpl__Javadoc.json
 com/hexing/system/service/impl/SysUserServiceImpl.class
 com/hexing/system/service/impl/SysMenuServiceImpl.class
+com/hexing/system/domain/FcCustomerConsignment__Javadoc.json
 com/hexing/system/service/impl/SysDictTypeServiceImpl__Javadoc.json
 com/hexing/system/mapper/SysDeptMapper.class
 com/hexing/system/domain/SysUserRole__Javadoc.json
@@ -116,6 +121,7 @@ com/hexing/system/domain/SysNotice__Javadoc.json
 com/hexing/system/service/ISysRoleService.class
 com/hexing/system/domain/bo/SysOssConfigBo.class
 com/hexing/system/service/impl/SysDictTypeServiceImpl.class
+com/hexing/system/domain/FcCustomer__Javadoc.json
 com/hexing/system/service/impl/SysLogininforServiceImpl.class
 com/hexing/system/domain/vo/SysUserImportVo__Javadoc.json
 com/hexing/system/mapper/SysDictTypeMapper__Javadoc.json

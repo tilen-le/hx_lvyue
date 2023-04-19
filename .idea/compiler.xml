@@ -8,62 +8,80 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
       </profile>
-      <profile name="Annotation profile for contract" enabled="true">
+      <profile name="Annotation profile for hexing_contract" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$M2_HOME$/maven_store/org/springframework/boot/spring-boot-configuration-processor/2.7.8/spring-boot-configuration-processor-2.7.8.jar" />
-          <entry name="$M2_HOME$/maven_store/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar" />
-          <entry name="$M2_HOME$/maven_store/org/mapstruct/mapstruct-processor/1.5.3.Final/mapstruct-processor-1.5.3.Final.jar" />
-          <entry name="$M2_HOME$/maven_store/org/mapstruct/mapstruct/1.5.3.Final/mapstruct-1.5.3.Final.jar" />
+          <entry name="$M2_HOME$/maven_store/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$M2_HOME$/maven_store/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$M2_HOME$/maven_store/org/projectlombok/lombok/1.18.26/lombok-1.18.26.jar" />
+          <entry name="$M2_HOME$/maven_store/org/springframework/boot/spring-boot-configuration-processor/2.7.9/spring-boot-configuration-processor-2.7.9.jar" />
         </processorPath>
-        <module name="hexing_system_biz" />
-        <module name="hexing_starter_protection" />
-        <module name="hexing_starter_redis" />
-        <module name="hexing_starter_flowable" />
-        <module name="hexing_starter_desensitize" />
-        <module name="hexing_starter_biz_pay" />
-        <module name="hexing_report_biz" />
-        <module name="hexing_starter_captcha" />
-        <module name="hexing_base_api" />
-        <module name="hexing_workflow_biz" />
-        <module name="hexing_report_api" />
-        <module name="hexing_common" />
-        <module name="hexing_service" />
-        <module name="hexing_starter_mybatis" />
-        <module name="hexing_workflow_api" />
-        <module name="hexing_starter_biz_sms" />
-        <module name="hexing_starter_job" />
-        <module name="hexing_manager" />
-        <module name="hexing_starter_security" />
-        <module name="hexing_starter_biz_operatelog" />
-        <module name="hexing_starter_web" />
-        <module name="hexing_starter_monitor" />
-        <module name="hexing_starter_excel" />
-        <module name="hexing_starter_file" />
-        <module name="hexing_starter_biz_tenant" />
-        <module name="hexing_starter_biz_error_code" />
-        <module name="hexing_starter_biz_ip" />
-        <module name="hexing_starter_ws" />
-        <module name="hexing_pay_api" />
-        <module name="hexing_starter_test" />
-        <module name="hexing_starter_biz_data_permission" />
-        <module name="hexing_base_biz" />
-        <module name="hexing_starter_mq" />
-        <module name="hexing_system_api" />
-        <module name="hexing_starter_biz_dict" />
-        <module name="hexing_pay_biz" />
+        <module name="hx_job" />
+        <module name="hx_common" />
+        <module name="hx_system" />
+        <module name="hx_workflow" />
+        <module name="hx_core" />
+        <module name="hx_resource" />
+        <module name="hx_manager" />
+        <module name="hx_test" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="bom" target="1.5" />
+      <module name="contract" target="1.8" />
+      <module name="hexing_base" target="1.8" />
+      <module name="hexing_base_api" target="1.8" />
+      <module name="hexing_base_biz" target="1.8" />
+      <module name="hexing_bom" target="1.5" />
+      <module name="hexing_common" target="1.8" />
+      <module name="hexing_core" target="1.8" />
+      <module name="hexing_manager" target="1.8" />
       <module name="hexing_member" target="1.8" />
       <module name="hexing_member_api" target="1.8" />
       <module name="hexing_member_biz" target="1.8" />
+      <module name="hexing_pay" target="1.8" />
+      <module name="hexing_pay_api" target="1.8" />
+      <module name="hexing_pay_biz" target="1.8" />
+      <module name="hexing_report" target="1.8" />
+      <module name="hexing_report_api" target="1.8" />
+      <module name="hexing_report_biz" target="1.8" />
+      <module name="hexing_service" target="1.8" />
       <module name="hexing_starter_banner" target="1.8" />
+      <module name="hexing_starter_biz_data_permission" target="1.8" />
+      <module name="hexing_starter_biz_dict" target="1.8" />
+      <module name="hexing_starter_biz_error_code" target="1.8" />
+      <module name="hexing_starter_biz_ip" target="1.8" />
+      <module name="hexing_starter_biz_operatelog" target="1.8" />
+      <module name="hexing_starter_biz_pay" target="1.8" />
+      <module name="hexing_starter_biz_sms" target="1.8" />
       <module name="hexing_starter_biz_social" target="1.8" />
+      <module name="hexing_starter_biz_tenant" target="1.8" />
       <module name="hexing_starter_biz_weixin" target="1.8" />
+      <module name="hexing_starter_captcha" target="1.8" />
+      <module name="hexing_starter_desensitize" target="1.8" />
+      <module name="hexing_starter_excel" target="1.8" />
+      <module name="hexing_starter_file" target="1.8" />
+      <module name="hexing_starter_flowable" target="1.8" />
+      <module name="hexing_starter_job" target="1.8" />
+      <module name="hexing_starter_monitor" target="1.8" />
+      <module name="hexing_starter_mq" target="1.8" />
+      <module name="hexing_starter_mybatis" target="1.8" />
+      <module name="hexing_starter_protection" target="1.8" />
+      <module name="hexing_starter_redis" target="1.8" />
+      <module name="hexing_starter_security" target="1.8" />
+      <module name="hexing_starter_test" target="1.8" />
+      <module name="hexing_starter_web" target="1.8" />
+      <module name="hexing_starter_ws" target="1.8" />
+      <module name="hexing_system" target="1.8" />
+      <module name="hexing_system_api" target="1.8" />
+      <module name="hexing_system_biz" target="1.8" />
+      <module name="hexing_workflow" target="1.8" />
+      <module name="hexing_workflow_api" target="1.8" />
+      <module name="hexing_workflow_biz" target="1.8" />
+      <module name="hx_oss" target="1.8" />
+      <module name="hx_sms" target="1.8" />
       <module name="yudao" target="1.8" />
       <module name="yudao-dependencies" target="1.5" />
     </bytecodeTargetLevel>

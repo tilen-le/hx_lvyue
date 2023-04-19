@@ -11,11 +11,15 @@
         <option value="$PROJECT_DIR$/hexing_core/hexing_starter_biz_tenant/pom.xml" />
         <option value="$PROJECT_DIR$/hexing_member/hexing_member_api/pom.xml" />
         <option value="$PROJECT_DIR$/hexing_member/pom.xml" />
+        <option value="$PROJECT_DIR$/hx_oss/pom.xml" />
+        <option value="$PROJECT_DIR$/hx_sms/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/hexing_member/pom.xml" />
+        <option value="$PROJECT_DIR$/hx_oss/pom.xml" />
+        <option value="$PROJECT_DIR$/hx_sms/pom.xml" />
       </set>
     </option>
   </component>

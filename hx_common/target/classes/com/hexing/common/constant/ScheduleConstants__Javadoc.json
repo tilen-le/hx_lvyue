@@ -1,0 +1,1 @@
+{"doc":" 任务调度通用常量\n\n","fields":[{"name":"TASK_PROPERTIES","doc":"执行目标key "},{"name":"MISFIRE_DEFAULT","doc":"默认 "},{"name":"MISFIRE_IGNORE_MISFIRES","doc":"立即触发执行 "},{"name":"MISFIRE_FIRE_AND_PROCEED","doc":"触发一次执行 "},{"name":"MISFIRE_DO_NOTHING","doc":"不触发立即执行 "}],"enumConstants":[],"methods":[],"constructors":[]}

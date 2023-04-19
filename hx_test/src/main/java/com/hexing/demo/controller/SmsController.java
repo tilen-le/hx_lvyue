@@ -2,8 +2,8 @@ package com.hexing.demo.controller;
 
 import com.hexing.common.core.domain.R;
 import com.hexing.common.utils.spring.SpringUtils;
-import com.hexing.sms.config.properties.SmsProperties;
-import com.hexing.sms.core.SmsTemplate;
+import com.hexing.resource.sms.config.properties.SmsProperties;
+import com.hexing.resource.sms.core.SmsTemplate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;

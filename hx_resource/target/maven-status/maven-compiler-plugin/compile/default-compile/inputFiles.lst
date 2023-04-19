@@ -1,0 +1,15 @@
+/Users/yungeng/Documents/GitHub/hx_contract/hx_resource/src/main/java/com/hexing/resource/oss/properties/OssProperties.java
+/Users/yungeng/Documents/GitHub/hx_contract/hx_resource/src/main/java/com/hexing/resource/oss/exception/OssException.java
+/Users/yungeng/Documents/GitHub/hx_contract/hx_resource/src/main/java/com/hexing/resource/sms/core/TencentSmsTemplate.java
+/Users/yungeng/Documents/GitHub/hx_contract/hx_resource/src/main/java/com/hexing/resource/sms/config/SmsConfig.java
+/Users/yungeng/Documents/GitHub/hx_contract/hx_resource/src/main/java/com/hexing/resource/sms/entity/SmsResult.java
+/Users/yungeng/Documents/GitHub/hx_contract/hx_resource/src/main/java/com/hexing/resource/oss/factory/OssFactory.java
+/Users/yungeng/Documents/GitHub/hx_contract/hx_resource/src/main/java/com/hexing/resource/sms/core/AliyunSmsTemplate.java
+/Users/yungeng/Documents/GitHub/hx_contract/hx_resource/src/main/java/com/hexing/resource/oss/enumd/PolicyType.java
+/Users/yungeng/Documents/GitHub/hx_contract/hx_resource/src/main/java/com/hexing/resource/oss/enumd/AccessPolicyType.java
+/Users/yungeng/Documents/GitHub/hx_contract/hx_resource/src/main/java/com/hexing/resource/oss/entity/UploadResult.java
+/Users/yungeng/Documents/GitHub/hx_contract/hx_resource/src/main/java/com/hexing/resource/sms/config/properties/SmsProperties.java
+/Users/yungeng/Documents/GitHub/hx_contract/hx_resource/src/main/java/com/hexing/resource/oss/constant/OssConstant.java
+/Users/yungeng/Documents/GitHub/hx_contract/hx_resource/src/main/java/com/hexing/resource/oss/core/OssClient.java
+/Users/yungeng/Documents/GitHub/hx_contract/hx_resource/src/main/java/com/hexing/resource/sms/core/SmsTemplate.java
+/Users/yungeng/Documents/GitHub/hx_contract/hx_resource/src/main/java/com/hexing/resource/sms/exception/SmsException.java

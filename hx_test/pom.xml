@@ -22,7 +22,7 @@
         </dependency>
         <dependency>
             <groupId>com.hexing</groupId>
-            <artifactId>hx_sms</artifactId>
+            <artifactId>hx_resource</artifactId>
         </dependency>
         <dependency>
             <groupId>com.hexing</groupId>

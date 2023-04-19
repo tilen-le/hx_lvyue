@@ -23,16 +23,13 @@
             <artifactId>hx_common</artifactId>
         </dependency>
 
-        <!-- OSS功能模块 -->
         <dependency>
             <groupId>com.hexing</groupId>
-            <artifactId>hx_oss</artifactId>
+            <artifactId>hx_resource</artifactId>
         </dependency>
-
-        <!-- SMS功能模块 -->
         <dependency>
             <groupId>com.hexing</groupId>
-            <artifactId>hx_sms</artifactId>
+            <artifactId>hx_job</artifactId>
         </dependency>
 
     </dependencies>

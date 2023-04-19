@@ -311,19 +311,13 @@
                 <version>1.0.0</version>
             </dependency>
 
-            <!-- OSS对象存储模块 -->
-            <dependency>
-                <groupId>com.hexing</groupId>
-                <artifactId>hx_oss</artifactId>
-                <version>1.0.0</version>
-            </dependency>
-
             <!-- SMS短信模块 -->
             <dependency>
                 <groupId>com.hexing</groupId>
-                <artifactId>hx_sms</artifactId>
+                <artifactId>hx_resource</artifactId>
                 <version>1.0.0</version>
             </dependency>
+
             <dependency>
                 <groupId>com.hexing</groupId>
                 <artifactId>hx_test</artifactId>
@@ -336,6 +330,11 @@
                 <artifactId>hx_workflow</artifactId>
                 <version>1.0.0</version>
             </dependency>
+            <dependency>
+                <groupId>com.hexing</groupId>
+                <artifactId>hx_job</artifactId>
+                <version>1.0.0</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
@@ -346,9 +345,9 @@
         <module>hx_system</module>
         <module>hx_common</module>
         <module>hx_test</module>
-        <module>hx_oss</module>
-        <module>hx_sms</module>
         <module>hx_workflow</module>
+        <module>hx_resource</module>
+        <module>hx_job</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -38,7 +38,7 @@
 
         <dependency>
             <groupId>com.hexing</groupId>
-            <artifactId>hx_oss</artifactId>
+            <artifactId>hx_resource</artifactId>
         </dependency>
 
         <!--  demo模块  -->

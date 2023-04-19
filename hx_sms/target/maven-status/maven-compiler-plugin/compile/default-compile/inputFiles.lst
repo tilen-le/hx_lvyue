@@ -1,7 +1,0 @@
-/Users/yungeng/Desktop/RuoYi-Vue-Plus-Activiti/hx_sms/src/main/java/com/hexing/sms/config/properties/SmsProperties.java
-/Users/yungeng/Desktop/RuoYi-Vue-Plus-Activiti/hx_sms/src/main/java/com/hexing/sms/core/SmsTemplate.java
-/Users/yungeng/Desktop/RuoYi-Vue-Plus-Activiti/hx_sms/src/main/java/com/hexing/sms/core/AliyunSmsTemplate.java
-/Users/yungeng/Desktop/RuoYi-Vue-Plus-Activiti/hx_sms/src/main/java/com/hexing/sms/core/TencentSmsTemplate.java
-/Users/yungeng/Desktop/RuoYi-Vue-Plus-Activiti/hx_sms/src/main/java/com/hexing/sms/config/SmsConfig.java
-/Users/yungeng/Desktop/RuoYi-Vue-Plus-Activiti/hx_sms/src/main/java/com/hexing/sms/entity/SmsResult.java
-/Users/yungeng/Desktop/RuoYi-Vue-Plus-Activiti/hx_sms/src/main/java/com/hexing/sms/exception/SmsException.java

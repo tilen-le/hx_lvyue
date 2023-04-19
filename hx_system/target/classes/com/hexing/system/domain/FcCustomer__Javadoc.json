@@ -1,0 +1,1 @@
+{"doc":" 客户表\n\n @TableName fc_customer\n","fields":[{"name":"id","doc":" 主键\n"},{"name":"code","doc":" 编码\n"},{"name":"name","doc":" 客户名称\n"},{"name":"creditLimit","doc":" 信用额度\n"},{"name":"nation","doc":" 国籍\n"},{"name":"status","doc":" 状态【0.禁用 1.启用】\n"}],"enumConstants":[],"methods":[],"constructors":[]}
