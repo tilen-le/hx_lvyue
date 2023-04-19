@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 测试
  * @author: firerock_tech
  * @created: 2022-06-26

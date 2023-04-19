@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 import static com.hexing.workflow.common.constant.ActConstant.*;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 选人业务层
  * @author: firerock_tech
  * @created: 2021/10/17 14:57

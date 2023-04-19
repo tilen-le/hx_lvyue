@@ -3,7 +3,7 @@ package com.hexing.workflow.common;
 import lombok.Data;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 分页参数
  * @author: firerock_tech
  * @created: 2022-02-26

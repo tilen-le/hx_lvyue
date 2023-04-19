@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 流程定义查询
  * @author: firerock_tech
  * @created: 2021/10/07 11:15

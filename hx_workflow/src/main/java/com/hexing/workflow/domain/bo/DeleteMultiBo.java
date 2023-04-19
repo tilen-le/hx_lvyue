@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 减签参数请求
  * @author: firerock_tech
  * @created: 2022年4月16日16:01:36

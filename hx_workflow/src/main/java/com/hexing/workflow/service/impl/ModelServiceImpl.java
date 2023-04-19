@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 模型业务层
  * @author: firerock_tech
  * @created: 2021/10/17 15:59

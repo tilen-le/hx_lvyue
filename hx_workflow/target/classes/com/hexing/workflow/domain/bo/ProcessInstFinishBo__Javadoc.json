@@ -1,1 +1,1 @@
-{"doc":" @program: ruoyi-vue-plus\n @description: 已完成流程查询\n @author: firerock_tech\n @created: 2021/10/16 19:42\n","fields":[{"name":"name","doc":" 流程名称\n"},{"name":"startUserId","doc":" 任务发起人\n"}],"enumConstants":[],"methods":[],"constructors":[]}
+{"doc":" \n @description: 已完成流程查询\n @author: firerock_tech\n @created: 2021/10/16 19:42\n","fields":[{"name":"name","doc":" 流程名称\n"},{"name":"startUserId","doc":" 任务发起人\n"}],"enumConstants":[],"methods":[],"constructors":[]}

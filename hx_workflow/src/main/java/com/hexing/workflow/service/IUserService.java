@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 用户接口
  * @author: firerock_tech
  * @created: 2022-03-25

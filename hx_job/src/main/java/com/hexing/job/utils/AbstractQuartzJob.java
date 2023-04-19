@@ -35,7 +35,7 @@ public abstract class AbstractQuartzJob implements Job
     public void execute(JobExecutionContext context) throws JobExecutionException
     {
         SysJob sysJob = new SysJob();
-        BeanCopyUtils.copy(sysJob, context.getMergedJobDataMap().get(ScheduleConstants.TASK_PROPERTIES));
+        BeanCopyUtils.copyBeanProp(sysJob, context.getMergedJobDataMap().get(ScheduleConstants.TASK_PROPERTIES));
         try
         {
             before(context, sysJob);

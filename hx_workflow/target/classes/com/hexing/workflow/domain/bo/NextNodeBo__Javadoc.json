@@ -1,1 +1,1 @@
-{"doc":" @program: ruoyi-vue-plus\n @description: 流程定义查询\n @author: firerock_tech\n @created: 2021/10/07 11:15\n","fields":[{"name":"taskId","doc":" 任务id\n"},{"name":"variables","doc":" 流程变量\n"}],"enumConstants":[],"methods":[],"constructors":[]}
+{"doc":" \n @description: 流程定义查询\n @author: firerock_tech\n @created: 2021/10/07 11:15\n","fields":[{"name":"taskId","doc":" 任务id\n"},{"name":"variables","doc":" 流程变量\n"}],"enumConstants":[],"methods":[],"constructors":[]}

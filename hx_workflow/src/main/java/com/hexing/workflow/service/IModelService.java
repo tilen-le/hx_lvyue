@@ -8,7 +8,7 @@ import org.activiti.engine.repository.Model;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 模型接口
  * @author: firerock_tech
  * @created: 2022-02-26

@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.List;
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 接收消息对象
  * @author: firerock_tech
  * @created: 2022-06-23

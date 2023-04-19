@@ -6,7 +6,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 流程节点视图
  * @author: firerock_tech
  * @created: 2022-02-26

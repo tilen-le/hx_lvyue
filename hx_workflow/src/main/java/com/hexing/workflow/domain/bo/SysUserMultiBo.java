@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 用户加签查询
  * @author: firerock_tech
  * @created: 2021/11/28 18:22

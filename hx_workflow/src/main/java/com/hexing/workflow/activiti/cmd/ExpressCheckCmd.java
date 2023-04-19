@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 校验流程变量
  * @author: firerock_tech
  * @created: 2022/8/22 18:26

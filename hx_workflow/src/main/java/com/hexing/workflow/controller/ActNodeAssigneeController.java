@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotBlank;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 流程节点人员设置控制层
  * @author: firerock_tech
  * @created: 2021/11/21 13:48

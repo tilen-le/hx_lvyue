@@ -1,1 +1,1 @@
-{"doc":" @program: ruoyi-vue-plus\n @description: MultiVo\n @author: firerock_tech\n @created: 2022/04/20 21:22\n","fields":[{"name":"type","doc":" 会签类型（串行，并行）\n"},{"name":"assignee","doc":" 会签人员KEY\n"},{"name":"assigneeList","doc":" 会签人员集合KEY\n"}],"enumConstants":[],"methods":[],"constructors":[]}
+{"doc":" \n @description: MultiVo\n @author: firerock_tech\n @created: 2022/04/20 21:22\n","fields":[{"name":"type","doc":" 会签类型（串行，并行）\n"},{"name":"assignee","doc":" 会签人员KEY\n"},{"name":"assigneeList","doc":" 会签人员集合KEY\n"}],"enumConstants":[],"methods":[],"constructors":[]}

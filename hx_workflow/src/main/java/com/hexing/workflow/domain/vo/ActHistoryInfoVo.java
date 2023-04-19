@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 流程审批记录视图
  * @author: firerock_tech
  * @created: 2021/10/16 15:36

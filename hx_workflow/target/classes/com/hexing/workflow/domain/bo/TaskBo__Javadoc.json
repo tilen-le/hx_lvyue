@@ -1,1 +1,1 @@
-{"doc":" @program: ruoyi-vue-plus\n @description: 任务请求\n @author: firerock_tech\n @created: 2021/10/17 14:50\n","fields":[{"name":"taskName","doc":" 任务名称\n"},{"name":"taskId","doc":" 任务id\n"},{"name":"processInstId","doc":" 流程定义id\n"}],"enumConstants":[],"methods":[],"constructors":[]}
+{"doc":" \n @description: 任务请求\n @author: firerock_tech\n @created: 2021/10/17 14:50\n","fields":[{"name":"taskName","doc":" 任务名称\n"},{"name":"taskId","doc":" 任务id\n"},{"name":"processInstId","doc":" 流程定义id\n"}],"enumConstants":[],"methods":[],"constructors":[]}

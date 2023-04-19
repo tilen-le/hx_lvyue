@@ -11,7 +11,7 @@ import org.activiti.engine.impl.persistence.entity.ExecutionEntityImpl;
 import org.activiti.engine.impl.util.condition.ConditionUtil;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 校验分支网关
  * @author: firerock_tech
  * @created: 2021/10/10 11:13

@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 审批历史任务节点
  * @author: firerock_tech
  * @created: 2021/11/06 16:12

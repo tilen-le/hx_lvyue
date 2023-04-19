@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 任务监听对象
  * @author: firerock_tech
  * @created: 2022-06-26

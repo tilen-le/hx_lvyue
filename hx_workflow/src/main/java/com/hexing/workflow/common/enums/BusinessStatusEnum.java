@@ -6,7 +6,7 @@ import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 业务枚举
  * @author: firerock_tech
  * @created: 2021/10/10 11:13

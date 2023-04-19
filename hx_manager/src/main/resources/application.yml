@@ -11,6 +11,9 @@ hexing:
   # 缓存懒加载
   cacheLazy: false
 
+  task:
+    domain: http://115.238.36.165:4168/UIP/uip/uipManage/dataOper
+
 captcha:
   # 页面 <参数设置> 可开启关闭 验证码校验
   # 验证码类型 math 数组计算 char 字符验证
@@ -25,7 +28,6 @@ captcha:
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为8080
-  port: 8080
   servlet:
     # 应用的访问路径
     context-path: /
@@ -63,6 +65,8 @@ user:
 spring:
   application:
     name: ${hexing.name}
+  activiti:
+    check-process-definitions: false
   # 资源信息
   messages:
     # 国际化资源文件路径

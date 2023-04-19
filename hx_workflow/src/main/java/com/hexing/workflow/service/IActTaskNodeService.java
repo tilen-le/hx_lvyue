@@ -6,7 +6,7 @@ import com.hexing.workflow.domain.ActTaskNode;
 import java.util.List;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 任务节点接口
  * @author: firerock_tech
  * @created: 2021/11/06 16:27

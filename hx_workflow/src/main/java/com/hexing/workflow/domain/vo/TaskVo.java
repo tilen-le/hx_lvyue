@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 任务视图
  * @author: firerock_tech
  * @created: 2022/4/16 17:46

@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.*;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 完成任务请求对象
  * @author: firerock_tech
  * @created: 2022-02-26

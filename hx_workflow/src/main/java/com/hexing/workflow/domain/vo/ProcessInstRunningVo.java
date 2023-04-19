@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 查询正在运行中的实例
  * @author: firerock_tech
  * @created: 2021/10/16 19:35

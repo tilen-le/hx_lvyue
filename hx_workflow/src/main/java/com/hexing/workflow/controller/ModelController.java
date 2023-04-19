@@ -22,7 +22,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.util.Map;
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 模型控制器
  * @author: firerock_tech
  * @created: 2022-02-26

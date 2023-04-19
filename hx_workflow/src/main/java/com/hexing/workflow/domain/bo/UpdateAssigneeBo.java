@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 修改办理人
  * @author: firerock_tech
  * @created: 2022/04/10 14:50

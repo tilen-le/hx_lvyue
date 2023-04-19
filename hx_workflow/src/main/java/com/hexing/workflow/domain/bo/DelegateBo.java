@@ -6,7 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 委托请求对象
  * @author: firerock_tech
  * @created: 2022-06-18

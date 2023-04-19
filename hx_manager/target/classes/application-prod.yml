@@ -1,4 +1,12 @@
 --- # 临时文件存储位置 避免临时文件被系统清理报错
+server:
+  port: 9310
+  ssl:
+    key-store: classpath:9749546_contract.api.jsonarray.com.pfx
+    key-store-type: PKCS12
+    enabled: true
+    key-store-password: ijd4hfxv
+
 spring.servlet.multipart.location: /data/server/temp
 
 --- # 监控中心配置
@@ -29,17 +37,17 @@ spring:
           type: ${spring.datasource.type}
           driverClassName: com.mysql.cj.jdbc.Driver
           # rewriteBatchedStatements=true 批处理优化 大幅提升批量插入更新删除性能(对数据库有性能损耗 使用批量操作应考虑性能问题)
-          url: jdbc:mysql://localhost:3306/ry-vue?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&autoReconnect=true&rewriteBatchedStatements=true
+          url: jdbc:mysql://localhost:3306/hx_contract_system?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&autoReconnect=true&rewriteBatchedStatements=true
           username: root
-          password: root
+          password: guxiangYU!@123
         # 从库数据源
         slave:
           lazy: true
           type: ${spring.datasource.type}
           driverClassName: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://localhost:3306/ry-vue?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&autoReconnect=true&rewriteBatchedStatements=true
-          username:
-          password:
+          url: jdbc:mysql://localhost:3306/hx_contract_system?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&autoReconnect=true&rewriteBatchedStatements=true
+          username: root
+          password: guxiangYU!@123
       hikari:
         # 最大连接池数量
         maxPoolSize: 20
@@ -68,7 +76,7 @@ spring:
     # 数据库索引
     database: 0
     # 密码(如没有密码请注释掉)
-    # password:
+    password: wuyulunbi..
     # 连接超时时间
     timeout: 10s
     # 是否开启ssl

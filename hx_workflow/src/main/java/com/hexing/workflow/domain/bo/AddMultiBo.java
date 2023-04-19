@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 加签参数请求
  * @author: firerock_tech
  * @created: 2022年4月15日13:01:36

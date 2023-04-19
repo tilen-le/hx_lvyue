@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 工作流用户信息控制器
  * @author: firerock_tech
  * @created: 2022-03-25

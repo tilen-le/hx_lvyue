@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 串行减签
  * @author: firerock_tech
  * @created: 2022/4/21 22:11

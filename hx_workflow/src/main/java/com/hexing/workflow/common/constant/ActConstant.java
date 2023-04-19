@@ -1,7 +1,7 @@
 package com.hexing.workflow.common.constant;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 工作流常量
  * @author: firerock_tech
  * @created: 2022-02-26

@@ -11,13 +11,15 @@
       "name": "ruoyi.address-enabled",
       "type": "java.lang.Boolean",
       "description": "获取地址开关",
-      "sourceType": "com.hexing.common.config.RuoYiConfig"
+      "sourceType": "com.hexing.common.config.RuoYiConfig",
+      "defaultValue": false
     },
     {
       "name": "ruoyi.cache-lazy",
       "type": "java.lang.Boolean",
       "description": "缓存懒加载",
-      "sourceType": "com.hexing.common.config.RuoYiConfig"
+      "sourceType": "com.hexing.common.config.RuoYiConfig",
+      "defaultValue": false
     },
     {
       "name": "ruoyi.copyright-year",
@@ -29,7 +31,8 @@
       "name": "ruoyi.demo-enabled",
       "type": "java.lang.Boolean",
       "description": "实例演示开关",
-      "sourceType": "com.hexing.common.config.RuoYiConfig"
+      "sourceType": "com.hexing.common.config.RuoYiConfig",
+      "defaultValue": false
     },
     {
       "name": "ruoyi.name",

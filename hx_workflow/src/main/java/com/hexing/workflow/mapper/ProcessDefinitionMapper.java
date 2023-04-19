@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 流程定义Mapper
  * @author: firerock_tech
  * @created: 2022-06-11

@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 模型请求对象
  * @author: firerock_tech
  * @created: 2022年7月3日16:01:36

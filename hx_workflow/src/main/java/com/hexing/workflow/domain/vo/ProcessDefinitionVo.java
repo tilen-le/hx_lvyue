@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 流程定义视图
  * @author: firerock_tech
  * @created: 2021/10/07 11:25

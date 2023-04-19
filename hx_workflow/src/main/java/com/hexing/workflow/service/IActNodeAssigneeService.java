@@ -7,7 +7,7 @@ import java.util.List;
 
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 流程节点人员设置接口
  * @author: firerock_tech
  * @created: 2021/11/21

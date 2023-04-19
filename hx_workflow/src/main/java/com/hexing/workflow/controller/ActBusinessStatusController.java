@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.NotBlank;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: 流程与业务关联控制器
  * @author: firerock_tech
  * @created: 2021/10/16 16:18

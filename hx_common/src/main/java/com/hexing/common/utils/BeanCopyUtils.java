@@ -16,6 +16,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import static cn.hutool.core.bean.BeanUtil.copyProperties;
+
 /**
  * bean深拷贝工具(基于 cglib 性能优异)
  * <p>
@@ -153,6 +155,17 @@ public class BeanCopyUtils {
         Map<String, V> copyMap = new LinkedHashMap<>(map.size());
         map.forEach((k, v) -> copyMap.put(k, copy(v, clazz)));
         return copyMap;
+    }
+    public static void copyBeanProp(Object dest, Object src)
+    {
+        try
+        {
+            copyProperties(src, dest);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     /**

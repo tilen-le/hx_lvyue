@@ -51,7 +51,6 @@ import java.util.stream.Collectors;
 import static com.hexing.common.helper.LoginHelper.getUserId;
 
 /**
- * @program: ruoyi-vue-plus
  * @description: 任务业务层
  * @author: firerock_tech
  * @created: 2021/10/17 14:57

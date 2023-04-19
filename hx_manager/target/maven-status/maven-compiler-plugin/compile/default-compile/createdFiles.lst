@@ -14,6 +14,7 @@ com/hexing/web/controller/system/SysLoginController.class
 com/hexing/web/controller/system/SysRegisterController__Javadoc.json
 com/hexing/web/controller/system/SysIndexController.class
 com/hexing/web/controller/system/SysDictTypeController.class
+com/hexing/web/controller/common/NotifyController__Javadoc.json
 com/hexing/web/controller/system/SysRoleController__Javadoc.json
 com/hexing/web/controller/system/SysMenuController__Javadoc.json
 com/hexing/HxServletInitializer.class
@@ -46,3 +47,4 @@ com/hexing/web/controller/job/SysJobController.class
 com/hexing/web/controller/system/SysNoticeController__Javadoc.json
 com/hexing/web/controller/system/SysOssConfigController__Javadoc.json
 com/hexing/web/controller/common/CaptchaController.class
+com/hexing/web/controller/common/NotifyController.class

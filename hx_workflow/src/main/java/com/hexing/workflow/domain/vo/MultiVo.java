@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * @program: ruoyi-vue-plus
+ * 
  * @description: MultiVo
  * @author: firerock_tech
  * @created: 2022/04/20 21:22

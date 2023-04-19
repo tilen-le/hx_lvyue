@@ -26,6 +26,16 @@
             <groupId>com.hexing</groupId>
             <artifactId>hx_common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.zhxu</groupId>
+            <artifactId>okhttps</artifactId>
+            <version>4.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.zhxu</groupId>
+            <artifactId>okhttps-gson</artifactId>
+            <version>4.0.1</version>
+        </dependency>
     </dependencies>
 
 </project>
