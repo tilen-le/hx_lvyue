@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="bd950c0b-daa3-4788-bf8f-14deb31a2f6d" name="hx">
+        <fileTransfer rootFolder="/data/hexing" accessType="SFTP" host="admin.jsonarray.com" port="22" sshConfigId="2514fc29-4921-4813-81e6-d1853ae48728" sshConfig="root@admin.jsonarray.com:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

@@ -1,1 +1,1 @@
-{"doc":" 客户收货信息表\n\n @TableName fc_customer_consignment\n","fields":[{"name":"id","doc":" 主键\n"},{"name":"customerId","doc":" 客户id\n"},{"name":"name","doc":" 收货人名称\n"},{"name":"phone","doc":" 收货人电话\n"},{"name":"adress","doc":" 收货人地址\n"}],"enumConstants":[],"methods":[],"constructors":[]}
+{"doc":" 客户收货信息表\n\n @TableName fc_customer_consignment\n","fields":[{"name":"id","doc":" 主键\n"},{"name":"customerId","doc":" 客户id\n"},{"name":"name","doc":" 收货人名称\n"},{"name":"phone","doc":" 收货人电话\n"},{"name":"address","doc":" 收货人地址\n"}],"enumConstants":[],"methods":[],"constructors":[]}

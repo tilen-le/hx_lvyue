@@ -20,7 +20,7 @@ public class FcContract extends BaseEntity {
      * 主键
      */
     @TableId(value = "id")
-    private Integer id;
+    private Long id;
     /**
      * 合同编号
      */
@@ -29,6 +29,7 @@ public class FcContract extends BaseEntity {
      * 合同名称
      */
     private String contractName;
+
     private String deleted;
 
 

@@ -20,11 +20,11 @@ public class FcCustomerConsignment extends BaseEntity {
      * 主键
      */
     @TableId(value = "id")
-    private Integer id;
+    private Long id;
     /**
      * 客户id
      */
-    private Integer customerId;
+    private String customerId;
     /**
      * 收货人名称
      */
@@ -36,7 +36,9 @@ public class FcCustomerConsignment extends BaseEntity {
     /**
      * 收货人地址
      */
-    private String adress;
+    private String address;
+
+    private String location;
     private String deleted;
 
 

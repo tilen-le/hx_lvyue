@@ -135,6 +135,20 @@ export const dynamicRoutes = [
     ]
   },
   {
+    path: '/customer/detail',
+    component: Layout,
+    hidden: true,
+    permissions: ['customer:all:list'],
+    children: [
+      {
+        path: 'index/:cid(\\d+)',
+        component: () => import('@/views/customer/list/detail.vue'),
+        name: 'Data',
+        meta: { title: '客户详情', activeMenu: '/customer/list' }
+      }
+    ]
+  },
+  {
     path: '/system/oss-config',
     component: Layout,
     hidden: true,

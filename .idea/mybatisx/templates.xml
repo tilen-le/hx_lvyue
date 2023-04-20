@@ -15,8 +15,8 @@
             <option name="ignoreFieldSuffix" value="" />
             <option name="ignoreTablePrefix" value="" />
             <option name="ignoreTableSuffix" value="" />
-            <option name="moduleName" value="contract" />
-            <option name="modulePath" value="$PROJECT_DIR$" />
+            <option name="moduleName" value="hx_system" />
+            <option name="modulePath" value="$PROJECT_DIR$/hx_system" />
             <option name="moduleUIInfoList">
               <list>
                 <ModuleInfoGo>
@@ -26,7 +26,7 @@
                   <option name="encoding" value="UTF-8" />
                   <option name="fileName" value="${domain.fileName}" />
                   <option name="fileNameWithSuffix" value="${domain.fileName}.java" />
-                  <option name="modulePath" value="$PROJECT_DIR$" />
+                  <option name="modulePath" value="$PROJECT_DIR$/hx_system" />
                   <option name="packageName" value="generator.domain" />
                 </ModuleInfoGo>
               </list>
@@ -39,15 +39,15 @@
             <option name="tableUIInfoList">
               <list>
                 <TableUIInfo>
-                  <option name="className" value="FcCustomerInvoice" />
-                  <option name="tableName" value="fc_customer_invoice" />
+                  <option name="className" value="FcOrderProduct" />
+                  <option name="tableName" value="fc_order_product" />
                 </TableUIInfo>
               </list>
             </option>
             <option name="templatesName" value="custom-model-swagger" />
           </GenerateConfig>
         </option>
-        <option name="moduleName" value="contract" />
+        <option name="moduleName" value="hx_system" />
         <option name="projectPath" value="$PROJECT_DIR$" />
         <option name="templateName" value="custom-model-swagger" />
       </TemplateContext>

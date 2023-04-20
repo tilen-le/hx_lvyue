@@ -39,6 +39,7 @@ import VueMeta from 'vue-meta'
 import DictData from '@/components/DictData'
 // 动态表单组件
 import FormDesigner from '@/components/FormDesigner/index'
+import * as validate from "@/utils/util.validate";
 
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts
@@ -51,6 +52,7 @@ Vue.prototype.selectDictLabel = selectDictLabel
 Vue.prototype.selectDictLabels = selectDictLabels
 Vue.prototype.download = download
 Vue.prototype.handleTree = handleTree
+Vue.prototype.$v = validate;
 
 // 全局组件挂载
 Vue.component('DictTag', DictTag)

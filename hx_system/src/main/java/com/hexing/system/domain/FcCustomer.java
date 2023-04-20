@@ -20,7 +20,7 @@ public class FcCustomer extends BaseEntity {
      * 主键
      */
     @TableId(value = "id")
-    private Integer id;
+    private Long id;
     /**
      * 编码
      */
