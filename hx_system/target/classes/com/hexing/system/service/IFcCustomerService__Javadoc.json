@@ -1,0 +1,1 @@
+{"doc":" @author firerock_tech\n","fields":[],"enumConstants":[],"methods":[{"name":"saveCustomer","paramTypes":["com.hexing.system.domain.form.CustomerForm"],"doc":" 更新保存客户\n @param fcCustomer\n @return\n"}],"constructors":[]}

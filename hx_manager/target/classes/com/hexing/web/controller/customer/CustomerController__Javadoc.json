@@ -1,0 +1,1 @@
+{"doc":" @author firerock_tech\n","fields":[],"enumConstants":[],"methods":[{"name":"list","paramTypes":["com.hexing.system.domain.FcCustomer","com.hexing.common.core.domain.PageQuery"],"doc":" 获取客户列表\n\n @param fcCustomer\n @param pageQuery\n @return\n"}],"constructors":[]}
