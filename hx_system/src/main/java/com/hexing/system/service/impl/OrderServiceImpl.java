@@ -48,6 +48,11 @@ public class OrderServiceImpl implements IOrderService {
         queryWrapper.eq(FcOrder::getOrderNumber, orderForm.getVbeln());
         FcOrder existOrder = baseMapper.selectOne(queryWrapper);
         if (ObjectUtil.isNotNull(existOrder)) {
+            existOrder.setContarctId(Long.valueOf(orderForm.getVbelnRe()));
+            existOrder.setOrderNumber(orderForm.getVbeln());
+            existOrder.setOrderTitle(orderForm.getVbelnT());
+            existOrder.setCurrency(orderForm.getWerks());
+            existOrder.setSoldToParty(orderForm.getKunnrSp());
 
         }
     }

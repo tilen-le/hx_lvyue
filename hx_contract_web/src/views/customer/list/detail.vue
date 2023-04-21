@@ -8,10 +8,6 @@
           <span style="margin-left: 100px">客户编码：</span>
           {{ customerDetail.code }}
         </div>
-        <div>
-          <el-button type="primary" @click="createInvoice">申请开票</el-button>
-          <i class="el-icon-close" style="padding-right: 10px;padding-left: 15px" @click="close"></i>
-        </div>
       </div>
     </div>
     <div class="angel-card-top">
@@ -56,6 +52,9 @@
     <div class="angel-card-top">
       <div style="display: flex;align-items: center;justify-content: space-between;margin-bottom: 15px">
         <div>客户开票信息</div>
+        <div>
+          <el-button type="primary" @click="createInvoice">申请开票</el-button>
+        </div>
       </div>
       <el-table :data="invoice" border>
         <el-table-column label="开户行" align="center" key="code" prop="code"/>
@@ -197,7 +196,6 @@ export default {
       this.openAddress = true
     },
     createInvoice() {
-      this.openInvoice = true
     },
     submitFormAddress() {
       this.$refs["form"].validate(valid => {

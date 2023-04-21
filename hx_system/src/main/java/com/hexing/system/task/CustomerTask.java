@@ -55,4 +55,10 @@ public class CustomerTask {
             });
         }
     }
+
+    public  void getPayback(){
+        String result = httpKit.getData("ZLVY_KUHK");
+        log.error(result);
+    }
+
 }

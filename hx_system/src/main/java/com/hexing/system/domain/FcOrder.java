@@ -57,7 +57,7 @@ public class FcOrder extends BaseEntity {
     /**
     * 订单金额
     */
-    private String ammount;
+    private String amount;
     /**
     * 税率
     */
