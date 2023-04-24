@@ -16,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-
 public class HttpKit {
 
     @Value("${hexing.task.domain}")

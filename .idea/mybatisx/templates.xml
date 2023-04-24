@@ -42,54 +42,6 @@
                   <option name="className" value="FcCustomerInvoice" />
                   <option name="tableName" value="fc_customer_invoice" />
                 </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="FcMessage" />
-                  <option name="tableName" value="fc_message" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="FcOrder" />
-                  <option name="tableName" value="fc_order" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="FcOrderConsignment" />
-                  <option name="tableName" value="fc_order_consignment" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="FcOrderConsignmentDetail" />
-                  <option name="tableName" value="fc_order_consignment_detail" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="FcOrderInvoice" />
-                  <option name="tableName" value="fc_order_invoice" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="FcOrderInvoiceDetail" />
-                  <option name="tableName" value="fc_order_invoice_detail" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="FcOrderPayMilestone" />
-                  <option name="tableName" value="fc_order_pay_milestone" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="FcOrderProduct" />
-                  <option name="tableName" value="fc_order_product" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="FcPayment" />
-                  <option name="tableName" value="fc_payment" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="FcPaymentClaim" />
-                  <option name="tableName" value="fc_payment_claim" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="FcPaymentClaimDetail" />
-                  <option name="tableName" value="fc_payment_claim_detail" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="FcSapPushLog" />
-                  <option name="tableName" value="fc_sap_push_log" />
-                </TableUIInfo>
               </list>
             </option>
             <option name="templatesName" value="custom-model-swagger" />

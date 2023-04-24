@@ -1,18 +1,17 @@
 package com.hexing.web.controller.customer;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import cn.dev33.satoken.secure.BCrypt;
 import com.hexing.common.annotation.Log;
 import com.hexing.common.core.controller.BaseController;
 import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.domain.R;
-import com.hexing.common.core.domain.entity.SysUser;
 import com.hexing.common.core.page.TableDataInfo;
 import com.hexing.common.enums.BusinessType;
-import com.hexing.common.utils.StringUtils;
 import com.hexing.system.domain.FcCustomer;
 import com.hexing.system.domain.FcCustomerConsignment;
+import com.hexing.system.domain.FcCustomerInvoice;
 import com.hexing.system.service.IFcCustomerConsignmentService;
+import com.hexing.system.service.IFcCustomerInvoiceService;
 import com.hexing.system.service.IFcCustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -32,6 +31,8 @@ public class CustomerController extends BaseController {
     private final IFcCustomerService iFcCustomerService;
 
     private final IFcCustomerConsignmentService iFcCustomerConsignmentService;
+
+    private final IFcCustomerInvoiceService iFcCustomerInvoiceService;
 
 
     /**
@@ -79,6 +80,34 @@ public class CustomerController extends BaseController {
     @DeleteMapping("/deleteAddress")
     public R<Void> deleteAddress(@Validated @RequestBody FcCustomerConsignment fcCustomerConsignment) {
         return toAjax(iFcCustomerConsignmentService.removeFcCustomerConsignment(fcCustomerConsignment.getId()));
+    }
+
+    @SaCheckPermission("customer:openbank:add")
+    @Log(title = "新增客户开户行信息", businessType = BusinessType.INSERT)
+    @PostMapping("/addOpenBank")
+    public R<Void> addOpenBank(@Validated @RequestBody FcCustomerInvoice FcCustomerInvoice) {
+        return toAjax(iFcCustomerInvoiceService.saveFcCustomerInvoice(FcCustomerInvoice));
+    }
+
+    @SaCheckPermission("customer:openbank:update")
+    @Log(title = "修改开户行信息", businessType = BusinessType.UPDATE)
+    @PutMapping("/updateOpenBank")
+    public R<Void> updateOpenBank(@Validated @RequestBody FcCustomerInvoice fcCustomerInvoice) {
+        return toAjax(iFcCustomerInvoiceService.updateFcCustomerInvoice(fcCustomerInvoice));
+    }
+
+    @SaCheckPermission("customer:openbank:list")
+    @Log(title = "获取开户行信息", businessType = BusinessType.EXPORT)
+    @PostMapping("/getOpenBank")
+    public R<List<FcCustomerInvoice>> getOpenBank(@RequestBody FcCustomerInvoice fcCustomerInvoice) {
+        return R.ok(iFcCustomerInvoiceService.listFcCustomerInvoice(fcCustomerInvoice.getCustomerId()));
+    }
+
+    @SaCheckPermission("customer:openbank:remove")
+    @Log(title = "删除开户行信息", businessType = BusinessType.DELETE)
+    @DeleteMapping("/removeOpenBank")
+    public R<Void> removeOpenBank(@Validated @RequestBody FcCustomerInvoice fcCustomerInvoice) {
+        return toAjax(iFcCustomerInvoiceService.removeFcCustomerInvoice(fcCustomerInvoice));
     }
 
 

@@ -1,6 +1,9 @@
 package com.hexing.system.domain.form;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * @author firerock_tech
@@ -21,7 +24,8 @@ public class OrderForm {
     private String zywlx;
     private String kunnrBp;
     private String vbeln;
-    private String vdatu;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date vdatu;
     private String vkbur;
     private String zgj;
     private String kunnrSh;
@@ -29,6 +33,7 @@ public class OrderForm {
     private String zmeng;
     private String auart;
     private String kunnrSp;
+    private String kunnrSpT;
     private String zltcso;
     private String vtweg;
     private String spart;
@@ -39,4 +44,11 @@ public class OrderForm {
     private String zspare2;
     private String zywzl;
     private String vkorg;
+    private String amount;
+    private String zsj;
+    private String kunnrPyT;
+    private String kunnrBpT;
+
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date erdat;
 }

@@ -15,6 +15,7 @@ export function getCustomer(cid) {
     method: 'get'
   })
 }
+
 export function addAddress(data) {
   return request({
     url: '/customer/addAddress',
@@ -30,6 +31,7 @@ export function getAddress(data) {
     data: data
   })
 }
+
 export function updateAddress(data) {
   return request({
     url: '/customer/updateAddress',
@@ -37,9 +39,42 @@ export function updateAddress(data) {
     data: data
   })
 }
+
 export function delAddress(aid) {
   return request({
     url: '/customer/deleteAddress/' + aid,
     method: 'delete'
+  })
+}
+
+export function addOpenBank(data) {
+  return request({
+    url: '/customer/addOpenBank',
+    method: 'post',
+    data: data
+  })
+}
+
+export function updateOpenBank(data) {
+  return request({
+    url: '/customer/updateOpenBank',
+    method: 'put',
+    data: data
+  })
+}
+
+export function getOpenBank(data) {
+  return request({
+    url: '/customer/getOpenBank',
+    method: 'post',
+    data: data
+  })
+}
+
+export function delOpeningBank(data) {
+  return request({
+    url: '/customer/removeOpenBank/',
+    method: 'delete',
+    data: data
   })
 }

@@ -17,7 +17,18 @@ public interface IFcCustomerService {
      */
     int saveCustomer(CustomerForm fcCustomer);
 
+    /**
+     * 获取客户详情
+     * @param id
+     * @return
+     */
     FcCustomer getCustomerById(String id);
 
+    /**
+     *获取客户列表
+     * @param fcCustomer
+     * @param pageQuery
+     * @return
+     */
     TableDataInfo<FcCustomer> listCustomer(FcCustomer fcCustomer, PageQuery pageQuery);
 }

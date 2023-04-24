@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="angel-card-top">
-      <div style="display: flex;align-items: center;justify-content: space-between;margin-bottom: 15px">
+      <div style="display: flex;align-items: center;margin-bottom: 15px">
         <div>客户收货信息</div>
         <el-button type="primary" @click="createAddress" style="margin-left: 15px">创建</el-button>
       </div>
@@ -50,16 +50,18 @@
       </el-table>
     </div>
     <div class="angel-card-top">
-      <div style="display: flex;align-items: center;justify-content: space-between;margin-bottom: 15px">
-        <div>客户开票信息</div>
+      <div style="display: flex;align-items: center;margin-bottom: 15px">
+        <div>客户开户行信息</div>
         <div>
-          <el-button type="primary" @click="createInvoice">申请开票</el-button>
+          <el-button type="primary" @click="createInvoice" style="margin-left: 15px"
+                     v-hasPermi="['customer:openbank:add']">创建
+          </el-button>
         </div>
       </div>
       <el-table :data="invoice" border>
-        <el-table-column label="开户行" align="center" key="code" prop="code"/>
-        <el-table-column label="账户" align="center" key="code" prop="code"/>
-        <el-table-column label="地址" align="center" key="code" prop="code"/>
+        <el-table-column label="开户行" align="center" key="openingBank" prop="openingBank"/>
+        <el-table-column label="账户" align="center" key="account" prop="account"/>
+        <el-table-column label="地址" align="center" key="address" prop="address"/>
         <el-table-column
           label="操作"
           align="center"
@@ -70,16 +72,16 @@
               size="mini"
               type="text"
               icon="el-icon-edit"
-              @click="updateAddress(scope.row)"
-              v-hasPermi="['customer:address:add']"
+              @click="updateInvoice(scope.row)"
+              v-hasPermi="['customer:openbank:update']"
             >编辑
             </el-button>
             <el-button
               size="mini"
               type="text"
               icon="el-icon-edit"
-              @click="detail(scope.row)"
-              v-hasPermi="['system:user:edit']"
+              @click="removeInvoice(scope.row)"
+              v-hasPermi="['customer:openbank:remove']"
             >删除
             </el-button>
           </template>
@@ -111,27 +113,35 @@
       </div>
     </el-dialog>
     <el-dialog :title="invoiceTitle" :visible.sync="openInvoice" width="600px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="100px" label-position="left">
-        <el-form-item label="开户行" prop="name">
-          <el-input v-model="form.name" placeholder="请输入" maxlength="30"/>
+      <el-form ref="invoiceForm" :model="invoiceForm" :rules="invoiceRules" label-width="100px" label-position="left">
+        <el-form-item label="开户行" prop="openingBank">
+          <el-input v-model="invoiceForm.openingBank" placeholder="请输入" maxlength="30"/>
         </el-form-item>
-        <el-form-item label="账号" prop="phone">
-          <el-input v-model="form.phone" placeholder="请输入" maxlength="11"/>
+        <el-form-item label="账号" prop="account">
+          <el-input v-model="invoiceForm.account" placeholder="请输入"/>
         </el-form-item>
         <el-form-item label="开户行地址" prop="address">
-          <el-input v-model="form.address" placeholder="请输入" maxlength="50"/>
+          <el-input v-model="invoiceForm.address" placeholder="请输入" maxlength="50"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitInvoice">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
+        <el-button @click="cancelInvoice">取 消</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import {addAddress, delAddress, getAddress, getCustomer, updateAddress} from "@/api/customer";
+import {
+  addAddress,
+  addOpenBank,
+  delAddress, delOpeningBank,
+  getAddress,
+  getCustomer, getOpenBank,
+  updateAddress,
+  updateOpenBank
+} from "@/api/customer";
 import RegionSelect from "@/components/Forms/RegionSelect.vue";
 
 export default {
@@ -147,6 +157,7 @@ export default {
       openAddress: false,
       openInvoice: false,
       form: {},
+      invoiceForm: {},
       rules: {
         name: [
           {required: true, message: "请输入收货人", trigger: "blur"}
@@ -160,14 +171,27 @@ export default {
         address: [
           {required: true, message: "请选择收货地区", trigger: "blur"}
         ],
+      },
+      invoiceRules: {
+        openingBank: [
+          {required: true, message: "请输入开户行", trigger: "blur"}
+        ],
+        account: [
+          {required: true, message: "请输入账号", trigger: "blur"}
+        ],
+        address: [
+          {required: true, message: "请选择开户行地址", trigger: "blur"}
+        ],
       }
     }
   },
   created() {
     const cid = this.$route.params.cid;
     this.form.customerId = cid;
+    this.invoiceForm.customerId = cid;
     this.detail(cid)
     this.getAddress()
+    this.getInvoiceList()
   },
   methods: {
     close() {
@@ -195,7 +219,15 @@ export default {
       this.form = row
       this.openAddress = true
     },
+    updateInvoice(row) {
+      this.invoiceTitle = "编辑开户行"
+      this.reset()
+      this.invoiceForm = row
+      this.openInvoice = true
+    },
     createInvoice() {
+      this.invoiceTitle = "新增开户行"
+      this.openInvoice = true
     },
     submitFormAddress() {
       this.$refs["form"].validate(valid => {
@@ -216,8 +248,32 @@ export default {
         }
       })
     },
-    submitInvoice(){
-
+    getInvoiceList() {
+      const params = {
+        customerId: this.invoiceForm.customerId
+      }
+      getOpenBank(params).then(res => {
+        this.invoice = res.data
+      })
+    },
+    submitInvoice() {
+      this.$refs["invoiceForm"].validate(valid => {
+        if (valid) {
+          if (this.invoiceForm.id == undefined) {
+            addOpenBank(this.invoiceForm).then(res => {
+              this.$modal.msgSuccess("创建成功");
+              this.openInvoice = false;
+              this.getInvoiceList();
+            })
+          } else {
+            updateOpenBank(this.invoiceForm).then(res => {
+              this.$modal.msgSuccess("修改成功");
+              this.openInvoice = false;
+              this.getInvoiceList();
+            })
+          }
+        }
+      })
     },
     handleDelete(row) {
       this.$modal.confirm('是否确认删除地址为"' + row.location + '"的数据项？').then(function () {
@@ -228,11 +284,24 @@ export default {
       }).catch(() => {
       });
     },
+    removeInvoice(row) {
+      this.$modal.confirm('是否确认删除开户行为"' + row.openingBank + '"的数据项？').then(function () {
+        return delOpeningBank(row);
+      }).then(() => {
+        this.$modal.msgSuccess("删除成功");
+        this.getInvoiceList();
+      }).catch(() => {
+      });
+    },
     reset() {
       this.resetForm("form");
+      this.resetForm("invoiceForm")
     },
     cancel() {
       this.openAddress = false
+    },
+    cancelInvoice() {
+      this.openInvoice = false
     }
   }
 }
