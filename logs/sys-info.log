@@ -1,19 +1,19 @@
-2023-04-21 15:42:16 [main] INFO  o.s.b.d.r.RestartApplicationListener - Restart disabled due to System property 'spring.devtools.restart.enabled' being set to false
-2023-04-21 15:42:16 [main] INFO  com.hexing.HxApplication - Starting HxApplication using Java 1.8.0_332 on yungengdeMBP with PID 11185 (/Users/yungeng/Documents/GitHub/hx_contract/hx_manager/target/classes started by yungeng in /Users/yungeng/Documents/GitHub/hx_contract)
-2023-04-21 15:42:16 [main] INFO  com.hexing.HxApplication - The following 1 profile is active: "dev"
-2023-04-21 15:42:16 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
-2023-04-21 15:42:17 [main] INFO  io.undertow.servlet - Initializing Spring embedded WebApplicationContext
-2023-04-21 15:42:18 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource detect P6SPY plugin and enabled it
-2023-04-21 15:42:18 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
-2023-04-21 15:42:18 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
-2023-04-21 15:42:18 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
-2023-04-21 15:42:18 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
-2023-04-21 15:42:18 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
-2023-04-21 15:42:19 [main] INFO  org.quartz.impl.StdSchedulerFactory - Using default implementation for ThreadExecutor
-2023-04-21 15:42:19 [main] INFO  o.quartz.core.SchedulerSignalerImpl - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
-2023-04-21 15:42:19 [main] INFO  org.quartz.core.QuartzScheduler - Quartz Scheduler v.2.3.2 created.
-2023-04-21 15:42:19 [main] INFO  org.quartz.simpl.RAMJobStore - RAMJobStore initialized.
-2023-04-21 15:42:19 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+2023-04-24 11:49:23 [main] INFO  o.s.b.d.r.RestartApplicationListener - Restart disabled due to System property 'spring.devtools.restart.enabled' being set to false
+2023-04-24 11:49:23 [main] INFO  com.hexing.HxApplication - Starting HxApplication using Java 1.8.0_332 on yungengdeMacBook-Pro.local with PID 14515 (/Users/yungeng/Documents/GitHub/hx_contract/hx_manager/target/classes started by yungeng in /Users/yungeng/Documents/GitHub/hx_contract)
+2023-04-24 11:49:23 [main] INFO  com.hexing.HxApplication - The following 1 profile is active: "dev"
+2023-04-24 11:49:23 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2023-04-24 11:49:25 [main] INFO  io.undertow.servlet - Initializing Spring embedded WebApplicationContext
+2023-04-24 11:49:25 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource detect P6SPY plugin and enabled it
+2023-04-24 11:49:25 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2023-04-24 11:49:25 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2023-04-24 11:49:25 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2023-04-24 11:49:25 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2023-04-24 11:49:25 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2023-04-24 11:49:26 [main] INFO  org.quartz.impl.StdSchedulerFactory - Using default implementation for ThreadExecutor
+2023-04-24 11:49:26 [main] INFO  o.quartz.core.SchedulerSignalerImpl - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2023-04-24 11:49:26 [main] INFO  org.quartz.core.QuartzScheduler - Quartz Scheduler v.2.3.2 created.
+2023-04-24 11:49:26 [main] INFO  org.quartz.simpl.RAMJobStore - RAMJobStore initialized.
+2023-04-24 11:49:26 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
   Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
   NOT STARTED.
   Currently in standby mode.
@@ -21,55 +21,55 @@
   Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
   Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
 
-2023-04-21 15:42:19 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
-2023-04-21 15:42:19 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler version: 2.3.2
-2023-04-21 15:42:19 [main] INFO  org.quartz.core.QuartzScheduler - JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@1e0294a7
-2023-04-21 15:42:19 [main] INFO  c.h.framework.config.JacksonConfig - 初始化 jackson 配置
-2023-04-21 15:42:19 [main] INFO  c.h.framework.config.RedisConfig - 初始化 redis 配置
-2023-04-21 15:42:19 [main] INFO  org.redisson.Version - Redisson 3.20.0
-2023-04-21 15:42:19 [redisson-netty-2-6] INFO  o.r.c.p.MasterPubSubConnectionPool - 1 connections initialized for localhost/127.0.0.1:6379
-2023-04-21 15:42:19 [redisson-netty-2-4] INFO  o.r.c.pool.MasterConnectionPool - 8 connections initialized for localhost/127.0.0.1:6379
-2023-04-21 15:42:21 [main] INFO  o.a.e.c.DefaultActiviti5CompatibilityHandlerFactory - Activiti 5 compatibility handler implementation not found or error during instantiation : org.activiti.compatibility.DefaultActiviti5CompatibilityHandler. Activiti 5 backwards compatibility disabled.
-2023-04-21 15:42:21 [main] INFO  o.a.engine.impl.ProcessEngineImpl - ProcessEngine default created
-2023-04-21 15:42:22 [main] INFO  io.undertow - starting server: Undertow - 2.2.23.Final
-2023-04-21 15:42:22 [main] INFO  org.xnio - XNIO version 3.8.7.Final
-2023-04-21 15:42:22 [main] INFO  org.xnio.nio - XNIO NIO Implementation Version 3.8.7.Final
-2023-04-21 15:42:22 [main] INFO  org.jboss.threads - JBoss Threads version 3.1.0.Final
-2023-04-21 15:42:22 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED started.
-2023-04-21 15:42:22 [main] INFO  com.hexing.HxApplication - Started HxApplication in 6.448 seconds (JVM running for 7.063)
-2023-04-21 15:42:22 [main] INFO  c.h.s.runner.SystemApplicationRunner - 初始化OSS配置成功
-2023-04-21 15:42:22 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载参数缓存数据成功
-2023-04-21 15:42:22 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载字典缓存数据成功
-2023-04-21 15:42:22 [RMI TCP Connection(1)-192.168.31.69] INFO  io.undertow.servlet - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2023-04-21 15:44:28 [XNIO-1 task-1] INFO  c.h.f.listener.UserActionListener - user doLogin, userId:sys_user:1, token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxIiwicm5TdHIiOiJob0o2ckMwWWRVZjU2ekp5YjlhRmdtUVVvTVBjOWQ1eSIsInVzZXJJZCI6MX0.4D9BAnu0ayDawaW3PpbievzUs_SDcyBYhkhN0zbjbjQ
-2023-04-21 15:44:28 [schedule-pool-1] INFO  c.h.s.s.i.SysLogininforServiceImpl - [127.0.0.1]内网IP[admin][Success][登录成功]
-2023-04-21 15:47:53 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
-2023-04-21 15:47:53 [SpringApplicationShutdownHook] INFO  io.undertow - stopping server: Undertow - 2.2.23.Final
-2023-04-21 15:47:53 [SpringApplicationShutdownHook] INFO  io.undertow.servlet - Destroying Spring FrameworkServlet 'dispatcherServlet'
-2023-04-21 15:47:53 [SpringApplicationShutdownHook] INFO  c.h.f.manager.ShutdownManager - ====关闭后台任务任务线程池====
-2023-04-21 15:47:53 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
-2023-04-21 15:47:53 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
-2023-04-21 15:47:53 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
-2023-04-21 15:47:53 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource start closing ....
-2023-04-21 15:47:53 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
-2023-04-21 15:47:53 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
-2023-04-21 15:47:53 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
-2023-04-21 15:47:58 [main] INFO  o.s.b.d.r.RestartApplicationListener - Restart disabled due to System property 'spring.devtools.restart.enabled' being set to false
-2023-04-21 15:47:58 [main] INFO  com.hexing.HxApplication - Starting HxApplication using Java 1.8.0_332 on yungengdeMBP with PID 11340 (/Users/yungeng/Documents/GitHub/hx_contract/hx_manager/target/classes started by yungeng in /Users/yungeng/Documents/GitHub/hx_contract)
-2023-04-21 15:47:58 [main] INFO  com.hexing.HxApplication - The following 1 profile is active: "dev"
-2023-04-21 15:47:58 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
-2023-04-21 15:48:00 [main] INFO  io.undertow.servlet - Initializing Spring embedded WebApplicationContext
-2023-04-21 15:48:00 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource detect P6SPY plugin and enabled it
-2023-04-21 15:48:00 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
-2023-04-21 15:48:00 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
-2023-04-21 15:48:00 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
-2023-04-21 15:48:00 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
-2023-04-21 15:48:00 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
-2023-04-21 15:48:01 [main] INFO  org.quartz.impl.StdSchedulerFactory - Using default implementation for ThreadExecutor
-2023-04-21 15:48:01 [main] INFO  o.quartz.core.SchedulerSignalerImpl - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
-2023-04-21 15:48:01 [main] INFO  org.quartz.core.QuartzScheduler - Quartz Scheduler v.2.3.2 created.
-2023-04-21 15:48:01 [main] INFO  org.quartz.simpl.RAMJobStore - RAMJobStore initialized.
-2023-04-21 15:48:01 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+2023-04-24 11:49:26 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2023-04-24 11:49:26 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler version: 2.3.2
+2023-04-24 11:49:26 [main] INFO  org.quartz.core.QuartzScheduler - JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@333e5fb6
+2023-04-24 11:49:26 [main] INFO  c.h.framework.config.JacksonConfig - 初始化 jackson 配置
+2023-04-24 11:49:26 [main] INFO  c.h.framework.config.RedisConfig - 初始化 redis 配置
+2023-04-24 11:49:26 [main] INFO  org.redisson.Version - Redisson 3.20.0
+2023-04-24 11:49:26 [redisson-netty-2-7] INFO  o.r.c.p.MasterPubSubConnectionPool - 1 connections initialized for localhost/127.0.0.1:6379
+2023-04-24 11:49:26 [redisson-netty-2-4] INFO  o.r.c.pool.MasterConnectionPool - 8 connections initialized for localhost/127.0.0.1:6379
+2023-04-24 11:49:28 [main] INFO  o.a.e.c.DefaultActiviti5CompatibilityHandlerFactory - Activiti 5 compatibility handler implementation not found or error during instantiation : org.activiti.compatibility.DefaultActiviti5CompatibilityHandler. Activiti 5 backwards compatibility disabled.
+2023-04-24 11:49:28 [main] INFO  o.a.engine.impl.ProcessEngineImpl - ProcessEngine default created
+2023-04-24 11:49:29 [main] INFO  io.undertow - starting server: Undertow - 2.2.23.Final
+2023-04-24 11:49:29 [main] INFO  org.xnio - XNIO version 3.8.7.Final
+2023-04-24 11:49:29 [main] INFO  org.xnio.nio - XNIO NIO Implementation Version 3.8.7.Final
+2023-04-24 11:49:29 [main] INFO  org.jboss.threads - JBoss Threads version 3.1.0.Final
+2023-04-24 11:49:30 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2023-04-24 11:49:30 [main] INFO  com.hexing.HxApplication - Started HxApplication in 6.78 seconds (JVM running for 7.217)
+2023-04-24 11:49:30 [main] INFO  c.h.s.runner.SystemApplicationRunner - 初始化OSS配置成功
+2023-04-24 11:49:30 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载参数缓存数据成功
+2023-04-24 11:49:30 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载字典缓存数据成功
+2023-04-24 11:49:30 [RMI TCP Connection(2)-127.0.0.1] INFO  io.undertow.servlet - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-04-24 11:50:05 [XNIO-1 task-1] INFO  c.h.f.listener.UserActionListener - user doLogin, userId:sys_user:1, token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxIiwicm5TdHIiOiJjU01RVW5RNVhqaGVCbFkyZkRBRGthVWVDdjJhWHFTTCIsInVzZXJJZCI6MX0.1lI5SeXI-LN49G9Fp7Tmn31l7UWUZk3OgImE0R5RqBQ
+2023-04-24 11:50:05 [schedule-pool-1] INFO  c.h.s.s.i.SysLogininforServiceImpl - [127.0.0.1]内网IP[admin][Success][登录成功]
+2023-04-24 14:12:27 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2023-04-24 14:12:27 [SpringApplicationShutdownHook] INFO  io.undertow - stopping server: Undertow - 2.2.23.Final
+2023-04-24 14:12:27 [SpringApplicationShutdownHook] INFO  io.undertow.servlet - Destroying Spring FrameworkServlet 'dispatcherServlet'
+2023-04-24 14:12:27 [SpringApplicationShutdownHook] INFO  c.h.f.manager.ShutdownManager - ====关闭后台任务任务线程池====
+2023-04-24 14:12:27 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2023-04-24 14:12:27 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2023-04-24 14:12:27 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2023-04-24 14:12:27 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2023-04-24 14:12:27 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2023-04-24 14:12:27 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2023-04-24 14:12:27 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2023-04-24 14:12:37 [main] INFO  o.s.b.d.r.RestartApplicationListener - Restart disabled due to System property 'spring.devtools.restart.enabled' being set to false
+2023-04-24 14:12:37 [main] INFO  com.hexing.HxApplication - Starting HxApplication using Java 1.8.0_332 on yungengdeMacBook-Pro.local with PID 21388 (/Users/yungeng/Documents/GitHub/hx_contract/hx_manager/target/classes started by yungeng in /Users/yungeng/Documents/GitHub/hx_contract)
+2023-04-24 14:12:37 [main] INFO  com.hexing.HxApplication - The following 1 profile is active: "dev"
+2023-04-24 14:12:37 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2023-04-24 14:12:38 [main] INFO  io.undertow.servlet - Initializing Spring embedded WebApplicationContext
+2023-04-24 14:12:38 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource detect P6SPY plugin and enabled it
+2023-04-24 14:12:38 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2023-04-24 14:12:39 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2023-04-24 14:12:39 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2023-04-24 14:12:39 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2023-04-24 14:12:39 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2023-04-24 14:12:40 [main] INFO  org.quartz.impl.StdSchedulerFactory - Using default implementation for ThreadExecutor
+2023-04-24 14:12:40 [main] INFO  o.quartz.core.SchedulerSignalerImpl - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2023-04-24 14:12:40 [main] INFO  org.quartz.core.QuartzScheduler - Quartz Scheduler v.2.3.2 created.
+2023-04-24 14:12:40 [main] INFO  org.quartz.simpl.RAMJobStore - RAMJobStore initialized.
+2023-04-24 14:12:40 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
   Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
   NOT STARTED.
   Currently in standby mode.
@@ -77,53 +77,57 @@
   Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
   Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
 
-2023-04-21 15:48:01 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
-2023-04-21 15:48:01 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler version: 2.3.2
-2023-04-21 15:48:01 [main] INFO  org.quartz.core.QuartzScheduler - JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@6f1d799
-2023-04-21 15:48:01 [main] INFO  c.h.framework.config.JacksonConfig - 初始化 jackson 配置
-2023-04-21 15:48:02 [main] INFO  c.h.framework.config.RedisConfig - 初始化 redis 配置
-2023-04-21 15:48:02 [main] INFO  org.redisson.Version - Redisson 3.20.0
-2023-04-21 15:48:02 [redisson-netty-2-7] INFO  o.r.c.p.MasterPubSubConnectionPool - 1 connections initialized for localhost/127.0.0.1:6379
-2023-04-21 15:48:02 [redisson-netty-2-4] INFO  o.r.c.pool.MasterConnectionPool - 8 connections initialized for localhost/127.0.0.1:6379
-2023-04-21 15:48:03 [main] INFO  o.a.e.c.DefaultActiviti5CompatibilityHandlerFactory - Activiti 5 compatibility handler implementation not found or error during instantiation : org.activiti.compatibility.DefaultActiviti5CompatibilityHandler. Activiti 5 backwards compatibility disabled.
-2023-04-21 15:48:03 [main] INFO  o.a.engine.impl.ProcessEngineImpl - ProcessEngine default created
-2023-04-21 15:48:04 [main] INFO  io.undertow - starting server: Undertow - 2.2.23.Final
-2023-04-21 15:48:04 [main] INFO  org.xnio - XNIO version 3.8.7.Final
-2023-04-21 15:48:04 [main] INFO  org.xnio.nio - XNIO NIO Implementation Version 3.8.7.Final
-2023-04-21 15:48:04 [main] INFO  org.jboss.threads - JBoss Threads version 3.1.0.Final
-2023-04-21 15:48:04 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED started.
-2023-04-21 15:48:04 [main] INFO  com.hexing.HxApplication - Started HxApplication in 6.077 seconds (JVM running for 6.49)
-2023-04-21 15:48:04 [main] INFO  c.h.s.runner.SystemApplicationRunner - 初始化OSS配置成功
-2023-04-21 15:48:04 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载参数缓存数据成功
-2023-04-21 15:48:04 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载字典缓存数据成功
-2023-04-21 15:48:05 [RMI TCP Connection(2)-192.168.31.69] INFO  io.undertow.servlet - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2023-04-21 15:49:44 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
-2023-04-21 15:49:44 [SpringApplicationShutdownHook] INFO  io.undertow - stopping server: Undertow - 2.2.23.Final
-2023-04-21 15:49:44 [SpringApplicationShutdownHook] INFO  io.undertow.servlet - Destroying Spring FrameworkServlet 'dispatcherServlet'
-2023-04-21 15:49:44 [SpringApplicationShutdownHook] INFO  c.h.f.manager.ShutdownManager - ====关闭后台任务任务线程池====
-2023-04-21 15:49:44 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
-2023-04-21 15:49:44 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
-2023-04-21 15:49:44 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
-2023-04-21 15:49:44 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource start closing ....
-2023-04-21 15:49:44 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
-2023-04-21 15:49:44 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
-2023-04-21 15:49:44 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
-2023-04-21 15:49:49 [main] INFO  o.s.b.d.r.RestartApplicationListener - Restart disabled due to System property 'spring.devtools.restart.enabled' being set to false
-2023-04-21 15:49:49 [main] INFO  com.hexing.HxApplication - Starting HxApplication using Java 1.8.0_332 on yungengdeMBP with PID 11394 (/Users/yungeng/Documents/GitHub/hx_contract/hx_manager/target/classes started by yungeng in /Users/yungeng/Documents/GitHub/hx_contract)
-2023-04-21 15:49:49 [main] INFO  com.hexing.HxApplication - The following 1 profile is active: "dev"
-2023-04-21 15:49:49 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
-2023-04-21 15:49:51 [main] INFO  io.undertow.servlet - Initializing Spring embedded WebApplicationContext
-2023-04-21 15:49:51 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource detect P6SPY plugin and enabled it
-2023-04-21 15:49:51 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
-2023-04-21 15:49:51 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
-2023-04-21 15:49:51 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
-2023-04-21 15:49:51 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
-2023-04-21 15:49:51 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
-2023-04-21 15:49:52 [main] INFO  org.quartz.impl.StdSchedulerFactory - Using default implementation for ThreadExecutor
-2023-04-21 15:49:52 [main] INFO  o.quartz.core.SchedulerSignalerImpl - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
-2023-04-21 15:49:52 [main] INFO  org.quartz.core.QuartzScheduler - Quartz Scheduler v.2.3.2 created.
-2023-04-21 15:49:52 [main] INFO  org.quartz.simpl.RAMJobStore - RAMJobStore initialized.
-2023-04-21 15:49:52 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+2023-04-24 14:12:40 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2023-04-24 14:12:40 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler version: 2.3.2
+2023-04-24 14:12:40 [main] INFO  org.quartz.core.QuartzScheduler - JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@3451fc88
+2023-04-24 14:12:40 [main] INFO  c.h.framework.config.JacksonConfig - 初始化 jackson 配置
+2023-04-24 14:12:40 [main] INFO  c.h.framework.config.RedisConfig - 初始化 redis 配置
+2023-04-24 14:12:40 [main] INFO  org.redisson.Version - Redisson 3.20.0
+2023-04-24 14:12:40 [redisson-netty-2-6] INFO  o.r.c.p.MasterPubSubConnectionPool - 1 connections initialized for localhost/127.0.0.1:6379
+2023-04-24 14:12:40 [redisson-netty-2-4] INFO  o.r.c.pool.MasterConnectionPool - 8 connections initialized for localhost/127.0.0.1:6379
+2023-04-24 14:12:42 [main] INFO  o.a.e.c.DefaultActiviti5CompatibilityHandlerFactory - Activiti 5 compatibility handler implementation not found or error during instantiation : org.activiti.compatibility.DefaultActiviti5CompatibilityHandler. Activiti 5 backwards compatibility disabled.
+2023-04-24 14:12:42 [main] INFO  o.a.engine.impl.ProcessEngineImpl - ProcessEngine default created
+2023-04-24 14:12:43 [main] INFO  io.undertow - starting server: Undertow - 2.2.23.Final
+2023-04-24 14:12:43 [main] INFO  org.xnio - XNIO version 3.8.7.Final
+2023-04-24 14:12:43 [main] INFO  org.xnio.nio - XNIO NIO Implementation Version 3.8.7.Final
+2023-04-24 14:12:43 [main] INFO  org.jboss.threads - JBoss Threads version 3.1.0.Final
+2023-04-24 14:12:43 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2023-04-24 14:12:43 [main] INFO  com.hexing.HxApplication - Started HxApplication in 6.786 seconds (JVM running for 7.233)
+2023-04-24 14:12:43 [main] INFO  c.h.s.runner.SystemApplicationRunner - 初始化OSS配置成功
+2023-04-24 14:12:43 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载参数缓存数据成功
+2023-04-24 14:12:43 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载字典缓存数据成功
+2023-04-24 14:12:43 [RMI TCP Connection(1)-127.0.0.1] INFO  io.undertow.servlet - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-04-24 14:12:54 [XNIO-1 task-1] INFO  c.h.f.listener.UserActionListener - user doLogin, userId:sys_user:1, token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxIiwicm5TdHIiOiJiamlQbWRjdFlyZXdJZzN0aURvWmVqdFAzbGEyd1lhQiIsInVzZXJJZCI6MX0.kkL9zHsMmFLTco3Uei5KS12r9FIFE0yDZ5l7qKlxC2E
+2023-04-24 14:12:54 [schedule-pool-1] INFO  c.h.s.s.i.SysLogininforServiceImpl - [127.0.0.1]内网IP[admin][Success][登录成功]
+2023-04-24 15:03:59 [XNIO-1 task-2] INFO  c.h.f.listener.UserActionListener - user doLogin, userId:sys_user:1, token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxIiwicm5TdHIiOiJINEdkbzVyNVJ0b3JwYWxrejBwV0Q0U1UzTWZDT2dnTyIsInVzZXJJZCI6MX0._cUD2pt6TgX5w5kkWJJbFo--nQIeXU5ZY8ow2JU7FPU
+2023-04-24 15:03:59 [schedule-pool-1] INFO  c.h.s.s.i.SysLogininforServiceImpl - [127.0.0.1]内网IP[admin][Success][登录成功]
+2023-04-24 15:09:56 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2023-04-24 15:09:56 [SpringApplicationShutdownHook] INFO  io.undertow - stopping server: Undertow - 2.2.23.Final
+2023-04-24 15:09:56 [SpringApplicationShutdownHook] INFO  io.undertow.servlet - Destroying Spring FrameworkServlet 'dispatcherServlet'
+2023-04-24 15:09:56 [SpringApplicationShutdownHook] INFO  c.h.f.manager.ShutdownManager - ====关闭后台任务任务线程池====
+2023-04-24 15:09:56 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2023-04-24 15:09:56 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2023-04-24 15:09:56 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2023-04-24 15:09:56 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2023-04-24 15:09:56 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2023-04-24 15:09:56 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2023-04-24 15:09:56 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2023-04-24 15:10:01 [main] INFO  o.s.b.d.r.RestartApplicationListener - Restart disabled due to System property 'spring.devtools.restart.enabled' being set to false
+2023-04-24 15:10:02 [main] INFO  com.hexing.HxApplication - Starting HxApplication using Java 1.8.0_332 on yungengdeMacBook-Pro.local with PID 24885 (/Users/yungeng/Documents/GitHub/hx_contract/hx_manager/target/classes started by yungeng in /Users/yungeng/Documents/GitHub/hx_contract)
+2023-04-24 15:10:02 [main] INFO  com.hexing.HxApplication - The following 1 profile is active: "dev"
+2023-04-24 15:10:02 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2023-04-24 15:10:03 [main] INFO  io.undertow.servlet - Initializing Spring embedded WebApplicationContext
+2023-04-24 15:10:03 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource detect P6SPY plugin and enabled it
+2023-04-24 15:10:03 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2023-04-24 15:10:03 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2023-04-24 15:10:03 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2023-04-24 15:10:03 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2023-04-24 15:10:03 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2023-04-24 15:10:05 [main] INFO  org.quartz.impl.StdSchedulerFactory - Using default implementation for ThreadExecutor
+2023-04-24 15:10:05 [main] INFO  o.quartz.core.SchedulerSignalerImpl - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2023-04-24 15:10:05 [main] INFO  org.quartz.core.QuartzScheduler - Quartz Scheduler v.2.3.2 created.
+2023-04-24 15:10:05 [main] INFO  org.quartz.simpl.RAMJobStore - RAMJobStore initialized.
+2023-04-24 15:10:05 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
   Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
   NOT STARTED.
   Currently in standby mode.
@@ -131,53 +135,53 @@
   Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
   Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
 
-2023-04-21 15:49:52 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
-2023-04-21 15:49:52 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler version: 2.3.2
-2023-04-21 15:49:52 [main] INFO  org.quartz.core.QuartzScheduler - JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@6f1d799
-2023-04-21 15:49:52 [main] INFO  c.h.framework.config.JacksonConfig - 初始化 jackson 配置
-2023-04-21 15:49:52 [main] INFO  c.h.framework.config.RedisConfig - 初始化 redis 配置
-2023-04-21 15:49:52 [main] INFO  org.redisson.Version - Redisson 3.20.0
-2023-04-21 15:49:53 [redisson-netty-2-6] INFO  o.r.c.p.MasterPubSubConnectionPool - 1 connections initialized for localhost/127.0.0.1:6379
-2023-04-21 15:49:53 [redisson-netty-2-4] INFO  o.r.c.pool.MasterConnectionPool - 8 connections initialized for localhost/127.0.0.1:6379
-2023-04-21 15:49:54 [main] INFO  o.a.e.c.DefaultActiviti5CompatibilityHandlerFactory - Activiti 5 compatibility handler implementation not found or error during instantiation : org.activiti.compatibility.DefaultActiviti5CompatibilityHandler. Activiti 5 backwards compatibility disabled.
-2023-04-21 15:49:54 [main] INFO  o.a.engine.impl.ProcessEngineImpl - ProcessEngine default created
-2023-04-21 15:49:55 [main] INFO  io.undertow - starting server: Undertow - 2.2.23.Final
-2023-04-21 15:49:55 [main] INFO  org.xnio - XNIO version 3.8.7.Final
-2023-04-21 15:49:55 [main] INFO  org.xnio.nio - XNIO NIO Implementation Version 3.8.7.Final
-2023-04-21 15:49:55 [main] INFO  org.jboss.threads - JBoss Threads version 3.1.0.Final
-2023-04-21 15:49:55 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED started.
-2023-04-21 15:49:55 [main] INFO  com.hexing.HxApplication - Started HxApplication in 6.172 seconds (JVM running for 6.605)
-2023-04-21 15:49:55 [main] INFO  c.h.s.runner.SystemApplicationRunner - 初始化OSS配置成功
-2023-04-21 15:49:55 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载参数缓存数据成功
-2023-04-21 15:49:55 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载字典缓存数据成功
-2023-04-21 15:49:55 [RMI TCP Connection(2)-192.168.31.69] INFO  io.undertow.servlet - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2023-04-21 16:14:42 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
-2023-04-21 16:14:42 [SpringApplicationShutdownHook] INFO  io.undertow - stopping server: Undertow - 2.2.23.Final
-2023-04-21 16:14:42 [SpringApplicationShutdownHook] INFO  io.undertow.servlet - Destroying Spring FrameworkServlet 'dispatcherServlet'
-2023-04-21 16:14:42 [SpringApplicationShutdownHook] INFO  c.h.f.manager.ShutdownManager - ====关闭后台任务任务线程池====
-2023-04-21 16:14:42 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
-2023-04-21 16:14:42 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
-2023-04-21 16:14:42 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
-2023-04-21 16:14:42 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource start closing ....
-2023-04-21 16:14:42 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
-2023-04-21 16:14:42 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
-2023-04-21 16:14:42 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
-2023-04-21 16:57:46 [main] INFO  o.s.b.d.r.RestartApplicationListener - Restart disabled due to System property 'spring.devtools.restart.enabled' being set to false
-2023-04-21 16:57:46 [main] INFO  com.hexing.HxApplication - Starting HxApplication using Java 1.8.0_332 on yungengdeMBP with PID 2088 (/Users/yungeng/Documents/GitHub/hx_contract/hx_manager/target/classes started by yungeng in /Users/yungeng/Documents/GitHub/hx_contract)
-2023-04-21 16:57:46 [main] INFO  com.hexing.HxApplication - The following 1 profile is active: "dev"
-2023-04-21 16:57:46 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
-2023-04-21 16:57:48 [main] INFO  io.undertow.servlet - Initializing Spring embedded WebApplicationContext
-2023-04-21 16:57:48 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource detect P6SPY plugin and enabled it
-2023-04-21 16:57:48 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
-2023-04-21 16:57:48 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
-2023-04-21 16:57:48 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
-2023-04-21 16:57:48 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
-2023-04-21 16:57:48 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
-2023-04-21 16:57:49 [main] INFO  org.quartz.impl.StdSchedulerFactory - Using default implementation for ThreadExecutor
-2023-04-21 16:57:49 [main] INFO  o.quartz.core.SchedulerSignalerImpl - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
-2023-04-21 16:57:49 [main] INFO  org.quartz.core.QuartzScheduler - Quartz Scheduler v.2.3.2 created.
-2023-04-21 16:57:49 [main] INFO  org.quartz.simpl.RAMJobStore - RAMJobStore initialized.
-2023-04-21 16:57:49 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+2023-04-24 15:10:05 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2023-04-24 15:10:05 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler version: 2.3.2
+2023-04-24 15:10:05 [main] INFO  org.quartz.core.QuartzScheduler - JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@3fd33f48
+2023-04-24 15:10:05 [main] INFO  c.h.framework.config.JacksonConfig - 初始化 jackson 配置
+2023-04-24 15:10:05 [main] INFO  c.h.framework.config.RedisConfig - 初始化 redis 配置
+2023-04-24 15:10:05 [main] INFO  org.redisson.Version - Redisson 3.20.0
+2023-04-24 15:10:05 [redisson-netty-2-6] INFO  o.r.c.p.MasterPubSubConnectionPool - 1 connections initialized for localhost/127.0.0.1:6379
+2023-04-24 15:10:05 [redisson-netty-2-4] INFO  o.r.c.pool.MasterConnectionPool - 8 connections initialized for localhost/127.0.0.1:6379
+2023-04-24 15:10:07 [main] INFO  o.a.e.c.DefaultActiviti5CompatibilityHandlerFactory - Activiti 5 compatibility handler implementation not found or error during instantiation : org.activiti.compatibility.DefaultActiviti5CompatibilityHandler. Activiti 5 backwards compatibility disabled.
+2023-04-24 15:10:07 [main] INFO  o.a.engine.impl.ProcessEngineImpl - ProcessEngine default created
+2023-04-24 15:10:08 [main] INFO  io.undertow - starting server: Undertow - 2.2.23.Final
+2023-04-24 15:10:08 [main] INFO  org.xnio - XNIO version 3.8.7.Final
+2023-04-24 15:10:08 [main] INFO  org.xnio.nio - XNIO NIO Implementation Version 3.8.7.Final
+2023-04-24 15:10:08 [main] INFO  org.jboss.threads - JBoss Threads version 3.1.0.Final
+2023-04-24 15:10:08 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2023-04-24 15:10:08 [main] INFO  com.hexing.HxApplication - Started HxApplication in 6.893 seconds (JVM running for 7.419)
+2023-04-24 15:10:08 [main] INFO  c.h.s.runner.SystemApplicationRunner - 初始化OSS配置成功
+2023-04-24 15:10:08 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载参数缓存数据成功
+2023-04-24 15:10:08 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载字典缓存数据成功
+2023-04-24 15:10:09 [RMI TCP Connection(3)-192.168.31.70] INFO  io.undertow.servlet - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-04-24 15:51:57 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2023-04-24 15:51:57 [SpringApplicationShutdownHook] INFO  io.undertow - stopping server: Undertow - 2.2.23.Final
+2023-04-24 15:51:57 [SpringApplicationShutdownHook] INFO  io.undertow.servlet - Destroying Spring FrameworkServlet 'dispatcherServlet'
+2023-04-24 15:51:57 [SpringApplicationShutdownHook] INFO  c.h.f.manager.ShutdownManager - ====关闭后台任务任务线程池====
+2023-04-24 15:51:57 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2023-04-24 15:51:57 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2023-04-24 15:51:57 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2023-04-24 15:51:57 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2023-04-24 15:51:57 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2023-04-24 15:51:57 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2023-04-24 15:51:57 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2023-04-24 15:52:02 [main] INFO  o.s.b.d.r.RestartApplicationListener - Restart disabled due to System property 'spring.devtools.restart.enabled' being set to false
+2023-04-24 15:52:03 [main] INFO  com.hexing.HxApplication - Starting HxApplication using Java 1.8.0_332 on yungengdeMacBook-Pro.local with PID 26303 (/Users/yungeng/Documents/GitHub/hx_contract/hx_manager/target/classes started by yungeng in /Users/yungeng/Documents/GitHub/hx_contract)
+2023-04-24 15:52:03 [main] INFO  com.hexing.HxApplication - The following 1 profile is active: "dev"
+2023-04-24 15:52:03 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2023-04-24 15:52:04 [main] INFO  io.undertow.servlet - Initializing Spring embedded WebApplicationContext
+2023-04-24 15:52:04 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource detect P6SPY plugin and enabled it
+2023-04-24 15:52:04 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2023-04-24 15:52:04 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2023-04-24 15:52:04 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2023-04-24 15:52:04 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2023-04-24 15:52:04 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2023-04-24 15:52:05 [main] INFO  org.quartz.impl.StdSchedulerFactory - Using default implementation for ThreadExecutor
+2023-04-24 15:52:05 [main] INFO  o.quartz.core.SchedulerSignalerImpl - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2023-04-24 15:52:05 [main] INFO  org.quartz.core.QuartzScheduler - Quartz Scheduler v.2.3.2 created.
+2023-04-24 15:52:05 [main] INFO  org.quartz.simpl.RAMJobStore - RAMJobStore initialized.
+2023-04-24 15:52:05 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
   Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
   NOT STARTED.
   Currently in standby mode.
@@ -185,25 +189,349 @@
   Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
   Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
 
-2023-04-21 16:57:49 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
-2023-04-21 16:57:49 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler version: 2.3.2
-2023-04-21 16:57:49 [main] INFO  org.quartz.core.QuartzScheduler - JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@a120b9
-2023-04-21 16:57:49 [main] INFO  c.h.framework.config.JacksonConfig - 初始化 jackson 配置
-2023-04-21 16:57:49 [main] INFO  c.h.framework.config.RedisConfig - 初始化 redis 配置
-2023-04-21 16:57:49 [main] INFO  org.redisson.Version - Redisson 3.20.0
-2023-04-21 16:57:49 [redisson-netty-2-7] INFO  o.r.c.p.MasterPubSubConnectionPool - 1 connections initialized for localhost/127.0.0.1:6379
-2023-04-21 16:57:49 [redisson-netty-2-4] INFO  o.r.c.pool.MasterConnectionPool - 8 connections initialized for localhost/127.0.0.1:6379
-2023-04-21 16:57:51 [main] INFO  o.a.e.c.DefaultActiviti5CompatibilityHandlerFactory - Activiti 5 compatibility handler implementation not found or error during instantiation : org.activiti.compatibility.DefaultActiviti5CompatibilityHandler. Activiti 5 backwards compatibility disabled.
-2023-04-21 16:57:51 [main] INFO  o.a.engine.impl.ProcessEngineImpl - ProcessEngine default created
-2023-04-21 16:57:52 [main] INFO  io.undertow - starting server: Undertow - 2.2.23.Final
-2023-04-21 16:57:52 [main] INFO  org.xnio - XNIO version 3.8.7.Final
-2023-04-21 16:57:52 [main] INFO  org.xnio.nio - XNIO NIO Implementation Version 3.8.7.Final
-2023-04-21 16:57:52 [main] INFO  org.jboss.threads - JBoss Threads version 3.1.0.Final
-2023-04-21 16:57:52 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED started.
-2023-04-21 16:57:52 [main] INFO  com.hexing.HxApplication - Started HxApplication in 6.459 seconds (JVM running for 6.882)
-2023-04-21 16:57:53 [main] INFO  c.h.s.runner.SystemApplicationRunner - 初始化OSS配置成功
-2023-04-21 16:57:53 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载参数缓存数据成功
-2023-04-21 16:57:53 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载字典缓存数据成功
-2023-04-21 16:57:53 [RMI TCP Connection(9)-192.168.31.69] INFO  io.undertow.servlet - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2023-04-21 17:04:26 [XNIO-1 task-1] INFO  c.h.f.listener.UserActionListener - user doLogin, userId:sys_user:1, token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxIiwicm5TdHIiOiJCaExMT1F2b2NGVDVKQndkNndUaVlzQU1ZeW1sMk1KeiIsInVzZXJJZCI6MX0.Vaa4rCD6yaWuqw64_TU3fSYHa9pGq_-sLHvv4WHSCRc
-2023-04-21 17:04:26 [schedule-pool-1] INFO  c.h.s.s.i.SysLogininforServiceImpl - [127.0.0.1]内网IP[admin][Success][登录成功]
+2023-04-24 15:52:05 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2023-04-24 15:52:05 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler version: 2.3.2
+2023-04-24 15:52:05 [main] INFO  org.quartz.core.QuartzScheduler - JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@186481d4
+2023-04-24 15:52:06 [main] INFO  c.h.framework.config.JacksonConfig - 初始化 jackson 配置
+2023-04-24 15:52:06 [main] INFO  c.h.framework.config.RedisConfig - 初始化 redis 配置
+2023-04-24 15:52:06 [main] INFO  org.redisson.Version - Redisson 3.20.0
+2023-04-24 15:52:06 [redisson-netty-2-7] INFO  o.r.c.p.MasterPubSubConnectionPool - 1 connections initialized for localhost/127.0.0.1:6379
+2023-04-24 15:52:06 [redisson-netty-2-4] INFO  o.r.c.pool.MasterConnectionPool - 8 connections initialized for localhost/127.0.0.1:6379
+2023-04-24 15:52:08 [main] INFO  o.a.e.c.DefaultActiviti5CompatibilityHandlerFactory - Activiti 5 compatibility handler implementation not found or error during instantiation : org.activiti.compatibility.DefaultActiviti5CompatibilityHandler. Activiti 5 backwards compatibility disabled.
+2023-04-24 15:52:08 [main] INFO  o.a.engine.impl.ProcessEngineImpl - ProcessEngine default created
+2023-04-24 15:52:09 [main] INFO  io.undertow - starting server: Undertow - 2.2.23.Final
+2023-04-24 15:52:09 [main] INFO  org.xnio - XNIO version 3.8.7.Final
+2023-04-24 15:52:09 [main] INFO  org.xnio.nio - XNIO NIO Implementation Version 3.8.7.Final
+2023-04-24 15:52:09 [main] INFO  org.jboss.threads - JBoss Threads version 3.1.0.Final
+2023-04-24 15:52:09 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2023-04-24 15:52:09 [main] INFO  com.hexing.HxApplication - Started HxApplication in 6.569 seconds (JVM running for 7.019)
+2023-04-24 15:52:09 [main] INFO  c.h.s.runner.SystemApplicationRunner - 初始化OSS配置成功
+2023-04-24 15:52:09 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载参数缓存数据成功
+2023-04-24 15:52:09 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载字典缓存数据成功
+2023-04-24 15:52:09 [RMI TCP Connection(2)-127.0.0.1] INFO  io.undertow.servlet - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-04-24 16:05:14 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2023-04-24 16:05:14 [SpringApplicationShutdownHook] INFO  io.undertow - stopping server: Undertow - 2.2.23.Final
+2023-04-24 16:05:14 [SpringApplicationShutdownHook] INFO  io.undertow.servlet - Destroying Spring FrameworkServlet 'dispatcherServlet'
+2023-04-24 16:05:14 [SpringApplicationShutdownHook] INFO  c.h.f.manager.ShutdownManager - ====关闭后台任务任务线程池====
+2023-04-24 16:05:14 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2023-04-24 16:05:14 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2023-04-24 16:05:14 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2023-04-24 16:05:14 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2023-04-24 16:05:14 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2023-04-24 16:05:14 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2023-04-24 16:05:14 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2023-04-24 16:05:19 [main] INFO  o.s.b.d.r.RestartApplicationListener - Restart disabled due to System property 'spring.devtools.restart.enabled' being set to false
+2023-04-24 16:05:20 [main] INFO  com.hexing.HxApplication - Starting HxApplication using Java 1.8.0_332 on yungengdeMacBook-Pro.local with PID 26834 (/Users/yungeng/Documents/GitHub/hx_contract/hx_manager/target/classes started by yungeng in /Users/yungeng/Documents/GitHub/hx_contract)
+2023-04-24 16:05:20 [main] INFO  com.hexing.HxApplication - The following 1 profile is active: "dev"
+2023-04-24 16:05:20 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2023-04-24 16:05:21 [main] INFO  io.undertow.servlet - Initializing Spring embedded WebApplicationContext
+2023-04-24 16:05:21 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource detect P6SPY plugin and enabled it
+2023-04-24 16:05:21 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2023-04-24 16:05:21 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2023-04-24 16:05:21 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2023-04-24 16:05:21 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2023-04-24 16:05:21 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2023-04-24 16:05:22 [main] INFO  org.quartz.impl.StdSchedulerFactory - Using default implementation for ThreadExecutor
+2023-04-24 16:05:22 [main] INFO  o.quartz.core.SchedulerSignalerImpl - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2023-04-24 16:05:22 [main] INFO  org.quartz.core.QuartzScheduler - Quartz Scheduler v.2.3.2 created.
+2023-04-24 16:05:22 [main] INFO  org.quartz.simpl.RAMJobStore - RAMJobStore initialized.
+2023-04-24 16:05:22 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2023-04-24 16:05:22 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2023-04-24 16:05:22 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler version: 2.3.2
+2023-04-24 16:05:22 [main] INFO  org.quartz.core.QuartzScheduler - JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@16e907b6
+2023-04-24 16:05:23 [main] INFO  c.h.framework.config.JacksonConfig - 初始化 jackson 配置
+2023-04-24 16:05:23 [main] INFO  c.h.framework.config.RedisConfig - 初始化 redis 配置
+2023-04-24 16:05:23 [main] INFO  org.redisson.Version - Redisson 3.20.0
+2023-04-24 16:05:23 [redisson-netty-2-6] INFO  o.r.c.p.MasterPubSubConnectionPool - 1 connections initialized for localhost/127.0.0.1:6379
+2023-04-24 16:05:23 [redisson-netty-2-4] INFO  o.r.c.pool.MasterConnectionPool - 8 connections initialized for localhost/127.0.0.1:6379
+2023-04-24 16:05:24 [main] INFO  o.a.e.c.DefaultActiviti5CompatibilityHandlerFactory - Activiti 5 compatibility handler implementation not found or error during instantiation : org.activiti.compatibility.DefaultActiviti5CompatibilityHandler. Activiti 5 backwards compatibility disabled.
+2023-04-24 16:05:25 [main] INFO  o.a.engine.impl.ProcessEngineImpl - ProcessEngine default created
+2023-04-24 16:05:26 [main] INFO  io.undertow - starting server: Undertow - 2.2.23.Final
+2023-04-24 16:05:26 [main] INFO  org.xnio - XNIO version 3.8.7.Final
+2023-04-24 16:05:26 [main] INFO  org.xnio.nio - XNIO NIO Implementation Version 3.8.7.Final
+2023-04-24 16:05:26 [main] INFO  org.jboss.threads - JBoss Threads version 3.1.0.Final
+2023-04-24 16:05:26 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2023-04-24 16:05:26 [main] INFO  com.hexing.HxApplication - Started HxApplication in 6.409 seconds (JVM running for 6.84)
+2023-04-24 16:05:26 [main] INFO  c.h.s.runner.SystemApplicationRunner - 初始化OSS配置成功
+2023-04-24 16:05:26 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载参数缓存数据成功
+2023-04-24 16:05:26 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载字典缓存数据成功
+2023-04-24 16:05:26 [RMI TCP Connection(2)-127.0.0.1] INFO  io.undertow.servlet - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-04-24 16:41:28 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2023-04-24 16:41:28 [SpringApplicationShutdownHook] INFO  io.undertow - stopping server: Undertow - 2.2.23.Final
+2023-04-24 16:41:28 [SpringApplicationShutdownHook] INFO  io.undertow.servlet - Destroying Spring FrameworkServlet 'dispatcherServlet'
+2023-04-24 16:41:28 [SpringApplicationShutdownHook] INFO  c.h.f.manager.ShutdownManager - ====关闭后台任务任务线程池====
+2023-04-24 16:41:28 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2023-04-24 16:41:28 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2023-04-24 16:41:28 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2023-04-24 16:41:28 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2023-04-24 16:41:28 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2023-04-24 16:41:28 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2023-04-24 16:41:28 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2023-04-24 16:41:34 [main] INFO  o.s.b.d.r.RestartApplicationListener - Restart disabled due to System property 'spring.devtools.restart.enabled' being set to false
+2023-04-24 16:41:34 [main] INFO  com.hexing.HxApplication - Starting HxApplication using Java 1.8.0_332 on yungengdeMacBook-Pro.local with PID 27696 (/Users/yungeng/Documents/GitHub/hx_contract/hx_manager/target/classes started by yungeng in /Users/yungeng/Documents/GitHub/hx_contract)
+2023-04-24 16:41:34 [main] INFO  com.hexing.HxApplication - The following 1 profile is active: "dev"
+2023-04-24 16:41:34 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2023-04-24 16:41:36 [main] INFO  io.undertow.servlet - Initializing Spring embedded WebApplicationContext
+2023-04-24 16:41:36 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource detect P6SPY plugin and enabled it
+2023-04-24 16:41:36 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2023-04-24 16:41:36 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2023-04-24 16:41:36 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2023-04-24 16:41:36 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2023-04-24 16:41:36 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2023-04-24 16:41:37 [main] INFO  org.quartz.impl.StdSchedulerFactory - Using default implementation for ThreadExecutor
+2023-04-24 16:41:37 [main] INFO  o.quartz.core.SchedulerSignalerImpl - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2023-04-24 16:41:37 [main] INFO  org.quartz.core.QuartzScheduler - Quartz Scheduler v.2.3.2 created.
+2023-04-24 16:41:37 [main] INFO  org.quartz.simpl.RAMJobStore - RAMJobStore initialized.
+2023-04-24 16:41:37 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2023-04-24 16:41:37 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2023-04-24 16:41:37 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler version: 2.3.2
+2023-04-24 16:41:37 [main] INFO  org.quartz.core.QuartzScheduler - JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@16e907b6
+2023-04-24 16:41:37 [main] INFO  c.h.framework.config.JacksonConfig - 初始化 jackson 配置
+2023-04-24 16:41:37 [main] INFO  c.h.framework.config.RedisConfig - 初始化 redis 配置
+2023-04-24 16:41:37 [main] INFO  org.redisson.Version - Redisson 3.20.0
+2023-04-24 16:41:37 [redisson-netty-2-1] INFO  o.r.c.p.MasterPubSubConnectionPool - 1 connections initialized for localhost/127.0.0.1:6379
+2023-04-24 16:41:37 [redisson-netty-2-4] INFO  o.r.c.pool.MasterConnectionPool - 8 connections initialized for localhost/127.0.0.1:6379
+2023-04-24 16:41:39 [main] INFO  o.a.e.c.DefaultActiviti5CompatibilityHandlerFactory - Activiti 5 compatibility handler implementation not found or error during instantiation : org.activiti.compatibility.DefaultActiviti5CompatibilityHandler. Activiti 5 backwards compatibility disabled.
+2023-04-24 16:41:39 [main] INFO  o.a.engine.impl.ProcessEngineImpl - ProcessEngine default created
+2023-04-24 16:41:40 [main] INFO  io.undertow - starting server: Undertow - 2.2.23.Final
+2023-04-24 16:41:40 [main] INFO  org.xnio - XNIO version 3.8.7.Final
+2023-04-24 16:41:40 [main] INFO  org.xnio.nio - XNIO NIO Implementation Version 3.8.7.Final
+2023-04-24 16:41:40 [main] INFO  org.jboss.threads - JBoss Threads version 3.1.0.Final
+2023-04-24 16:41:40 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2023-04-24 16:41:40 [main] INFO  com.hexing.HxApplication - Started HxApplication in 6.546 seconds (JVM running for 6.992)
+2023-04-24 16:41:40 [main] INFO  c.h.s.runner.SystemApplicationRunner - 初始化OSS配置成功
+2023-04-24 16:41:40 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载参数缓存数据成功
+2023-04-24 16:41:40 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载字典缓存数据成功
+2023-04-24 16:41:41 [RMI TCP Connection(3)-127.0.0.1] INFO  io.undertow.servlet - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-04-24 17:02:09 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2023-04-24 17:02:09 [SpringApplicationShutdownHook] INFO  io.undertow - stopping server: Undertow - 2.2.23.Final
+2023-04-24 17:02:09 [SpringApplicationShutdownHook] INFO  io.undertow.servlet - Destroying Spring FrameworkServlet 'dispatcherServlet'
+2023-04-24 17:02:09 [SpringApplicationShutdownHook] INFO  c.h.f.manager.ShutdownManager - ====关闭后台任务任务线程池====
+2023-04-24 17:02:09 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2023-04-24 17:02:09 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2023-04-24 17:02:09 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2023-04-24 17:02:09 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2023-04-24 17:02:09 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2023-04-24 17:02:09 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2023-04-24 17:02:09 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2023-04-24 17:02:14 [main] INFO  o.s.b.d.r.RestartApplicationListener - Restart disabled due to System property 'spring.devtools.restart.enabled' being set to false
+2023-04-24 17:02:15 [main] INFO  com.hexing.HxApplication - Starting HxApplication using Java 1.8.0_332 on yungengdeMacBook-Pro.local with PID 28474 (/Users/yungeng/Documents/GitHub/hx_contract/hx_manager/target/classes started by yungeng in /Users/yungeng/Documents/GitHub/hx_contract)
+2023-04-24 17:02:15 [main] INFO  com.hexing.HxApplication - The following 1 profile is active: "dev"
+2023-04-24 17:02:15 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2023-04-24 17:02:16 [main] INFO  io.undertow.servlet - Initializing Spring embedded WebApplicationContext
+2023-04-24 17:02:16 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource detect P6SPY plugin and enabled it
+2023-04-24 17:02:16 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2023-04-24 17:02:16 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2023-04-24 17:02:16 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2023-04-24 17:02:16 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2023-04-24 17:02:16 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2023-04-24 17:02:17 [main] INFO  org.quartz.impl.StdSchedulerFactory - Using default implementation for ThreadExecutor
+2023-04-24 17:02:17 [main] INFO  o.quartz.core.SchedulerSignalerImpl - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2023-04-24 17:02:17 [main] INFO  org.quartz.core.QuartzScheduler - Quartz Scheduler v.2.3.2 created.
+2023-04-24 17:02:17 [main] INFO  org.quartz.simpl.RAMJobStore - RAMJobStore initialized.
+2023-04-24 17:02:17 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2023-04-24 17:02:17 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2023-04-24 17:02:17 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler version: 2.3.2
+2023-04-24 17:02:17 [main] INFO  org.quartz.core.QuartzScheduler - JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@3b33fff9
+2023-04-24 17:02:18 [main] INFO  c.h.framework.config.JacksonConfig - 初始化 jackson 配置
+2023-04-24 17:02:18 [main] INFO  c.h.framework.config.RedisConfig - 初始化 redis 配置
+2023-04-24 17:02:18 [main] INFO  org.redisson.Version - Redisson 3.20.0
+2023-04-24 17:02:18 [redisson-netty-2-1] INFO  o.r.c.p.MasterPubSubConnectionPool - 1 connections initialized for localhost/127.0.0.1:6379
+2023-04-24 17:02:18 [redisson-netty-2-4] INFO  o.r.c.pool.MasterConnectionPool - 8 connections initialized for localhost/127.0.0.1:6379
+2023-04-24 17:02:19 [main] INFO  o.a.e.c.DefaultActiviti5CompatibilityHandlerFactory - Activiti 5 compatibility handler implementation not found or error during instantiation : org.activiti.compatibility.DefaultActiviti5CompatibilityHandler. Activiti 5 backwards compatibility disabled.
+2023-04-24 17:02:19 [main] INFO  o.a.engine.impl.ProcessEngineImpl - ProcessEngine default created
+2023-04-24 17:02:20 [main] INFO  io.undertow - starting server: Undertow - 2.2.23.Final
+2023-04-24 17:02:20 [main] INFO  org.xnio - XNIO version 3.8.7.Final
+2023-04-24 17:02:21 [main] INFO  org.xnio.nio - XNIO NIO Implementation Version 3.8.7.Final
+2023-04-24 17:02:21 [main] INFO  org.jboss.threads - JBoss Threads version 3.1.0.Final
+2023-04-24 17:02:21 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2023-04-24 17:02:21 [main] INFO  com.hexing.HxApplication - Started HxApplication in 6.212 seconds (JVM running for 6.659)
+2023-04-24 17:02:21 [main] INFO  c.h.s.runner.SystemApplicationRunner - 初始化OSS配置成功
+2023-04-24 17:02:21 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载参数缓存数据成功
+2023-04-24 17:02:21 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载字典缓存数据成功
+2023-04-24 17:02:21 [RMI TCP Connection(2)-127.0.0.1] INFO  io.undertow.servlet - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-04-24 17:06:28 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2023-04-24 17:06:28 [SpringApplicationShutdownHook] INFO  io.undertow - stopping server: Undertow - 2.2.23.Final
+2023-04-24 17:06:28 [SpringApplicationShutdownHook] INFO  io.undertow.servlet - Destroying Spring FrameworkServlet 'dispatcherServlet'
+2023-04-24 17:06:28 [SpringApplicationShutdownHook] INFO  c.h.f.manager.ShutdownManager - ====关闭后台任务任务线程池====
+2023-04-24 17:06:28 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2023-04-24 17:06:28 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2023-04-24 17:06:28 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2023-04-24 17:06:28 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2023-04-24 17:06:28 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2023-04-24 17:06:28 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2023-04-24 17:06:28 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2023-04-24 17:06:30 [main] INFO  o.s.b.d.r.RestartApplicationListener - Restart disabled due to System property 'spring.devtools.restart.enabled' being set to false
+2023-04-24 17:06:30 [main] INFO  com.hexing.HxApplication - Starting HxApplication using Java 1.8.0_332 on yungengdeMacBook-Pro.local with PID 28561 (/Users/yungeng/Documents/GitHub/hx_contract/hx_manager/target/classes started by yungeng in /Users/yungeng/Documents/GitHub/hx_contract)
+2023-04-24 17:06:30 [main] INFO  com.hexing.HxApplication - The following 1 profile is active: "dev"
+2023-04-24 17:06:30 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2023-04-24 17:06:31 [main] INFO  io.undertow.servlet - Initializing Spring embedded WebApplicationContext
+2023-04-24 17:06:31 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource detect P6SPY plugin and enabled it
+2023-04-24 17:06:31 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2023-04-24 17:06:32 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2023-04-24 17:06:32 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2023-04-24 17:06:32 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2023-04-24 17:06:32 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2023-04-24 17:06:33 [main] INFO  org.quartz.impl.StdSchedulerFactory - Using default implementation for ThreadExecutor
+2023-04-24 17:06:33 [main] INFO  o.quartz.core.SchedulerSignalerImpl - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2023-04-24 17:06:33 [main] INFO  org.quartz.core.QuartzScheduler - Quartz Scheduler v.2.3.2 created.
+2023-04-24 17:06:33 [main] INFO  org.quartz.simpl.RAMJobStore - RAMJobStore initialized.
+2023-04-24 17:06:33 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2023-04-24 17:06:33 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2023-04-24 17:06:33 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler version: 2.3.2
+2023-04-24 17:06:33 [main] INFO  org.quartz.core.QuartzScheduler - JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@3b33fff9
+2023-04-24 17:06:33 [main] INFO  c.h.framework.config.JacksonConfig - 初始化 jackson 配置
+2023-04-24 17:06:33 [main] INFO  c.h.framework.config.RedisConfig - 初始化 redis 配置
+2023-04-24 17:06:33 [main] INFO  org.redisson.Version - Redisson 3.20.0
+2023-04-24 17:06:33 [redisson-netty-2-6] INFO  o.r.c.p.MasterPubSubConnectionPool - 1 connections initialized for localhost/127.0.0.1:6379
+2023-04-24 17:06:33 [redisson-netty-2-4] INFO  o.r.c.pool.MasterConnectionPool - 8 connections initialized for localhost/127.0.0.1:6379
+2023-04-24 17:06:35 [main] INFO  o.a.e.c.DefaultActiviti5CompatibilityHandlerFactory - Activiti 5 compatibility handler implementation not found or error during instantiation : org.activiti.compatibility.DefaultActiviti5CompatibilityHandler. Activiti 5 backwards compatibility disabled.
+2023-04-24 17:06:35 [main] INFO  o.a.engine.impl.ProcessEngineImpl - ProcessEngine default created
+2023-04-24 17:06:36 [main] INFO  io.undertow - starting server: Undertow - 2.2.23.Final
+2023-04-24 17:06:36 [main] INFO  org.xnio - XNIO version 3.8.7.Final
+2023-04-24 17:06:36 [main] INFO  org.xnio.nio - XNIO NIO Implementation Version 3.8.7.Final
+2023-04-24 17:06:36 [main] INFO  org.jboss.threads - JBoss Threads version 3.1.0.Final
+2023-04-24 17:06:36 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2023-04-24 17:06:36 [main] INFO  com.hexing.HxApplication - Started HxApplication in 6.159 seconds (JVM running for 6.836)
+2023-04-24 17:06:36 [main] INFO  c.h.s.runner.SystemApplicationRunner - 初始化OSS配置成功
+2023-04-24 17:06:36 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载参数缓存数据成功
+2023-04-24 17:06:36 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载字典缓存数据成功
+2023-04-24 17:06:36 [RMI TCP Connection(1)-127.0.0.1] INFO  io.undertow.servlet - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-04-24 17:08:41 [XNIO-1 task-3] INFO  c.h.f.listener.UserActionListener - user doLogin, userId:sys_user:1, token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxIiwicm5TdHIiOiJxcWREYzY4SXZXeGxqNmhkdzFRcE9BamJmcUNNbXB1eCIsInVzZXJJZCI6MX0.xhrNqDcNHJ-6cZMo4kXLZiSz0tN3wRjP_EMeQkLBxDI
+2023-04-24 17:08:41 [schedule-pool-1] INFO  c.h.s.s.i.SysLogininforServiceImpl - [127.0.0.1]内网IP[admin][Success][登录成功]
+2023-04-24 17:09:17 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2023-04-24 17:09:17 [SpringApplicationShutdownHook] INFO  io.undertow - stopping server: Undertow - 2.2.23.Final
+2023-04-24 17:09:17 [SpringApplicationShutdownHook] INFO  io.undertow.servlet - Destroying Spring FrameworkServlet 'dispatcherServlet'
+2023-04-24 17:09:17 [SpringApplicationShutdownHook] INFO  c.h.f.manager.ShutdownManager - ====关闭后台任务任务线程池====
+2023-04-24 17:09:17 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2023-04-24 17:09:17 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2023-04-24 17:09:17 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2023-04-24 17:09:17 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2023-04-24 17:09:17 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2023-04-24 17:09:17 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2023-04-24 17:09:17 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2023-04-24 17:09:21 [main] INFO  o.s.b.d.r.RestartApplicationListener - Restart disabled due to System property 'spring.devtools.restart.enabled' being set to false
+2023-04-24 17:09:21 [main] INFO  com.hexing.HxApplication - Starting HxApplication using Java 1.8.0_332 on yungengdeMacBook-Pro.local with PID 28659 (/Users/yungeng/Documents/GitHub/hx_contract/hx_manager/target/classes started by yungeng in /Users/yungeng/Documents/GitHub/hx_contract)
+2023-04-24 17:09:21 [main] INFO  com.hexing.HxApplication - The following 1 profile is active: "dev"
+2023-04-24 17:09:21 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2023-04-24 17:09:22 [main] INFO  io.undertow.servlet - Initializing Spring embedded WebApplicationContext
+2023-04-24 17:09:22 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource detect P6SPY plugin and enabled it
+2023-04-24 17:09:22 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2023-04-24 17:09:22 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2023-04-24 17:09:22 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2023-04-24 17:09:22 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2023-04-24 17:09:22 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2023-04-24 17:09:24 [main] INFO  org.quartz.impl.StdSchedulerFactory - Using default implementation for ThreadExecutor
+2023-04-24 17:09:24 [main] INFO  o.quartz.core.SchedulerSignalerImpl - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2023-04-24 17:09:24 [main] INFO  org.quartz.core.QuartzScheduler - Quartz Scheduler v.2.3.2 created.
+2023-04-24 17:09:24 [main] INFO  org.quartz.simpl.RAMJobStore - RAMJobStore initialized.
+2023-04-24 17:09:24 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2023-04-24 17:09:24 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2023-04-24 17:09:24 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler version: 2.3.2
+2023-04-24 17:09:24 [main] INFO  org.quartz.core.QuartzScheduler - JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@1d2046bb
+2023-04-24 17:09:24 [main] INFO  c.h.framework.config.JacksonConfig - 初始化 jackson 配置
+2023-04-24 17:09:24 [main] INFO  c.h.framework.config.RedisConfig - 初始化 redis 配置
+2023-04-24 17:09:24 [main] INFO  org.redisson.Version - Redisson 3.20.0
+2023-04-24 17:09:24 [redisson-netty-2-6] INFO  o.r.c.p.MasterPubSubConnectionPool - 1 connections initialized for localhost/127.0.0.1:6379
+2023-04-24 17:09:24 [redisson-netty-2-4] INFO  o.r.c.pool.MasterConnectionPool - 8 connections initialized for localhost/127.0.0.1:6379
+2023-04-24 17:09:26 [main] INFO  o.a.e.c.DefaultActiviti5CompatibilityHandlerFactory - Activiti 5 compatibility handler implementation not found or error during instantiation : org.activiti.compatibility.DefaultActiviti5CompatibilityHandler. Activiti 5 backwards compatibility disabled.
+2023-04-24 17:09:26 [main] INFO  o.a.engine.impl.ProcessEngineImpl - ProcessEngine default created
+2023-04-24 17:09:27 [main] INFO  io.undertow - starting server: Undertow - 2.2.23.Final
+2023-04-24 17:09:27 [main] INFO  org.xnio - XNIO version 3.8.7.Final
+2023-04-24 17:09:27 [main] INFO  org.xnio.nio - XNIO NIO Implementation Version 3.8.7.Final
+2023-04-24 17:09:27 [main] INFO  org.jboss.threads - JBoss Threads version 3.1.0.Final
+2023-04-24 17:09:27 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2023-04-24 17:09:27 [main] INFO  com.hexing.HxApplication - Started HxApplication in 6.271 seconds (JVM running for 6.741)
+2023-04-24 17:09:27 [main] INFO  c.h.s.runner.SystemApplicationRunner - 初始化OSS配置成功
+2023-04-24 17:09:27 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载参数缓存数据成功
+2023-04-24 17:09:27 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载字典缓存数据成功
+2023-04-24 17:09:27 [RMI TCP Connection(4)-127.0.0.1] INFO  io.undertow.servlet - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-04-24 17:26:25 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2023-04-24 17:26:25 [SpringApplicationShutdownHook] INFO  io.undertow - stopping server: Undertow - 2.2.23.Final
+2023-04-24 17:26:25 [SpringApplicationShutdownHook] INFO  io.undertow.servlet - Destroying Spring FrameworkServlet 'dispatcherServlet'
+2023-04-24 17:26:25 [SpringApplicationShutdownHook] INFO  c.h.f.manager.ShutdownManager - ====关闭后台任务任务线程池====
+2023-04-24 17:26:25 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2023-04-24 17:26:25 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2023-04-24 17:26:25 [SpringApplicationShutdownHook] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2023-04-24 17:26:25 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2023-04-24 17:26:25 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2023-04-24 17:26:25 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2023-04-24 17:26:25 [SpringApplicationShutdownHook] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2023-04-24 17:26:30 [main] INFO  o.s.b.d.r.RestartApplicationListener - Restart disabled due to System property 'spring.devtools.restart.enabled' being set to false
+2023-04-24 17:26:31 [main] INFO  com.hexing.HxApplication - Starting HxApplication using Java 1.8.0_332 on yungengdeMacBook-Pro.local with PID 29330 (/Users/yungeng/Documents/GitHub/hx_contract/hx_manager/target/classes started by yungeng in /Users/yungeng/Documents/GitHub/hx_contract)
+2023-04-24 17:26:31 [main] INFO  com.hexing.HxApplication - The following 1 profile is active: "dev"
+2023-04-24 17:26:31 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2023-04-24 17:26:32 [main] INFO  io.undertow.servlet - Initializing Spring embedded WebApplicationContext
+2023-04-24 17:26:32 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource detect P6SPY plugin and enabled it
+2023-04-24 17:26:32 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2023-04-24 17:26:32 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2023-04-24 17:26:32 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2023-04-24 17:26:32 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2023-04-24 17:26:32 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2023-04-24 17:26:34 [main] INFO  org.quartz.impl.StdSchedulerFactory - Using default implementation for ThreadExecutor
+2023-04-24 17:26:34 [main] INFO  o.quartz.core.SchedulerSignalerImpl - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2023-04-24 17:26:34 [main] INFO  org.quartz.core.QuartzScheduler - Quartz Scheduler v.2.3.2 created.
+2023-04-24 17:26:34 [main] INFO  org.quartz.simpl.RAMJobStore - RAMJobStore initialized.
+2023-04-24 17:26:34 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2023-04-24 17:26:34 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2023-04-24 17:26:34 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler version: 2.3.2
+2023-04-24 17:26:34 [main] INFO  org.quartz.core.QuartzScheduler - JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@3c71cf3e
+2023-04-24 17:26:34 [main] INFO  c.h.framework.config.JacksonConfig - 初始化 jackson 配置
+2023-04-24 17:26:34 [main] INFO  c.h.framework.config.RedisConfig - 初始化 redis 配置
+2023-04-24 17:26:34 [main] INFO  org.redisson.Version - Redisson 3.20.0
+2023-04-24 17:26:34 [redisson-netty-2-1] INFO  o.r.c.p.MasterPubSubConnectionPool - 1 connections initialized for localhost/127.0.0.1:6379
+2023-04-24 17:26:34 [redisson-netty-2-4] INFO  o.r.c.pool.MasterConnectionPool - 8 connections initialized for localhost/127.0.0.1:6379
+2023-04-24 17:26:35 [main] INFO  o.a.e.c.DefaultActiviti5CompatibilityHandlerFactory - Activiti 5 compatibility handler implementation not found or error during instantiation : org.activiti.compatibility.DefaultActiviti5CompatibilityHandler. Activiti 5 backwards compatibility disabled.
+2023-04-24 17:26:35 [main] INFO  o.a.engine.impl.ProcessEngineImpl - ProcessEngine default created
+2023-04-24 17:26:37 [main] INFO  io.undertow - starting server: Undertow - 2.2.23.Final
+2023-04-24 17:26:37 [main] INFO  org.xnio - XNIO version 3.8.7.Final
+2023-04-24 17:26:37 [main] INFO  org.xnio.nio - XNIO NIO Implementation Version 3.8.7.Final
+2023-04-24 17:26:37 [main] INFO  org.jboss.threads - JBoss Threads version 3.1.0.Final
+2023-04-24 17:26:37 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2023-04-24 17:26:37 [main] INFO  com.hexing.HxApplication - Started HxApplication in 6.307 seconds (JVM running for 6.71)
+2023-04-24 17:26:37 [main] INFO  c.h.s.runner.SystemApplicationRunner - 初始化OSS配置成功
+2023-04-24 17:26:37 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载参数缓存数据成功
+2023-04-24 17:26:37 [main] INFO  c.h.s.runner.SystemApplicationRunner - 加载字典缓存数据成功
+2023-04-24 17:26:37 [RMI TCP Connection(6)-192.168.31.70] INFO  io.undertow.servlet - Initializing Spring DispatcherServlet 'dispatcherServlet'

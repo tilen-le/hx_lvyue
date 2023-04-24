@@ -54,20 +54,39 @@
     </div>
     <div class="angel-card-table">
       <el-table v-loading="loading" :data="customerList" border>
-        <el-table-column label="客户编码" align="center" key="code" prop="code" v-if="columns[0].visible"/>
-        <el-table-column label="状态" align="center" key="status" v-if="columns[5].visible">
+        <el-table-column label="订单编号" align="center" key="orderNumber" prop="orderNumber"
+                         v-if="columns[0].visible"/>
+        <el-table-column label="订单名称" align="center" key="orderTitle" prop="orderTitle" v-if="columns[1].visible"
+                         :show-overflow-tooltip="true"/>
+        <el-table-column label="客户名称" align="center" key="soldToPartyCd" prop="soldToPartyCd"
+                         v-if="columns[2].visible"
+                         :show-overflow-tooltip="true"/>
+        <el-table-column label="发货状态" align="center" key="status" v-if="columns[5].visible">
           <template slot-scope="scope">
             <dict-tag :options="dict.type.sys_customer_status" :value="scope.row.status"/>
           </template>
         </el-table-column>
-        <el-table-column label="客户名称" align="center" key="name" prop="name" v-if="columns[1].visible"
+        <el-table-column label="订单状态" align="center" key="status" v-if="columns[5].visible">
+          <template slot-scope="scope">
+            <dict-tag :options="dict.type.sys_customer_status" :value="scope.row.status"/>
+          </template>
+        </el-table-column>
+        <el-table-column label="订单总金额" align="center" key="amount" prop="amount"
+                         v-if="columns[2].visible"
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="收货人" align="center" key="nickName" prop="nickName" v-if="columns[2].visible"
+        <el-table-column label="订单总数量" align="center" key="" prop=""
+                         v-if="columns[2].visible"
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="收货人电话" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible"
+        <el-table-column label="在途库数量" align="center" key="" prop=""
+                         v-if="columns[2].visible"
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="收货地址" align="center" key="phonenumber" prop="phonenumber" v-if="columns[4].visible"
-                         width="120"/>
+        <el-table-column label="合同编号" align="center" key="" prop=""
+                         v-if="columns[2].visible"
+                         :show-overflow-tooltip="true"/>
+        <el-table-column label="合同名称" align="center" key="name" prop="name" v-if="columns[1].visible"
+                         :show-overflow-tooltip="true"/>
+        <el-table-column label="预计发货时间" align="center" key="nickName" prop="nickName" v-if="columns[2].visible"
+                         :show-overflow-tooltip="true"/>
         <el-table-column
           label="操作"
           align="center"
@@ -78,10 +97,16 @@
             <el-button
               size="mini"
               type="text"
-              icon="el-icon-edit"
               @click="detail(scope.row)"
               v-hasPermi="['system:user:edit']"
             >详情
+            </el-button>
+            <el-button
+              size="mini"
+              type="text"
+              @click="detail(scope.row)"
+              v-hasPermi="['system:user:edit']"
+            >开票
             </el-button>
           </template>
         </el-table-column>
@@ -99,6 +124,7 @@
 
 <script>
 import {listCustomer} from "@/api/customer";
+import {listOrder} from "@/api/order";
 
 export default {
   name: "index",
@@ -137,7 +163,7 @@ export default {
       this.$router.push(`/customer/detail/index/${row.id}`)
     },
     getList() {
-      listCustomer(this.queryParams).then(res => {
+      listOrder(this.queryParams).then(res => {
         this.customerList = res.rows
         this.total = res.total
       })

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hexing.system.mapper.FcOrderMapper">
+
+    <select id="selectPageOrderList" resultType="com.hexing.system.domain.FcOrder">
+        select fco.id,
+               fco.contact_id,
+               fco.
+        from fc_order fco
+                 left join fc_contract fcc on fcc.id = fco.contact_id
+    </select>
+</mapper>
