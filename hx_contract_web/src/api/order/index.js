@@ -8,3 +8,11 @@ export function listOrder(query) {
     params: query
   })
 }
+
+export function getOrderDetail(data) {
+  return request({
+    url: '/order/detail',
+    method: 'post',
+    data: data
+  })
+}

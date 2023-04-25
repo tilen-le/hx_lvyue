@@ -149,6 +149,20 @@ export const dynamicRoutes = [
     ]
   },
   {
+    path: '/invoice/create',
+    component: Layout,
+    hidden: true,
+    permissions: ['invoice:list:add'],
+    children: [
+      {
+        path: 'index/:oid(\\d+)',
+        component: () => import('@/views/invoice/createInvoice.vue'),
+        name: 'Data',
+        meta: { title: '开票申请', activeMenu: '/invoice/list' }
+      }
+    ]
+  },
+  {
     path: '/system/oss-config',
     component: Layout,
     hidden: true,

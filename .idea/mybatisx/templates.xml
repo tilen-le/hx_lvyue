@@ -39,8 +39,8 @@
             <option name="tableUIInfoList">
               <list>
                 <TableUIInfo>
-                  <option name="className" value="FcCustomerInvoice" />
-                  <option name="tableName" value="fc_customer_invoice" />
+                  <option name="className" value="FcPaymentClaim" />
+                  <option name="tableName" value="fc_payment_claim" />
                 </TableUIInfo>
               </list>
             </option>

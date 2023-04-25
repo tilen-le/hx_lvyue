@@ -62,4 +62,7 @@ public class FcOrderProduct extends BaseEntity {
     private String notSentNum;
     private String deleted;
 
+
+
+
 }

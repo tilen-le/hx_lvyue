@@ -53,7 +53,23 @@
       </el-row>
     </div>
     <div class="angel-card-table">
-      <el-table v-loading="loading" :data="customerList" border>
+      <el-table v-loading="loading" :data="customerList" border
+                row-key="id">
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <el-table  :data="props.row.products"
+                      row-key="id">
+              <el-table-column label="产品编码" align="center" key="productNumber" prop="productNumber"/>
+              <el-table-column label="产品名称" align="center" key="productName" prop="productName"/>
+              <el-table-column label="订单数量" align="center" key="num" prop="num"/>
+              <el-table-column label="单价" align="center" key="unitPrice" prop="unitPrice"/>
+              <el-table-column label="库存数量" align="center" key="inStorageNum" prop="inStorageNum"/>
+              <el-table-column label="已发货数量" align="center" key="inTransitNum" prop="inTransitNum"/>
+              <el-table-column label="未发货数量" align="center" key="notSentNum" prop="notSentNum"/>
+              <el-table-column label="在途数量" align="center" key="inTransitNum" prop="inTransitNum"/>
+            </el-table>
+          </template>
+        </el-table-column>
         <el-table-column label="订单编号" align="center" key="orderNumber" prop="orderNumber"
                          v-if="columns[0].visible"/>
         <el-table-column label="订单名称" align="center" key="orderTitle" prop="orderTitle" v-if="columns[1].visible"
@@ -62,11 +78,6 @@
                          v-if="columns[2].visible"
                          :show-overflow-tooltip="true"/>
         <el-table-column label="发货状态" align="center" key="status" v-if="columns[5].visible">
-          <template slot-scope="scope">
-            <dict-tag :options="dict.type.sys_customer_status" :value="scope.row.status"/>
-          </template>
-        </el-table-column>
-        <el-table-column label="订单状态" align="center" key="status" v-if="columns[5].visible">
           <template slot-scope="scope">
             <dict-tag :options="dict.type.sys_customer_status" :value="scope.row.status"/>
           </template>
@@ -80,12 +91,14 @@
         <el-table-column label="在途库数量" align="center" key="" prop=""
                          v-if="columns[2].visible"
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="合同编号" align="center" key="" prop=""
+        <el-table-column label="合同编号" align="center" key="contractNumber" prop="contractNumber"
                          v-if="columns[2].visible"
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="合同名称" align="center" key="name" prop="name" v-if="columns[1].visible"
+        <el-table-column label="合同名称" align="center" key="contractName" prop="contractName"
+                         v-if="columns[1].visible"
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="预计发货时间" align="center" key="nickName" prop="nickName" v-if="columns[2].visible"
+        <el-table-column label="预计发货时间" align="center" key="requireDeliveryDate" prop="requireDeliveryDate"
+                         v-if="columns[2].visible"
                          :show-overflow-tooltip="true"/>
         <el-table-column
           label="操作"
@@ -104,9 +117,16 @@
             <el-button
               size="mini"
               type="text"
-              @click="detail(scope.row)"
+              @click="addInvoice(scope.row)"
               v-hasPermi="['system:user:edit']"
             >开票
+            </el-button>
+            <el-button
+              size="mini"
+              type="text"
+              @click="detail(scope.row)"
+              v-hasPermi="['system:user:edit']"
+            >发货
             </el-button>
           </template>
         </el-table-column>
@@ -123,7 +143,6 @@
 </template>
 
 <script>
-import {listCustomer} from "@/api/customer";
 import {listOrder} from "@/api/order";
 
 export default {
@@ -158,6 +177,9 @@ export default {
     },
     resetQuery() {
 
+    },
+    addInvoice(row){
+      this.$router.push(`/invoice/create/index/${row.id}`)
     },
     detail(row) {
       this.$router.push(`/customer/detail/index/${row.id}`)
