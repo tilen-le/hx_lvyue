@@ -167,5 +167,8 @@ public class FcOrder extends BaseEntity {
     @TableField(exist = false)
     private Boolean hasChildren;
 
+    @TableField(exist = false)
+    private String cusCode;
+
 
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hexing.system.mapper.FcPaymentClaimDetailMapper">
+    <select id="listDetail" resultType="com.hexing.system.domain.FcPaymentClaimDetail">
+        select fpcd.id,
+               fpcd.claim_id,
+               fc.order_number orderNumber,
+               fc.order_title orderTitle,
+               fpc.claim_number claimNumber,
+               fpc.received_amount receivedAmount,
+               fpc.undistributed_amount undistributedAmount,
+               fpc.allocated_amount allocatedAmount,
+               fpcd.amount
+        from fc_payment_claim_detail fpcd
+                 left join fc_order fc on fc.id = fpcd.order_id
+                 left join fc_payment_claim fpc on fpc.id = fpcd.claim_id
+
+    </select>
+</mapper>

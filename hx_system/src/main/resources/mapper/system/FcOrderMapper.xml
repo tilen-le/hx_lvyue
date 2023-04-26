@@ -6,9 +6,16 @@
 
     <select id="selectPageOrderList" resultType="com.hexing.system.domain.FcOrder">
         select fco.id,
-               fco.contact_id,
-               fco.
+               fco.contract_id,
+               fco.order_number,
+               fco.order_title,
+               fco.amount,
+               fco.status,
+               fco.sold_to_party_cd,
+               fcc.contract_number contractNumber,
+               fcc.contract_name   contractName,
+               fco.require_delivery_date
         from fc_order fco
-                 left join fc_contract fcc on fcc.id = fco.contact_id
+                 left join fc_contract fcc on fcc.id = fco.contract_id
     </select>
 </mapper>

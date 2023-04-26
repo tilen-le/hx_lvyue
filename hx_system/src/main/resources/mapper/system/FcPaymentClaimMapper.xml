@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hexing.system.mapper.FcPaymentClaimMapper">
+
+    <select id="selectPageList" resultType="com.hexing.system.domain.FcPaymentClaim">
+        select fpc.id,
+               fpc.payment_id,
+               fpc.claim_number,
+               fp.payment_number   paymentNumber,
+               fp.received_amount  receivedAmount,
+               fp.customer_name    customerName,
+               fp.posting_date     postingDate,
+               fp.payment_currency paymentCurrency,
+               fpc.claim_amount,
+               fpc.create_time,
+               u.nick_name         nickName
+        from fc_payment_claim fpc
+                 left join fc_payment fp on fp.id = fpc.payment_id
+                 left join sys_user u on u.user_id = fpc.claim_currency
+    </select>
+    <select id="getDetailById" resultType="com.hexing.system.domain.FcPaymentClaim">
+        select fpc.id,
+               fpc.payment_id,
+               fpc.claim_number,
+               fp.payment_number   paymentNumber,
+               fp.received_amount  receivedAmount,
+               fp.customer_name    customerName,
+               fp.posting_date     postingDate,
+               fp.payment_currency paymentCurrency,
+               fpc.claim_amount,
+               fpc.create_time,
+               fpc.status,
+               fpc.sync_sap_info_time,
+               fpc.sync_sap_info,
+               fpc.sync_sap_time,
+               fpc.sync_sap_status,
+               fpc.cancel_sap_time,
+               fpc.cancel_sap_info,
+               fpc.cancel_sap_info_time,
+               fpc.create_time
+        from fc_payment_claim fpc
+                 left join fc_payment fp on fp.id = fpc.payment_id
+                 left join sys_user u on u.user_id = fpc.claim_currency
+        where fpc.id = #{id}
+    </select>
+</mapper>

@@ -35,6 +35,19 @@ public class HttpKit {
                 .addBodyPara(params)
                 .post().getResult().getBody().toString();
     }
+    public String postData(Map<String,Object> params) {
+        HTTP http = HTTP.builder().config((OkHttpClient.Builder builder) -> {
+            builder.connectTimeout(60, TimeUnit.SECONDS);
+            builder.writeTimeout(60, TimeUnit.SECONDS);
+            builder.readTimeout(60, TimeUnit.SECONDS);
+        }).addMsgConvertor(new GsonMsgConvertor()).build();
+        return http.async(host)
+                .bodyType("application/json")
+                .addBodyPara(params)
+                .post().getResult().getBody().toString();
+    }
+
+
 
 
 }

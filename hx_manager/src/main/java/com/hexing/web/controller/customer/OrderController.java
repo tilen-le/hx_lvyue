@@ -5,12 +5,13 @@ import com.hexing.common.core.controller.BaseController;
 import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.domain.R;
 import com.hexing.common.core.page.TableDataInfo;
-import com.hexing.system.domain.FcCustomer;
 import com.hexing.system.domain.FcOrder;
 import com.hexing.system.service.IOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author firerock_tech
@@ -34,6 +35,12 @@ public class OrderController extends BaseController {
     @PostMapping("/detail")
     public R<FcOrder> getDetailOrder(@RequestBody FcOrder fcOrder) {
         return R.ok(orderService.getOrderDetailById(fcOrder.getId()));
+    }
+
+
+    @PostMapping("/getOrderByCusId")
+    public R<List<FcOrder>> getOrderByCusId(@RequestBody FcOrder fcOrder) {
+        return R.ok(orderService.getOrdersByCusId(fcOrder.getCusCode()));
     }
 
 

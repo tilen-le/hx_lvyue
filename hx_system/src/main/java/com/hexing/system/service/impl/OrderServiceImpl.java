@@ -9,10 +9,12 @@ import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.page.TableDataInfo;
 import com.hexing.common.utils.JsonUtils;
 import com.hexing.system.domain.FcContract;
+import com.hexing.system.domain.FcCustomer;
 import com.hexing.system.domain.FcOrder;
 import com.hexing.system.domain.FcOrderProduct;
 import com.hexing.system.domain.form.*;
 import com.hexing.system.mapper.FcContractMapper;
+import com.hexing.system.mapper.FcCustomerMapper;
 import com.hexing.system.mapper.FcOrderMapper;
 import com.hexing.system.mapper.FcOrderProductMapper;
 import com.hexing.system.service.IOrderService;
@@ -175,5 +177,12 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public FcOrder getOrderDetailById(Long id) {
         return baseMapper.selectById(id);
+    }
+
+    @Override
+    public List<FcOrder> getOrdersByCusId(String code) {
+        LambdaQueryWrapper<FcOrder> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(FcOrder::getId, FcOrder::getOrderTitle).eq(FcOrder::getReciver, code).or().eq(FcOrder::getSoldToParty, code);
+        return baseMapper.selectList(queryWrapper);
     }
 }

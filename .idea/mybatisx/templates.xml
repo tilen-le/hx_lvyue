@@ -39,8 +39,8 @@
             <option name="tableUIInfoList">
               <list>
                 <TableUIInfo>
-                  <option name="className" value="FcPaymentClaim" />
-                  <option name="tableName" value="fc_payment_claim" />
+                  <option name="className" value="FcShippingPlanReportInfo" />
+                  <option name="tableName" value="fc_shipping_plan_report_info" />
                 </TableUIInfo>
               </list>
             </option>

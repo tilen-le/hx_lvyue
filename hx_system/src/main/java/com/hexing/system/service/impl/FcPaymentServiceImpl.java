@@ -9,13 +9,9 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.page.TableDataInfo;
-import com.hexing.system.domain.FcCustomer;
-import com.hexing.system.domain.FcOrderInvoice;
 import com.hexing.system.domain.FcPayment;
 import com.hexing.system.domain.FcPaymentClaim;
 import com.hexing.system.domain.form.PaymentForm;
-import com.hexing.system.mapper.FcCustomerMapper;
-import com.hexing.system.mapper.FcPaymentClaimMapper;
 import com.hexing.system.mapper.FcPaymentMapper;
 import com.hexing.system.service.IFcPaymentService;
 import lombok.RequiredArgsConstructor;
@@ -33,36 +29,36 @@ import java.math.BigDecimal;
 public class FcPaymentServiceImpl implements IFcPaymentService {
 
     private final FcPaymentMapper baseMapper;
-    private final FcCustomerMapper fcCustomerMapper;
-    private final FcPaymentClaimMapper fcPaymentClaimMapper;
 
     @Override
     public int saveFcPayment(PaymentForm paymentForm) {
         LambdaQueryWrapper<FcPayment> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(FcPayment::getPaymentNumber, paymentForm.getBelnr());
+        queryWrapper.eq(FcPayment::getPaymentNumber, paymentForm.getZuonr());
         FcPayment fcPayment = baseMapper.selectOne(queryWrapper);
-
         if (ObjectUtils.isNotNull(fcPayment)) {
-            fcPayment.setCorporateName(paymentForm.getName1());
+            fcPayment.setCorporateName(paymentForm.getBukrs());
+            fcPayment.setPaymentNumber(paymentForm.getZuonr());
+            fcPayment.setCustomerName(paymentForm.getName1());
+            fcPayment.setCusCode(paymentForm.getKunnr());
+            fcPayment.setDocumentNumber(paymentForm.getBelnr());
             fcPayment.setPaymentCurrency(paymentForm.getRwcur());
-            fcPayment.setReceivedAmount(BigDecimal.valueOf(Double.parseDouble(paymentForm.getTsl())));
+            fcPayment.setReceivedAmount(BigDecimal.valueOf(Math.abs(Double.parseDouble(paymentForm.getTsl()))));
             fcPayment.setPostingDate(paymentForm.getBudat());
-            fcPayment.setAllocatedAmount(BigDecimal.valueOf(Double.parseDouble(paymentForm.getTslOa())));
-            fcPayment.setUndistributedAmount(BigDecimal.valueOf(Double.parseDouble(paymentForm.getTsl01())));
+            fcPayment.setAllocatedAmount(BigDecimal.valueOf(Math.abs(Double.parseDouble(paymentForm.getTslOa()))));
+            fcPayment.setUndistributedAmount(BigDecimal.valueOf(Math.abs(Double.parseDouble(paymentForm.getTsl01()))));
             return baseMapper.updateById(fcPayment);
         } else {
-            LambdaQueryWrapper<FcCustomer> fcCustomerLambdaQueryWrapper = new LambdaQueryWrapper<>();
-            fcCustomerLambdaQueryWrapper.eq(FcCustomer::getCode, paymentForm.getKunnr());
-            FcCustomer fcCustomer = fcCustomerMapper.selectOne(fcCustomerLambdaQueryWrapper);
             fcPayment = new FcPayment();
-            fcPayment.setCustomerName(fcCustomer.getName());
-            fcPayment.setPaymentNumber(paymentForm.getBelnr());
-            fcPayment.setCorporateName(paymentForm.getName1());
+            fcPayment.setCorporateName(paymentForm.getBukrs());
+            fcPayment.setPaymentNumber(paymentForm.getZuonr());
+            fcPayment.setCustomerName(paymentForm.getName1());
+            fcPayment.setCusCode(paymentForm.getKunnr());
+            fcPayment.setDocumentNumber(paymentForm.getBelnr());
             fcPayment.setPaymentCurrency(paymentForm.getRwcur());
-            fcPayment.setReceivedAmount(BigDecimal.valueOf(Double.parseDouble(paymentForm.getTsl())));
+            fcPayment.setReceivedAmount(BigDecimal.valueOf(Math.abs(Double.parseDouble(paymentForm.getTsl()))));
             fcPayment.setPostingDate(paymentForm.getBudat());
-            fcPayment.setAllocatedAmount(BigDecimal.valueOf(Double.parseDouble(paymentForm.getTslOa())));
-            fcPayment.setUndistributedAmount(BigDecimal.valueOf(Double.parseDouble(paymentForm.getTsl01())));
+            fcPayment.setAllocatedAmount(BigDecimal.valueOf(Math.abs(Double.parseDouble(paymentForm.getTslOa()))));
+            fcPayment.setUndistributedAmount(BigDecimal.valueOf(Math.abs(Double.parseDouble(paymentForm.getTsl01()))));
             return baseMapper.insert(fcPayment);
         }
     }

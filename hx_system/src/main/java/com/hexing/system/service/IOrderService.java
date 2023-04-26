@@ -5,6 +5,8 @@ import com.hexing.common.core.page.TableDataInfo;
 import com.hexing.system.domain.FcOrder;
 import com.hexing.system.domain.form.OrderForm;
 
+import java.util.List;
+
 /**
  * @author firerock_tech
  */
@@ -40,4 +42,12 @@ public interface IOrderService {
      * @return
      */
     FcOrder getOrderDetailById(Long id);
+
+
+    /**
+     * 通过客户编号获取客户对应订单
+     * @param code
+     * @return
+     */
+    List<FcOrder> getOrdersByCusId(String code);
 }

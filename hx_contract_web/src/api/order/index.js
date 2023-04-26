@@ -16,3 +16,13 @@ export function getOrderDetail(data) {
     data: data
   })
 }
+
+
+
+export function listCusOrder(query) {
+  return request({
+    url: '/order/getOrderByCusId',
+    method: 'post',
+    data: query
+  })
+}
