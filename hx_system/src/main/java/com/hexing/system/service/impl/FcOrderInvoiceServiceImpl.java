@@ -10,18 +10,19 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.page.TableDataInfo;
 import com.hexing.common.exception.ServiceException;
+import com.hexing.system.domain.FcOrder;
 import com.hexing.system.domain.FcOrderInvoice;
+import com.hexing.system.domain.FcOrderInvoiceDetail;
 import com.hexing.system.domain.FcSaleBank;
 import com.hexing.system.mapper.FcOrderInvoiceMapper;
+import com.hexing.system.mapper.FcOrderMapper;
 import com.hexing.system.service.IFcOrderInvoiceService;
 import com.hexing.system.utils.HttpKit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author firerock_tech
@@ -32,6 +33,7 @@ import java.util.Objects;
 public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
 
     private final FcOrderInvoiceMapper baseMappr;
+    private final FcOrderMapper fcOrderMapper;
     private final HttpKit httpKit;
 
     @Override
@@ -41,10 +43,37 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
         if (baseMappr.selectCount(queryWrapper) > 0) {
             throw new ServiceException("该订单已存在开票申请");
         }
+        
+
+
         int result = baseMappr.insert(fcOrderInvoice);
 
         return result;
     }
+
+    private void submitSapInvoice(FcOrderInvoice fcOrderInvoice) {
+        if (fcOrderInvoice.getDetails() == null) {
+            throw new ServiceException("开票明细不能为空");
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("interfaceCode", "ZLVY_JHKP");
+        List<FcOrderInvoiceDetail> details = fcOrderInvoice.getDetails();
+        List<Object> data = new ArrayList<>(details.size());
+        LambdaQueryWrapper<FcOrder> orderWrapper = new LambdaQueryWrapper<>();
+        orderWrapper.eq(FcOrder::getId, fcOrderInvoice.getOrderId());
+        FcOrder order = fcOrderMapper.selectOne(orderWrapper);
+        for (FcOrderInvoiceDetail info : details) {
+            Map<String, Object> item = new HashMap<>();
+            item.put("VBELN_VA", order.getOrderNumber());
+            item.put("CREATE_TYPE", "C");
+            item.put("ZMENG", info.getAppliedQuantity());
+            item.put("LGORT", "3007");
+            item.put("VSTEL", order.getFactory());
+//            item.put("POSNR_VA",info)
+        }
+
+    }
+
 
     @Override
     public int updateFcOrderInvoice(FcOrderInvoice fcOrderInvoice) {
@@ -78,8 +107,8 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
     }
 
 
-    private void submitInvoice(FcOrderInvoice fcOrderInvoice){
-        Map<String, Object> params=new HashMap<>();
+    private void submitInvoice(FcOrderInvoice fcOrderInvoice) {
+        Map<String, Object> params = new HashMap<>();
 
 
     }

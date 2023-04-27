@@ -190,3 +190,18 @@ aside {
 .multiselect--active {
   z-index: 1000 !important;
 }
+.info-header {
+  background: white;
+  border-radius: 4px;
+  padding-top: 15px;
+  margin-top: 10px;
+  width: 100%;
+}
+.line-item {
+  background: blue;
+  height: 15px;
+  margin-right: 5px;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+  width: 4px
+}

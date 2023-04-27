@@ -49,6 +49,7 @@ public class OrderForm {
     private String kunnrPyT;
     private String kunnrBpT;
     private String maktx;
+    private String waers;
 
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date erdat;

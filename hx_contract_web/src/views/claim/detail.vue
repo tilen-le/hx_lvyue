@@ -22,46 +22,68 @@
         </el-col>
         <el-col :span="6">
           <div>
-            <span>回款编号: {{ claimDetail.documentNumber }}</span>
+            <span>回款编号: {{ claimDetail.paymentNumber }}</span>
           </div>
         </el-col>
         <el-col :span="6">
           <div>
-            <span>回款币种: {{ paymentDetail.corporateName }}</span>
+            <span>回款币种: {{ claimDetail.paymentCurrency }}</span>
           </div>
         </el-col>
         <el-col :span="6">
           <div>
-            <span>客户名称: {{ paymentDetail.customerName }}</span>
-          </div>
-        </el-col>
-      </el-row>
-      <el-row style="margin: 15px">
-        <el-col :span="6">
-          <div>
-            <span>回款币种: {{ paymentDetail.paymentCurrency }}</span>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div>
-            <span>到账金额: {{ paymentDetail.receivedAmount }}</span>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div>
-            <span>回款已分配金额: {{ paymentDetail.allocatedAmount }}</span>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div>
-            <span>回款未分配金额: {{ paymentDetail.undistributedAmount }}</span>
+            <span>同步SAP时间: {{ claimDetail.syncSapInfoTime }}</span>
           </div>
         </el-col>
       </el-row>
       <el-row style="margin: 15px">
         <el-col :span="6">
           <div>
-            <span>负责人: {{ paymentDetail.diretor }}</span>
+            <span>认领金额: {{ claimDetail.claimAmount }}</span>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div>
+            <span>同步SAP状态: {{ claimDetail.syncSapStatus }}</span>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div>
+            <span>同步SAP信息: {{ claimDetail.syncSapInfo }}</span>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div>
+            <span>同步SAP信息时间: {{ claimDetail.syncSapInfoTime }}</span>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row style="margin: 15px">
+        <el-col :span="6">
+          <div>
+            <span>客户: {{ claimDetail.customerName }}</span>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div>
+            <span>认领单状态: {{ claimDetail.status == '1' ? '生效' : '失效' }}</span>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div>
+            <span>撤销同步SAP时间: {{ claimDetail.cancelSapTime }}</span>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div>
+            <span>撤销同步SAP信息时间: {{ claimDetail.cancelSapInfoTime }}</span>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row style="margin: 15px">
+        <el-col :span="6">
+          <div>
+            <span>撤销同步SAP信息: {{ claimDetail.cancelSapInfo }}</span>
           </div>
         </el-col>
       </el-row>
@@ -70,7 +92,7 @@
       <div style="display: flex;justify-content: space-between;align-items: center;padding-right: 15px">
         <div style="display: flex;align-items: center">
           <div class="line-item"></div>
-          <span>认领单</span>
+          <span>认领单明细</span>
         </div>
       </div>
       <el-table
@@ -79,39 +101,26 @@
         style="margin-top: 15px"
         size="mini"
       >
-        <el-table-column label="回款认领时间" align="center" prop="createTime" min-width="120px">
-        </el-table-column>
-        <el-table-column label="同步SAP时间" align="center" prop="syncSapInfoTime" min-width="120px">
-        </el-table-column>
         <el-table-column label="认领单编号" align="center" prop="claimNumber" min-width="120px">
         </el-table-column>
-        <el-table-column label="认领金额" align="center" prop="claimAmount" min-width="120px">
+        <el-table-column label="订单编号" align="center" prop="orderNumber" min-width="120px">
         </el-table-column>
-        <el-table-column label="认领客户" align="center" prop="syncSapInfoTime" min-width="120px">
+        <el-table-column label="订单名称" align="center" prop="orderTitle" min-width="120px">
+        </el-table-column>
+        <el-table-column label="认领里程碑" align="center" prop="milestonesId" min-width="120px">
           <template slot-scope="scope">
-            <span>{{ paymentDetail.customerName }}</span>
+            <span>{{ scope.row.milestonesId }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="状态" align="center" prop="status" min-width="120px">
-          <template slot-scope="scope">
-            <span>{{ scope.row.status == "0" ? "已撤销" : "已同步SAP" }}</span>
-          </template>
+        <el-table-column label="认领币种" align="center" prop="currency" min-width="120px">
         </el-table-column>
-        <el-table-column
-          label="操作"
-          align="center"
-          width="160"
-          class-name="small-padding fixed-width"
-        >
-          <template slot-scope="scope" v-if="scope.row.status !='0'">
-            <el-button
-              size="mini"
-              type="text"
-              @click="cancel(scope.row)"
-              v-hasPermi="['claim:list:cancel']"
-            >撤销
-            </el-button>
-          </template>
+        <el-table-column label="计划回款金额" align="center" prop="receivedAmount" min-width="120px">
+        </el-table-column>
+        <el-table-column label="已回款" align="center" prop="allocatedAmount" min-width="120px">
+        </el-table-column>
+        <el-table-column label="未回款" align="center" prop="undistributedAmount" min-width="120px">
+        </el-table-column>
+        <el-table-column label="本次认领" align="center" prop="amount" min-width="120px">
         </el-table-column>
       </el-table>
     </div>
@@ -127,7 +136,7 @@
 </template>
 
 <script>
-import {addClaim, cancelClaim, getPayment, listClaimDetail, listPaymentClaim} from "@/api/payment";
+import {addClaim, cancelClaim, getPayment, listClaimDetail, listClaimDetailList, listPaymentClaim} from "@/api/payment";
 import {listCusOrder} from "@/api/order";
 import {delUser} from "@/api/system/user";
 
@@ -151,17 +160,16 @@ export default {
       const params = {id: this.$route.params.cid}
       listClaimDetail(params).then(res => {
         this.claimDetail = res.data
-        // this.getClaim()
+        this.getClaim()
       })
     },
     getClaim() {
       const params = {
-        paymentId: this.paymentDetail.id,
-        pageSize: 100,
-        pageNum: 1
+        id: this.claimDetail.id,
       }
-      listPaymentClaim(params).then(res => {
-        this.claimList = res.rows
+      listClaimDetailList(params).then(res => {
+        this.claimList = res.data
+        console.log(this.claimList)
       })
     },
     handleRemovePrice(idx, index) {

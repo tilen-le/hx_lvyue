@@ -1,5 +1,6 @@
 package com.hexing.system.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -10,6 +11,7 @@ import lombok.EqualsAndHashCode;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
 * 开票单表
@@ -24,7 +26,7 @@ public class FcOrderInvoice extends BaseEntity {
     * 主键
     */
     @TableId(value = "id")
-    private Integer id;
+    private Long id;
     /**
     * 开票单编号
     */
@@ -79,6 +81,12 @@ public class FcOrderInvoice extends BaseEntity {
     */
     private BigDecimal tax;
     private String deleted;
+
+    @TableField(exist = false)
+    private  String orderNumber;
+
+    @TableField(exist = false)
+    private List<FcOrderInvoiceDetail> details;
 
 
 }

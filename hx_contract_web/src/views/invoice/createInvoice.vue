@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="invoiceForm" ref="queryForm" size="small" :inline="true" label-width="120px"
+    <el-form :model="invoiceForm" ref="queryForm" size="small" label-width="120px"
              style="margin: 15px">
       <div class="invoice-header">
         <div style="display: flex;align-items: center">
@@ -13,13 +13,14 @@
               <el-input
                 placeholder="标准开票"
                 disabled
-                style="width: 100%"
+                style="width: 90%"
               />
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="订单名称" prop="orderTitle">
               <el-input
+                style="width: 90%"
                 v-model="invoiceForm.orderTitle"
                 disabled
               />
@@ -28,14 +29,15 @@
           <el-col :span="6">
             <el-form-item label="客户名称" prop="soldToPartyCd">
               <el-input
+                style="width: 90%"
                 v-model="invoiceForm.soldToPartyCd"
                 disabled
               />
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="发票类型" prop="configName">
-              <el-select v-model="invoiceForm.invoiceType" placeholder="请选择">
+            <el-form-item label="发票类型" prop="invoiceType">
+              <el-select v-model="invoiceForm.invoiceType" placeholder="请选择" style="width: 90%">
                 <el-option
                   v-for="dict in dict.type.invoice_type"
                   :key="dict.value"
@@ -49,7 +51,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="卖方银行" prop="saleBank">
-              <el-select v-model="invoiceForm.saleBank" placeholder="请选择">
+              <el-select v-model="invoiceForm.saleBank" placeholder="请选择" style="width: 90%">
                 <el-option
                   v-for="dict in saleBank"
                   :key="dict.value"
@@ -60,8 +62,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="收票方" prop="configName">
-              <el-select v-model="invoiceForm.invoiceType" placeholder="请选择">
+            <el-form-item label="收票方" prop="billee">
+              <el-select v-model="invoiceForm.billee" placeholder="请选择" @change="changeBe">
                 <el-option
                   v-for="dict in dict.type.invoice_type"
                   :key="dict.value"
@@ -222,6 +224,7 @@
 <script>
 import {getOrderDetail} from "@/api/order";
 import {listAvailableBank} from "@/api/system/bank";
+import {getOpenBankByBe} from "@/api/customer";
 
 export default {
   name: "createInvoice",
@@ -230,7 +233,7 @@ export default {
     return {
       invoiceForm: {},
       productList: [],
-      saleBank:[]
+      saleBank: []
     }
   },
   created() {
@@ -242,12 +245,28 @@ export default {
       const oid = this.$route.params.oid;
       const params = {id: oid}
       getOrderDetail(params).then(res => {
-        this.invoiceForm = res.data
+        const order = res.data.order
+        this.invoiceForm = {
+          orderTitle: order.orderTitle,
+          soldToPartyCd: order.soldToPartyCd,
+          billee: order.billee
+        }
       })
     },
-    getSaleBank(){
-      listAvailableBank().then(res=>{
-        this.saleBank=res.data
+    getSaleBank() {
+      listAvailableBank().then(res => {
+        this.saleBank = res.data
+      })
+    },
+    changeBe(val){
+      console.log(val)
+    },
+    getOpenBank(code){
+      const params={
+        billee:code
+      }
+      getOpenBankByBe(params).then(res=>{
+
       })
     }
   }

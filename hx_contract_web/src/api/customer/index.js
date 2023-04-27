@@ -70,6 +70,15 @@ export function getOpenBank(data) {
     data: data
   })
 }
+export function getOpenBankByBe(data) {
+  return request({
+    url: '/customer/getOpenBankByBe',
+    method: 'post',
+    data: data
+  })
+}
+
+
 
 export function delOpeningBank(data) {
   return request({

@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import {listAllClaim, listPayment} from "@/api/payment";
+import {cancelClaim, listAllClaim, listPayment} from "@/api/payment";
 
 export default {
   name: "index",
@@ -115,7 +115,16 @@ export default {
 
     },
     createClaim(row) {
-      this.$router.push(`/claim/create/index/${row.id}`)
+      this.$modal.confirm('是否确认撤销该笔认领单数据项？').then(function () {
+        const params = {
+          id: row.id
+        }
+        return cancelClaim(params);
+      }).then(() => {
+        this.handleQuery()
+        this.$modal.msgSuccess("撤销成功");
+      }).catch(() => {
+      });
     },
     getList() {
       listAllClaim(this.queryParams).then(res => {

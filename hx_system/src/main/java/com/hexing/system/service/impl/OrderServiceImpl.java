@@ -73,7 +73,7 @@ public class OrderServiceImpl implements IOrderService {
             existOrder.setContractId(fcContract == null ? null : fcContract.getId());
             existOrder.setOrderNumber(orderForm.getVbeln());
             existOrder.setOrderTitle(orderForm.getVbelnT());
-            existOrder.setCurrency(orderForm.getWerks());
+            existOrder.setCurrency(orderForm.getWaers());
             existOrder.setSapCreateTime(orderForm.getErdat());
             existOrder.setSoldToParty(orderForm.getKunnrSp());
             existOrder.setSoldToPartyCd(orderForm.getKunnrSpT());
@@ -94,7 +94,7 @@ public class OrderServiceImpl implements IOrderService {
             existOrder.setContractId(fcContract == null ? null : fcContract.getId());
             existOrder.setOrderNumber(orderForm.getVbeln());
             existOrder.setOrderTitle(orderForm.getVbelnT());
-            existOrder.setCurrency(orderForm.getWerks());
+            existOrder.setCurrency(orderForm.getWaers());
             existOrder.setSapCreateTime(orderForm.getErdat());
             existOrder.setSoldToParty(orderForm.getKunnrSp());
             existOrder.setSoldToPartyCd(orderForm.getKunnrSpT());
@@ -177,6 +177,16 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public FcOrder getOrderDetailById(Long id) {
         return baseMapper.selectById(id);
+    }
+
+    @Override
+    public Map<String, Object> getOrderDetail(Long id) {
+        Map<String, Object> result = new HashMap<>();
+        FcOrder fcOrder = baseMapper.selectById(id);
+        FcContract fcContract = fcContractMapper.selectById(fcOrder.getContractId());
+        result.put("order", fcOrder);
+        result.put("contract", fcContract);
+        return result;
     }
 
     @Override

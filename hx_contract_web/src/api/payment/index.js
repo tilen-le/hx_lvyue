@@ -22,7 +22,7 @@ export function addClaim(data) {
 }
 export function cancelClaim(data) {
   return request({
-    url: '/payment//claim/cancel',
+    url: '/payment/claim/cancel',
     method: 'post',
     data: data
   })
@@ -49,6 +49,17 @@ export function listClaimDetail(query) {
     data: query
   })
 }
+export function listClaimDetailList(query) {
+  return request({
+    url: '/payment/claim/detail/list',
+    method: 'post',
+    data: query
+  })
+}
+
+
+
+
 
 
 

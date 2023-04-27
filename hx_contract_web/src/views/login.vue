@@ -154,10 +154,19 @@ export default {
 <style rel="stylesheet/scss" lang="scss">
 .login {
   display: flex;
+  padding: 20px 0;
   justify-content: center;
   align-items: center;
   height: 100%;
 }
+.login-box {
+  display: flex;
+  width: 400px;
+  border-radius: 20px;
+  height: auto;
+  position: relative;
+  box-shadow: 8px 20px 80px 8px rgba(0, 0, 0, 0.2);
+  background: #fff; }
 .title {
   margin: 0px auto 30px auto;
   text-align: center;
@@ -169,7 +178,7 @@ export default {
   width: 400px;
   border-radius: 20px;
   box-shadow: 8px 20px 80px 8px rgba(0, 0, 0, 0.2);
-  padding: 25px 25px 5px 25px;
+  padding: 50px 25px 50px 25px;
   .el-input {
     height: 38px;
     input {

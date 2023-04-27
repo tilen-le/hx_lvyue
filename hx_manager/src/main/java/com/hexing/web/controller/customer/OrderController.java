@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author firerock_tech
@@ -36,7 +37,11 @@ public class OrderController extends BaseController {
     public R<FcOrder> getDetailOrder(@RequestBody FcOrder fcOrder) {
         return R.ok(orderService.getOrderDetailById(fcOrder.getId()));
     }
-
+    @SaCheckPermission("order:detail:check")
+    @PostMapping("/detailMap")
+    public R<Map<String,Object>> getDetailOrderMap(@RequestBody FcOrder fcOrder) {
+        return R.ok(orderService.getOrderDetail(fcOrder.getId()));
+    }
 
     @PostMapping("/getOrderByCusId")
     public R<List<FcOrder>> getOrderByCusId(@RequestBody FcOrder fcOrder) {

@@ -10,6 +10,7 @@ import com.hexing.common.enums.BusinessType;
 import com.hexing.system.domain.FcCustomer;
 import com.hexing.system.domain.FcCustomerConsignment;
 import com.hexing.system.domain.FcCustomerInvoice;
+import com.hexing.system.domain.FcOrder;
 import com.hexing.system.service.IFcCustomerConsignmentService;
 import com.hexing.system.service.IFcCustomerInvoiceService;
 import com.hexing.system.service.IFcCustomerService;
@@ -108,6 +109,13 @@ public class CustomerController extends BaseController {
     @DeleteMapping("/removeOpenBank")
     public R<Void> removeOpenBank(@Validated @RequestBody FcCustomerInvoice fcCustomerInvoice) {
         return toAjax(iFcCustomerInvoiceService.removeFcCustomerInvoice(fcCustomerInvoice));
+    }
+
+    @SaCheckPermission("customer:openbank:list")
+    @Log(title = "获取开户行信息", businessType = BusinessType.EXPORT)
+    @PostMapping("/getOpenBankByBe")
+    public R<List<FcCustomerInvoice>> getOpenBankByBe(@RequestBody FcOrder fcOrder) {
+        return R.ok(iFcCustomerInvoiceService.getOpenBankByBillee(fcOrder.getBillee()));
     }
 
 

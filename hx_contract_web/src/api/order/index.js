@@ -11,7 +11,7 @@ export function listOrder(query) {
 
 export function getOrderDetail(data) {
   return request({
-    url: '/order/detail',
+    url: '/order/detailMap',
     method: 'post',
     data: data
   })

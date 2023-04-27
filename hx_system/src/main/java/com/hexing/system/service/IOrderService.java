@@ -6,6 +6,7 @@ import com.hexing.system.domain.FcOrder;
 import com.hexing.system.domain.form.OrderForm;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author firerock_tech
@@ -42,6 +43,13 @@ public interface IOrderService {
      * @return
      */
     FcOrder getOrderDetailById(Long id);
+
+    /**
+     * 获取订单详情
+     * @param id
+     * @return
+     */
+    Map<String,Object> getOrderDetail(Long id);
 
 
     /**

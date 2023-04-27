@@ -7,4 +7,6 @@ import com.hexing.system.domain.FcOrderInvoice;
  * @author firerock_tech
  */
 public interface FcOrderInvoiceMapper extends BaseMapperPlus<FcOrderInvoiceMapper, FcOrderInvoice,FcOrderInvoice> {
+
+
 }

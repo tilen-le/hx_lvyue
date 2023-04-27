@@ -124,7 +124,7 @@
             <el-button
               size="mini"
               type="text"
-              @click="detail(scope.row)"
+              @click="delivery(scope.row)"
               v-hasPermi="['system:user:edit']"
             >发货
             </el-button>
@@ -182,7 +182,10 @@ export default {
       this.$router.push(`/invoice/create/index/${row.id}`)
     },
     detail(row) {
-      this.$router.push(`/customer/detail/index/${row.id}`)
+      this.$router.push(`/order/detail/index/${row.id}`)
+    },
+    delivery(row){
+      this.$router.push(`/delivery/create/index/${row.id}`)
     },
     getList() {
       listOrder(this.queryParams).then(res => {

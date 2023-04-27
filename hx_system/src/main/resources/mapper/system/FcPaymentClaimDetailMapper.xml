@@ -6,16 +6,20 @@
     <select id="listDetail" resultType="com.hexing.system.domain.FcPaymentClaimDetail">
         select fpcd.id,
                fpcd.claim_id,
-               fc.order_number orderNumber,
-               fc.order_title orderTitle,
-               fpc.claim_number claimNumber,
-               fpc.received_amount receivedAmount,
-               fpc.undistributed_amount undistributedAmount,
-               fpc.allocated_amount allocatedAmount,
-               fpcd.amount
+               fc.order_number         orderNumber,
+               fc.order_title          orderTitle,
+               fpc.claim_number        claimNumber,
+               fp.received_amount      receivedAmount,
+               fp.undistributed_amount undistributedAmount,
+               fp.allocated_amount     allocatedAmount,
+               fpcd.amount,
+               fpcd.currency,
+               fpcd.milestones_id
         from fc_payment_claim_detail fpcd
                  left join fc_order fc on fc.id = fpcd.order_id
                  left join fc_payment_claim fpc on fpc.id = fpcd.claim_id
+                 left join fc_payment fp on fp.id = fpc.payment_id
+        where fpcd.claim_id = #{id}
 
     </select>
 </mapper>
