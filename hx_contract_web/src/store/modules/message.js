@@ -14,12 +14,12 @@ const message = {
   actions: {
     getMessage({ commit, state }) {
         return new Promise((resolve, reject) => {
-          listWaitingMessage().then(response => {
-            commit('SET_MESSAGE',response)
-            resolve(response)
-          }).catch(error => {
-            reject(error)
-          })
+          // listWaitingMessage().then(response => {
+          //   commit('SET_MESSAGE',response)
+          //   resolve(response)
+          // }).catch(error => {
+          //   reject(error)
+          // })
         })
     }
   }

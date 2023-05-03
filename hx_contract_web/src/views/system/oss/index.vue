@@ -1,181 +1,189 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="文件名" prop="fileName">
-        <el-input
-          v-model="queryParams.fileName"
-          placeholder="请输入文件名"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="原名" prop="originalName">
-        <el-input
-          v-model="queryParams.originalName"
-          placeholder="请输入原名"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="文件后缀" prop="fileSuffix">
-        <el-input
-          v-model="queryParams.fileSuffix"
-          placeholder="请输入文件后缀"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="创建时间">
-        <el-date-picker
-          v-model="daterangeCreateTime"
-          size="small"
-          style="width: 240px"
-          value-format="yyyy-MM-dd HH:mm:ss"
-          type="daterange"
-          range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          :default-time="['00:00:00', '23:59:59']"
-        ></el-date-picker>
-      </el-form-item>
-      <el-form-item label="上传人" prop="createBy">
-        <el-input
-          v-model="queryParams.createBy"
-          placeholder="请输入上传人"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="服务商" prop="service">
-        <el-input
-          v-model="queryParams.service"
-          placeholder="请输入服务商"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-      </el-form-item>
-    </el-form>
+    <div class="contract-card">
+      <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+        <el-form-item label="文件名" prop="fileName">
+          <el-input
+            v-model="queryParams.fileName"
+            placeholder="请输入文件名"
+            clearable
+            size="small"
+            @keyup.enter.native="handleQuery"
+          />
+        </el-form-item>
+        <el-form-item label="原名" prop="originalName">
+          <el-input
+            v-model="queryParams.originalName"
+            placeholder="请输入原名"
+            clearable
+            size="small"
+            @keyup.enter.native="handleQuery"
+          />
+        </el-form-item>
+        <el-form-item label="文件后缀" prop="fileSuffix">
+          <el-input
+            v-model="queryParams.fileSuffix"
+            placeholder="请输入文件后缀"
+            clearable
+            size="small"
+            @keyup.enter.native="handleQuery"
+          />
+        </el-form-item>
+        <el-form-item label="创建时间">
+          <el-date-picker
+            v-model="daterangeCreateTime"
+            size="small"
+            style="width: 240px"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            type="daterange"
+            range-separator="-"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :default-time="['00:00:00', '23:59:59']"
+          ></el-date-picker>
+        </el-form-item>
+        <el-form-item label="上传人" prop="createBy">
+          <el-input
+            v-model="queryParams.createBy"
+            placeholder="请输入上传人"
+            clearable
+            size="small"
+            @keyup.enter.native="handleQuery"
+          />
+        </el-form-item>
+        <el-form-item label="服务商" prop="service">
+          <el-input
+            v-model="queryParams.service"
+            placeholder="请输入服务商"
+            clearable
+            size="small"
+            @keyup.enter.native="handleQuery"
+          />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+          <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        </el-form-item>
+      </el-form>
 
-    <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleFile"
-          v-hasPermi="['system:oss:upload']"
-        >上传文件</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleImage"
-          v-hasPermi="['system:oss:upload']"
-        >上传图片</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="el-icon-delete"
-          size="mini"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['system:oss:remove']"
-        >删除</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          :type="previewListResource ? 'danger' : 'warning'"
-          plain
-          size="mini"
-          @click="handlePreviewListResource(!previewListResource)"
-          v-hasPermi="['system:oss:edit']"
-        >预览开关 : {{previewListResource ? "禁用" : "启用"}}</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="info"
-          plain
-          icon="el-icon-s-operation"
-          size="mini"
-          @click="handleOssConfig"
-          v-hasPermi="['system:oss:list']"
-        >配置管理</el-button>
-      </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
-    </el-row>
-
-    <el-table v-loading="loading" :data="ossList" @selection-change="handleSelectionChange"
-              :header-cell-class-name="handleHeaderClass"
-              @header-click="handleHeaderCLick"
-              v-if="showTable">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="对象存储主键" align="center" prop="ossId" v-if="false"/>
-      <el-table-column label="文件名" align="center" prop="fileName" />
-      <el-table-column label="原名" align="center" prop="originalName" />
-      <el-table-column label="文件后缀" align="center" prop="fileSuffix" />
-      <el-table-column label="文件展示" align="center" prop="url">
-        <template slot-scope="scope">
-          <ImagePreview
-            v-if="previewListResource && checkFileSuffix(scope.row.fileSuffix)"
-            :width=100 :height=100
-            :src="scope.row.url"
-            :preview-src-list="[scope.row.url]"/>
-          <span v-text="scope.row.url"
-                v-if="!checkFileSuffix(scope.row.fileSuffix) || !previewListResource"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180"
-                       sortable="custom">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="上传人" align="center" prop="createBy" />
-      <el-table-column label="服务商" align="center" prop="service"
-                       sortable="custom"/>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-        <template slot-scope="scope">
+      <el-row :gutter="10" class="mb8">
+        <el-col :span="1.5">
           <el-button
+            type="primary"
+            plain
+            icon="el-icon-plus"
             size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleDownload(scope.row)"
-            v-hasPermi="['system:oss:download']"
-          >下载</el-button>
+            @click="handleFile"
+            v-hasPermi="['system:oss:upload']"
+          >上传文件
+          </el-button>
+        </el-col>
+        <el-col :span="1.5">
           <el-button
+            type="primary"
+            plain
+            icon="el-icon-plus"
             size="mini"
-            type="text"
+            @click="handleImage"
+            v-hasPermi="['system:oss:upload']"
+          >上传图片
+          </el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button
+            type="danger"
+            plain
             icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
+            size="mini"
+            :disabled="multiple"
+            @click="handleDelete"
             v-hasPermi="['system:oss:remove']"
-          >删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+          >删除
+          </el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button
+            :type="previewListResource ? 'danger' : 'warning'"
+            plain
+            size="mini"
+            @click="handlePreviewListResource(!previewListResource)"
+            v-hasPermi="['system:oss:edit']"
+          >预览开关 : {{ previewListResource ? "禁用" : "启用" }}
+          </el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button
+            type="info"
+            plain
+            icon="el-icon-s-operation"
+            size="mini"
+            @click="handleOssConfig"
+            v-hasPermi="['system:oss:list']"
+          >配置管理
+          </el-button>
+        </el-col>
+        <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      </el-row>
 
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+      <el-table v-loading="loading" :data="ossList" border @selection-change="handleSelectionChange"
+                :header-cell-class-name="handleHeaderClass"
+                @header-click="handleHeaderCLick"
+                v-if="showTable">
+        <el-table-column type="selection" width="55" align="center"/>
+        <el-table-column label="对象存储主键" align="center" prop="ossId" v-if="false"/>
+        <el-table-column label="文件名" align="center" prop="fileName"/>
+        <el-table-column label="原名" align="center" prop="originalName"/>
+        <el-table-column label="文件后缀" align="center" prop="fileSuffix"/>
+        <el-table-column label="文件展示" align="center" prop="url">
+          <template slot-scope="scope">
+            <ImagePreview
+              v-if="previewListResource && checkFileSuffix(scope.row.fileSuffix)"
+              :width=100 :height=100
+              :src="scope.row.url"
+              :preview-src-list="[scope.row.url]"/>
+            <span v-text="scope.row.url"
+                  v-if="!checkFileSuffix(scope.row.fileSuffix) || !previewListResource"/>
+          </template>
+        </el-table-column>
+        <el-table-column label="创建时间" align="center" prop="createTime" width="180"
+                         sortable="custom">
+          <template slot-scope="scope">
+            <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="上传人" align="center" prop="createBy"/>
+        <el-table-column label="服务商" align="center" prop="service"
+                         sortable="custom"/>
+        <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              type="text"
+              icon="el-icon-edit"
+              @click="handleDownload(scope.row)"
+              v-hasPermi="['system:oss:download']"
+            >下载
+            </el-button>
+            <el-button
+              size="mini"
+              type="text"
+              icon="el-icon-delete"
+              @click="handleDelete(scope.row)"
+              v-hasPermi="['system:oss:remove']"
+            >删除
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
 
+      <pagination
+        v-show="total>0"
+        :total="total"
+        :page.sync="queryParams.pageNum"
+        :limit.sync="queryParams.pageSize"
+        @pagination="getList"
+      />
+    </div>
     <!-- 添加或修改OSS对象存储对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
@@ -193,7 +201,7 @@
 </template>
 
 <script>
-import { listOss, delOss } from "@/api/system/oss";
+import {listOss, delOss} from "@/api/system/oss";
 
 export default {
   name: "Oss",
@@ -247,7 +255,7 @@ export default {
       // 表单校验
       rules: {
         file: [
-          { required: true, message: "文件不能为空", trigger: "blur" }
+          {required: true, message: "文件不能为空", trigger: "blur"}
         ]
       }
     };
@@ -309,7 +317,7 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.ossId)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     // 设置列的排序为我们自定义的排序
@@ -359,7 +367,7 @@ export default {
     },
     /** 任务日志列表查询 */
     handleOssConfig() {
-      this.$router.push({ path: '/system/oss-config/index'})
+      this.$router.push({path: '/system/oss-config/index'})
     },
     /** 文件按钮操作 */
     handleFile() {

@@ -24,9 +24,17 @@ export function addAddress(data) {
   })
 }
 
+
 export function getAddress(data) {
   return request({
     url: '/customer/getAddress',
+    method: 'post',
+    data: data
+  })
+}
+export function getAddressByCode(data) {
+  return request({
+    url: '/customer/getAddressByCode',
     method: 'post',
     data: data
   })
@@ -46,6 +54,8 @@ export function delAddress(aid) {
     method: 'delete'
   })
 }
+
+
 
 export function addOpenBank(data) {
   return request({

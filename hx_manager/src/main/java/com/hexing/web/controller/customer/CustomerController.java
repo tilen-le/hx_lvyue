@@ -69,6 +69,11 @@ public class CustomerController extends BaseController {
         return R.ok(iFcCustomerConsignmentService.listFcCustomerConsignment(fcCustomerConsignment.getCustomerId()));
     }
 
+    @SaCheckPermission("customer:address:list")
+    @PostMapping("/getAddressByCode")
+    public R<List<FcCustomerConsignment>> getAddressByCode(@RequestBody FcCustomer fcCustomer) {
+        return R.ok(iFcCustomerConsignmentService.listFcCustomerConsignmentByCode(fcCustomer.getCode()));
+    }
     @SaCheckPermission("customer:address:add")
     @Log(title = "修改客户收货地址", businessType = BusinessType.UPDATE)
     @PutMapping("/updateAddress")

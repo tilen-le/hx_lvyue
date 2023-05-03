@@ -71,3 +71,34 @@ export function refreshCache() {
   })
 }
 
+export function listApproveConfig(query) {
+  return request({
+    url: '/system/approveConfig/list',
+    method: 'get',
+    params: query
+  })
+}
+
+export function addApproveConfig(data) {
+  return request({
+    url: '/system/approveConfig',
+    method: 'post',
+    data: data
+  })
+}
+
+export function updateApproveConfig(data) {
+  return request({
+    url: '/system/approveConfig',
+    method: 'put',
+    data: data
+  })
+}
+
+export function delApproveConfig(data) {
+  return request({
+    url: '/system/approveConfig/remove',
+    method: 'post',
+    data: data
+  })
+}

@@ -1,5 +1,6 @@
 package com.hexing.system.service.impl;
 
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -10,18 +11,19 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.page.TableDataInfo;
 import com.hexing.common.exception.ServiceException;
-import com.hexing.system.domain.FcOrder;
-import com.hexing.system.domain.FcOrderInvoice;
-import com.hexing.system.domain.FcOrderInvoiceDetail;
-import com.hexing.system.domain.FcSaleBank;
-import com.hexing.system.mapper.FcOrderInvoiceMapper;
-import com.hexing.system.mapper.FcOrderMapper;
+import com.hexing.common.helper.LoginHelper;
+import com.hexing.common.utils.JsonUtils;
+import com.hexing.system.domain.*;
+import com.hexing.system.mapper.*;
+import com.hexing.system.service.IFcApproveService;
+import com.hexing.system.service.IFcCustomerConsignmentService;
 import com.hexing.system.service.IFcOrderInvoiceService;
 import com.hexing.system.utils.HttpKit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 /**
@@ -32,8 +34,22 @@ import java.util.*;
 @Slf4j
 public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
 
-    private final FcOrderInvoiceMapper baseMappr;
-    private final FcOrderMapper fcOrderMapper;
+    @Resource
+    private FcOrderInvoiceMapper baseMappr;
+    @Resource
+    private FcOrderMapper fcOrderMapper;
+
+    @Resource
+    private FcOrderProductMapper productMapper;
+
+    @Resource
+    private IFcApproveService iFcApproveService;
+
+    @Resource
+    private FcCustomerConsignmentMapper fcCustomerConsignmentMapper;
+
+    @Resource
+    private FcOrderInvoiceDetailMapper fcOrderInvoiceDetailMapper;
     private final HttpKit httpKit;
 
     @Override
@@ -43,35 +59,64 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
         if (baseMappr.selectCount(queryWrapper) > 0) {
             throw new ServiceException("该订单已存在开票申请");
         }
-        
-
-
+        if (fcOrderInvoice.getProductList() == null) {
+            throw new ServiceException("开票明细不能为空");
+        }
         int result = baseMappr.insert(fcOrderInvoice);
-
+        if (result > 0) {
+            for (FcOrderInvoiceDetail detail : fcOrderInvoice.getProductList()) {
+                detail.setInvoiceId(fcOrderInvoice.getId());
+                fcOrderInvoiceDetailMapper.insert(detail);
+            }
+        }
+        handleApprove(fcOrderInvoice);
         return result;
     }
 
+    private void handleApprove(FcOrderInvoice fcOrderInvoice) {
+        FcApprove fcApprove = new FcApprove();
+        fcApprove.setTitle("开票审批");
+        fcApprove.setType(2);
+        fcApprove.setOriginator(LoginHelper.getUserId().toString());
+        fcApprove.setStatus("0");
+        fcApprove.setRequestTime(new Date());
+        fcApprove.setMainId(fcOrderInvoice.getId().toString());
+        iFcApproveService.saveFcApprove(fcApprove);
+    }
+
     private void submitSapInvoice(FcOrderInvoice fcOrderInvoice) {
-        if (fcOrderInvoice.getDetails() == null) {
+        if (fcOrderInvoice.getProductList() == null) {
             throw new ServiceException("开票明细不能为空");
         }
         Map<String, Object> params = new HashMap<>();
         params.put("interfaceCode", "ZLVY_JHKP");
-        List<FcOrderInvoiceDetail> details = fcOrderInvoice.getDetails();
+        List<FcOrderInvoiceDetail> details = fcOrderInvoice.getProductList();
         List<Object> data = new ArrayList<>(details.size());
         LambdaQueryWrapper<FcOrder> orderWrapper = new LambdaQueryWrapper<>();
         orderWrapper.eq(FcOrder::getId, fcOrderInvoice.getOrderId());
         FcOrder order = fcOrderMapper.selectOne(orderWrapper);
         for (FcOrderInvoiceDetail info : details) {
+            FcOrderProduct fcOrderProduct = productMapper.selectById(info.getOrderProductId());
+            FcCustomerConsignment fcCustomerConsignment = fcCustomerConsignmentMapper.selectById(fcOrderInvoice.getConsignmentId());
             Map<String, Object> item = new HashMap<>();
             item.put("VBELN_VA", order.getOrderNumber());
+            item.put("POSNR_VA", fcOrderProduct.getSapDetailNumber());
             item.put("CREATE_TYPE", "C");
             item.put("ZMENG", info.getAppliedQuantity());
+            item.put("KUNNR_BP", fcOrderInvoice.getConsigneeId());
+            item.put("NETPR_ZFOB", info.getInvoicingUnitPriceWithTax());
+            item.put("ITEXT1", fcOrderInvoice.getInvoiceType());
+            item.put("ITEXT3", "");
+            item.put("ITEXT4", info.getUnit());
+            item.put("ITEXT5", "");
+            item.put("ITEXT6", fcCustomerConsignment.getAddress() + "(" + fcCustomerConsignment.getPhone() + ")");
+            item.put("ITEXT7", fcOrderInvoice.getOpeningBank());
             item.put("LGORT", "3007");
             item.put("VSTEL", order.getFactory());
-//            item.put("POSNR_VA",info)
+            data.add(item);
         }
-
+        params.put("data", data);
+        httpKit.postData(params);
     }
 
 

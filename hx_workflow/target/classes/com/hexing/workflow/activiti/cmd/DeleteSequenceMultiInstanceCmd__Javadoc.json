@@ -1,1 +1,0 @@
-{"doc":" \n @description: 串行减签\n @author: firerock_tech\n @created: 2022/4/21 22:11\n","fields":[{"name":"currentUserId","doc":" 当前节点审批人员id\n"},{"name":"executionId","doc":" 执行id\n"},{"name":"assigneeList","doc":" 会签人员集合KEY\n"},{"name":"assignees","doc":" 减签人员\n"}],"enumConstants":[],"methods":[],"constructors":[]}

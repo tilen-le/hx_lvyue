@@ -87,6 +87,8 @@ public class OrderServiceImpl implements IOrderService {
             existOrder.setBillee(orderForm.getKunnrBp());
             existOrder.setSaleOrg(orderForm.getVkorg());
             existOrder.setFactory(orderForm.getWerks());
+            existOrder.setRate(orderForm.getZsl() == null ? "0" : orderForm.getZsl());
+            existOrder.setIsBackupTableDirectly(orderForm.getItext2());
             existOrder.setDistributionChannel(orderForm.getVtweg());
             baseMapper.updateById(existOrder);
         } else {
@@ -106,7 +108,9 @@ public class OrderServiceImpl implements IOrderService {
             existOrder.setFactory(orderForm.getWerks());
             existOrder.setCustomerManager(orderForm.getKunnrEr());
             existOrder.setBileeCd(orderForm.getKunnrBpT());
+            existOrder.setRate(orderForm.getZsl() == null ? "0" : orderForm.getZsl());
             existOrder.setBillee(orderForm.getKunnrBp());
+            existOrder.setIsBackupTableDirectly(orderForm.getItext2());
             existOrder.setSaleOrg(orderForm.getVkorg());
             existOrder.setDistributionChannel(orderForm.getVtweg());
             baseMapper.insert(existOrder);
@@ -184,8 +188,10 @@ public class OrderServiceImpl implements IOrderService {
         Map<String, Object> result = new HashMap<>();
         FcOrder fcOrder = baseMapper.selectById(id);
         FcContract fcContract = fcContractMapper.selectById(fcOrder.getContractId());
+        List<FcOrderProduct> products = fcOrderProductMapper.selectList(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderId, id));
         result.put("order", fcOrder);
         result.put("contract", fcContract);
+        result.put("products", products);
         return result;
     }
 

@@ -59,7 +59,7 @@ public class FcCustomerServiceImpl implements IFcCustomerService {
 
     @Override
     public FcCustomer getCustomerById(String id) {
-        FcCustomer fcCustomer=baseMapper.selectById(id);
+        FcCustomer fcCustomer = baseMapper.selectById(id);
         return fcCustomer;
     }
 
@@ -70,8 +70,10 @@ public class FcCustomerServiceImpl implements IFcCustomerService {
     }
 
     private Wrapper<FcCustomer> buildQueryWrapper(FcCustomer fcCustomer) {
-        Map<String, Object> params = fcCustomer.getParams();
         QueryWrapper<FcCustomer> wrapper = Wrappers.query();
+        wrapper.like(StringUtils.isNotEmpty(fcCustomer.getName()), "name", fcCustomer.getName())
+                .or()
+                .like(StringUtils.isNotEmpty(fcCustomer.getCode()), "code", fcCustomer.getCode());
         return wrapper;
     }
 }

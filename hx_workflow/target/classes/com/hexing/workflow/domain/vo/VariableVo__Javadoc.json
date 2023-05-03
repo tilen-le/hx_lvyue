@@ -1,1 +1,0 @@
-{"doc":" \n @description: 流程变量\n @author: firerock_tech\n @created: 2022/07/23 14:54\n","fields":[{"name":"key","doc":" 变量key\n"},{"name":"value","doc":" 变量值\n"}],"enumConstants":[],"methods":[],"constructors":[]}

@@ -320,18 +320,6 @@
 
             <dependency>
                 <groupId>com.hexing</groupId>
-                <artifactId>hx_test</artifactId>
-                <version>1.0.0</version>
-            </dependency>
-
-            <!-- 工作流模块 -->
-            <dependency>
-                <groupId>com.hexing</groupId>
-                <artifactId>hx_workflow</artifactId>
-                <version>1.0.0</version>
-            </dependency>
-            <dependency>
-                <groupId>com.hexing</groupId>
                 <artifactId>hx_job</artifactId>
                 <version>1.0.0</version>
             </dependency>
@@ -344,8 +332,6 @@
         <module>hx_core</module>
         <module>hx_system</module>
         <module>hx_common</module>
-        <module>hx_test</module>
-        <module>hx_workflow</module>
         <module>hx_resource</module>
         <module>hx_job</module>
     </modules>

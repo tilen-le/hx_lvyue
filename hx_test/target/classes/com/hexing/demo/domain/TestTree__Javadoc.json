@@ -1,1 +1,0 @@
-{"doc":" 测试树表对象 test_tree\n\n @author firerock_tech\n\n","fields":[{"name":"id","doc":" 主键\n"},{"name":"deptId","doc":" 部门id\n"},{"name":"userId","doc":" 用户id\n"},{"name":"treeName","doc":" 树节点名\n"},{"name":"version","doc":" 版本\n"},{"name":"delFlag","doc":" 删除标志\n"}],"enumConstants":[],"methods":[],"constructors":[]}

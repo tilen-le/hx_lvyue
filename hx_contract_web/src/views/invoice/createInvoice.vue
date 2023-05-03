@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="invoiceForm" ref="queryForm" size="small" label-width="120px"
+    <el-form :model="invoiceForm" ref="queryForm" size="small" :rules="rules" label-width="120px"
              style="margin: 15px">
       <div class="invoice-header">
         <div style="display: flex;align-items: center">
@@ -54,41 +54,54 @@
               <el-select v-model="invoiceForm.saleBank" placeholder="请选择" style="width: 90%">
                 <el-option
                   v-for="dict in saleBank"
-                  :key="dict.value"
+                  :key="dict.id"
                   :label="dict.bankName"
-                  :value="dict.value"
+                  :value="dict.id"
                 />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="收票方" prop="billee">
-              <el-select v-model="invoiceForm.billee" placeholder="请选择" @change="changeBe">
+            <el-form-item label="收票方" prop="consigneeId">
+              <el-select
+                v-model="invoiceForm.consigneeId"
+                filterable
+                remote
+                reserve-keyword
+                style="width: 90%"
+                placeholder="请输入"
+                :remote-method="remoteMethod"
+                @change="changeBe"
+                :loading="searchLoading">
                 <el-option
-                  v-for="dict in dict.type.invoice_type"
-                  :key="dict.value"
-                  :label="dict.label"
-                  :value="dict.value"
-                />
+                  v-for="item in receiveInvoice"
+                  :key="item.code"
+                  :label="item.name"
+                  :value="item.code">
+                  {{ item.name }}({{ item.code }})
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="开户行" prop="configName">
-              <el-select v-model="invoiceForm.invoiceType" placeholder="请选择">
+            <el-form-item label="开户行" prop="openingBank">
+              <el-select v-model="invoiceForm.openingBank" placeholder="请选择" style="width: 90%">
                 <el-option
-                  v-for="dict in dict.type.invoice_type"
-                  :key="dict.value"
-                  :label="dict.label"
-                  :value="dict.value"
-                />
+                  v-for="item in openBank"
+                  :key="item.id"
+                  :label="item.openingBank"
+                  :value="item.id"
+                >
+                  {{ item.openingBank }}({{ item.address }})
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="送货日期" prop="configName">
+            <el-form-item label="送货日期" prop="arrivalDate">
               <el-date-picker
-                v-model="invoiceForm.requireDeliveryDate"
+                v-model="invoiceForm.arrivalDate"
+                style="width: 90%"
                 type="date"
                 placeholder="选择日期">
               </el-date-picker>
@@ -97,29 +110,31 @@
         </el-row>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="验收日期" prop="configName">
-              <el-select v-model="invoiceForm.invoiceType" placeholder="请选择">
-                <el-option
-                  v-for="dict in dict.type.invoice_type"
-                  :key="dict.value"
-                  :label="dict.label"
-                  :value="dict.value"
-                />
-              </el-select>
+            <el-form-item label="验收日期" prop="checkDate">
+              <el-date-picker
+                v-model="invoiceForm.checkDate"
+                style="width: 90%"
+                type="date"
+                placeholder="选择日期">
+              </el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="含税金额合计" prop="configName">
+            <el-form-item label="含税金额合计" prop="totalAmountWithTax">
               <el-input
+                style="width: 90%"
                 placeholder="请输入"
+                v-model="invoiceForm.totalAmountWithTax"
                 disabled
               />
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="不含税金额合计" prop="configName">
+            <el-form-item label="不含税金额合计" prop="totalAmountWithoutTax">
               <el-input
                 placeholder="请输入"
+                style="width: 90%"
+                v-model="invoiceForm.totalAmountWithoutTax"
                 disabled
               />
             </el-form-item>
@@ -128,10 +143,13 @@
             <el-form-item label="税额合计" prop="configName">
               <el-input
                 placeholder="请输入"
+                style="width: 90%"
+                v-model="invoiceForm.tax"
                 disabled
               />
             </el-form-item>
           </el-col>
+
         </el-row>
       </div>
       <div class="invoice-header" style="margin-top: 15px">
@@ -141,13 +159,15 @@
         </div>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="收件人" prop="configName">
-              <el-select v-model="invoiceForm.invoiceType" placeholder="请选择">
+            <el-form-item label="收件人" prop="consignmentId">
+              <el-select v-model="invoiceForm.consignmentId" placeholder="请选择" style="width: 90%"
+                         @change="addressChange"
+              >
                 <el-option
-                  v-for="dict in dict.type.invoice_type"
-                  :key="dict.value"
-                  :label="dict.label"
-                  :value="dict.value"
+                  v-for="dict in address"
+                  :key="dict.id"
+                  :label="dict.name"
+                  :value="dict.id"
                 />
               </el-select>
             </el-form-item>
@@ -156,12 +176,18 @@
             <el-form-item label="联系电话" prop="configName">
               <el-input
                 placeholder="请输入"
+                disabled
+                v-model="invoiceForm.mobile"
+                style="width: 90%"
               />
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="收货地址" prop="configName">
               <el-input
+                style="width: 90%"
+                disabled
+                v-model="invoiceForm.address"
                 placeholder="请输入"/>
             </el-form-item>
           </el-col>
@@ -172,50 +198,151 @@
           <div class="line-item"></div>
           <span>开票明细</span>
         </div>
-        <el-table :data="productList" border
-                  style="margin-top: 15px"
+        <el-table :data="invoiceForm.productList" border
+                  style="margin-top: 15px;width: 100%"
                   row-key="id">
-          <el-table-column label="产品编码" align="center" key="orderNumber" prop="orderNumber"/>
-          <el-table-column label="产品型号" align="center" key="orderNumber" prop="orderNumber"/>
-          <el-table-column label="SPA明细编码" align="center" key="orderNumber" prop="orderNumber"/>
-          <el-table-column label="产品名称" align="center" key="orderNumber" prop="orderNumber"/>
-          <el-table-column label="已下单数量" align="center" key="orderNumber" prop="orderNumber"/>
-          <el-table-column label="单位" align="center" key="orderNumber" prop="orderNumber">
-
+          <el-table-column label="产品编码" align="center" key="productNumber" prop="productNumber"
+                           width="150"/>
+          <el-table-column label="产品型号" align="center" key="productModel" prop="productModel"
+                           width="150"/>
+          <el-table-column label="SPA明细编码" align="center" key="sapDetailNumber" prop="sapDetailNumber"
+                           width="150"/>
+          <el-table-column label="产品名称" align="center" key="productName" prop="productName"
+                           width="200"/>
+          <el-table-column label="已下单数量" align="center" key="num" prop="num"
+                           width="150"/>
+          <el-table-column label="单位" align="center" key="unit" prop="unit"
+                           width="150">
+            <template slot-scope="scope">
+              <el-input
+                controls-position="right"
+                :precision="2"
+                placeholder="单位"
+                style="width: 70%"
+                v-model="scope.row.unit"
+              />
+            </template>
           </el-table-column>
-          <el-table-column label="财务软件编吗" align="center" key="orderNumber" prop="orderNumber">
-
+          <el-table-column label="财务软件编吗" align="center" key="sapFinancialCode" prop="sapFinancialCode"
+                           width="150">
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.sapFinancialCode" placeholder="请选择">
+                <el-option
+                  v-for="dict in dict.type.finance_cate"
+                  :key="dict.value"
+                  :label="dict.label"
+                  :value="dict.value"
+                />
+              </el-select>
+            </template>
           </el-table-column>
-          <el-table-column label="工厂" align="center" key="orderNumber" prop="orderNumber">
-
+          <el-table-column label="工厂" align="center" key="factory" prop="factory"
+                           width="150"/>
+          <el-table-column label="剩余开票数量" align="center" key="inTransitNum" prop="inTransitNum"
+                           width="150"/>
+          <el-table-column label="申请开票数量" align="center" key="appliedQuantity" prop="appliedQuantity"
+                           width="150">
+            <template slot-scope="scope">
+              <el-input
+                controls-position="right"
+                :precision="2"
+                placeholder="请输入"
+                style="width: 70%"
+                type="number"
+                min="1"
+                @input="(val)=>invoiceNumChange(val,scope.row)"
+                v-model="scope.row.appliedQuantity"
+              />
+            </template>
           </el-table-column>
-          <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+          <el-table-column label="订单含税单价" align="center" key="unitPrice" prop="unitPrice"
+                           width="150">
+            <template slot-scope="scope">
+              {{ scope.row.currency }} {{ scope.row.unitPrice }}
+            </template>
+          </el-table-column>
+          <el-table-column label="开票含税单价" align="center" key="invoicingUnitPriceWithTax"
+                           prop="invoicingUnitPriceWithTax"
+                           width="150">
+            <template slot-scope="scope">
+              <el-input
+                controls-position="right"
+                :precision="2"
+                placeholder="请输入"
+                style="width: 70%"
+                type="number"
+                @input="(val)=>invoiceUnitPrice(val,scope.row)"
+                v-model="scope.row.invoicingUnitPriceWithTax"
+              />
+            </template>
+          </el-table-column>
+          <el-table-column label="税率" align="center" key="rate" prop="rate"
+                           width="150">
+            <template slot-scope="scope">
+              <el-input
+                controls-position="right"
+                :precision="2"
+                placeholder="请输入"
+                type="number"
+                @input="(val)=>invoiceRate(val,scope.row)"
+                style="width: 70%"
+                v-model="scope.row.rate"
+              />
+            </template>
+          </el-table-column>
+          <el-table-column label="客户物料名称" align="center" key="customerMaterialName" prop="customerMaterialName"
+                           width="150">
+            <template slot-scope="scope">
+              <el-input
+                controls-position="right"
+                max-length="50"
+                placeholder="请输入"
+                style="width: 70%"
+                v-model="scope.row.customerMaterialName"
+              />
+            </template>
+          </el-table-column>
+          <el-table-column label="客户规格名称" align="center" key="customerSpecName" prop="customerSpecName"
+                           width="150">
+            <template slot-scope="scope">
+              <el-input
+                controls-position="right"
+                placeholder="请输入"
+                max-length="50"
+                style="width: 70%"
+                v-model="scope.row.customerSpecName"
+              />
+            </template>
+          </el-table-column>
+          <el-table-column label="开票含税金额合计" align="center" key="invoicingAmountWithTax"
+                           prop="invoicingAmountWithTax"
+                           width="150">
+          </el-table-column>
+          <el-table-column label="操作" align="center" class-name="small-padding fixed-width" fixed="right">
             <template slot-scope="scope">
               <el-button
                 size="mini"
                 type="text"
                 icon="el-icon-edit"
-                @click="handleDownload(scope.row)"
-                v-hasPermi="['system:oss:download']"
-              >清空
+                @click="clear(scope.row)">清空
               </el-button>
             </template>
           </el-table-column>
         </el-table>
       </div>
-      <div class="invoice-header" style="margin-top: 15px">
+      <div class="invoice-header" style="margin-top: 15px;padding: 15px 0">
         <div style="display: flex;align-items: center">
           <div class="line-item"></div>
           <span>附件(送货单和验收单必需上传)</span>
         </div>
-        <el-form-item label="" style="margin: 15px">
-          <fileUpload v-model="invoiceForm.file"/>
+        <el-form-item label=" " label-width="10px" prop="fileIds">
+          <fileUpload v-model="invoiceForm.fileIds" style="margin: 15px"/>
         </el-form-item>
       </div>
     </el-form>
     <div style="text-align: center">
-      <el-button :loading="buttonLoading" type="primary" @click="submitForm">保存为草稿</el-button>
-      <el-button :loading="buttonLoading" type="primary" @click="submitForm">提交审核</el-button>
+      <el-button :loading="buttonLoading" type="primary" @click="submitForm(3)">保存为草稿</el-button>
+      <el-button :loading="buttonLoading" type="primary" @click="submitForm(0)">提交审核</el-button>
       <el-button @click="cancel">取 消</el-button>
     </div>
   </div>
@@ -224,16 +351,47 @@
 <script>
 import {getOrderDetail} from "@/api/order";
 import {listAvailableBank} from "@/api/system/bank";
-import {getOpenBankByBe} from "@/api/customer";
+import {getAddressByCode, getOpenBankByBe, listCustomer} from "@/api/customer";
+import {addInvoice} from "@/api/invoice";
 
 export default {
   name: "createInvoice",
-  dicts: ['invoice_type'],
+  dicts: ['invoice_type', 'finance_cate'],
   data() {
     return {
       invoiceForm: {},
-      productList: [],
-      saleBank: []
+      saleBank: [],
+      openBank: [],
+      address: [],
+      buttonLoading: false,
+      receiveInvoice: [],
+      searchLoading: false,
+      rules: {
+        invoiceType: [
+          {required: true, message: "请选择发票类型", trigger: "blur"}
+        ],
+        saleBank: [
+          {required: true, message: "请选择卖方银行", trigger: "blur"}
+        ],
+        consigneeId: [
+          {required: true, message: "请输入收票方", trigger: "blur"},
+        ],
+        openingBank: [
+          {required: true, message: "请选择开户行", trigger: "blur"},
+        ],
+        arrivalDate: [
+          {required: true, message: "请选择", trigger: "blur"},
+        ],
+        checkDate: [
+          {required: true, message: "请选择", trigger: "blur"},
+        ],
+        consignmentId: [
+          {required: true, message: "请选择收件人", trigger: "blur"},
+        ],
+        fileIds: [
+          {required: true, message: "请添加", trigger: "blur"},
+        ]
+      }
     }
   },
   created() {
@@ -241,16 +399,107 @@ export default {
     this.getSaleBank()
   },
   methods: {
+    invoiceUnitPrice(val, row) {
+      if (row.invoicingUnitPriceWithTax != undefined && row.appliedQuantity != undefined) {
+        const totalAmount = row.invoicingUnitPriceWithTax * row.appliedQuantity
+        this.invoiceForm.totalAmountWithTax = totalAmount
+        this.invoiceForm.tax = totalAmount
+        if (row.rate != undefined) {
+          this.invoiceForm.totalAmountWithoutTax = totalAmount - (1 - row.rate / 100)
+        }
+        row.invoicingAmountWithTax = totalAmount
+      }
+    },
+    invoiceRate(val, row) {
+      if (row.invoicingUnitPriceWithTax != undefined && row.appliedQuantity != undefined) {
+        const totalAmount = row.invoicingUnitPriceWithTax * row.appliedQuantity
+        this.invoiceForm.totalAmountWithoutTax = totalAmount - (1 - row.rate / 100)
+        row.invoicingAmountWithTax = totalAmount
+      }
+    },
+    invoiceNumChange(val, row) {
+      if (row.invoicingUnitPriceWithTax != undefined && row.appliedQuantity != undefined) {
+        const totalAmount = row.invoicingUnitPriceWithTax * row.appliedQuantityÒ
+
+        if (row.rate != undefined) {
+          this.invoiceForm.totalAmountWithoutTax = totalAmount - (1 - row.rate / 100)
+        }
+        this.invoiceForm.totalAmountWithTax = totalAmount
+        this.invoiceForm.tax = totalAmount
+        row.invoicingAmountWithTax = totalAmount
+      }
+    },
+    addressChange(val) {
+      this.address.map(item => {
+        if (item.id == val) {
+          this.invoiceForm.mobile = item.phone
+          this.invoiceForm.address = item.location.replaceAll(",", "") + item.address
+        }
+      })
+    },
     getOrderDetail() {
       const oid = this.$route.params.oid;
       const params = {id: oid}
       getOrderDetail(params).then(res => {
         const order = res.data.order
         this.invoiceForm = {
+          orderId: order.id,
           orderTitle: order.orderTitle,
           soldToPartyCd: order.soldToPartyCd,
-          billee: order.billee
+          consigneeId: order.billee
         }
+        this.getOpenBank(order.billee)
+        this.handleProduct(res.data.products, order)
+      })
+    },
+    clear(row) {
+      row.unit = undefined
+      row.sapFinancialCode = undefined
+      row.appliedQuantity = undefined
+      row.invoicingUnitPriceWithTax = undefined
+      row.rate = undefined
+      row.customerMaterialName = undefined
+      row.customerSpecName = undefined
+      row.invoicingAmountWithTax = undefined
+      this.invoiceForm.totalAmountWithTax = undefined
+      this.invoiceForm.tax = undefined
+      this.invoiceForm.totalAmountWithoutTax = undefined
+    },
+    cancel() {
+      this.$router.go(-1)
+    },
+    handleProduct(val, order) {
+      const models = []
+      val.map(item => {
+        const pa = {
+          orderProductId:item.id,
+          productNumber: item.productNumber,
+          productModel: item.productModel,
+          sapDetailNumber: item.sapDetailNumber,
+          productName: item.productName,
+          num: item.num,
+          unit: "",
+          sapFinancialCode: '',
+          factory: order.factory,
+          inTransitNum: item.inTransitNum,
+          appliedQuantity: '',
+          unitPrice: item.unitPrice,
+          currency: order.currency,
+          invoicingUnitPriceWithTax: '',
+          customerMaterialName: '',
+          customerSpecName: ''
+        }
+        models.push(pa)
+      })
+      this.invoiceForm.productList = models
+    },
+    remoteMethod(query) {
+      const params = {
+        code: query,
+        name: query
+      }
+      listCustomer(params).then(res => {
+        this.receiveInvoice = res.rows
       })
     },
     getSaleBank() {
@@ -258,15 +507,42 @@ export default {
         this.saleBank = res.data
       })
     },
-    changeBe(val){
-      console.log(val)
+    changeBe(val) {
+      this.getOpenBank(val)
     },
-    getOpenBank(code){
-      const params={
-        billee:code
+    getOpenBank(code) {
+      const params = {
+        billee: code
       }
-      getOpenBankByBe(params).then(res=>{
+      getOpenBankByBe(params).then(res => {
+        this.openBank = res.data
+      })
+      const codePa = {
+        code: code
+      }
+      getAddressByCode(codePa).then(res => {
+        this.address = res.data
+      })
+    },
+    submitForm(val) {
+      this.$refs["queryForm"].validate(valid => {
+        if (valid) {
+          let isUnitNum = false
+          this.invoiceForm.productList.map(item => {
+            if (item.unit == undefined || item.unit == '') {
+              isUnitNum = true
+            }
+          })
+          if (isUnitNum) {
+            this.$modal.msgWarning("请添加开票明细单位");
+            return
+          }
+          this.invoiceForm.approvalStatus=val
+          addInvoice(this.invoiceForm).then(res => {
+            this.$modal.msgSuccess("请添加开票明细单位");
 
+          })
+        }
       })
     }
   }

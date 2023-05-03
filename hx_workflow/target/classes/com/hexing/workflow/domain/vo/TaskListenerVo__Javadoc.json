@@ -1,1 +1,0 @@
-{"doc":" \n @description: 任务监听对象\n @author: firerock_tech\n @created: 2022-06-26\n","fields":[{"name":"eventType","doc":" 事件前后  after,before\n"},{"name":"beanName","doc":" bean名称\n"}],"enumConstants":[],"methods":[],"constructors":[]}

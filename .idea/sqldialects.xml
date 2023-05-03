@@ -3,8 +3,8 @@
   <component name="SqlDialectMappings">
     <file url="file://$USER_HOME$/Desktop/RuoYi-Vue/sql/quartz.sql" dialect="MySQL" />
     <file url="file://$USER_HOME$/Desktop/fulfilling_contract.sql" dialect="MySQL" />
-    <file url="file://$USER_HOME$/Desktop/hx_contract.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/hx_job/src/main/resources/mapper/SysJobMapper.xml" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/hx_system/src/main/resources/mapper/system/FcApproveConfigMapper.xml" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/hx_system/src/main/resources/mapper/system/FcOrderMapper.xml" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/hx_system/src/main/resources/mapper/system/FcPaymentClaimDetailMapper.xml" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/hx_system/src/main/resources/mapper/system/FcPaymentClaimMapper.xml" dialect="GenericSQL" />

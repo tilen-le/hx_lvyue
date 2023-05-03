@@ -18,14 +18,12 @@
           <entry name="$M2_HOME$/maven_store/org/projectlombok/lombok/1.18.26/lombok-1.18.26.jar" />
           <entry name="$M2_HOME$/maven_store/org/springframework/boot/spring-boot-configuration-processor/2.7.9/spring-boot-configuration-processor-2.7.9.jar" />
         </processorPath>
+        <module name="hx_system" />
+        <module name="hx_core" />
         <module name="hx_job" />
         <module name="hx_common" />
-        <module name="hx_system" />
-        <module name="hx_workflow" />
-        <module name="hx_core" />
         <module name="hx_resource" />
         <module name="hx_manager" />
-        <module name="hx_test" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -82,6 +80,8 @@
       <module name="hexing_workflow_biz" target="1.8" />
       <module name="hx_oss" target="1.8" />
       <module name="hx_sms" target="1.8" />
+      <module name="hx_test" target="1.8" />
+      <module name="hx_workflow" target="1.8" />
       <module name="yudao" target="1.8" />
       <module name="yudao-dependencies" target="1.5" />
     </bytecodeTargetLevel>

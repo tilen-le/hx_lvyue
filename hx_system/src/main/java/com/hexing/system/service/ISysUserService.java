@@ -32,6 +32,14 @@ public interface ISysUserService {
      */
     TableDataInfo<SysUser> selectAllocatedList(SysUser user, PageQuery pageQuery);
 
+
+    /**
+     * 获取库管
+     * @param user
+     * @param pageQuery
+     * @return
+     */
+    TableDataInfo<SysUser> selectStoreKeeper(SysUser user, PageQuery pageQuery);
     /**
      * 根据条件分页查询未分配用户角色列表
      *

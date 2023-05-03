@@ -153,6 +153,11 @@ public class FcOrder extends BaseEntity {
      * 预计质保日期
      */
     private Date expectedWarrantyDate;
+
+    /**
+     * 税率
+     */
+    private String rate;
     private String deleted;
 
     @TableField(exist = false)

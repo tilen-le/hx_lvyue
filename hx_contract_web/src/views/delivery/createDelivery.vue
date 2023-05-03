@@ -13,6 +13,7 @@
               <el-input
                 placeholder=""
                 disabled
+                v-model="contract.contractName"
                 style="width: 100%"
               />
             </el-form-item>
@@ -22,6 +23,7 @@
               <el-input
                 placeholder=""
                 disabled
+                v-model="order.orderNumber"
                 style="width: 100%"
               />
             </el-form-item>
@@ -31,6 +33,7 @@
               <el-input
                 placeholder=""
                 disabled
+                v-model="order.orderTitle"
                 style="width: 100%"
               />
             </el-form-item>
@@ -40,6 +43,7 @@
               <el-input
                 placeholder=""
                 disabled
+                v-model="order.soldToPartyCd"
                 style="width: 100%"
               />
             </el-form-item>
@@ -51,6 +55,7 @@
               <el-input
                 placeholder=""
                 disabled
+                v-model="order.businessUnit"
                 style="width: 100%"
               />
             </el-form-item>
@@ -60,6 +65,7 @@
               <el-input
                 placeholder=""
                 disabled
+                v-model="order.factory"
                 style="width: 100%"
               />
             </el-form-item>
@@ -69,6 +75,7 @@
               <el-input
                 placeholder=""
                 disabled
+                v-model="order.marketingDepartment"
                 style="width: 100%"
               />
             </el-form-item>
@@ -78,6 +85,7 @@
               <el-input
                 placeholder=""
                 disabled
+                v-model="order.requireDeliveryDate"
                 style="width: 100%"
               />
             </el-form-item>
@@ -92,7 +100,7 @@
         <el-row style="margin: 15px 15px 0 15px">
           <el-col :span="6">
             <el-form-item label="收货方">
-              <el-select v-model="deliveryForm.invoiceType" placeholder="请选择" style="width: 90%">
+              <el-select v-model="deliveryForm.consigneeId" placeholder="请选择" style="width: 90%">
                 <el-option
                   v-for="dict in dict.type.invoice_type"
                   :key="dict.value"
@@ -267,13 +275,10 @@
           <el-table-column label="剩余发货" align="center" key="orderNumber" prop="orderNumber"/>
           <el-table-column label="库存" align="center" key="orderNumber" prop="orderNumber"/>
           <el-table-column label="SAP物料编码" align="center" key="orderNumber" prop="orderNumber">
-
           </el-table-column>
           <el-table-column label="单价" align="center" key="orderNumber" prop="orderNumber">
-
           </el-table-column>
           <el-table-column label="技术要求" align="center" key="orderNumber" prop="orderNumber">
-
           </el-table-column>
           <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
             <template slot-scope="scope">
@@ -309,6 +314,7 @@
 
 <script>
 import RegionSelect from "@/components/Forms/RegionSelect.vue";
+import {getOrderDetail} from "@/api/order";
 
 export default {
   name: "createDelivery",
@@ -316,7 +322,22 @@ export default {
   dicts: ['invoice_type'],
   data() {
     return {
-      deliveryForm: {}
+      deliveryForm: {},
+      order: {},
+      contract: {}
+    }
+  },
+  created() {
+    this.getOrderDetail()
+  },
+  methods: {
+    getOrderDetail() {
+      const oid = this.$route.params.oid;
+      const params = {id: oid}
+      getOrderDetail(params).then(res => {
+        this.order = res.data.order
+        this.contract = res.data.contract
+      })
     }
   }
 }

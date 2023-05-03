@@ -1,1 +1,0 @@
-{"doc":" \n @description: 减签参数请求\n @author: firerock_tech\n @created: 2022年4月16日16:01:36\n","fields":[{"name":"taskId","doc":" 任务ID\n"},{"name":"taskIds","doc":" 减签人员\n"},{"name":"executionIds","doc":" 执行id\n"},{"name":"assigneeIds","doc":" 人员id\n"},{"name":"assigneeNames","doc":" 人员名称\n"}],"enumConstants":[],"methods":[],"constructors":[]}

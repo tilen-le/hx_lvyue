@@ -41,22 +41,10 @@
             <artifactId>hx_resource</artifactId>
         </dependency>
 
-        <!--  demo模块  -->
-        <dependency>
-            <groupId>com.hexing</groupId>
-            <artifactId>hx_test</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-
-	    <!--  工作流模块  -->
-        <dependency>
-            <groupId>com.hexing</groupId>
-            <artifactId>hx_workflow</artifactId>
         </dependency>
 
     </dependencies>

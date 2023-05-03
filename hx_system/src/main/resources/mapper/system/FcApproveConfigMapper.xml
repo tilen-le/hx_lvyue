@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hexing.system.mapper.FcApproveConfigMapper">
+
+    <select id="listPageConfig" resultType="com.hexing.system.domain.FcApproveConfig">
+        select config.id,
+               config.factory,
+               config.sale_dept,
+               config.store_keeper,
+               config.ware_manager,
+               config.book_keeper,
+               config.business_unit,
+               u.nick_name  storeKpName,
+               uk.nick_name wareName,
+               unit.nick_name  bookName
+        from fc_approve_config config
+                 left join sys_user u on u.user_id = config.store_keeper
+                 left join sys_user uk on uk.user_id = config.ware_manager
+                 left join sys_user unit on unit.user_id = config.book_keeper
+        where config.category = #{config.category}
+          and config.del_flag = 0
+    </select>
+</mapper>

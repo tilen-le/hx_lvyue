@@ -1,1 +1,0 @@
-{"doc":" \n @description: 模型请求对象\n @author: firerock_tech\n @created: 2022年7月3日16:01:36\n","fields":[{"name":"modelId","doc":" 模型id\n"},{"name":"xml","doc":" 模型xml\n"},{"name":"svg","doc":" 模型图片\n"},{"name":"process","doc":" 流程模型标识\n"},{"name":"name","doc":" 模型名称\n"},{"name":"key","doc":" 模型标识key\n"}],"enumConstants":[],"methods":[],"constructors":[]}

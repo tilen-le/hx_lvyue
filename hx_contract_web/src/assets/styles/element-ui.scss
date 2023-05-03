@@ -45,43 +45,40 @@
     }
   }
 }
-// to fixed https://github.com/ElemeFE/element/issues/2461
-.el-overlay-dialog {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+// 自定义抽屉样式
+.el-drawer__wrapper {
 
-  .el-dialog {
-    .el-dialog__header {
-      padding: 16px 20px;
-      margin-right: 0;
-      border-bottom: 1px solid #f0f0f0;
-    }
-
-    .el-dialog__title {
+  &.ls-drawer-base {
+    .el-drawer__header {
       font-size: 18px;
       color: #333;
       font-weight: 600 !important;
+      border-bottom: 1px solid #f0f0f0;
+      margin-bottom: 0;
+      padding: 20px !important;
     }
 
-    .el-dialog__close {
-      font-weight: 600 !important;
-      font-size: 18px !important;
+    .el-drawer__body {
+      height: 0;
     }
 
-    .el-dialog__body {
-      padding: 15px 20px !important;
-      max-height: calc(100vh - 57px - 55px - 15vh);
-      overflow: auto;
+    .el-drawer__body-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
 
-    .el-dialog__footer {
-      padding: 10px 15px !important;
+    .el-drawer__body-container__body {
+      width: 100%;
+      height: 0;
+      flex: 1;
+    }
+
+    .el-drawer__body-container__footer {
+      width: 100%;
+      height: 60px;
       border-top: 1px solid #f0f0f0;
-      background-color: #F7F8FA;
-      text-align: center;
     }
   }
 }

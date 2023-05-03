@@ -8,7 +8,27 @@ export function listRole(query) {
     params: query
   })
 }
-
+export function listStoreKeeper(query) {
+  return request({
+    url: '/system/role/storeKeeper',
+    method: 'get',
+    params: query
+  })
+}
+export function listWareKeeper(query) {
+  return request({
+    url: '/system/role/wareKeeper',
+    method: 'get',
+    params: query
+  })
+}
+export function listBookKeeper(query) {
+  return request({
+    url: '/system/role/bookKeeper',
+    method: 'get',
+    params: query
+  })
+}
 // 查询角色详细
 export function getRole(roleId) {
   return request({

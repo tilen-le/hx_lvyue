@@ -50,7 +50,6 @@ public class SysRole extends BaseEntity {
      * 角色权限
      */
     @ExcelProperty(value = "角色权限")
-    @NotBlank(message = "权限字符不能为空")
     @Size(min = 0, max = 100, message = "权限字符长度不能超过{max}个字符")
     private String roleKey;
 
@@ -58,7 +57,6 @@ public class SysRole extends BaseEntity {
      * 角色排序
      */
     @ExcelProperty(value = "角色排序")
-    @NotNull(message = "显示顺序不能为空")
     private Integer roleSort;
 
     /**

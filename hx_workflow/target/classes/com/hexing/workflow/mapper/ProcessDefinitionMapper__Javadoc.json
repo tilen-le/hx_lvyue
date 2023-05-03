@@ -1,1 +1,0 @@
-{"doc":" \n @description: 流程定义Mapper\n @author: firerock_tech\n @created: 2022-06-11\n","fields":[],"enumConstants":[],"methods":[{"name":"updateDescriptionById","paramTypes":["java.lang.String","java.lang.String"],"doc":" 修改流程定义挂起描述\n @param definitionId 流程定义id\n @param description 描述\n"}],"constructors":[]}

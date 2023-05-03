@@ -1,11 +1,11 @@
-2023-04-24 11:50:03 [XNIO-1 task-1] ERROR c.h.f.w.e.GlobalExceptionHandler - 请求地址'/getInfo',认证失败'Token无效：eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxIiwicm5TdHIiOiJGTWpyVnI1bkcyRlFXd1MxMGZobWt3QWJ6TjRqNFVNZSJ9.vzDjldgaM4g-UWTt8JPMtuwVSGR5EcEbisOK-ji33vg',无法访问系统资源
-2023-04-24 14:12:51 [XNIO-1 task-1] ERROR c.h.f.w.e.GlobalExceptionHandler - 请求地址'/getInfo',认证失败'Token已过期：eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxIiwicm5TdHIiOiJjU01RVW5RNVhqaGVCbFkyZkRBRGthVWVDdjJhWHFTTCIsInVzZXJJZCI6MX0.1lI5SeXI-LN49G9Fp7Tmn31l7UWUZk3OgImE0R5RqBQ',无法访问系统资源
-2023-04-24 15:03:56 [XNIO-1 task-1] ERROR c.h.f.w.e.GlobalExceptionHandler - 请求地址'/system/dict/data/type/sys_show_hide',认证失败'Token已过期：eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxIiwicm5TdHIiOiJiamlQbWRjdFlyZXdJZzN0aURvWmVqdFAzbGEyd1lhQiIsInVzZXJJZCI6MX0.kkL9zHsMmFLTco3Uei5KS12r9FIFE0yDZ5l7qKlxC2E',无法访问系统资源
-2023-04-24 15:03:56 [XNIO-1 task-3] ERROR c.h.f.w.e.GlobalExceptionHandler - 请求地址'/system/menu/list',认证失败'Token已过期：eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxIiwicm5TdHIiOiJiamlQbWRjdFlyZXdJZzN0aURvWmVqdFAzbGEyd1lhQiIsInVzZXJJZCI6MX0.kkL9zHsMmFLTco3Uei5KS12r9FIFE0yDZ5l7qKlxC2E',无法访问系统资源
-2023-04-24 15:03:56 [XNIO-1 task-2] ERROR c.h.f.w.e.GlobalExceptionHandler - 请求地址'/system/dict/data/type/sys_normal_disable',认证失败'Token已过期：eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxIiwicm5TdHIiOiJiamlQbWRjdFlyZXdJZzN0aURvWmVqdFAzbGEyd1lhQiIsInVzZXJJZCI6MX0.kkL9zHsMmFLTco3Uei5KS12r9FIFE0yDZ5l7qKlxC2E',无法访问系统资源
-2023-04-24 15:47:10 [XNIO-1 task-1] ERROR c.h.f.w.e.GlobalExceptionHandler - 请求地址'/customer/updateOpenBank',发生未知异常.
-org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public com.hexing.common.core.domain.R<java.lang.Void> com.hexing.web.controller.customer.CustomerController.updateOpenBank(com.hexing.system.domain.FcCustomerInvoice)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor.readWithMessageConverters(RequestResponseBodyMethodProcessor.java:163)
+2023-05-03 08:13:18 [XNIO-1 task-1] ERROR c.h.f.w.e.GlobalExceptionHandler - 请求地址'/getInfo',认证失败'Token已过期：eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxIiwicm5TdHIiOiJDWVVGOVdqSHBtemVNNzV2M0h1RDN6NmtWUTRRVm5oTyIsInVzZXJJZCI6MX0.xuzKfivMc9_BaGqNzfMkAGuBMmsuJx8hxK_9RlxTDiM',无法访问系统资源
+2023-05-03 09:11:51 [XNIO-1 task-4] ERROR c.h.f.w.e.GlobalExceptionHandler - 请求地址'/invoice/add',发生未知异常.
+org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot deserialize value of type `java.lang.Integer` from String "1650454735523536897": Overflow: numeric value (1650454735523536897) out of range of `java.lang.Integer` (-2147483648 -2147483647); nested exception is com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `java.lang.Integer` from String "1650454735523536897": Overflow: numeric value (1650454735523536897) out of range of `java.lang.Integer` (-2147483648 -2147483647)
+ at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); line: 1, column: 12] (through reference chain: com.hexing.system.domain.FcOrderInvoice["orderId"])
+	at org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.readJavaType(AbstractJackson2HttpMessageConverter.java:391)
+	at org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.read(AbstractJackson2HttpMessageConverter.java:343)
+	at org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodArgumentResolver.readWithMessageConverters(AbstractMessageConverterMethodArgumentResolver.java:185)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor.readWithMessageConverters(RequestResponseBodyMethodProcessor.java:160)
 	at org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor.resolveArgument(RequestResponseBodyMethodProcessor.java:133)
 	at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:122)
 	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:179)
@@ -17,8 +17,8 @@ org.springframework.http.converter.HttpMessageNotReadableException: Required req
 	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1071)
 	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:964)
 	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
-	at org.springframework.web.servlet.FrameworkServlet.doPut(FrameworkServlet.java:920)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:520)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:517)
 	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
 	at javax.servlet.http.HttpServlet.service(HttpServlet.java:584)
 	at io.undertow.servlet.handlers.ServletHandler.handleRequest(ServletHandler.java:74)
@@ -27,7 +27,7 @@ org.springframework.http.converter.HttpMessageNotReadableException: Required req
 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
 	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:67)
 	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131)
-	at com.hexing.common.filter.RepeatableFilter.doFilter(RepeatableFilter.java:30)
+	at com.hexing.common.filter.RepeatableFilter.doFilter(RepeatableFilter.java:32)
 	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:67)
 	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131)
 	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
@@ -79,95 +79,29 @@ org.springframework.http.converter.HttpMessageNotReadableException: Required req
 	at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.run(EnhancedQueueExecutor.java:1449)
 	at org.xnio.XnioWorker$WorkerThreadFactory$1$1.run(XnioWorker.java:1282)
 	at java.lang.Thread.run(Thread.java:750)
-2023-04-24 15:47:21 [XNIO-1 task-1] ERROR c.h.f.w.e.GlobalExceptionHandler - 请求地址'/customer/updateOpenBank',发生未知异常.
-org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public com.hexing.common.core.domain.R<java.lang.Void> com.hexing.web.controller.customer.CustomerController.updateOpenBank(com.hexing.system.domain.FcCustomerInvoice)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor.readWithMessageConverters(RequestResponseBodyMethodProcessor.java:163)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor.resolveArgument(RequestResponseBodyMethodProcessor.java:133)
-	at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:122)
-	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:179)
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:146)
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1071)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:964)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
-	at org.springframework.web.servlet.FrameworkServlet.doPut(FrameworkServlet.java:920)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:520)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:584)
-	at io.undertow.servlet.handlers.ServletHandler.handleRequest(ServletHandler.java:74)
-	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:129)
-	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
-	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:67)
-	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131)
-	at com.hexing.common.filter.RepeatableFilter.doFilter(RepeatableFilter.java:30)
-	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:67)
-	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
-	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:67)
-	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
-	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:67)
-	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131)
-	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.doFilterInternal(WebMvcMetricsFilter.java:96)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
-	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:67)
-	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
-	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:67)
-	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131)
-	at io.undertow.servlet.handlers.FilterHandler.handleRequest(FilterHandler.java:84)
-	at io.undertow.servlet.handlers.security.ServletSecurityRoleHandler.handleRequest(ServletSecurityRoleHandler.java:62)
-	at io.undertow.servlet.handlers.ServletChain$1.handleRequest(ServletChain.java:68)
-	at io.undertow.servlet.handlers.ServletDispatchingHandler.handleRequest(ServletDispatchingHandler.java:36)
-	at io.undertow.servlet.handlers.RedirectDirHandler.handleRequest(RedirectDirHandler.java:68)
-	at io.undertow.servlet.handlers.security.SSLInformationAssociationHandler.handleRequest(SSLInformationAssociationHandler.java:117)
-	at io.undertow.servlet.handlers.security.ServletAuthenticationCallHandler.handleRequest(ServletAuthenticationCallHandler.java:57)
-	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
-	at io.undertow.security.handlers.AbstractConfidentialityHandler.handleRequest(AbstractConfidentialityHandler.java:46)
-	at io.undertow.servlet.handlers.security.ServletConfidentialityConstraintHandler.handleRequest(ServletConfidentialityConstraintHandler.java:64)
-	at io.undertow.security.handlers.AuthenticationMechanismsHandler.handleRequest(AuthenticationMechanismsHandler.java:60)
-	at io.undertow.servlet.handlers.security.CachedAuthenticatedSessionHandler.handleRequest(CachedAuthenticatedSessionHandler.java:77)
-	at io.undertow.security.handlers.AbstractSecurityContextAssociationHandler.handleRequest(AbstractSecurityContextAssociationHandler.java:43)
-	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
-	at io.undertow.servlet.handlers.SendErrorPageHandler.handleRequest(SendErrorPageHandler.java:52)
-	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
-	at io.undertow.servlet.handlers.ServletInitialHandler.handleFirstRequest(ServletInitialHandler.java:275)
-	at io.undertow.servlet.handlers.ServletInitialHandler.access$100(ServletInitialHandler.java:79)
-	at io.undertow.servlet.handlers.ServletInitialHandler$2.call(ServletInitialHandler.java:134)
-	at io.undertow.servlet.handlers.ServletInitialHandler$2.call(ServletInitialHandler.java:131)
-	at io.undertow.servlet.core.ServletRequestContextThreadSetupAction$1.call(ServletRequestContextThreadSetupAction.java:48)
-	at io.undertow.servlet.core.ContextClassLoaderSetupAction$1.call(ContextClassLoaderSetupAction.java:43)
-	at io.undertow.servlet.handlers.ServletInitialHandler.dispatchRequest(ServletInitialHandler.java:255)
-	at io.undertow.servlet.handlers.ServletInitialHandler.access$000(ServletInitialHandler.java:79)
-	at io.undertow.servlet.handlers.ServletInitialHandler$1.handleRequest(ServletInitialHandler.java:100)
-	at io.undertow.server.Connectors.executeRootHandler(Connectors.java:393)
-	at io.undertow.server.HttpServerExchange$1.run(HttpServerExchange.java:852)
-	at org.jboss.threads.ContextClassLoaderSavingRunnable.run(ContextClassLoaderSavingRunnable.java:35)
-	at org.jboss.threads.EnhancedQueueExecutor.safeRun(EnhancedQueueExecutor.java:2019)
-	at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.doRunTask(EnhancedQueueExecutor.java:1558)
-	at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.run(EnhancedQueueExecutor.java:1449)
-	at org.xnio.XnioWorker$WorkerThreadFactory$1$1.run(XnioWorker.java:1282)
-	at java.lang.Thread.run(Thread.java:750)
-2023-04-24 16:05:35 [XNIO-1 task-1] ERROR c.h.s.service.impl.OrderServiceImpl - {"flag":"0","vsnmrV":"国网","posnr":"10","posnrRe":"10","vbelnT":"P285103第一批项目","matnr":"HXD837-F30R11000","vbelnRe":"NZJ2304001","kunnrPy":"P285103","netprZpr0":"11.5","zywlx":"行业","kunnrBp":"P285103","vbeln":"PN23.04005","vdatu":"2023-04-23","vkbur":"P991","zgj":"CN","kunnrSh":"P285103","vkgrp":"953","zmeng":"5.0","auart":"ZOR1","kunnrSp":"P285103","zltcso":"P285103","vtweg":"90","spart":"90","werks":"1007","zspare9":"HXD837-F30R11003","kdmat":"HXD837-F30R11000","kunnrEr":"P285103","zspare2":"HX-PJ-06266","zywzl":"行业业务","vkorg":"1000"}
-2023-04-24 16:41:18 [XNIO-1 task-1] ERROR c.h.s.service.impl.OrderServiceImpl - {"flag":"0","vsnmrV":"国网","posnr":"10","posnrRe":"10","vbelnT":"P285103第一批项目","matnr":"HXD837-F30R11000","vbelnRe":"NZJ2304001","kunnrPy":"P285103","netprZpr0":"11.5","zywlx":"行业","kunnrBp":"P285103","vbeln":"PN23.04005","vdatu":"2023-04-23","vkbur":"P991","zgj":"CN","kunnrSh":"P285103","vkgrp":"953","zmeng":"5.0","auart":"ZOR1","kunnrSp":"P285103","zltcso":"P285103","vtweg":"90","spart":"90","werks":"1007","zspare9":"HXD837-F30R11003","kdmat":"HXD837-F30R11000","kunnrEr":"P285103","zspare2":"HX-PJ-06266","zywzl":"行业业务","vkorg":"1000"}
-2023-04-24 16:41:49 [XNIO-1 task-1] ERROR c.h.s.service.impl.OrderServiceImpl - {"flag":"0","vsnmrV":"国网","posnr":"10","posnrRe":"10","vbelnT":"P285103第一批项目","matnr":"HXD837-F30R11000","vbelnRe":"NZJ2304001","kunnrPy":"P285103","netprZpr0":"11.5","zywlx":"行业","kunnrBp":"P285103","vbeln":"PN23.04005","vdatu":"2023-04-23","vkbur":"P991","zgj":"CN","kunnrSh":"P285103","vkgrp":"953","zmeng":"5.0","auart":"ZOR1","kunnrSp":"P285103","kunnrSpT":"扬州新概念电气有限公司","zltcso":"P285103","vtweg":"90","spart":"90","werks":"1007","zspare9":"HXD837-F30R11003","kdmat":"HXD837-F30R11000","kunnrEr":"P285103","zspare2":"HX-PJ-06266","zywzl":"行业业务","vkorg":"1000","amount":"57.52","zsj":null,"kunnrPyT":"扬州新概念电气有限公司","kunnrBpT":"扬州 新概念电气有限公司","erdat":"2023-04-23"}
-2023-04-24 16:41:49 [XNIO-1 task-1] ERROR c.h.f.w.e.GlobalExceptionHandler - 请求地址'/sync/order',发生未知异常.
-java.lang.NumberFormatException: For input string: "NZJ2304001"
-	at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
-	at java.lang.Long.parseLong(Long.java:589)
-	at java.lang.Long.valueOf(Long.java:803)
-	at com.hexing.system.service.impl.OrderServiceImpl.handleOrderStruct(OrderServiceImpl.java:70)
-	at java.util.ArrayList.forEach(ArrayList.java:1259)
-	at com.hexing.system.service.impl.OrderServiceImpl.saveOrder(OrderServiceImpl.java:38)
-	at com.hexing.web.controller.common.NotifyController.syncOrder(NotifyController.java:28)
-	at com.hexing.web.controller.common.NotifyController$$FastClassBySpringCGLIB$$21689d4a.invoke(<generated>)
+Caused by: com.fasterxml.jackson.databind.exc.InvalidFormatException: Cannot deserialize value of type `java.lang.Integer` from String "1650454735523536897": Overflow: numeric value (1650454735523536897) out of range of `java.lang.Integer` (-2147483648 -2147483647)
+ at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); line: 1, column: 12] (through reference chain: com.hexing.system.domain.FcOrderInvoice["orderId"])
+	at com.fasterxml.jackson.databind.exc.InvalidFormatException.from(InvalidFormatException.java:67)
+	at com.fasterxml.jackson.databind.DeserializationContext.weirdStringException(DeserializationContext.java:1991)
+	at com.fasterxml.jackson.databind.DeserializationContext.handleWeirdStringValue(DeserializationContext.java:1219)
+	at com.fasterxml.jackson.databind.deser.std.StdDeserializer._parseInteger(StdDeserializer.java:836)
+	at com.fasterxml.jackson.databind.deser.std.StdDeserializer._parseInteger(StdDeserializer.java:824)
+	at com.fasterxml.jackson.databind.deser.std.NumberDeserializers$IntegerDeserializer.deserialize(NumberDeserializers.java:531)
+	at com.fasterxml.jackson.databind.deser.std.NumberDeserializers$IntegerDeserializer.deserialize(NumberDeserializers.java:506)
+	at com.fasterxml.jackson.databind.deser.impl.MethodProperty.deserializeAndSet(MethodProperty.java:129)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserializeFromObject(BeanDeserializer.java:392)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:185)
+	at com.fasterxml.jackson.databind.deser.DefaultDeserializationContext.readRootValue(DefaultDeserializationContext.java:323)
+	at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:4674)
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3682)
+	at org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.readJavaType(AbstractJackson2HttpMessageConverter.java:380)
+	... 76 common frames omitted
+2023-05-03 09:14:09 [XNIO-1 task-1] ERROR c.h.s.s.i.FcOrderInvoiceServiceImpl - {"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"id":null,"invoiceNumber":null,"orderId":"1650454735523536897","invoiceType":1,"saleBank":"1650749009305649154","consigneeId":"0080000000","openingBank":"1651848529863086082","arrivalDate":"2023-05-03","checkDate":"2023-05-04","approvalStatus":null,"totalAmountWithTax":"150","totalAmountWithoutTax":"149.13","tax":"150","consignmentId":"1648947651229335554","deleted":null,"orderNumber":null,"products":null,"fileIds":"1653568006476656642,1653568007160328194"}
+2023-05-03 09:22:05 [XNIO-1 task-2] ERROR c.h.f.w.e.GlobalExceptionHandler - 开票明细不能为空
+com.hexing.common.exception.ServiceException: 开票明细不能为空
+	at com.hexing.system.service.impl.FcOrderInvoiceServiceImpl.saveFcOrderInvoice(FcOrderInvoiceServiceImpl.java:56)
+	at com.hexing.web.controller.invoice.InvoiceController.add(InvoiceController.java:29)
+	at com.hexing.web.controller.invoice.InvoiceController$$FastClassBySpringCGLIB$$8e91b54a.invoke(<generated>)
 	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:793)
 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
@@ -176,7 +110,7 @@ java.lang.NumberFormatException: For input string: "NZJ2304001"
 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
 	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:708)
-	at com.hexing.web.controller.common.NotifyController$$EnhancerBySpringCGLIB$$3c4dfb10.syncOrder(<generated>)
+	at com.hexing.web.controller.invoice.InvoiceController$$EnhancerBySpringCGLIB$$4a218ea7.add(<generated>)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -249,17 +183,16 @@ java.lang.NumberFormatException: For input string: "NZJ2304001"
 	at org.jboss.threads.ContextClassLoaderSavingRunnable.run(ContextClassLoaderSavingRunnable.java:35)
 	at org.jboss.threads.EnhancedQueueExecutor.safeRun(EnhancedQueueExecutor.java:2019)
 	at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.doRunTask(EnhancedQueueExecutor.java:1558)
-	at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.run(EnhancedQueueExecutor.java:1423)
+	at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.run(EnhancedQueueExecutor.java:1449)
 	at org.xnio.XnioWorker$WorkerThreadFactory$1$1.run(XnioWorker.java:1282)
 	at java.lang.Thread.run(Thread.java:750)
-2023-04-24 17:03:33 [XNIO-1 task-1] ERROR c.h.s.service.impl.OrderServiceImpl - {"flag":"0","vsnmrV":"国网","posnr":"10","posnrRe":"10","vbelnT":"P285103第一批项目","matnr":"HXD837-F30R11000","vbelnRe":"NZJ2304001","kunnrPy":"P285103","netprZpr0":"11.5","zywlx":"行业","kunnrBp":"P285103","vbeln":"PN23.04005","vdatu":"2023-04-23","vkbur":"P991","zgj":"CN","kunnrSh":"P285103","vkgrp":"953","zmeng":"5.0","auart":"ZOR1","kunnrSp":"P285103","kunnrSpT":"扬州新概念电气有限公司","zltcso":"P285103","vtweg":"90","spart":"90","werks":"1007","zspare9":"HXD837-F30R11003","kdmat":"HXD837-F30R11000","kunnrEr":"P285103","zspare2":"HX-PJ-06266","zywzl":"行业业务","vkorg":"1000","amount":"57.52","zsj":null,"kunnrPyT":"扬州新概念电气有限公司","kunnrBpT":"扬州 新概念电气有限公司","erdat":"2023-04-23"}
-2023-04-24 17:03:34 [XNIO-1 task-1] ERROR c.h.f.w.e.GlobalExceptionHandler - 请求地址'/sync/order',发生未知异常.
+2023-05-03 09:23:03 [XNIO-1 task-1] ERROR c.h.f.w.e.GlobalExceptionHandler - 请求地址'/invoice/add',发生未知异常.
 org.springframework.dao.DataIntegrityViolationException: 
 ### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Out of range value for column 'id' at row 1
-### The error may exist in com/hexing/system/mapper/FcOrderMapper.java (best guess)
-### The error may involve com.hexing.system.mapper.FcOrderMapper.insert-Inline
+### The error may exist in com/hexing/system/mapper/FcOrderInvoiceDetailMapper.java (best guess)
+### The error may involve com.hexing.system.mapper.FcOrderInvoiceDetailMapper.insert-Inline
 ### The error occurred while setting parameters
-### SQL: INSERT INTO fc_order  ( id,  order_number, order_title, currency,  sap_create_time, sold_to_party, sold_to_party_cd, amount,     reciver_cd, reciver,  customer_manager, bilee_cd, billee,  sale_org,    distribution_channel,         create_by, create_time, update_by, update_time )  VALUES  ( ?,  ?, ?, ?,  ?, ?, ?, ?,     ?, ?,  ?, ?, ?,  ?,    ?,         ?, ?, ?, ? )
+### SQL: INSERT INTO fc_order_invoice_detail  ( id, invoice_id, order_product_id, unit, sap_financial_code, applied_quantity, invoicing_unit_price_with_tax, customer_material_name, customer_spec_name, invoicing_amount_with_tax,  create_by, create_time, update_by, update_time )  VALUES  ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?, ? )
 ### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Out of range value for column 'id' at row 1
 ; Data truncation: Out of range value for column 'id' at row 1; nested exception is com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Out of range value for column 'id' at row 1
 	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:104)
@@ -268,17 +201,15 @@ org.springframework.dao.DataIntegrityViolationException:
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
 	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:91)
 	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:441)
-	at com.sun.proxy.$Proxy130.insert(Unknown Source)
+	at com.sun.proxy.$Proxy124.insert(Unknown Source)
 	at org.mybatis.spring.SqlSessionTemplate.insert(SqlSessionTemplate.java:272)
 	at com.baomidou.mybatisplus.core.override.MybatisMapperMethod.execute(MybatisMapperMethod.java:59)
 	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy$PlainMethodInvoker.invoke(MybatisMapperProxy.java:148)
 	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy.invoke(MybatisMapperProxy.java:89)
-	at com.sun.proxy.$Proxy135.insert(Unknown Source)
-	at com.hexing.system.service.impl.OrderServiceImpl.handleOrderStruct(OrderServiceImpl.java:97)
-	at java.util.ArrayList.forEach(ArrayList.java:1259)
-	at com.hexing.system.service.impl.OrderServiceImpl.saveOrder(OrderServiceImpl.java:42)
-	at com.hexing.web.controller.common.NotifyController.syncOrder(NotifyController.java:28)
-	at com.hexing.web.controller.common.NotifyController$$FastClassBySpringCGLIB$$21689d4a.invoke(<generated>)
+	at com.sun.proxy.$Proxy143.insert(Unknown Source)
+	at com.hexing.system.service.impl.FcOrderInvoiceServiceImpl.saveFcOrderInvoice(FcOrderInvoiceServiceImpl.java:62)
+	at com.hexing.web.controller.invoice.InvoiceController.add(InvoiceController.java:29)
+	at com.hexing.web.controller.invoice.InvoiceController$$FastClassBySpringCGLIB$$8e91b54a.invoke(<generated>)
 	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:793)
 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
@@ -287,7 +218,7 @@ org.springframework.dao.DataIntegrityViolationException:
 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
 	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:708)
-	at com.hexing.web.controller.common.NotifyController$$EnhancerBySpringCGLIB$$2a6808de.syncOrder(<generated>)
+	at com.hexing.web.controller.invoice.InvoiceController$$EnhancerBySpringCGLIB$$9c7df14a.add(<generated>)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -396,8 +327,8 @@ Caused by: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Ou
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 	at java.lang.reflect.Method.invoke(Method.java:498)
 	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:427)
-	... 95 common frames omitted
-2023-04-24 17:06:42 [XNIO-1 task-1] ERROR c.h.s.service.impl.OrderServiceImpl - {"flag":"0","vsnmrV":"国网","posnr":"10","posnrRe":"10","vbelnT":"P285103第一批项目","matnr":"HXD837-F30R11000","vbelnRe":"NZJ2304001","kunnrPy":"P285103","netprZpr0":"11.5","zywlx":"行业","kunnrBp":"P285103","vbeln":"PN23.04005","vdatu":"2023-04-23","vkbur":"P991","zgj":"CN","kunnrSh":"P285103","vkgrp":"953","zmeng":"5.0","auart":"ZOR1","kunnrSp":"P285103","kunnrSpT":"扬州新概念电气有限公司","zltcso":"P285103","vtweg":"90","spart":"90","werks":"1007","zspare9":"HXD837-F30R11003","kdmat":"HXD837-F30R11000","kunnrEr":"P285103","zspare2":"HX-PJ-06266","zywzl":"行业业务","vkorg":"1000","amount":"57.52","zsj":null,"kunnrPyT":"扬州新概念电气有限公司","kunnrBpT":"扬州 新概念电气有限公司","erdat":"2023-04-23"}
-2023-04-24 17:08:38 [XNIO-1 task-1] ERROR c.h.f.w.e.GlobalExceptionHandler - 请求地址'/system/dict/data/type/sys_job_group',认证失败'Token无效：eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxIiwicm5TdHIiOiJRbHMwbFZjeWxuT1lUWFV5RjhxNFYwenZmV3ZjR2xybiJ9.9vTnoqGBxCJ57ci-jWT3tv7vWAXtPPsPrNyM56FNujc',无法访问系统资源
-2023-04-24 17:08:38 [XNIO-1 task-2] ERROR c.h.f.w.e.GlobalExceptionHandler - 请求地址'/system/dict/data/type/sys_job_status',认证失败'Token无效：eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxIiwicm5TdHIiOiJRbHMwbFZjeWxuT1lUWFV5RjhxNFYwenZmV3ZjR2xybiJ9.9vTnoqGBxCJ57ci-jWT3tv7vWAXtPPsPrNyM56FNujc',无法访问系统资源
-2023-04-24 17:08:38 [XNIO-1 task-4] ERROR c.h.f.w.e.GlobalExceptionHandler - 请求地址'/monitor/job/list',认证失败'Token无效：eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxIiwicm5TdHIiOiJRbHMwbFZjeWxuT1lUWFV5RjhxNFYwenZmV3ZjR2xybiJ9.9vTnoqGBxCJ57ci-jWT3tv7vWAXtPPsPrNyM56FNujc',无法访问系统资源
+	... 93 common frames omitted
+2023-05-03 09:56:31 [XNIO-1 task-1] ERROR c.h.f.w.e.GlobalExceptionHandler - 请求地址'/system/saleBank/available',认证失败'Token已过期：eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxIiwicm5TdHIiOiJWWFNRd1p1Y1BLTDNtWjF3RTVMQkdUR3pmbmxLY0hrTCIsInVzZXJJZCI6MX0.elwHYMgNkdG5SUGfTvs2ExdZoU0cKRF7HVwI3B0sBSs',无法访问系统资源
+2023-05-03 09:56:31 [XNIO-1 task-2] ERROR c.h.f.w.e.GlobalExceptionHandler - 请求地址'/order/detailMap',认证失败'Token已过期：eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxIiwicm5TdHIiOiJWWFNRd1p1Y1BLTDNtWjF3RTVMQkdUR3pmbmxLY0hrTCIsInVzZXJJZCI6MX0.elwHYMgNkdG5SUGfTvs2ExdZoU0cKRF7HVwI3B0sBSs',无法访问系统资源
+2023-05-03 09:57:17 [XNIO-1 task-2] ERROR c.h.f.w.e.GlobalExceptionHandler - 请求地址'/order/detailMap',认证失败'Token已过期：eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxIiwicm5TdHIiOiJWWFNRd1p1Y1BLTDNtWjF3RTVMQkdUR3pmbmxLY0hrTCIsInVzZXJJZCI6MX0.elwHYMgNkdG5SUGfTvs2ExdZoU0cKRF7HVwI3B0sBSs',无法访问系统资源
+2023-05-03 09:57:17 [XNIO-1 task-2] ERROR c.h.f.w.e.GlobalExceptionHandler - 请求地址'/system/saleBank/available',认证失败'Token已过期：eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJzeXNfdXNlcjoxIiwicm5TdHIiOiJWWFNRd1p1Y1BLTDNtWjF3RTVMQkdUR3pmbmxLY0hrTCIsInVzZXJJZCI6MX0.elwHYMgNkdG5SUGfTvs2ExdZoU0cKRF7HVwI3B0sBSs',无法访问系统资源

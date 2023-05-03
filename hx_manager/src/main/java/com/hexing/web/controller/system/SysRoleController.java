@@ -189,6 +189,26 @@ public class SysRoleController extends BaseController {
         return userService.selectAllocatedList(user, pageQuery);
     }
 
+
+    @SaCheckPermission("system:role:list")
+    @GetMapping("/storeKeeper")
+    public TableDataInfo<SysUser> storeKeeper(SysUser user, PageQuery pageQuery) {
+        user.setUserName("库管");
+        return userService.selectStoreKeeper(user, pageQuery);
+    }
+    @SaCheckPermission("system:role:list")
+    @GetMapping("/wareKeeper")
+    public TableDataInfo<SysUser> wareKeeper(SysUser user, PageQuery pageQuery) {
+        user.setUserName("仓储部经理");
+        return userService.selectStoreKeeper(user, pageQuery);
+    }
+    @SaCheckPermission("system:role:list")
+    @GetMapping("/bookKeeper")
+    public TableDataInfo<SysUser> bookKeeper(SysUser user, PageQuery pageQuery) {
+        user.setUserName("财务");
+        return userService.selectStoreKeeper(user, pageQuery);
+    }
+
     /**
      * 查询未分配用户角色列表
      */

@@ -32,6 +32,14 @@ public interface IFcCustomerConsignmentService {
     List<FcCustomerConsignment> listFcCustomerConsignment(String cusId);
 
     /**
+     * 通过客户code获取客户收货信息
+     * @param code
+     * @return
+     */
+    List<FcCustomerConsignment> listFcCustomerConsignmentByCode(String code);
+
+
+    /**
      * 删除指定客户收货信息
      * @param id
      * @return

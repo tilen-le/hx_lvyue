@@ -13,6 +13,8 @@
         <option value="$PROJECT_DIR$/hexing_member/pom.xml" />
         <option value="$PROJECT_DIR$/hx_oss/pom.xml" />
         <option value="$PROJECT_DIR$/hx_sms/pom.xml" />
+        <option value="$PROJECT_DIR$/hx_test/pom.xml" />
+        <option value="$PROJECT_DIR$/hx_workflow/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
@@ -20,6 +22,8 @@
         <option value="$PROJECT_DIR$/hexing_member/pom.xml" />
         <option value="$PROJECT_DIR$/hx_oss/pom.xml" />
         <option value="$PROJECT_DIR$/hx_sms/pom.xml" />
+        <option value="$PROJECT_DIR$/hx_test/pom.xml" />
+        <option value="$PROJECT_DIR$/hx_workflow/pom.xml" />
       </set>
     </option>
   </component>

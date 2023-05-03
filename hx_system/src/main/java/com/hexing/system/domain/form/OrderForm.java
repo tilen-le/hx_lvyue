@@ -50,6 +50,8 @@ public class OrderForm {
     private String kunnrBpT;
     private String maktx;
     private String waers;
+    private String itext2;
+    private String zsl;
 
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date erdat;
