@@ -6,7 +6,8 @@
       <paths name="hx">
         <serverdata>
           <mappings>
-            <mapping deploy="/" local="$PROJECT_DIR$/hx_manager/target" web="/" />
+            <mapping local="$PROJECT_DIR$/hx_resource" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
