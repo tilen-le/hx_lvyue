@@ -173,6 +173,9 @@ public class FcPaymentClaimServiceImpl implements IFcPaymentClaimService {
         queryWrapper.eq(FcPayment::getId, fcPaymentClaim.getPaymentId());
         FcPayment fcPayment = fcPaymentMapper.selectOne(queryWrapper);
         List<FcPaymentClaimDetail> details = fcPaymentClaim.getDetails();
+        if(details==null){
+            details=fcPaymentClaimDetailService.listClaimDetail(fcPaymentClaim.getId());
+        }
         Map<String, Object> params = new HashMap<>();
         params.put("interfaceCode", "ZLVY_RLD");
         List<Object> orders = new ArrayList<>(details.size());

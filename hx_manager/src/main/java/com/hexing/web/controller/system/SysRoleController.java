@@ -208,7 +208,12 @@ public class SysRoleController extends BaseController {
         user.setUserName("财务");
         return userService.selectStoreKeeper(user, pageQuery);
     }
-
+    @SaCheckPermission("system:role:list")
+    @GetMapping("/docKeeper")
+    public TableDataInfo<SysUser> docKeeper(SysUser user, PageQuery pageQuery) {
+        user.setUserName("单证专员");
+        return userService.selectStoreKeeper(user, pageQuery);
+    }
     /**
      * 查询未分配用户角色列表
      */

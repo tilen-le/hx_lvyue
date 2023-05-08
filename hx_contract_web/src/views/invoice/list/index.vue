@@ -52,28 +52,30 @@
     <div class="angel-card-table">
       <el-table v-loading="loading" :data="deliveryList" border
                 row-key="id">
-        <el-table-column label="开票编码" align="center" key="orderNumber" prop="orderNumber"/>
+        <el-table-column label="开票编码" align="center" key="invoiceNumber" prop="invoiceNumber"/>
         <el-table-column label="订单名称" align="center" key="orderTitle" prop="orderTitle"
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="客户名称" align="center" key="soldToPartyCd" prop="soldToPartyCd"
+        <el-table-column label="客户名称" align="center" key="customer" prop="customer"
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="开票金额" align="center" key="status">
+        <el-table-column label="开票金额" align="center" prop="tax">
         </el-table-column>
         <el-table-column label="审批状态" align="center" key="amount" prop="amount"
+                         :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <dict-tag :options="dict.type.approve_status" :value="scope.row.approvalStatus"/>
+          </template>
+        </el-table-column>
+        <el-table-column label="创建日期" align="center" key="" prop="createTime"
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="是否退开" align="center" key="" prop=""
+        <el-table-column label="创建人" align="center" key="" prop="createBy"
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="创建日期" align="center" key="" prop=""
-                         :show-overflow-tooltip="true"/>
-        <el-table-column label="创建人" align="center" key="" prop=""
-                         :show-overflow-tooltip="true"/>
-        <el-table-column label="合同" align="center" key="" prop=""
+        <el-table-column label="合同" align="center" key="" prop="contractName"
                          :show-overflow-tooltip="true"/>
         <el-table-column label="所属办事处" align="center" key="" prop=""
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="事业部" align="center" key="" prop=""
+        <el-table-column label="事业部" align="center" key="" prop="businessUnit"
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="工厂" align="center" key="" prop=""
+        <el-table-column label="工厂" align="center" key="" prop="factory"
                          :show-overflow-tooltip="true"/>
         <el-table-column label="SAP同步时间" align="center" key="" prop=""
                          :show-overflow-tooltip="true"/>
@@ -108,9 +110,11 @@
 </template>
 
 <script>
+import {listInvoice} from "@/api/invoice";
+
 export default {
   name: "index",
-  dicts: ['sys_customer_status'],
+  dicts: ['sys_customer_status','approve_status'],
   data() {
     return {
       queryParams: {
@@ -120,6 +124,20 @@ export default {
       loading: false,
       deliveryList: [],
       total: 0,
+    }
+  },
+  created() {
+    this.getList()
+  },
+  methods: {
+    handleQuery() {
+      this.getList()
+    },
+    getList() {
+      listInvoice(this.queryParams).then(res => {
+        this.deliveryList = res.rows
+        this.total = res.total
+      })
     }
   }
 }

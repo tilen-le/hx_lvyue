@@ -29,6 +29,16 @@ export function listBookKeeper(query) {
     params: query
   })
 }
+
+export function listDocKeeper(query) {
+  return request({
+    url: '/system/role/docKeeper',
+    method: 'get',
+    params: query
+  })
+}
+
+
 // 查询角色详细
 export function getRole(roleId) {
   return request({

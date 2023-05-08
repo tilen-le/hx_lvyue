@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.page.TableDataInfo;
 import com.hexing.common.exception.ServiceException;
+import com.hexing.common.utils.JsonUtils;
 import com.hexing.system.domain.FcOrderConsignment;
 import com.hexing.system.domain.FcOrderInvoice;
 import com.hexing.system.mapper.FcOrderConsignmentDetailMapper;
@@ -34,6 +35,7 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
 
     @Override
     public int saveFcOrderConsignment(FcOrderConsignment fcOrderConsignment) {
+        log.error(JsonUtils.toJsonString(fcOrderConsignment));
         LambdaQueryWrapper<FcOrderConsignment> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(FcOrderConsignment::getOrderId, fcOrderConsignment.getOrderId());
         if (baseMapper.selectCount(queryWrapper) > 0) {
@@ -43,6 +45,7 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
         if (result > 0) {
             fcOrderConsignment.getProducts().forEach(item -> {
                 item.setConsignmentId(fcOrderConsignment.getId().toString());
+                item.setOrderProductId(fcOrderConsignment.getOrderId());
                 fcOrderConsignmentDetailMapper.insert(item);
             });
         }
@@ -61,7 +64,7 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
 
     @Override
     public TableDataInfo<FcOrderConsignment> listFcOrderConsignment(FcOrderConsignment fcOrderConsignment, PageQuery pageQuery) {
-        Page<FcOrderConsignment> page = baseMapper.selectPage(pageQuery.build(), buildQueryWrapper(fcOrderConsignment));
+        Page<FcOrderConsignment> page = baseMapper.listFcOrder(pageQuery.build(), fcOrderConsignment);
         return TableDataInfo.build(page);
     }
 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hexing.system.mapper.FcOrderInvoiceMapper">
+
+    <select id="listPageInvoice" resultType="com.hexing.system.domain.FcOrderInvoice">
+        select foi.id,
+               foi.invoice_number,
+               fc.order_title orderTitle,
+               fc.sold_to_party_cd customer,
+               foi.tax,
+               foi.approval_status,
+               foi.create_by,
+               foi.create_time,
+               con.contract_name contractName,
+               fc.business_unit businessUnit,
+               fc.factory factory
+        from fc_order_invoice foi
+                 left join fc_order fc on fc.id = foi.order_id
+        left join fc_contract con on con.id=fc.contract_id
+
+    </select>
+</mapper>

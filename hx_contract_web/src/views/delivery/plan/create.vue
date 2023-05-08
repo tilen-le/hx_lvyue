@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="planForm" ref="queryForm" size="small" label-width="130px"
+    <el-form :model="planForm" ref="queryForm" size="small" :rules="rules" label-width="130px"
              style="margin: 15px">
       <div class="plan-header">
         <div style="display: flex;align-items: center">
@@ -44,16 +44,21 @@
             <el-form-item label="客户" prop="customerId">
               <el-select
                 v-model="planForm.customerId"
-                placeholder="请选择"
-                clearable
+                filterable
+                remote
+                reserve-keyword
                 style="width: 90%"
-              >
+                placeholder="请输入"
+                :remote-method="remoteMethod"
+                @change="changeBe"
+                :loading="searchLoading">
                 <el-option
-                  v-for="dict in dict.type.sys_customer_status"
-                  :key="dict.value"
-                  :label="dict.label"
-                  :value="dict.value"
-                />
+                  v-for="item in customer"
+                  :key="item.code"
+                  :label="item.name"
+                  :value="item.code">
+                  {{ item.name }}({{ item.code }})
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -61,16 +66,21 @@
             <el-form-item label="收货方" prop="consignee">
               <el-select
                 v-model="planForm.consignee"
-                placeholder="请选择"
-                clearable
+                filterable
+                remote
+                reserve-keyword
                 style="width: 90%"
-              >
+                placeholder="请输入"
+                :remote-method="remoteMethod"
+                @change="changeBe"
+                :loading="searchLoading">
                 <el-option
-                  v-for="dict in dict.type.sys_customer_status"
-                  :key="dict.value"
-                  :label="dict.label"
-                  :value="dict.value"
-                />
+                  v-for="item in customer"
+                  :key="item.code"
+                  :label="item.name"
+                  :value="item.code">
+                  {{ item.name }}({{ item.code }})
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -93,9 +103,8 @@
                 placeholder="请选择"
                 clearable
                 style="width: 90%">
-                >
                 <el-option
-                  v-for="dict in dict.type.sys_customer_status"
+                  v-for="dict in dict.type.continent"
                   :key="dict.value"
                   :label="dict.label"
                   :value="dict.value"
@@ -110,9 +119,8 @@
                 placeholder="请选择"
                 clearable
                 style="width: 90%">
-                >
                 <el-option
-                  v-for="dict in dict.type.sys_customer_status"
+                  v-for="dict in nation"
                   :key="dict.value"
                   :label="dict.label"
                   :value="dict.value"
@@ -124,16 +132,21 @@
             <el-form-item label="通知方" prop="notifyId">
               <el-select
                 v-model="planForm.notifyId"
-                placeholder="请选择"
-                clearable
+                filterable
+                remote
+                reserve-keyword
                 style="width: 90%"
-              >
+                placeholder="请输入"
+                :remote-method="remoteMethod"
+                @change="changeBe"
+                :loading="searchLoading">
                 <el-option
-                  v-for="dict in dict.type.sys_customer_status"
-                  :key="dict.value"
-                  :label="dict.label"
-                  :value="dict.value"
-                />
+                  v-for="item in customer"
+                  :key="item.code"
+                  :label="item.name"
+                  :value="item.code">
+                  {{ item.name }}({{ item.code }})
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -154,7 +167,7 @@
                 style="width: 90%"
               >
                 <el-option
-                  v-for="dict in dict.type.sys_customer_status"
+                  v-for="dict in dict.type.sys_y_n"
                   :key="dict.value"
                   :label="dict.label"
                   :value="dict.value"
@@ -273,21 +286,27 @@
         <el-row style="margin: 15px 15px 0 15px">
           <el-col :span="6">
             <el-form-item label="单证专员" prop="documentSpecialist">
-              <el-input v-model="planForm.documentSpecialist" placeholder="请输入"
-                        style="width: 95%"/>
-              <!--              <Treeselect v-model="planForm.documentSpecialist" :options="deptOptions" :show-count="true"-->
-              <!--                          style="width: 95%"-->
-              <!--                          placeholder="请选择归属部门"/>-->
+              <el-select v-model="planForm.documentSpecialist" placeholder="请选择" style="width: 100%">
+                <el-option
+                  v-for="item in docKeeper"
+                  :key="item.userId"
+                  :label="item.nickName"
+                  :value="item.userId"
+                />
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
 
             <el-form-item label="财务人员" prop="financialStaff">
-              <el-input v-model="planForm.financialStaff" placeholder="请输入"
-                        style="width: 95%"/>
-              <!--              <Treeselect v-model="planForm.financialStaff" :options="deptOptions" :show-count="true"-->
-              <!--                          style="width: 95%"-->
-              <!--                          placeholder="请选择归属部门"/>-->
+              <el-select v-model="planForm.financialStaff" placeholder="请选择" style="width: 100%">
+                <el-option
+                  v-for="item in bookKeeper"
+                  :key="item.userId"
+                  :label="item.nickName"
+                  :value="item.userId"
+                />
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -300,14 +319,36 @@
         <el-row style="margin: 15px 15px 0 15px">
           <el-col :span="6">
             <el-form-item label="报关单位" prop="reportCustomsInstitutions">
-              <el-input v-model="planForm.reportCustomsInstitutions" placeholder="请输入"
-                        style="width: 100%"/>
+              <el-select
+                v-model="planForm.reportCustomsInstitutions"
+                placeholder="请选择"
+                clearable
+                style="width: 100%"
+              >
+                <el-option
+                  v-for="dict in dict.type.sys_receive_master"
+                  :key="dict.value"
+                  :label="dict.label"
+                  :value="dict.value"
+                />
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="运输方式" prop="transType">
-              <el-input v-model="planForm.transType" placeholder="请输入"
-                        style="width: 100%"/>
+              <el-select
+                v-model="planForm.transType"
+                placeholder="请选择"
+                clearable
+                style="width: 100%"
+              >
+                <el-option
+                  v-for="dict in dict.type.sys_trans_category"
+                  :key="dict.value"
+                  :label="dict.label"
+                  :value="dict.value"
+                />
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -318,22 +359,55 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="贸易方式" prop="tradeMode">
-              <el-input v-model="planForm.tradeMode" placeholder="请输入"
-                        style="width: 100%"/>
+              <el-select
+                v-model="planForm.tradeMode"
+                placeholder="请选择"
+                clearable
+                style="width: 100%"
+              >
+                <el-option
+                  v-for="dict in dict.type.trade_type"
+                  :key="dict.value"
+                  :label="dict.label"
+                  :value="dict.value"
+                />
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row style="margin: 15px 15px 0 15px">
           <el-col :span="6">
             <el-form-item label="出运港" prop="shipmentPort">
-              <el-input v-model="planForm.shipmentPort" placeholder="请输入"
-                        style="width: 100%"/>
+              <el-select
+                v-model="planForm.shipmentPort"
+                placeholder="请选择"
+                clearable
+                style="width: 100%"
+              >
+                <el-option
+                  v-for="dict in dict.type.pol_cate"
+                  :key="dict.value"
+                  :label="dict.label"
+                  :value="dict.value"
+                />
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="目的港" prop="destinationPort">
-              <el-input v-model="planForm.destinationPort" placeholder="请输入"
-                        style="width: 100%"/>
+              <el-select
+                v-model="planForm.destinationPort"
+                placeholder="请选择"
+                clearable
+                style="width: 100%"
+              >
+                <el-option
+                  v-for="dict in dict.type.exs_cate"
+                  :key="dict.value"
+                  :label="dict.label"
+                  :value="dict.value"
+                />
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -347,6 +421,7 @@
               <el-date-picker
                 v-model="planForm.preCollectDate"
                 type="date"
+                style="width:100%"
                 placeholder="选择日期">
               </el-date-picker>
             </el-form-item>
@@ -355,8 +430,19 @@
         <el-row style="margin: 15px 15px 0 15px">
           <el-col :span="6">
             <el-form-item label="成交方式" prop="transactionMethod">
-              <el-input v-model="planForm.transactionMethod" placeholder="请输入"
-                        style="width: 100%"/>
+              <el-select
+                v-model="planForm.transactionMethod"
+                placeholder="请选择"
+                clearable
+                style="width: 100%"
+              >
+                <el-option
+                  v-for="dict in dict.type.sold_for"
+                  :key="dict.value"
+                  :label="dict.label"
+                  :value="dict.value"
+                />
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -367,34 +453,124 @@
             <div class="line-item"></div>
             <span>实际业务报关信息</span>
           </div>
-          <el-button type="primary" icon="el-icon-plus" @click="createActInfo" style="margin-left: 15px">添加行
+          <el-button type="primary" icon="el-icon-plus" @click="createReport" style="margin-left: 15px">添加行
           </el-button>
         </div>
         <el-table
-          :data="planForm.actInfoList"
+          :data="planForm.reportList"
           border
           style="margin-top: 15px"
           size="mini"
         >
-          <el-table-column label="序号" align="center" min-width="60px">
+          <el-table-column label="序号" align="center" min-width="60px" prop="sequence">
+            <template slot-scope="scope">
+              <el-input
+                controls-position="right"
+                :precision="2"
+                placeholder="请输入"
+                style="width: 70%"
+                v-model="scope.row.sequence"
+              />
+            </template>
           </el-table-column>
           <el-table-column label="货物描述(中文)" align="center" min-width="60px">
+            <template slot-scope="scope">
+              <el-input
+                controls-position="right"
+                :precision="2"
+                placeholder="请输入"
+                style="width: 70%"
+                v-model="scope.row.goodsDescCn"
+              />
+            </template>
           </el-table-column>
           <el-table-column label="报关数量" align="center" min-width="60px">
+            <template slot-scope="scope">
+              <el-input
+                controls-position="right"
+                :precision="2"
+                placeholder="请输入"
+                style="width: 70%"
+                v-model="scope.row.num"
+              />
+            </template>
           </el-table-column>
           <el-table-column label="报关金额" align="center" min-width="60px">
+            <template slot-scope="scope">
+              <el-input
+                controls-position="right"
+                :precision="2"
+                placeholder="请输入"
+                style="width: 70%"
+                v-model="scope.row.amount"
+              />
+            </template>
           </el-table-column>
           <el-table-column label="品牌型号" align="center" min-width="60px">
+            <template slot-scope="scope">
+              <el-input
+                controls-position="right"
+                :precision="2"
+                placeholder="请输入"
+                style="width: 70%"
+                v-model="scope.row.brandModel"
+              />
+            </template>
           </el-table-column>
           <el-table-column label="包装件数" align="center" min-width="60px">
+            <template slot-scope="scope">
+              <el-input
+                controls-position="right"
+                :precision="2"
+                placeholder="请输入"
+                style="width: 70%"
+                v-model="scope.row.packNumber"
+              />
+            </template>
           </el-table-column>
           <el-table-column label="包装种类" align="center" min-width="60px">
+            <template slot-scope="scope">
+              <el-input
+                controls-position="right"
+                :precision="2"
+                placeholder="请输入"
+                style="width: 70%"
+                v-model="scope.row.packagingType"
+              />
+            </template>
           </el-table-column>
           <el-table-column label="毛重" align="center" min-width="60px">
+            <template slot-scope="scope">
+              <el-input
+                controls-position="right"
+                :precision="2"
+                placeholder="请输入"
+                style="width: 70%"
+                v-model="scope.row.grossWeight"
+              />
+            </template>
           </el-table-column>
           <el-table-column label="净重" align="center" min-width="60px">
+            <template slot-scope="scope">
+              <el-input
+                controls-position="right"
+                :precision="2"
+                placeholder="请输入"
+                style="width: 70%"
+                v-model="scope.row.netWeight"
+              />
+            </template>
           </el-table-column>
           <el-table-column label="体积(CBM)" align="center" min-width="60px">
+            <template slot-scope="scope">
+              <el-input
+                controls-position="right"
+                :precision="2"
+                placeholder="请输入"
+                style="width: 70%"
+                v-model="scope.row.volume"
+              />
+            </template>
           </el-table-column>
           <el-table-column
             label="操作"
@@ -404,7 +580,7 @@
             <template slot-scope="scope">
               <el-button
                 type="text"
-                @click="handleRemovePrice(scope.row, scope.$index)"
+                @click="removeReport(scope.row, scope.$index)"
               >删除
               </el-button>
             </template>
@@ -421,14 +597,24 @@
           </el-button>
         </div>
         <el-table
-          :data="planForm.finaical"
+          :data="planForm.financialList"
           border
           style="margin-top: 15px"
           size="mini"
         >
           <el-table-column label="序号" align="center" min-width="60px">
+            <template slot-scope="scope">
+              <el-input
+                controls-position="right"
+                :precision="2"
+                placeholder="请输入"
+                style="width: 70%"
+                v-model="scope.row.sequence"
+              />
+            </template>
           </el-table-column>
           <el-table-column label="是否同步SAP" align="center" min-width="60px">
+
           </el-table-column>
           <el-table-column label="订单名称" align="center" min-width="60px">
           </el-table-column>
@@ -493,25 +679,133 @@
 <script>
 import Treeselect from "@riophae/vue-treeselect";
 import {deptTreeSelect} from "@/api/system/user";
+import {listCustomer} from "@/api/customer";
+import {listBookKeeper, listDocKeeper} from "@/api/system/role";
 
 export default {
   name: "create",
   components: {Treeselect},
-  dicts: ['sys_customer_status'],
+  dicts: ['sys_customer_status', 'sys_currency', 'continent', 'sys_y_n', 'sys_receive_master', 'sys_trans_category', 'trade_type', 'pol_cate', 'exs_cate', 'sold_for'],
   data() {
     return {
-      planForm: {},
+      planForm: {
+        reportList: [],
+        financialList:[]
+      },
+      customer: [],
+      bookKeeper: [],
+      docKeeper: [],
       deptOptions: undefined,
+      searchLoading: false,
+      nation: [
+        {
+          label: '中国',
+          value: '1'
+        },
+        {
+          label: '美国',
+          value: '2'
+        }
+      ],
+      rules: {
+        originalPlannedDeliveryDate: [
+          {required: true, message: "请选择", trigger: "blur"}
+        ],
+        deliveryLocation: [
+          {required: true, message: "请输入", trigger: "blur"}
+        ],
+        invoiceNo: [
+          {required: true, message: "请输入", trigger: "blur"}
+        ],
+        customerId: [
+          {required: true, message: "请输入", trigger: "blur"}
+        ],
+        consignee: [
+          {required: true, message: "请输入", trigger: "blur"}
+        ],
+        continent: [
+          {required: true, message: "请选择", trigger: "blur"}
+        ],
+        nation: [
+          {required: true, message: "请选择", trigger: "blur"}
+        ],
+        shippingMark: [
+          {required: true, message: "请输入", trigger: "blur"}
+        ],
+        goodsCompleteDateAndLocate: [
+          {required: true, message: "请输入", trigger: "blur"}
+        ],
+        transType: [
+          {required: true, message: "请选择", trigger: "blur"}
+        ],
+        tradeMode: [
+          {required: true, message: "请选择", trigger: "blur"}
+        ],
+        collectionMethod: [
+          {required: true, message: "请选择", trigger: "blur"}
+        ],
+        transactionMethod: [
+          {required: true, message: "请选择", trigger: "blur"}
+        ],
+      },
     }
   },
   created() {
+    this.initKeeper()
     this.getDeptTree()
   },
   methods: {
+    remoteMethod(query) {
+      setTimeout(() => {
+        const params = {
+          code: query,
+          name: query
+        }
+        listCustomer(params).then(res => {
+          this.customer = []
+          this.customer = res.rows
+        })
+      }, 1000)
+    },
+    changeBe(val) {
+    },
+    createReport() {
+      const length = this.planForm.reportList.length;
+      this.planForm.reportList.push({
+        sequence:
+          length === 0
+            ? 1
+            : parseInt(this.form[length - 1].key) + 1,
+        goodsDescCn: undefined,
+        num: undefined,
+        amount: undefined,
+        brandModel: undefined,
+        packNumber: undefined,
+        packagingType: undefined,
+        grossWeight: undefined,
+        netWeight: undefined,
+        volume: undefined
+      });
+    },
     getDeptTree() {
       deptTreeSelect().then(response => {
         this.deptOptions = response.data;
       });
+    },
+    removeReport(idx, index) {
+      this.planForm.reportList.splice(index, 1);
+    },
+    initKeeper() {
+      const params = {
+        pageSize: 100,
+        pageNum: 1
+      }
+      listBookKeeper(params).then(res => {
+        this.bookKeeper = res.rows
+      })
+      listDocKeeper(params).then(res => {
+        this.docKeeper = res.rows
+      })
     },
     createActInfo() {
 

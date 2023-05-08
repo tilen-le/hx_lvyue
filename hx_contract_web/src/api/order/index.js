@@ -26,3 +26,12 @@ export function listCusOrder(query) {
     data: query
   })
 }
+
+
+export function listOrderDelivery(query) {
+  return request({
+    url: '/order/consignment/list',
+    method: 'get',
+    params: query
+  })
+}

@@ -6,6 +6,7 @@
     <select id="listDetail" resultType="com.hexing.system.domain.FcPaymentClaimDetail">
         select fpcd.id,
                fpcd.claim_id,
+               fpcd.order_id,
                fc.order_number         orderNumber,
                fc.order_title          orderTitle,
                fpc.claim_number        claimNumber,

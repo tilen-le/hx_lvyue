@@ -132,7 +132,7 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
 
     @Override
     public TableDataInfo<FcOrderInvoice> listFcOrderInvoice(FcOrderInvoice fcOrderInvoice, PageQuery pageQuery) {
-        Page<FcOrderInvoice> page = baseMappr.selectPage(pageQuery.build(), buildQueryWrapper(fcOrderInvoice));
+        Page<FcOrderInvoice> page = baseMappr.listPageInvoice(pageQuery.build(), fcOrderInvoice);
         return TableDataInfo.build(page);
     }
 

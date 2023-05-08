@@ -38,7 +38,6 @@ import java.util.Map;
 public class OrderServiceImpl implements IOrderService {
 
     private final FcOrderMapper baseMapper;
-
     private final FcContractMapper fcContractMapper;
     private final FcOrderProductMapper fcOrderProductMapper;
     private final HttpKit httpKit;

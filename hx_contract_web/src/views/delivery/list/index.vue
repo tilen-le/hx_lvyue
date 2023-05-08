@@ -112,18 +112,22 @@
     <div class="angel-card-table">
       <el-table v-loading="loading" :data="deliveryList" border
                 row-key="id">
-        <el-table-column label="发货单编号" align="center" key="orderNumber" prop="orderNumber"/>
-        <el-table-column label="记录类型" align="center" key="orderTitle" prop="orderTitle"
+        <el-table-column label="发货单编号" align="center" key="consigmentNumber" prop="consigmentNumber"/>
+        <el-table-column label="记录类型" align="center" key="" prop=""
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="发货总金额" align="center" key="soldToPartyCd" prop="soldToPartyCd"
+        <el-table-column label="发货总金额" align="center" key="amount" prop="amount"
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="订单名称" align="center" key="status">
+        <el-table-column label="订单名称" align="center" key="orderTitle" prop="orderTitle">
         </el-table-column>
         <el-table-column label="审批状态" align="center" key="amount" prop="amount"
+                         :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <dict-tag :options="dict.type.approve_status" :value="scope.row.approvalStatus"/>
+          </template>
+        </el-table-column>
+        <el-table-column label="客户名称" align="center" key="customer" prop="customer"
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="客户名称" align="center" key="" prop=""
-                         :show-overflow-tooltip="true"/>
-        <el-table-column label="创建时间" align="center" key="" prop=""
+        <el-table-column label="创建时间" align="center" key="createTime" prop="createTime"
                          :show-overflow-tooltip="true"/>
         <el-table-column
           label="操作"
@@ -142,7 +146,7 @@
             <el-button
               size="mini"
               type="text"
-              @click="detail(scope.row)"
+              @click="removeApprove(scope.row)"
               v-hasPermi="['system:user:edit']"
             >撤销审批
             </el-button>
@@ -161,9 +165,12 @@
 </template>
 
 <script>
+import {listOrderDelivery} from "@/api/order";
+import {delApproveConfig} from "@/api/system/config";
+
 export default {
   name: "index",
-  dicts: ['sys_customer_status'],
+  dicts: ['sys_customer_status','approve_status'],
   data() {
     return {
       queryParams: {
@@ -173,6 +180,30 @@ export default {
       loading: false,
       deliveryList: [],
       total: 0,
+    }
+  },
+  created() {
+    this.getList()
+  },
+  methods: {
+    handleQuery(){
+      this.getList()
+    },
+    getList() {
+      listOrderDelivery(this.queryParams).then(res => {
+        this.deliveryList=res.rows
+        this.total=res.total
+      })
+    },
+    removeApprove(row){
+      this.$modal.confirm('确认撤销该发货单的审批？').then(function () {
+        return delApproveConfig(row);
+      }).then(() => {
+        this.$modal.msgSuccess("撤销成功");
+        this.getDeliveryConfig()
+        this.getInvoiceConfig()
+      }).catch(function () {
+      });
     }
   }
 }

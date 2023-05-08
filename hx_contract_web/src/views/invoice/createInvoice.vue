@@ -161,8 +161,7 @@
           <el-col :span="6">
             <el-form-item label="收件人" prop="consignmentId">
               <el-select v-model="invoiceForm.consignmentId" placeholder="请选择" style="width: 90%"
-                         @change="addressChange"
-              >
+                         @change="addressChange">
                 <el-option
                   v-for="dict in address"
                   :key="dict.id"
@@ -173,7 +172,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="联系电话" prop="configName">
+            <el-form-item label="联系电话" prop="mobile">
               <el-input
                 placeholder="请输入"
                 disabled
@@ -539,8 +538,7 @@ export default {
           }
           this.invoiceForm.approvalStatus=val
           addInvoice(this.invoiceForm).then(res => {
-            this.$modal.msgSuccess("请添加开票明细单位");
-
+            this.$modal.msgSuccess("提交成功");
           })
         }
       })

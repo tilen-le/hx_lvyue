@@ -3,6 +3,7 @@ package com.hexing.system.domain;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hexing.common.core.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -32,7 +33,7 @@ public class FcOrderConsignment extends BaseEntity {
     /**
      * 订单主键
      */
-    private Integer orderId;
+    private String orderId;
     /**
      * 发货原因
      */
@@ -60,18 +61,22 @@ public class FcOrderConsignment extends BaseEntity {
     /**
      * 预计验收日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date expectedCheckDate;
     /**
      * 预计质保日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date expectedWarrantyDate;
     /**
      * 预计到货日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date expectedArrivalDate;
     /**
      * 出厂日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date productDate;
     /**
      * 备注
@@ -86,9 +91,19 @@ public class FcOrderConsignment extends BaseEntity {
      */
     private String consignorCode;
     private String deleted;
+    private String fileIds;
+    private String addressId;
 
     @TableField(exist = false)
     private List<FcOrderConsignmentDetail> products;
+
+
+    @TableField(exist = false)
+    private String orderTitle;
+    @TableField(exist = false)
+    private String customer;
+    @TableField(exist = false)
+    private String amount;
 
 
 }

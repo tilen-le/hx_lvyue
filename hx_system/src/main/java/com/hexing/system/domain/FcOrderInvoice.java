@@ -98,4 +98,14 @@ public class FcOrderInvoice extends BaseEntity {
     private String fileIds;
 
 
+    @TableField(exist = false)
+    private String orderTitle;
+    @TableField(exist = false)
+    private String customer;
+    @TableField(exist = false)
+    private String contractName;
+    @TableField(exist = false)
+    private String businessUnit;
+    @TableField(exist = false)
+    private String factory;
 }

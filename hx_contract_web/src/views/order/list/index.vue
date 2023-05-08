@@ -14,9 +14,9 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="收货人" prop="name">
+            <el-form-item label="收货人" prop="reciver">
               <el-input
-                v-model="queryParams.name"
+                v-model="queryParams.reciver"
                 placeholder="请输入"
                 clearable
                 style="width: 240px"
@@ -32,7 +32,7 @@
                 style="width: 240px"
               >
                 <el-option
-                  v-for="dict in dict.type.sys_customer_status"
+                  v-for="dict in dict.type.order_status"
                   :key="dict.value"
                   :label="dict.label"
                   :value="dict.value"
@@ -57,7 +57,7 @@
                 row-key="id">
         <el-table-column type="expand">
           <template slot-scope="props">
-            <el-table  :data="props.row.products"
+            <el-table :data="props.row.products"
                       row-key="id">
               <el-table-column label="产品编码" align="center" key="productNumber" prop="productNumber"/>
               <el-table-column label="产品名称" align="center" key="productName" prop="productName"/>
@@ -99,7 +99,11 @@
                          :show-overflow-tooltip="true"/>
         <el-table-column label="预计发货时间" align="center" key="requireDeliveryDate" prop="requireDeliveryDate"
                          v-if="columns[2].visible"
-                         :show-overflow-tooltip="true"/>
+                         :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <span>{{ parseTime(scope.row.requireDeliveryDate, '{y}-{m}-{d}') }}</span>
+          </template>
+        </el-table-column>
         <el-table-column
           label="操作"
           align="center"
@@ -147,7 +151,7 @@ import {listOrder} from "@/api/order";
 
 export default {
   name: "index",
-  dicts: ['sys_customer_status'],
+  dicts: ['order_status'],
   data() {
     return {
       queryParams: {
@@ -178,13 +182,13 @@ export default {
     resetQuery() {
 
     },
-    addInvoice(row){
+    addInvoice(row) {
       this.$router.push(`/invoice/create/index/${row.id}`)
     },
     detail(row) {
       this.$router.push(`/order/detail/index/${row.id}`)
     },
-    delivery(row){
+    delivery(row) {
       this.$router.push(`/delivery/create/index/${row.id}`)
     },
     getList() {

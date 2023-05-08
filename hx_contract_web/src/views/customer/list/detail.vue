@@ -236,13 +236,13 @@ export default {
             addAddress(this.form).then(res => {
               this.$modal.msgSuccess("创建成功");
               this.openAddress = false;
-              this.getList();
+              this.getAddress();
             })
           } else {
             updateAddress(this.form).then(res => {
               this.$modal.msgSuccess("修改成功");
               this.openAddress = false;
-              this.getList();
+              this.getAddress();
             })
           }
         }
