@@ -80,7 +80,7 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
         fcApprove.setOriginator(LoginHelper.getUserId().toString());
         fcApprove.setStatus("0");
         fcApprove.setRequestTime(new Date());
-        fcApprove.setMainId(fcOrderInvoice.getId().toString());
+        fcApprove.setMainId(fcOrderInvoice.getId());
         iFcApproveService.saveFcApprove(fcApprove);
     }
 

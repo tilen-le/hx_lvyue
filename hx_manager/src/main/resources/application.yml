@@ -209,8 +209,8 @@ swagger:
     version: '版本号: 1.0.0'
     # 作者信息
     contact:
-      name: firerock_tech
-      email: firerock_tech@163.com
+      name: jinguo
+      email: guo.jin@hxgroup.com
   components:
     # 鉴权方式配置
     security-schemes:
@@ -219,19 +219,29 @@ swagger:
         in: HEADER
         name: ${sa-token.token-name}
 
+
 springdoc:
-  api-docs:
-    # 是否开启接口文档
-    enabled: true
   swagger-ui:
-    # 持久化认证数据
+    # 修改Swagger UI路径
+    path: /swagger-ui.html
+    # 开启Swagger UI界面
+    enabled: true
     persistAuthorization: true
-  #这里定义了两个分组，可定义多个，也可以不定义
+  api-docs:
+    # 修改api-docs路径
+    path: /v3/api-docs
+    # 开启api-docs
+    enabled: true
+  # 配置需要生成接口文档的扫描包
+  packages-to-scan: com.macro.mall.tiny.controller
+  # 配置需要生成接口文档的接口路径
+  paths-to-match: /brand/**,/admin/**
   group-configs:
     - group: 1.演示模块
       packages-to-scan: com.hexing.demo
     - group: 2.系统模块
       packages-to-scan: com.hexing.web
+
 
 # 防止XSS攻击
 xss:
