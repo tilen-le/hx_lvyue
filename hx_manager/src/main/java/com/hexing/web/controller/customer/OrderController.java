@@ -25,7 +25,14 @@ public class OrderController extends BaseController {
 
     private final IOrderService orderService;
 
-
+    /**
+     * 订单列表
+     * A10、A12
+     *
+     * @param fcOrder
+     * @param pageQuery
+     * @return
+     */
     @SaCheckPermission("order:all:list")
     @GetMapping("/list")
     public TableDataInfo<FcOrder> list(FcOrder fcOrder, PageQuery pageQuery) {
@@ -37,9 +44,17 @@ public class OrderController extends BaseController {
     public R<FcOrder> getDetailOrder(@RequestBody FcOrder fcOrder) {
         return R.ok(orderService.getOrderDetailById(fcOrder.getId()));
     }
+
+    /**
+     * 订单详情
+     * A11  A18
+     *
+     * @param fcOrder
+     * @return
+     */
     @SaCheckPermission("order:detail:check")
     @PostMapping("/detailMap")
-    public R<Map<String,Object>> getDetailOrderMap(@RequestBody FcOrder fcOrder) {
+    public R<Map<String, Object>> getDetailOrderMap(@RequestBody FcOrder fcOrder) {
         return R.ok(orderService.getOrderDetail(fcOrder.getId()));
     }
 

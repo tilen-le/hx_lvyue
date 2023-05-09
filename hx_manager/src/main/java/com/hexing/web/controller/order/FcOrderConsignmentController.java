@@ -22,13 +22,27 @@ public class FcOrderConsignmentController extends BaseController {
 
     private final IFcOrderConsignmentService iFcOrderConsignmentService;
 
+    /**
+     * 查询发货单列表
+     * A16
+     *
+     * @param fcOrderConsignment
+     * @param pageQuery
+     * @return
+     */
     @SaCheckPermission("delivery:all:list")
     @GetMapping("/list")
     public TableDataInfo<FcOrderConsignment> list(FcOrderConsignment fcOrderConsignment, PageQuery pageQuery) {
         return iFcOrderConsignmentService.listFcOrderConsignment(fcOrderConsignment, pageQuery);
     }
 
-
+    /**
+     * 保存/创建发货单
+     * A19
+     *
+     * @param fcOrderConsignment
+     * @return
+     */
     @SaCheckPermission("order:consignment:add")
     @PostMapping("/add")
     public R<Void> add(@RequestBody @Validated FcOrderConsignment fcOrderConsignment) {

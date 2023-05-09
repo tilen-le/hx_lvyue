@@ -38,6 +38,7 @@ public class CustomerController extends BaseController {
 
     /**
      * 获取客户列表
+     * A00
      *
      * @param fcCustomer
      * @param pageQuery
@@ -49,7 +50,13 @@ public class CustomerController extends BaseController {
         return iFcCustomerService.listCustomer(fcCustomer, pageQuery);
     }
 
-
+    /**
+     * 客户详情
+     * A01
+     *
+     * @param id
+     * @return
+     */
     @SaCheckPermission(" customer:all:list")
     @GetMapping("/detail/{id}")
     public R<FcCustomer> detail(@PathVariable("id") String id) {
@@ -74,6 +81,14 @@ public class CustomerController extends BaseController {
     public R<List<FcCustomerConsignment>> getAddressByCode(@RequestBody FcCustomer fcCustomer) {
         return R.ok(iFcCustomerConsignmentService.listFcCustomerConsignmentByCode(fcCustomer.getCode()));
     }
+
+    /**
+     * 创建/修改客户收货信息
+     * A03
+     *
+     * @param fcCustomerConsignment
+     * @return
+     */
     @SaCheckPermission("customer:address:add")
     @Log(title = "修改客户收货地址", businessType = BusinessType.UPDATE)
     @PutMapping("/updateAddress")
@@ -81,6 +96,13 @@ public class CustomerController extends BaseController {
         return toAjax(iFcCustomerConsignmentService.updateFcCustomerConsignment(fcCustomerConsignment));
     }
 
+    /**
+     * 删除客户收货地址
+     * A05
+     *
+     * @param fcCustomerConsignment
+     * @return
+     */
     @SaCheckPermission("customer:address:remove")
     @Log(title = "删除客户收货地址", businessType = BusinessType.DELETE)
     @DeleteMapping("/deleteAddress")
@@ -88,6 +110,13 @@ public class CustomerController extends BaseController {
         return toAjax(iFcCustomerConsignmentService.removeFcCustomerConsignment(fcCustomerConsignment.getId()));
     }
 
+    /**
+     * 新增客户开户行信息
+     * A04
+     *
+     * @param FcCustomerInvoice
+     * @return
+     */
     @SaCheckPermission("customer:openbank:add")
     @Log(title = "新增客户开户行信息", businessType = BusinessType.INSERT)
     @PostMapping("/addOpenBank")
@@ -95,6 +124,13 @@ public class CustomerController extends BaseController {
         return toAjax(iFcCustomerInvoiceService.saveFcCustomerInvoice(FcCustomerInvoice));
     }
 
+    /**
+     * 修改开户行信息
+     * A04
+     *
+     * @param fcCustomerInvoice
+     * @return
+     */
     @SaCheckPermission("customer:openbank:update")
     @Log(title = "修改开户行信息", businessType = BusinessType.UPDATE)
     @PutMapping("/updateOpenBank")
@@ -109,6 +145,13 @@ public class CustomerController extends BaseController {
         return R.ok(iFcCustomerInvoiceService.listFcCustomerInvoice(fcCustomerInvoice.getCustomerId()));
     }
 
+    /**
+     * 删除开户行信息
+     * A06
+     *
+     * @param fcCustomerInvoice
+     * @return
+     */
     @SaCheckPermission("customer:openbank:remove")
     @Log(title = "删除开户行信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/removeOpenBank")

@@ -22,18 +22,32 @@ public class InvoiceController extends BaseController {
 
     private final IFcOrderInvoiceService iFcOrderInvoiceService;
 
+    /**
+     * 保存/创建开票单
+     * A26
+     *
+     * @param fcOrderInvoice
+     * @return
+     */
     @SaCheckPermission("invoice:list:add")
     @PostMapping("/add")
     public R<Void> add(@RequestBody FcOrderInvoice fcOrderInvoice) {
         return toAjax(iFcOrderInvoiceService.saveFcOrderInvoice(fcOrderInvoice));
     }
 
+    /**
+     * 查询开票单列表
+     * A23
+     *
+     * @param fcOrderInvoice
+     * @param pageQuery
+     * @return
+     */
     @SaCheckPermission("invoice:list:add")
     @GetMapping("/list")
     public TableDataInfo<FcOrderInvoice> list(FcOrderInvoice fcOrderInvoice, PageQuery pageQuery) {
-        return iFcOrderInvoiceService.listFcOrderInvoice(fcOrderInvoice,pageQuery);
+        return iFcOrderInvoiceService.listFcOrderInvoice(fcOrderInvoice, pageQuery);
     }
-
 
 
 }

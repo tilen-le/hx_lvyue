@@ -30,18 +30,40 @@ public class FcPaymentController extends BaseController {
     private final IFcPaymentClaimService fcPaymentClaimService;
     private final IFcPaymentClaimDetailService iFcPaymentClaimDetailService;
 
+    /**
+     * 查询回款单列表
+     * A30
+     *
+     * @param fcPayment
+     * @param pageQuery
+     * @return
+     */
     @SaCheckPermission("payment:all:list")
     @GetMapping("/list")
     public TableDataInfo<FcPayment> list(FcPayment fcPayment, PageQuery pageQuery) {
         return iFcPaymentService.listFcPayment(fcPayment, pageQuery);
     }
 
+    /**
+     * 查询回款单详情
+     * A31、 A32
+     *
+     * @param fcPayment
+     * @return
+     */
     @SaCheckPermission("payment:all:check")
     @PostMapping("/detail")
     public R<FcPayment> detail(@RequestBody FcPayment fcPayment) {
         return R.ok(iFcPaymentService.getDetailById(fcPayment.getId()));
     }
 
+    /**
+     * 回款认领
+     * A33
+     *
+     * @param fcPaymentClaim
+     * @return
+     */
     @SaCheckPermission("payment:claim:add")
     @PostMapping("/addClaim")
     public R<Void> addClaim(@RequestBody FcPaymentClaim fcPaymentClaim) {
@@ -53,26 +75,55 @@ public class FcPaymentController extends BaseController {
     public TableDataInfo<FcPaymentClaim> list(FcPaymentClaim fcPaymentClaim, PageQuery pageQuery) {
         return fcPaymentClaimService.listFcPaymentClaim(fcPaymentClaim, pageQuery);
     }
+
+    /**
+     * 撤销认领
+     * A35
+     *
+     * @param fcPaymentClaim
+     * @return
+     */
     @SaCheckPermission("claim:list:cancel")
     @PostMapping("/claim/cancel")
     public R<String> claimCancel(@RequestBody FcPaymentClaim fcPaymentClaim) {
-        String result=fcPaymentClaimService.updateFcPaymentClaim(fcPaymentClaim);
+        String result = fcPaymentClaimService.updateFcPaymentClaim(fcPaymentClaim);
         return R.ok(result);
     }
 
+    /**
+     * 查询认领单列表
+     * A36
+     *
+     * @param fcPaymentClaim
+     * @param pageQuery
+     * @return
+     */
     @SaCheckPermission("claim:all:list")
     @GetMapping("/claim/all/list")
     public TableDataInfo<FcPaymentClaim> claimList(FcPaymentClaim fcPaymentClaim, PageQuery pageQuery) {
         return fcPaymentClaimService.listClaimPage(fcPaymentClaim, pageQuery);
     }
 
+    /**
+     * 认领单详情
+     * A37
+     *
+     * @param fcPaymentClaim
+     * @return
+     */
     @SaCheckPermission("claim:all:list")
     @PostMapping("/claim/detail")
     public R<FcPaymentClaim> claimDetail(@RequestBody FcPaymentClaim fcPaymentClaim) {
         return R.ok(fcPaymentClaimService.getClaimDetail(fcPaymentClaim.getId().toString()));
     }
 
-
+    /**
+     * 认领单明细
+     * A37
+     *
+     * @param fcPaymentClaim
+     * @return
+     */
     @SaCheckPermission("claim:all:list")
     @PostMapping("/claim/detail/list")
     public R<List<FcPaymentClaimDetail>> claimDetailList(@RequestBody FcPaymentClaim fcPaymentClaim) {

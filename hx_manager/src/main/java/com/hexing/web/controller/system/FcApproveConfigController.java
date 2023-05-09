@@ -33,6 +33,7 @@ public class FcApproveConfigController extends BaseController {
     public R<Void> add(@Validated @RequestBody FcApproveConfig fcApproveConfig) {
         return toAjax(approveConfigService.saveFcApproveConfig(fcApproveConfig));
     }
+
     @Log(title = "审批配置修改", businessType = BusinessType.UPDATE)
     @SaCheckPermission("approve:config:update")
     @PutMapping
@@ -40,6 +41,14 @@ public class FcApproveConfigController extends BaseController {
         return toAjax(approveConfigService.updateFcApproveConfig(fcApproveConfig));
     }
 
+    /**
+     * 审批配置删除
+     * 撤销审批
+     * A14 A22
+     *
+     * @param fcApproveConfig
+     * @return
+     */
     @Log(title = "审批配置删除", businessType = BusinessType.UPDATE)
     @SaCheckPermission("approve:config:remove")
     @PostMapping("/remove")
