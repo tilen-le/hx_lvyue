@@ -6,16 +6,29 @@
 
     <select id="selectPageOrderList" resultType="com.hexing.system.domain.FcOrder">
         select fco.id,
-               fco.contract_id,
-               fco.order_number,
-               fco.order_title,
-               fco.amount,
-               fco.status,
-               fco.sold_to_party_cd,
-               fcc.contract_number contractNumber,
-               fcc.contract_name   contractName,
-               fco.require_delivery_date
+        fco.contract_id,
+        fco.order_number,
+        fco.order_title,
+        fco.amount,
+        fco.status,
+        fco.sold_to_party_cd,
+        fco.sold_to_party,
+        fcc.contract_number contractNumber,
+        fcc.contract_name contractName,
+        fco.require_delivery_date
         from fc_order fco
-                 left join fc_contract fcc on fcc.id = fco.contract_id
+        left join fc_contract fcc on fcc.id = fco.contract_id
+        <where>
+            <if test="order.orderNumber!=null and order.orderNumber !=''">
+                and fco.order_number like concat('%', #{order.orderNumber}, '%')
+            </if>
+            <if test="order.reciver!=null and order.reciver !=''">
+                and fco.reciver  like concat('%', #{order.reciver}, '%')
+            </if>
+        </where>
+        order by order_number desc
+    </select>
+    <select id="selectByOrderNumber" resultType="com.hexing.system.domain.FcOrder">
+        select  * from fc_order where order_number = #{orderNumber} limit 1
     </select>
 </mapper>

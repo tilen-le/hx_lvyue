@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hexing.system.mapper.FcOrderPayMilestoneMapper">
+  <resultMap id="BaseResultMap" type="com.hexing.system.domain.FcOrderPayMilestone">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
+    <result column="sequence" jdbcType="INTEGER" property="sequence" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="expect_pay_date" jdbcType="INTEGER" property="expectPayDate" />
+    <result column="expect_pay_scale" jdbcType="VARCHAR" property="expectPayScale" />
+    <result column="surplus_pay_amount" jdbcType="VARCHAR" property="surplusPayAmount" />
+    <result column="plan_pay_amount" jdbcType="VARCHAR" property="planPayAmount" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="deleted" jdbcType="CHAR" property="deleted" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, order_number,`sequence`, code, `type`, expect_pay_date, expect_pay_scale, surplus_pay_amount,
+    plan_pay_amount, create_by, update_by, create_time, update_time, deleted
+  </sql>
+
+</mapper>

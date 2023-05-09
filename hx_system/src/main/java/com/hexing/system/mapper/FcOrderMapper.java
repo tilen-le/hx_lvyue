@@ -13,4 +13,6 @@ public interface FcOrderMapper extends BaseMapperPlus<FcOrderMapper, FcOrder,FcO
 
     Page<FcOrder> selectPageOrderList(@Param("page") Page<FcOrder> page, @Param("order") FcOrder order);
 
+    FcOrder selectByOrderNumber(@Param("orderNumber")String orderNumber);
+
 }

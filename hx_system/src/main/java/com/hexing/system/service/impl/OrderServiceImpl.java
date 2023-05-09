@@ -2,21 +2,19 @@ package com.hexing.system.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.page.TableDataInfo;
+import com.hexing.common.exception.ServiceException;
 import com.hexing.common.utils.JsonUtils;
-import com.hexing.system.domain.FcContract;
-import com.hexing.system.domain.FcCustomer;
-import com.hexing.system.domain.FcOrder;
-import com.hexing.system.domain.FcOrderProduct;
+import com.hexing.system.domain.*;
 import com.hexing.system.domain.form.*;
-import com.hexing.system.mapper.FcContractMapper;
-import com.hexing.system.mapper.FcCustomerMapper;
-import com.hexing.system.mapper.FcOrderMapper;
-import com.hexing.system.mapper.FcOrderProductMapper;
+import com.hexing.system.domain.vo.PaymentClaimVO;
+import com.hexing.system.mapper.*;
 import com.hexing.system.service.IOrderService;
 import com.hexing.system.utils.HttpKit;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +22,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 /**
  * @author firerock_tech
@@ -40,16 +39,24 @@ public class OrderServiceImpl implements IOrderService {
     private final FcOrderMapper baseMapper;
     private final FcContractMapper fcContractMapper;
     private final FcOrderProductMapper fcOrderProductMapper;
+    private final FcOrderConsignmentMapper fcOrderConsignmentMapper;
+    private final FcOrderConsignmentDetailMapper fcOrderConsignmentDetailMapper;
+
+    private final FcOrderPayMilestoneMapper fcOrderPayMilestoneMapper;
+    private final FcPaymentClaimMapper fcPaymentClaimMapper;
+
     private final HttpKit httpKit;
 
     @Override
-    public int saveOrder(Object orders) {
+    public int saveOrder(ReciveOrderDTO orders) {
         if (ObjectUtil.isNotNull(orders)) {
-            Type type = new TypeToken<ResultForm<List<OrderForm>>>() {
-            }.getType();
-            ResultForm<List<OrderForm>> orderForm = new Gson().fromJson(JsonUtils.toJsonString(orders), type);
-            if (ObjectUtil.isNotNull(orderForm)) {
-                orderForm.getData().forEach(this::handleOrderStruct);
+            System.out.println(orders);
+            if (ObjectUtil.isNotNull(orders)) {
+                orders.getData().forEach(this::handleOrderStruct);
+            }
+
+            if (ObjectUtil.isNotNull(orders)) {
+                orders.getPay().forEach(this::handleOrderMilestoneForm);
             }
         }
         return 0;
@@ -59,6 +66,70 @@ public class OrderServiceImpl implements IOrderService {
         LambdaQueryWrapper<FcContract> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(FcContract::getContractNumber, cid);
         return fcContractMapper.selectOne(queryWrapper);
+    }
+
+    /**
+     * 计划回款金额 = 订单总金额*回款比例
+     * 剩余回款金额 = 订单总金额-计划回款金额
+     * 期待回款日期 = 订单sap创建日期+付款天数
+     *  *    "xh":"1", //序号
+     *      *    "zpayname":"到货日期", //
+     *      *    "zpayscale":"1.0", //期待回款比例
+     *      *    "vbeln":"PN23.04006", //订单编号
+     *      *    "zpayday":"90",  //付款天数
+     *      *    "zpaynode":"Z013", //里程碑编码
+     *      *    "zkxname":"到货款" //里程碑类型
+     * @param milestoneForm
+     */
+    public void handleOrderMilestoneForm(MilestoneForm milestoneForm){
+        log.error(JsonUtils.toJsonString(milestoneForm));
+        LambdaQueryWrapper<FcOrderPayMilestone> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(FcOrderPayMilestone::getOrderNumber,milestoneForm.getVbeln())
+                .eq(FcOrderPayMilestone::getSequence,milestoneForm.getXh());
+        FcOrderPayMilestone payMilestone = fcOrderPayMilestoneMapper.selectOne(queryWrapper);
+        FcOrder fcOrder = baseMapper.selectByOrderNumber(milestoneForm.getVbeln());
+        String amount = fcOrder.getAmount();
+        Date createTime = fcOrder.getSapCreateTime();
+        Calendar c = Calendar.getInstance();
+        c.setTime(createTime);
+        c.add(Calendar.DATE,5);
+        Date date = c.getTime();
+        queryWrapper.clear();
+        queryWrapper.eq(FcOrderPayMilestone::getOrderNumber,milestoneForm.getVbeln());
+        List<FcOrderPayMilestone> payMilestones = fcOrderPayMilestoneMapper.selectList();
+        List<String> allPlanList = payMilestones.stream().map(FcOrderPayMilestone::getPlanPayAmount).collect(Collectors.toList());
+        AtomicReference<Double> sum = new AtomicReference<>(0.0);
+        allPlanList.forEach(item->{
+            Double s = Double.parseDouble(item);
+            sum.updateAndGet(v -> v + s);
+        });
+        if (ObjectUtil.isNotNull(payMilestone)){
+            payMilestone.setCode(milestoneForm.getZpaynode());
+            payMilestone.setType(milestoneForm.getZkxname());
+            payMilestone.setExpectPayDate(date);
+            payMilestone.setExpectPayScale(milestoneForm.getZpayscale());
+            BigDecimal decimal = new BigDecimal(amount).multiply(new BigDecimal(milestoneForm.getZpayscale()));
+            BigDecimal scale = decimal.setScale(2, BigDecimal.ROUND_HALF_UP);
+            double surplus = Double.parseDouble(amount) - sum.get() + Double.parseDouble(payMilestone.getPlanPayAmount());
+            payMilestone.setPlanPayAmount(scale.toPlainString());
+            double newSurplus = surplus - Double.parseDouble(payMilestone.getPlanPayAmount());
+            payMilestone.setSurplusPayAmount(String.valueOf(newSurplus));
+            fcOrderPayMilestoneMapper.updateById(payMilestone);
+        }else {
+            payMilestone = new FcOrderPayMilestone();
+            payMilestone.setOrderNumber(milestoneForm.getVbeln());
+            payMilestone.setSequence(milestoneForm.getXh());
+            payMilestone.setCode(milestoneForm.getZpaynode());
+            payMilestone.setType(milestoneForm.getZkxname());
+            payMilestone.setExpectPayDate(date);
+            payMilestone.setExpectPayScale(milestoneForm.getZpayscale());
+            BigDecimal decimal = new BigDecimal(amount).multiply(new BigDecimal(milestoneForm.getZpayscale()));
+            BigDecimal scale = decimal.setScale(2, BigDecimal.ROUND_HALF_UP);
+            payMilestone.setPlanPayAmount(scale.toPlainString());
+            double surplus = Double.parseDouble(amount) - sum.get() - Double.parseDouble(payMilestone.getPlanPayAmount());
+            payMilestone.setSurplusPayAmount(String.valueOf(surplus));
+            fcOrderPayMilestoneMapper.insert(payMilestone);
+        }
     }
 
     @Override
@@ -74,21 +145,38 @@ public class OrderServiceImpl implements IOrderService {
             existOrder.setOrderTitle(orderForm.getVbelnT());
             existOrder.setCurrency(orderForm.getWaers());
             existOrder.setSapCreateTime(orderForm.getErdat());
-            existOrder.setSoldToParty(orderForm.getKunnrSp());
-            existOrder.setSoldToPartyCd(orderForm.getKunnrSpT());
+            //售达方
+            existOrder.setSoldToParty(orderForm.getKunnrSpT());
+            existOrder.setSoldToPartyCd(orderForm.getKunnrSp());
+            //送达方
+            existOrder.setReciverCd(orderForm.getKunnrSh());
+            existOrder.setReciver(orderForm.getKunnrShT());
+            //付款方
+            existOrder.setPayerCd(orderForm.getKunnrPy());
+            existOrder.setPayer(orderForm.getKunnrPyT());
+            //收票方
+            existOrder.setBileeCd(orderForm.getKunnrBp());
+            existOrder.setBillee(orderForm.getKunnrBpT());
             existOrder.setAmount(orderForm.getAmount());
             existOrder.setTaxRate(orderForm.getZsj());
-            existOrder.setReciverCd(orderForm.getKunnrBpT());
-            existOrder.setReciver(orderForm.getKunnrBp());
-            existOrder.setCustomerManager(orderForm.getKunnrEr());
+            existOrder.setCustomerManagerNumber(orderForm.getKunnrEr());
+            existOrder.setCustomerManager(orderForm.getKunnrErT());
             existOrder.setRequireDeliveryDate(orderForm.getVdatu());
-            existOrder.setBileeCd(orderForm.getKunnrBpT());
-            existOrder.setBillee(orderForm.getKunnrBp());
-            existOrder.setSaleOrg(orderForm.getVkorg());
+            //销售组织
+            existOrder.setSaleOrgCd(orderForm.getVkorg());
+            existOrder.setSaleOrg(orderForm.getVtext());
             existOrder.setFactory(orderForm.getWerks());
-            existOrder.setRate(orderForm.getZsl() == null ? "0" : orderForm.getZsl());
+            existOrder.setTaxRate(orderForm.getZsl() == null ? "0" : orderForm.getZsl());
             existOrder.setIsBackupTableDirectly(orderForm.getItext2());
-            existOrder.setDistributionChannel(orderForm.getVtweg());
+            existOrder.setDistributionChannelCd(orderForm.getVtweg());
+            existOrder.setDistributionChannel(orderForm.getVtwegT());
+            existOrder.setBusinessUnitCd(orderForm.getZspare5());
+            existOrder.setBusinessUnit(orderForm.getZspare5T());
+            existOrder.setSaleTypeCd(orderForm.getAuart());
+            existOrder.setSaleType(orderForm.getAuartT());
+            //收款方
+            existOrder.setPayeeCd(orderForm.getBukrs());
+            existOrder.setPayee(orderForm.getButxt());
             baseMapper.updateById(existOrder);
         } else {
             existOrder = new FcOrder();
@@ -97,21 +185,37 @@ public class OrderServiceImpl implements IOrderService {
             existOrder.setOrderTitle(orderForm.getVbelnT());
             existOrder.setCurrency(orderForm.getWaers());
             existOrder.setSapCreateTime(orderForm.getErdat());
-            existOrder.setSoldToParty(orderForm.getKunnrSp());
-            existOrder.setSoldToPartyCd(orderForm.getKunnrSpT());
+            //售达方
+            existOrder.setSoldToParty(orderForm.getKunnrSpT());
+            existOrder.setSoldToPartyCd(orderForm.getKunnrSp());
             existOrder.setRequireDeliveryDate(orderForm.getVdatu());
             existOrder.setAmount(orderForm.getAmount());
-            existOrder.setTaxRate(orderForm.getZsj());
-            existOrder.setReciverCd(orderForm.getKunnrBpT());
-            existOrder.setReciver(orderForm.getKunnrBp());
+            //送达方
+            existOrder.setReciverCd(orderForm.getKunnrSh());
+            existOrder.setReciver(orderForm.getKunnrShT());
+            //付款方
+            existOrder.setPayerCd(orderForm.getKunnrPy());
+            existOrder.setPayer(orderForm.getKunnrPyT());
             existOrder.setFactory(orderForm.getWerks());
-            existOrder.setCustomerManager(orderForm.getKunnrEr());
-            existOrder.setBileeCd(orderForm.getKunnrBpT());
-            existOrder.setRate(orderForm.getZsl() == null ? "0" : orderForm.getZsl());
-            existOrder.setBillee(orderForm.getKunnrBp());
+            existOrder.setCustomerManagerNumber(orderForm.getKunnrEr());
+            existOrder.setCustomerManager(orderForm.getKunnrErT());
+            //收票方
+            existOrder.setBileeCd(orderForm.getKunnrBp());
+            existOrder.setBillee(orderForm.getKunnrBpT());
+            existOrder.setTaxRate(orderForm.getZsl() == null ? "0" : orderForm.getZsl());
             existOrder.setIsBackupTableDirectly(orderForm.getItext2());
-            existOrder.setSaleOrg(orderForm.getVkorg());
-            existOrder.setDistributionChannel(orderForm.getVtweg());
+            //销售组织
+            existOrder.setSaleOrgCd(orderForm.getVkorg());
+            existOrder.setSaleOrg(orderForm.getVtext());
+            existOrder.setDistributionChannelCd(orderForm.getVtweg());
+            existOrder.setDistributionChannel(orderForm.getVtwegT());
+            existOrder.setBusinessUnitCd(orderForm.getZspare5());
+            existOrder.setBusinessUnit(orderForm.getZspare5T());
+            existOrder.setSaleTypeCd(orderForm.getAuart());
+            existOrder.setSaleType(orderForm.getAuartT());
+            //收款方
+            existOrder.setPayeeCd(orderForm.getBukrs());
+            existOrder.setPayee(orderForm.getButxt());
             baseMapper.insert(existOrder);
         }
         StockForm stockForm = getStore(orderForm);
@@ -121,6 +225,7 @@ public class OrderServiceImpl implements IOrderService {
             fcOrderProduct.setOrderId(existOrder.getId());
             fcOrderProduct.setNum(orderForm.getZmeng());
             fcOrderProduct.setProductNumber(orderForm.getMatnr());
+            fcOrderProduct.setProductModel(orderForm.getZcpxh());
             fcOrderProduct.setProductName(orderForm.getMaktx());
             fcOrderProduct.setUnitPrice(orderForm.getNetprZpr0());
             fcOrderProduct.setInStorageNum(stockForm == null ? "0" : stockForm.getKzsl().toString());
@@ -172,9 +277,39 @@ public class OrderServiceImpl implements IOrderService {
             if (products.size() > 0) {
                 item.setHasChildren(true);
                 item.setProducts(products);
+                double sum = products.stream().mapToDouble(s -> Double.parseDouble(s.getNum())).sum();
+                double sumInTransitNum = products.stream().mapToDouble(s -> Double.parseDouble(s.getInTransitNum())).sum();
+                item.setSum(String.valueOf(sum));
+                item.setSumInTransitNum(String.valueOf(sumInTransitNum));
+                item.setConsignmentStatus(getConsignmentStatus(item.getId()));
             }
         });
         return TableDataInfo.build(page);
+    }
+
+    /**
+     * 发货状态：
+     * 1.全部产品行都完成发货，未发货数量都为0，
+     * 2.发货状态为发货完成，部分发货是有产品行还有未发货数量，
+     * 3.未发货是所有行项目已发都为0
+     */
+    private Integer getConsignmentStatus(Long orderId){
+        FcOrder fcOrder = this.baseMapper.selectById(orderId);
+        String amount = fcOrder.getAmount();
+        Integer sum = fcOrderConsignmentMapper.getConsignmentSum(orderId);
+        if (ObjectUtil.isNull(sum) || sum == 0){
+            return 3;
+        }else {
+            double v = sum;
+            int compare = Double.compare(v, Double.parseDouble(amount));
+            if (compare==0){
+                return 1;
+            }else if(compare<0){
+                return 2;
+            }else {
+                throw new ServiceException("订单发货核对异常");
+            }
+        }
     }
 
     @Override
@@ -186,11 +321,46 @@ public class OrderServiceImpl implements IOrderService {
     public Map<String, Object> getOrderDetail(Long id) {
         Map<String, Object> result = new HashMap<>();
         FcOrder fcOrder = baseMapper.selectById(id);
+        Integer consignmentStatus = getConsignmentStatus(id);
+        fcOrder.setConsignmentStatus(consignmentStatus);
         FcContract fcContract = fcContractMapper.selectById(fcOrder.getContractId());
         List<FcOrderProduct> products = fcOrderProductMapper.selectList(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderId, id));
+        List<FcOrderPayMilestone> milestones = fcOrderPayMilestoneMapper.selectList(new LambdaQueryWrapper<FcOrderPayMilestone>().eq(FcOrderPayMilestone::getOrderNumber, fcOrder.getOrderNumber()));
+        //发货单明细
+        LambdaQueryWrapper<FcOrderConsignment> wrapper = new LambdaQueryWrapper<FcOrderConsignment>()
+                .eq(FcOrderConsignment::getOrderId, id);
+        List<FcOrderConsignment> consignments = fcOrderConsignmentMapper.selectList(wrapper);
+        if (CollectionUtils.isNotEmpty(consignments)){
+            consignments.forEach(item->{
+                item.setSaleType(fcOrder.getSaleType());
+                item.setOrderTitle(fcOrder.getOrderTitle());
+                item.setCustomer(fcOrder.getReciver());
+                List<FcOrderConsignmentDetail> consignmentDetails = fcOrderConsignmentDetailMapper.selectList(new LambdaQueryWrapper<FcOrderConsignmentDetail>().eq(FcOrderConsignmentDetail::getConsignmentId, item.getId()));
+                BigDecimal sum = BigDecimal.ZERO;
+                consignmentDetails.forEach(temp->{
+                    FcOrderProduct product = fcOrderProductMapper.selectById(temp.getOrderProductId());
+                    if (ObjectUtil.isNull(product)){
+                        return;
+                    }
+                    String unitPrice = product.getUnitPrice();
+                    BigDecimal decimal = new BigDecimal(unitPrice).multiply(new BigDecimal(temp.getProductNum()));
+                    sum.add(decimal);
+                });
+                item.setAmount(sum.toPlainString());
+            });
+        }
+
+        //认领单
+        List<PaymentClaimVO> paymentClaims =  fcPaymentClaimMapper.selectPaymentClaimByOrder(id);
+
+        //接口日志
         result.put("order", fcOrder);
         result.put("contract", fcContract);
         result.put("products", products);
+        result.put("milestones", milestones);
+        result.put("paymentClaims", paymentClaims);
+        result.put("consignments",consignments);
+
         return result;
     }
 

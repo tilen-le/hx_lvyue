@@ -29,18 +29,22 @@ public class OrderForm {
     private String vkbur;
     private String zgj;
     private String kunnrSh;
+    private String kunnrShT;
     private String vkgrp;
     private String zmeng;
     private String auart;
+    private String auartT;
     private String kunnrSp;
     private String kunnrSpT;
     private String zltcso;
     private String vtweg;
+    private String vtwegT;
     private String spart;
     private String werks;
     private String zspare9;
     private String kdmat;
     private String kunnrEr;
+    private String kunnrErT;
     private String zspare2;
     private String zywzl;
     private String vkorg;
@@ -52,7 +56,15 @@ public class OrderForm {
     private String waers;
     private String itext2;
     private String zsl;
+    private String zspare5;
+    private String zspare5T;
+    private String vtext;
+    private String bukrs;
+    private String butxt;
+    private String zcpxh;
+
 
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date erdat;
+
 }

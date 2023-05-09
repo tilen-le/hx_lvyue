@@ -28,7 +28,7 @@ public enum UserType {
 
     public static UserType getUserType(String str) {
         for (UserType value : values()) {
-            if (StringUtils.contains(str, value.getUserType())) {
+            if (StringUtils.contains("sys_user", value.getUserType())) {
                 return value;
             }
         }

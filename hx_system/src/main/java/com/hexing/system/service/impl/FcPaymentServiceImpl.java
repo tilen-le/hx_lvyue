@@ -42,6 +42,7 @@ public class FcPaymentServiceImpl implements IFcPaymentService {
             fcPayment.setCusCode(paymentForm.getKunnr());
             fcPayment.setDocumentNumber(paymentForm.getBelnr());
             fcPayment.setPaymentCurrency(paymentForm.getRwcur());
+            fcPayment.setPaymentType(paymentForm.getBlart());
             fcPayment.setReceivedAmount(BigDecimal.valueOf(Math.abs(Double.parseDouble(paymentForm.getTsl()))));
             fcPayment.setPostingDate(paymentForm.getBudat());
             fcPayment.setAllocatedAmount(BigDecimal.valueOf(Math.abs(Double.parseDouble(paymentForm.getTslOa()))));
@@ -55,6 +56,7 @@ public class FcPaymentServiceImpl implements IFcPaymentService {
             fcPayment.setCusCode(paymentForm.getKunnr());
             fcPayment.setDocumentNumber(paymentForm.getBelnr());
             fcPayment.setPaymentCurrency(paymentForm.getRwcur());
+            fcPayment.setPaymentType(paymentForm.getBlart());
             fcPayment.setReceivedAmount(BigDecimal.valueOf(Math.abs(Double.parseDouble(paymentForm.getTsl()))));
             fcPayment.setPostingDate(paymentForm.getBudat());
             fcPayment.setAllocatedAmount(BigDecimal.valueOf(Math.abs(Double.parseDouble(paymentForm.getTslOa()))));

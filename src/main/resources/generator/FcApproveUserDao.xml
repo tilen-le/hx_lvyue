@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="generate.FcApproveUserDao">
+  <resultMap id="BaseResultMap" type="com.hexing.system.domain.vo.FcApproveUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="opt_user_id" jdbcType="INTEGER" property="optUserId" />
+    <result column="type" jdbcType="SMALLINT" property="type" />
+    <result column="business_unit" jdbcType="VARCHAR" property="businessUnit" />
+    <result column="factory" jdbcType="VARCHAR" property="factory" />
+    <result column="request_time" jdbcType="DATE" property="requestTime" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="deleted" jdbcType="CHAR" property="deleted" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, opt_user_id, `type`, business_unit, factory, request_time, create_by, update_by, 
+    create_time, update_time, deleted
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fc_approve_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from fc_approve_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hexing.system.domain.vo.FcApproveUser" useGeneratedKeys="true">
+    insert into fc_approve_user (opt_user_id, `type`, business_unit, 
+      factory, request_time, create_by, 
+      update_by, create_time, update_time, 
+      deleted)
+    values (#{optUserId,jdbcType=INTEGER}, #{type,jdbcType=SMALLINT}, #{businessUnit,jdbcType=VARCHAR}, 
+      #{factory,jdbcType=VARCHAR}, #{requestTime,jdbcType=DATE}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleted,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hexing.system.domain.vo.FcApproveUser" useGeneratedKeys="true">
+    insert into fc_approve_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="optUserId != null">
+        opt_user_id,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="businessUnit != null">
+        business_unit,
+      </if>
+      <if test="factory != null">
+        factory,
+      </if>
+      <if test="requestTime != null">
+        request_time,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="optUserId != null">
+        #{optUserId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="businessUnit != null">
+        #{businessUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="factory != null">
+        #{factory,jdbcType=VARCHAR},
+      </if>
+      <if test="requestTime != null">
+        #{requestTime,jdbcType=DATE},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hexing.system.domain.vo.FcApproveUser">
+    update fc_approve_user
+    <set>
+      <if test="optUserId != null">
+        opt_user_id = #{optUserId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="businessUnit != null">
+        business_unit = #{businessUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="factory != null">
+        factory = #{factory,jdbcType=VARCHAR},
+      </if>
+      <if test="requestTime != null">
+        request_time = #{requestTime,jdbcType=DATE},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hexing.system.domain.vo.FcApproveUser">
+    update fc_approve_user
+    set opt_user_id = #{optUserId,jdbcType=INTEGER},
+      `type` = #{type,jdbcType=SMALLINT},
+      business_unit = #{businessUnit,jdbcType=VARCHAR},
+      factory = #{factory,jdbcType=VARCHAR},
+      request_time = #{requestTime,jdbcType=DATE},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      deleted = #{deleted,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

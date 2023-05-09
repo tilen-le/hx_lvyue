@@ -45,7 +45,7 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
         if (result > 0) {
             fcOrderConsignment.getProducts().forEach(item -> {
                 item.setConsignmentId(fcOrderConsignment.getId().toString());
-                item.setOrderProductId(fcOrderConsignment.getOrderId());
+                //item.setOrderProductId(fcOrderConsignment.getOrderId());
                 fcOrderConsignmentDetailMapper.insert(item);
             });
         }

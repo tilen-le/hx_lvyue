@@ -1,5 +1,6 @@
 package com.hexing.system.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -23,7 +24,7 @@ public class FcOrder extends BaseEntity {
     /**
      * 主键
      */
-    @TableId(value = "id")
+    @TableId(value = "id",type = IdType.AUTO)
     private Long id;
     /**
      * 合同id
@@ -89,6 +90,11 @@ public class FcOrder extends BaseEntity {
      * 要求交货日期
      */
     private Date requireDeliveryDate;
+
+    /**
+     * 客户经理工号
+     */
+    private String customerManagerNumber;
     /**
      * 客户经理
      */
@@ -101,6 +107,11 @@ public class FcOrder extends BaseEntity {
      * 收票方
      */
     private String billee;
+
+    /**
+     * 事业部
+     */
+    private String businessUnitCd;
     /**
      * 事业部
      */
@@ -108,7 +119,17 @@ public class FcOrder extends BaseEntity {
     /**
      * 销售组织
      */
+    private String saleOrgCd;
+
+    /**
+     * 销售组织
+     */
     private String saleOrg;
+
+    /**
+     * 销售类型编码
+     */
+    private String saleTypeCd;
     /**
      * 销售类型
      */
@@ -121,6 +142,10 @@ public class FcOrder extends BaseEntity {
      * 收款方
      */
     private String payee;
+    /**
+     * 分销渠道代码
+     */
+    private String distributionChannelCd;
     /**
      * 分销渠道
      */
@@ -157,7 +182,6 @@ public class FcOrder extends BaseEntity {
     /**
      * 税率
      */
-    private String rate;
     private String deleted;
 
     @TableField(exist = false)
@@ -174,6 +198,19 @@ public class FcOrder extends BaseEntity {
 
     @TableField(exist = false)
     private String cusCode;
+
+    @TableField(exist = false)
+    private String sum;
+
+    @TableField(exist = false)
+    private String sumInTransitNum;
+
+
+    @TableField(exist = false)
+    private Integer consignmentStatus;
+
+    @TableField(exist = false)
+    private Integer storeStatus;
 
 
 }

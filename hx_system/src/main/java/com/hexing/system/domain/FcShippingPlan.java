@@ -1,5 +1,6 @@
 package com.hexing.system.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -25,8 +26,8 @@ public class FcShippingPlan extends BaseEntity {
     /**
      * 主键
      */
-    @TableId(value = "id")
-    private Integer id;
+   @TableId(value = "id",type = IdType.AUTO)
+    private Long id;
     /**
      * 原计划出库时间
      */

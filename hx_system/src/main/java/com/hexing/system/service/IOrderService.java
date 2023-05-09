@@ -4,6 +4,7 @@ import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.page.TableDataInfo;
 import com.hexing.system.domain.FcOrder;
 import com.hexing.system.domain.form.OrderForm;
+import com.hexing.system.domain.form.ReciveOrderDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ public interface IOrderService {
      * @param orders
      * @return
      */
-    int saveOrder(Object orders);
+    int saveOrder(ReciveOrderDTO orders);
 
 
     /**

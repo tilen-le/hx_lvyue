@@ -3,6 +3,7 @@ package com.hexing.web.controller.common;
 import cn.dev33.satoken.annotation.SaIgnore;
 import com.hexing.common.core.domain.R;
 import com.hexing.common.utils.JsonUtils;
+import com.hexing.system.domain.form.ReciveOrderDTO;
 import com.hexing.system.service.IOrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,7 @@ public class NotifyController {
     private final IOrderService orderService;
 
     @PostMapping("/sync/order")
-    public R<Void> syncOrder(@RequestBody Object order) {
+    public R<Void> syncOrder(@RequestBody ReciveOrderDTO order) {
         orderService.saveOrder(order);
         return R.ok();
     }

@@ -1,19 +1,47 @@
+######################################################################
+# Build Tools
 
-/target/
-.project
-.class
-.iml
+.gradle
+/build/
+!gradle/wrapper/gradle-wrapper.jar
+
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+######################################################################
+# IDE
+
+### STS ###
+.apt_generated
 .classpath
-/.settings/
-/.idea/
-/.settings/
-/target/
 .factorypath
-.classpath
 .project
-/.apt_generated/
-/.apt_generated_tests/
-/.mvn/
-/evaluation.iml
-/dist/
-/article/details/120929487
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### JRebel ###
+rebel.xml
+
+### NetBeans ###
+nbproject/private/
+build/*
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+######################################################################
+# Others
+*.log
+*.xml.versionsBackup
+*.swp
+
+!*/build/*.java
+!*/build/*.html
+!*/build/*.xml

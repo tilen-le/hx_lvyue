@@ -7,11 +7,19 @@
         select fcc.id,
                fcc.consigment_number,
                fcc.approval_status,
-               fc.order_title orderTitle,
+               fc.order_title      orderTitle,
                fc.sold_to_party_cd customer,
                fcc.create_time,
-               fc.amount amount
+               fc.amount           amount
         from fc_order_consignment fcc
                  left join fc_order fc on fc.id = fcc.order_id
+    </select>
+    <select id="getConsignmentSum" resultType="java.lang.Integer">
+        SELECT SUM(focd.product_num)
+        from fc_order fo
+                 left join fc_order_consignment foc on foc.order_id = fo.id
+                 LEFT JOIN fc_order_consignment_detail focd on foc.id = focd.consignment_id
+        where fo.id = #{orderId}
+          and foc.sync_sap_status = '1'
     </select>
 </mapper>

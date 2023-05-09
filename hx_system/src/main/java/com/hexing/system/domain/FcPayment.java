@@ -1,5 +1,6 @@
 package com.hexing.system.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hexing.common.core.domain.BaseEntity;
@@ -22,7 +23,7 @@ public class FcPayment extends BaseEntity {
     /**
      * 主键
      */
-    @TableId(value = "id")
+   @TableId(value = "id",type = IdType.AUTO)
     private Long id;
     /**
      * 客户回款编号
@@ -50,6 +51,8 @@ public class FcPayment extends BaseEntity {
      * 到账金额
      */
     private BigDecimal receivedAmount;
+
+    private String paymentType;
     /**
      * 负责人
      */

@@ -1,5 +1,6 @@
 package com.hexing.system.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -24,7 +25,7 @@ public class FcOrderConsignment extends BaseEntity {
     /**
      * 主键
      */
-    @TableId(value = "id")
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     /**
      * 发货单编号
@@ -86,6 +87,9 @@ public class FcOrderConsignment extends BaseEntity {
      * 收货人id
      */
     private String consigneeId;
+
+    private Integer syncSapStatus;
+
     /**
      * 发货人code
      */
@@ -104,6 +108,8 @@ public class FcOrderConsignment extends BaseEntity {
     private String customer;
     @TableField(exist = false)
     private String amount;
+    @TableField(exist = false)
+    private String saleType;
 
 
 }

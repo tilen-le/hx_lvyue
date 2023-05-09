@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.hexing</groupId>
-    <artifactId>hexing_contract</artifactId>
+    <artifactId>hexing_lvyue</artifactId>
     <version>1.0.0</version>
 
-    <name>hexing_contract</name>
+    <name>hexing_lvyue</name>
     <description>海兴履约系统</description>
 
     <properties>
