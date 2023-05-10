@@ -43,7 +43,7 @@
               <el-input
                 placeholder=""
                 disabled
-                v-model="order.soldToPartyCd"
+                v-model="order.soldToParty"
                 style="width: 100%"
               />
             </el-form-item>
@@ -337,12 +337,12 @@
 </template>
 
 <script>
-import RegionSelect from "@/components/Forms/RegionSelect.vue";
-import {getOrderDetail} from "@/api/order";
-import {getAddressByCode, getOpenBankByBe, listCustomer} from "@/api/customer";
-import {addDelivery, addInvoice} from "@/api/invoice";
+  import RegionSelect from "@/components/Forms/RegionSelect.vue";
+  import {getOrderDetail} from "@/api/order";
+  import {getAddressByCode, getOpenBankByBe, listCustomer} from "@/api/customer";
+  import {addDelivery} from "@/api/invoice";
 
-export default {
+  export default {
   name: "createDelivery",
   components: {RegionSelect},
   dicts: ['invoice_type', 'sys_trans_category', 'sys_y_n','delivery_category'],
@@ -427,6 +427,8 @@ export default {
         this.deliveryForm.consigneeId=res.data.order.soldToParty
         this.deliveryForm.products=res.data.products
         this.contract = res.data.contract
+        //收货联系人列表
+        this.getAddressByCodeApi(res.data.order.reciverCd);
       })
     },
     changeBe(val) {
@@ -446,10 +448,23 @@ export default {
         this.address = res.data
       })
     },
+    getAddressByCodeApi(code) {
+      const codePa = {
+        code: code
+      }
+      getAddressByCode(codePa).then(res => {
+        this.address = res.data
+      })
+    },
     submitForm(val){
       this.$refs["queryForm"].validate(valid => {
         if (valid) {
           this.deliveryForm.approvalStatus=val
+          if (this.deliveryForm.fileIds != null && this.deliveryForm.fileIds != "") {
+            this.deliveryForm.fileIds = this.deliveryForm.fileIds.split(",")
+          } else {
+            this.deliveryForm.fileIds = []
+          }
           addDelivery(this.deliveryForm).then(res => {
             this.$modal.msgSuccess("提交成功");
           })
@@ -457,7 +472,9 @@ export default {
       })
     },
     cancel(){
+      this.$modal.confirm('确认关闭页面？').then(function () {
 
+      });
     }
   }
 }
