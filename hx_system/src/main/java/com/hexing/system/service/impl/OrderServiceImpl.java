@@ -41,7 +41,6 @@ public class OrderServiceImpl implements IOrderService {
     private final FcContractMapper fcContractMapper;
     private final FcOrderProductMapper fcOrderProductMapper;
     private final FcOrderConsignmentMapper fcOrderConsignmentMapper;
-    private final FcOrderConsignmentDetailMapper fcOrderConsignmentDetailMapper;
 
     private final FcOrderPayMilestoneMapper fcOrderPayMilestoneMapper;
     private final FcPaymentClaimMapper fcPaymentClaimMapper;
@@ -298,13 +297,14 @@ public class OrderServiceImpl implements IOrderService {
      */
     private Integer getConsignmentStatus(Long orderId) {
         FcOrder fcOrder = this.baseMapper.selectById(orderId);
-        String amount = fcOrder.getAmount();
-        Integer sum = fcOrderConsignmentMapper.getConsignmentSum(orderId);
+        List<FcOrderProduct> products = fcOrderProductMapper.selectList(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderId, orderId));
+        double orderSum = products.stream().mapToDouble(item-> Double.parseDouble(item.getNum())).sum();
+        double sum = fcOrderConsignmentMapper.getConsignmentSum(orderId);
         if (ObjectUtil.isNull(sum) || sum == 0) {
             return 3;
         } else {
             double v = sum;
-            int compare = Double.compare(v, Double.parseDouble(amount));
+            int compare = Double.compare(v, orderSum);
             if (compare == 0) {
                 return 1;
             } else if (compare < 0) {

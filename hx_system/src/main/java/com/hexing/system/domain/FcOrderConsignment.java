@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hexing.common.core.domain.BaseEntity;
+import com.hexing.system.domain.bo.SysOssBo;
 import com.hexing.system.domain.vo.SysOssVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -105,7 +106,7 @@ public class FcOrderConsignment extends BaseEntity {
     private String deleted;
 
     @TableField(exist = false)
-    private List<String> fileIds;
+    private List<SysOssBo> files;
 
     private String addressId;
 

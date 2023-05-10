@@ -34,7 +34,7 @@ public class FcOrderConsignmentDetail extends BaseEntity {
     /**
      * 产品数量
      */
-    private Integer productNum;
+    private String productNum;
     /**
      * 技术要求
      */

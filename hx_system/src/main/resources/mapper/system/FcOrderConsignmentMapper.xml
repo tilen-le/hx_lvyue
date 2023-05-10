@@ -16,7 +16,7 @@
 
 
     </select>
-    <select id="getConsignmentSum" resultType="java.lang.Integer">
+    <select id="getConsignmentSum" resultType="java.lang.Double">
         SELECT SUM(focd.product_num)
         from fc_order fo
                  left join fc_order_consignment foc on foc.order_id = fo.id
