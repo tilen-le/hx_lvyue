@@ -1,8 +1,10 @@
 package com.hexing.system.service;
 
 import com.hexing.common.core.domain.PageQuery;
+import com.hexing.common.core.domain.R;
 import com.hexing.common.core.page.TableDataInfo;
 import com.hexing.system.domain.FcOrder;
+import com.hexing.system.domain.form.FcShippingPlanReportInfoVo;
 import com.hexing.system.domain.form.OrderForm;
 import com.hexing.system.domain.form.ReciveOrderDTO;
 
@@ -50,13 +52,21 @@ public interface IOrderService {
      * @param id
      * @return
      */
-    Map<String,Object> getOrderDetail(Long id);
+    Map<String, Object> getOrderDetail(Long id);
 
 
     /**
      * 通过客户编号获取客户对应订单
+     *
      * @param code
      * @return
      */
     List<FcOrder> getOrdersByCusId(String code);
+
+    /**
+     * 根据订单名称或订单编号搜索订单
+     *
+     * @return
+     */
+    R<List<FcShippingPlanReportInfoVo>> getOrderByNoOrName(String orderNoOrName);
 }

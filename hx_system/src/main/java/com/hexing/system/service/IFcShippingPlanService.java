@@ -1,6 +1,7 @@
 package com.hexing.system.service;
 
 import com.hexing.common.core.domain.PageQuery;
+import com.hexing.common.core.domain.R;
 import com.hexing.common.core.page.TableDataInfo;
 import com.hexing.system.domain.FcShippingPlan;
 
@@ -12,10 +13,11 @@ public interface IFcShippingPlanService {
 
     /**
      * 保存发货计划单
+     *
      * @param fcShippingPlan
      * @return
      */
-    int saveFcShippingPlan(FcShippingPlan fcShippingPlan);
+    R<Void> saveFcShippingPlan(FcShippingPlan fcShippingPlan);
 
     /**
      * 发货计划单详情

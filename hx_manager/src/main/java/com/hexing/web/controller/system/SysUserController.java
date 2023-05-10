@@ -245,4 +245,14 @@ public class SysUserController extends BaseController {
         return R.ok(deptService.selectDeptTreeList(dept));
     }
 
+
+    /**
+     * 获取用户列表
+     */
+//    @SaCheckPermission("system:user:list")
+    @GetMapping("/getUserByRole")
+    public R<List<SysUser>> getUserByRoleName(String roleName) {
+        return userService.getUserByRoleName(roleName);
+    }
+
 }
