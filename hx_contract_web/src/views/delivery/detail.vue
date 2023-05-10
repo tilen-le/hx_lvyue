@@ -278,7 +278,7 @@ import RegionSelect from "@/components/Forms/RegionSelect.vue";
 import {getOrderDetail} from "@/api/order";
 import {getAddressByCode, getOpenBankByBe, listCustomer} from "@/api/customer";
 import {addDelivery, addInvoice} from "@/api/invoice";
-import { getDeliveryApi } from '@/api/delivery'
+import { getDeliveryDetail } from '@/api/delivery'
 
 export default {
   name: "detail",
@@ -304,7 +304,7 @@ export default {
     getDeliveryDetail() {
       const oid = this.$route.params.oid;
       const params = {id: oid}
-      getDeliveryApi(params).then(res => {
+      getDeliveryDetail(params).then(res => {
         this.deliveryForm = res.data
       })
     },

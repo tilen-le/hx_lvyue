@@ -211,7 +211,10 @@ export default {
         this.getInvoiceConfig()
       }).catch(function () {
       });
-    }
+    },
+    detail(row) {
+      this.$router.push(`/delivery/detail/index/${row.id}`)
+    },
   }
 }
 </script>
