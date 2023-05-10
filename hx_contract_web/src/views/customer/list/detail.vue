@@ -94,9 +94,9 @@
           <el-input v-model="form.name" placeholder="请输入" maxlength="30"/>
         </el-form-item>
         <el-form-item label="收货人电话" prop="phone">
-          <el-input v-model="form.phone" placeholder="请输入" maxlength="11"/>
+          <el-input v-model="form.phone" placeholder="请输入收货人电话"  />
         </el-form-item>
-        <el-form-item label="收获地址" prop="location">
+        <el-form-item label="收货地址" prop="location">
           <RegionSelect
             style="width: 100%"
             placeholder="请选择"
@@ -133,21 +133,31 @@
 </template>
 
 <script>
-import {
-  addAddress,
-  addOpenBank,
-  delAddress, delOpeningBank,
-  getAddress,
-  getCustomer, getOpenBank,
-  updateAddress,
-  updateOpenBank
-} from "@/api/customer";
-import RegionSelect from "@/components/Forms/RegionSelect.vue";
+  import {
+    addAddress,
+    addOpenBank,
+    delAddress,
+    delOpeningBank,
+    getAddress,
+    getCustomer,
+    getOpenBank,
+    updateAddress,
+    updateOpenBank
+  } from "@/api/customer";
+  import RegionSelect from "@/components/Forms/RegionSelect.vue";
 
-export default {
+  export default {
   name: "detail",
   components: {RegionSelect},
   data() {
+    const validatePhTelNumber = (rule, value, callback) => {
+      const reg = /^((\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14})|([1][3,4,5,6,7,8,9][0-9]{9})$/
+      if(reg.test(value)) {
+        callback();
+      } else {
+        callback(new Error("请输入正确格式手机号"));
+      }
+    };
     return {
       customerDetail: {},
       address: [],
@@ -163,7 +173,8 @@ export default {
           {required: true, message: "请输入收货人", trigger: "blur"}
         ],
         phone: [
-          {required: true, message: "请输入收货电话", trigger: "blur"}
+          {required: true, trigger: "blur", message: "请输入收货电话"},
+          {required: true, trigger: "blur", validator: validatePhTelNumber}
         ],
         location: [
           {required: true, message: "请选择收货地区", trigger: "blur"}
@@ -277,10 +288,10 @@ export default {
     },
     handleDelete(row) {
       this.$modal.confirm('是否确认删除地址为"' + row.location + '"的数据项？').then(function () {
-        return delAddress(row.id);
+        return delAddress(row);
       }).then(() => {
-        this.getList();
         this.$modal.msgSuccess("删除成功");
+        this.getAddress();
       }).catch(() => {
       });
     },

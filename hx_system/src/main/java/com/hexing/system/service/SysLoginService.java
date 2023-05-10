@@ -265,7 +265,8 @@ public class SysLoginService {
         String loginFail = Constants.LOGIN_FAIL;
 
         // 获取用户登录错误次数(可自定义限制策略 例如: key + username + ip)
-        Integer errorNumber = RedisUtils.getCacheObject(errorKey);
+        //Integer errorNumber = Integer.valueOf(RedisUtils.getCacheObject(errorKey));
+        Integer errorNumber = 0;
         // 锁定时间内登录 则踢出
         if (ObjectUtil.isNotNull(errorNumber) && errorNumber.equals(maxRetryCount)) {
             recordLogininfor(username, loginFail, MessageUtils.message(loginType.getRetryLimitExceed(), maxRetryCount, lockTime));

@@ -40,10 +40,10 @@
 </template>
 
 <script>
-import { getToken } from "@/utils/auth";
-import { listByIds, delOss } from "@/api/system/oss";
+  import {getToken} from "@/utils/auth";
+  import {delOss, listByIds} from "@/api/system/oss";
 
-export default {
+  export default {
   name: "FileUpload",
   props: {
     // 值
@@ -155,7 +155,7 @@ export default {
     },
     // 上传成功回调
     handleUploadSuccess(res, file) {
-      if (res.code === 200) {
+      if (res.code == 200) {
         this.uploadList.push({ name: res.data.fileName, url: res.data.url, ossId: res.data.ossId });
         this.uploadedSuccessfully();
       } else {

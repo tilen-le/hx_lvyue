@@ -43,7 +43,7 @@
               <el-input
                 placeholder=""
                 disabled
-                v-model="order.soldToPartyCd"
+                v-model="order.soldToParty"
                 style="width: 100%"
               />
             </el-form-item>
@@ -153,17 +153,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row style="margin: 15px 15px 0 15px">
-          <el-col :span="6">
-            <el-form-item label="备注" style="width: 100%">
-              <el-input
-                placeholder="请输入"
-                style="width:90%"
-                v-model="deliveryForm.remark"
-              />
-            </el-form-item>
-          </el-col>
-        </el-row>
       </div>
       <div class="info-header">
         <div style="display: flex;align-items: center">
@@ -211,7 +200,7 @@
             <el-form-item label="配件单独包装" style="width: 100%" prop="isSeparatePackaging">
               <el-select v-model="deliveryForm.isSeparatePackaging" placeholder="请选择" style="width: 90%">
                 <el-option
-                  v-for="dict in ysOptions"
+                  v-for="dict in dict.type.ynn"
                   :key="dict.value"
                   :label="dict.label"
                   :value="dict.value"
@@ -259,6 +248,19 @@
                 style="width: 90%"
                 placeholder="选择日期">
               </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row style="margin: 15px 15px 0 15px">
+          <el-col :span="12">
+            <el-form-item label="备注" style="width: 100%">
+              <el-input
+                placeholder="请输入备注"
+                style="width:90%"
+                v-model="deliveryForm.remark"
+                type="textarea"
+                :rows="2"
+              />
             </el-form-item>
           </el-col>
         </el-row>
@@ -337,32 +339,18 @@
 </template>
 
 <script>
-import RegionSelect from "@/components/Forms/RegionSelect.vue";
-import {getOrderDetail} from "@/api/order";
-import {getAddressByCode, getOpenBankByBe, listCustomer} from "@/api/customer";
-import {addDelivery, addInvoice} from "@/api/invoice";
+  import RegionSelect from "@/components/Forms/RegionSelect.vue";
+  import {getOrderDetail} from "@/api/order";
+  import {getAddressByCode, getOpenBankByBe, listCustomer} from "@/api/customer";
+  import {addDelivery} from "@/api/invoice";
 
-export default {
+  export default {
   name: "createDelivery",
   components: {RegionSelect},
-  dicts: ['invoice_type', 'sys_trans_category', 'sys_y_n','delivery_category'],
+  dicts: ['invoice_type', 'sys_trans_category', 'sys_y_n','delivery_category', 'ynn'],
   data() {
     return {
       deliveryForm: {},
-      ysOptions: [
-        {
-          label: '无',
-          value: '0'
-        },
-        {
-          label: '是',
-          value: '1'
-        },
-        {
-          label: '否',
-          value: '2'
-        },
-      ],
       address: [],
       searchLoading: false,
       receiveInvoice: [],
@@ -427,6 +415,8 @@ export default {
         this.deliveryForm.consigneeId=res.data.order.soldToParty
         this.deliveryForm.products=res.data.products
         this.contract = res.data.contract
+        //收货联系人列表
+        this.getAddressByCodeApi(res.data.order.reciverCd);
       })
     },
     changeBe(val) {
@@ -446,18 +436,35 @@ export default {
         this.address = res.data
       })
     },
+    getAddressByCodeApi(code) {
+      const codePa = {
+        code: code
+      }
+      getAddressByCode(codePa).then(res => {
+        this.address = res.data
+      })
+    },
     submitForm(val){
       this.$refs["queryForm"].validate(valid => {
         if (valid) {
           this.deliveryForm.approvalStatus=val
+          debugger
+          if (this.deliveryForm.fileIds != null && this.deliveryForm.fileIds != "") {
+            if(!Array.isArray(this.deliveryForm.fileIds)){
+              this.deliveryForm.fileIds = this.deliveryForm.fileIds.split(",")
+            }
+          } else {
+            this.deliveryForm.fileIds = []
+          }
           addDelivery(this.deliveryForm).then(res => {
             this.$modal.msgSuccess("提交成功");
           })
         }
       })
     },
-    cancel(){
-
+    cancel() {
+      this.$modal.confirm('确认关闭页面？').then(function () {
+      });
     }
   }
 }

@@ -24,6 +24,10 @@ public interface IFcCustomerService {
      */
     FcCustomer getCustomerById(String id);
 
+
+
+
+
     /**
      *获取客户列表
      * @param fcCustomer

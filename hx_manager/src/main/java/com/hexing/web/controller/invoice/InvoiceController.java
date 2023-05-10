@@ -5,11 +5,14 @@ import com.hexing.common.core.controller.BaseController;
 import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.domain.R;
 import com.hexing.common.core.page.TableDataInfo;
+import com.hexing.system.domain.FcOrderConsignment;
 import com.hexing.system.domain.FcOrderInvoice;
 import com.hexing.system.service.IFcOrderInvoiceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * @author firerock_tech
@@ -47,6 +50,12 @@ public class InvoiceController extends BaseController {
     @GetMapping("/list")
     public TableDataInfo<FcOrderInvoice> list(FcOrderInvoice fcOrderInvoice, PageQuery pageQuery) {
         return iFcOrderInvoiceService.listFcOrderInvoice(fcOrderInvoice, pageQuery);
+    }
+
+    @SaCheckPermission("invoice:list:add")
+    @PostMapping("/detail")
+    public R<Map<String,Object>> detail(@RequestBody FcOrderInvoice fcOrderInvoice) {
+        return R.ok(iFcOrderInvoiceService.getDetailById(fcOrderInvoice.getId()));
     }
 
 

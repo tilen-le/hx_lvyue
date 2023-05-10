@@ -146,9 +146,11 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
     }
 
     @Override
-    public FcOrderInvoice getDetailById(Long id) {
+    public Map<String,Object> getDetailById(Long id) {
+        Map<String,Object> result = new HashMap<>();
         FcOrderInvoice fcOrderInvoice = baseMappr.selectById(id);
-        return fcOrderInvoice;
+        result.put("fcOrderInvoice",fcOrderInvoice);
+        return result;
     }
 
 

@@ -3,7 +3,6 @@ package com.hexing.system.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -64,7 +63,8 @@ public class OrderServiceImpl implements IOrderService {
         return 0;
     }
 
-    private FcContract getContact(String cid) {
+    @Override
+    public FcContract getContact(String cid) {
         LambdaQueryWrapper<FcContract> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(FcContract::getContractNumber, cid);
         return fcContractMapper.selectOne(queryWrapper);
@@ -74,38 +74,39 @@ public class OrderServiceImpl implements IOrderService {
      * 计划回款金额 = 订单总金额*回款比例
      * 剩余回款金额 = 订单总金额-计划回款金额
      * 期待回款日期 = 订单sap创建日期+付款天数
-     *  *    "xh":"1", //序号
-     *      *    "zpayname":"到货日期", //
-     *      *    "zpayscale":"1.0", //期待回款比例
-     *      *    "vbeln":"PN23.04006", //订单编号
-     *      *    "zpayday":"90",  //付款天数
-     *      *    "zpaynode":"Z013", //里程碑编码
-     *      *    "zkxname":"到货款" //里程碑类型
+     * *    "xh":"1", //序号
+     * *    "zpayname":"到货日期", //
+     * *    "zpayscale":"1.0", //期待回款比例
+     * *    "vbeln":"PN23.04006", //订单编号
+     * *    "zpayday":"90",  //付款天数
+     * *    "zpaynode":"Z013", //里程碑编码
+     * *    "zkxname":"到货款" //里程碑类型
+     *
      * @param milestoneForm
      */
-    public void handleOrderMilestoneForm(MilestoneForm milestoneForm){
+    public void handleOrderMilestoneForm(MilestoneForm milestoneForm) {
         log.error(JsonUtils.toJsonString(milestoneForm));
         LambdaQueryWrapper<FcOrderPayMilestone> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(FcOrderPayMilestone::getOrderNumber,milestoneForm.getVbeln())
-                .eq(FcOrderPayMilestone::getSequence,milestoneForm.getXh());
+        queryWrapper.eq(FcOrderPayMilestone::getOrderNumber, milestoneForm.getVbeln())
+                .eq(FcOrderPayMilestone::getSequence, milestoneForm.getXh());
         FcOrderPayMilestone payMilestone = fcOrderPayMilestoneMapper.selectOne(queryWrapper);
         FcOrder fcOrder = baseMapper.selectByOrderNumber(milestoneForm.getVbeln());
         String amount = fcOrder.getAmount();
         Date createTime = fcOrder.getSapCreateTime();
         Calendar c = Calendar.getInstance();
         c.setTime(createTime);
-        c.add(Calendar.DATE,5);
+        c.add(Calendar.DATE, 5);
         Date date = c.getTime();
         queryWrapper.clear();
-        queryWrapper.eq(FcOrderPayMilestone::getOrderNumber,milestoneForm.getVbeln());
+        queryWrapper.eq(FcOrderPayMilestone::getOrderNumber, milestoneForm.getVbeln());
         List<FcOrderPayMilestone> payMilestones = fcOrderPayMilestoneMapper.selectList();
         List<String> allPlanList = payMilestones.stream().map(FcOrderPayMilestone::getPlanPayAmount).collect(Collectors.toList());
         AtomicReference<Double> sum = new AtomicReference<>(0.0);
-        allPlanList.forEach(item->{
+        allPlanList.forEach(item -> {
             Double s = Double.parseDouble(item);
             sum.updateAndGet(v -> v + s);
         });
-        if (ObjectUtil.isNotNull(payMilestone)){
+        if (ObjectUtil.isNotNull(payMilestone)) {
             payMilestone.setCode(milestoneForm.getZpaynode());
             payMilestone.setType(milestoneForm.getZkxname());
             payMilestone.setExpectPayDate(date);
@@ -117,7 +118,7 @@ public class OrderServiceImpl implements IOrderService {
             double newSurplus = surplus - Double.parseDouble(payMilestone.getPlanPayAmount());
             payMilestone.setSurplusPayAmount(String.valueOf(newSurplus));
             fcOrderPayMilestoneMapper.updateById(payMilestone);
-        }else {
+        } else {
             payMilestone = new FcOrderPayMilestone();
             payMilestone.setOrderNumber(milestoneForm.getVbeln());
             payMilestone.setSequence(milestoneForm.getXh());
@@ -137,12 +138,11 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public void handleOrderStruct(OrderForm orderForm) {
         log.error(JsonUtils.toJsonString(orderForm));
-        FcContract fcContract = getContact(orderForm.getVbelnRe());
         LambdaQueryWrapper<FcOrder> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(FcOrder::getOrderNumber, orderForm.getVbeln());
         FcOrder existOrder = baseMapper.selectOne(queryWrapper);
         if (ObjectUtil.isNotNull(existOrder)) {
-            existOrder.setContractId(fcContract == null ? null : fcContract.getId());
+            existOrder.setContractNumber(orderForm.getVbelnRe());
             existOrder.setOrderNumber(orderForm.getVbeln());
             existOrder.setOrderTitle(orderForm.getVbelnT());
             existOrder.setCurrency(orderForm.getWaers());
@@ -182,7 +182,7 @@ public class OrderServiceImpl implements IOrderService {
             baseMapper.updateById(existOrder);
         } else {
             existOrder = new FcOrder();
-            existOrder.setContractId(fcContract == null ? null : fcContract.getId());
+            existOrder.setContractNumber(orderForm.getVbelnRe());
             existOrder.setOrderNumber(orderForm.getVbeln());
             existOrder.setOrderTitle(orderForm.getVbelnT());
             existOrder.setCurrency(orderForm.getWaers());
@@ -284,6 +284,7 @@ public class OrderServiceImpl implements IOrderService {
                 item.setSum(String.valueOf(sum));
                 item.setSumInTransitNum(String.valueOf(sumInTransitNum));
                 item.setConsignmentStatus(getConsignmentStatus(item.getId()));
+                item.setStoreStatus(getStoreStatus(item.getId()));
             }
         });
         return TableDataInfo.build(page);
@@ -295,23 +296,37 @@ public class OrderServiceImpl implements IOrderService {
      * 2.发货状态为发货完成，部分发货是有产品行还有未发货数量，
      * 3.未发货是所有行项目已发都为0
      */
-    private Integer getConsignmentStatus(Long orderId){
+    private Integer getConsignmentStatus(Long orderId) {
         FcOrder fcOrder = this.baseMapper.selectById(orderId);
         String amount = fcOrder.getAmount();
         Integer sum = fcOrderConsignmentMapper.getConsignmentSum(orderId);
-        if (ObjectUtil.isNull(sum) || sum == 0){
+        if (ObjectUtil.isNull(sum) || sum == 0) {
             return 3;
-        }else {
+        } else {
             double v = sum;
             int compare = Double.compare(v, Double.parseDouble(amount));
-            if (compare==0){
+            if (compare == 0) {
                 return 1;
-            }else if(compare<0){
+            } else if (compare < 0) {
                 return 2;
-            }else {
+            } else {
                 throw new ServiceException("订单发货核对异常");
             }
         }
+    }
+
+    /**
+     * 库存状态，部分备货，备货完成，未备货
+     * 库存状态：全部产品行未发货=库存，备货状态为备货完成，
+     * 部分备货是有产品行不等于库存，量，
+     * 未备货是所有库存都为0且剩余发货不为0
+     * @param orderId
+     * @return
+     */
+    //todo
+    private Integer getStoreStatus(Long orderId) {
+        FcOrder fcOrder = this.baseMapper.selectById(orderId);
+        return 1;
     }
 
     @Override
@@ -325,43 +340,30 @@ public class OrderServiceImpl implements IOrderService {
         FcOrder fcOrder = baseMapper.selectById(id);
         Integer consignmentStatus = getConsignmentStatus(id);
         fcOrder.setConsignmentStatus(consignmentStatus);
-        FcContract fcContract = fcContractMapper.selectById(fcOrder.getContractId());
+        FcContract fcContract = getContact(fcOrder.getContractNumber());
         List<FcOrderProduct> products = fcOrderProductMapper.selectList(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderId, id));
         List<FcOrderPayMilestone> milestones = fcOrderPayMilestoneMapper.selectList(new LambdaQueryWrapper<FcOrderPayMilestone>().eq(FcOrderPayMilestone::getOrderNumber, fcOrder.getOrderNumber()));
         //发货单明细
         LambdaQueryWrapper<FcOrderConsignment> wrapper = new LambdaQueryWrapper<FcOrderConsignment>()
                 .eq(FcOrderConsignment::getOrderId, id);
         List<FcOrderConsignment> consignments = fcOrderConsignmentMapper.selectList(wrapper);
-        if (CollectionUtils.isNotEmpty(consignments)){
-            consignments.forEach(item->{
+        if (CollectionUtils.isNotEmpty(consignments)) {
+            consignments.forEach(item -> {
                 item.setSaleType(fcOrder.getSaleType());
                 item.setOrderTitle(fcOrder.getOrderTitle());
                 item.setCustomer(fcOrder.getReciver());
-                List<FcOrderConsignmentDetail> consignmentDetails = fcOrderConsignmentDetailMapper.selectList(new LambdaQueryWrapper<FcOrderConsignmentDetail>().eq(FcOrderConsignmentDetail::getConsignmentId, item.getId()));
-                BigDecimal sum = BigDecimal.ZERO;
-                consignmentDetails.forEach(temp->{
-                    FcOrderProduct product = fcOrderProductMapper.selectById(temp.getOrderProductId());
-                    if (ObjectUtil.isNull(product)){
-                        return;
-                    }
-                    String unitPrice = product.getUnitPrice();
-                    BigDecimal decimal = new BigDecimal(unitPrice).multiply(new BigDecimal(temp.getProductNum()));
-                    sum.add(decimal);
-                });
-                item.setAmount(sum.toPlainString());
+                item.setAmount(item.getConsignmentAmount());
             });
         }
-
         //认领单
-        List<PaymentClaimVO> paymentClaims =  fcPaymentClaimMapper.selectPaymentClaimByOrder(id);
-
+        List<PaymentClaimVO> paymentClaims = fcPaymentClaimMapper.selectPaymentClaimByOrder(id);
         //接口日志
         result.put("order", fcOrder);
         result.put("contract", fcContract);
         result.put("products", products);
         result.put("milestones", milestones);
         result.put("paymentClaims", paymentClaims);
-        result.put("consignments",consignments);
+        result.put("consignments", consignments);
 
         return result;
     }

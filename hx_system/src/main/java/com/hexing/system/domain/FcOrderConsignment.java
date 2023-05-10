@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hexing.common.core.domain.BaseEntity;
+import com.hexing.system.domain.vo.SysOssVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -31,6 +32,11 @@ public class FcOrderConsignment extends BaseEntity {
      * 发货单编号
      */
     private String consigmentNumber;
+
+    /**
+     * 当前附件版本
+     */
+    private Integer currentVersion;
     /**
      * 订单主键
      */
@@ -47,6 +53,8 @@ public class FcOrderConsignment extends BaseEntity {
      * 是否逾期【0：未逾期 1.已逾期】
      */
     private String isLatePayment;
+
+    private String consignmentAmount;
     /**
      * 运输方式【0。无、1.快递、2.物流、3.其他】
      */
@@ -95,7 +103,10 @@ public class FcOrderConsignment extends BaseEntity {
      */
     private String consignorCode;
     private String deleted;
-    private String fileIds;
+
+    @TableField(exist = false)
+    private List<String> fileIds;
+
     private String addressId;
 
     @TableField(exist = false)

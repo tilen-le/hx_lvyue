@@ -14,9 +14,9 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="收货人" prop="name">
+            <el-form-item label="收货人" prop="nickName">
               <el-input
-                v-model="queryParams.name"
+                v-model="queryParams.nickName"
                 placeholder="请输入"
                 clearable
                 style="width: 240px"

@@ -18,7 +18,7 @@
                fc.factory factory
         from fc_order_invoice foi
                  left join fc_order fc on fc.id = foi.order_id
-        left join fc_contract con on con.id=fc.contract_id
+        left join fc_contract con on con.contract_number=fc.contract_number
 
     </select>
 </mapper>

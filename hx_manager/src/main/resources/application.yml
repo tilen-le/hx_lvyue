@@ -25,6 +25,7 @@ captcha:
   # 字符验证码长度
   charLength: 4
 
+
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为8080
@@ -99,6 +100,8 @@ spring:
     deserialization:
       # 允许对象忽略json中不存在的属性
       fail_on_unknown_properties: false
+    generator:
+      write_numbers_as_strings: true
 
 # Sa-Token配置
 sa-token:
@@ -223,7 +226,7 @@ swagger:
 springdoc:
   swagger-ui:
     # 修改Swagger UI路径
-    path: /swagger-ui.html
+    path: /swagger-ui
     # 开启Swagger UI界面
     enabled: true
     persistAuthorization: true
@@ -232,8 +235,6 @@ springdoc:
     path: /v3/api-docs
     # 开启api-docs
     enabled: true
-  # 配置需要生成接口文档的扫描包
-  packages-to-scan: com.macro.mall.tiny.controller
   # 配置需要生成接口文档的接口路径
   paths-to-match: /brand/**,/admin/**
   group-configs:

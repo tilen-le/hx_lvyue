@@ -51,7 +51,7 @@ public class FcCustomerConsignmentServiceImpl implements IFcCustomerConsignmentS
         queryWrapper.eq(FcCustomer::getCode, code);
         FcCustomer fcCustomer = fcCustomerMapper.selectOne(queryWrapper);
         if (ObjectUtil.isNull(fcCustomer)) {
-            throw new ServiceException("该收票方系统重不存在");
+            throw new ServiceException("未找到该收货方信息");
         }
         return baseMapper.selectList(new LambdaQueryWrapper<FcCustomerConsignment>().eq(FcCustomerConsignment::getDeleted, "0").eq(FcCustomerConsignment::getCustomerId, fcCustomer.getId()));
     }

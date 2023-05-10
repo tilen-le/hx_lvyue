@@ -3,6 +3,7 @@ package com.hexing.system.service;
 import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.domain.R;
 import com.hexing.common.core.page.TableDataInfo;
+import com.hexing.system.domain.FcContract;
 import com.hexing.system.domain.FcOrder;
 import com.hexing.system.domain.form.FcShippingPlanReportInfoVo;
 import com.hexing.system.domain.form.OrderForm;
@@ -22,6 +23,8 @@ public interface IOrderService {
      * @return
      */
     int saveOrder(ReciveOrderDTO orders);
+
+    FcContract getContact(String number);
 
 
     /**
