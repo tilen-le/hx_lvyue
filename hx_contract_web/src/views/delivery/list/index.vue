@@ -6,7 +6,7 @@
           <el-col :span="6">
             <el-form-item label="订单编号" prop="name">
               <el-input
-                v-model="queryParams.name"
+                v-model="queryParams.consigmentNumber"
                 placeholder="请输入"
                 clearable
                 style="width: 240px"
@@ -16,7 +16,7 @@
           <el-col :span="6">
             <el-form-item label="客户名称" prop="name">
               <el-input
-                v-model="queryParams.name"
+                v-model="queryParams.customer"
                 placeholder="请输入"
                 clearable
                 style="width: 240px"
@@ -24,15 +24,15 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="发货状态" prop="status">
+            <el-form-item label="发货状态" prop="deliveryStatus">
               <el-select
-                v-model="queryParams.status"
+                v-model="queryParams.deliveryStatus"
                 placeholder="请选择"
                 clearable
                 style="width: 240px"
               >
                 <el-option
-                  v-for="dict in dict.type.sys_customer_status"
+                  v-for="dict in dict.type.delivery_status"
                   :key="dict.value"
                   :label="dict.label"
                   :value="dict.value"
@@ -41,15 +41,15 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="库存状态" prop="status">
+            <el-form-item label="库存状态" prop="storeStatus">
               <el-select
-                v-model="queryParams.status"
+                v-model="queryParams.storeStatus"
                 placeholder="请选择"
                 clearable
                 style="width: 240px"
               >
                 <el-option
-                  v-for="dict in dict.type.sys_customer_status"
+                  v-for="dict in dict.type.store_status"
                   :key="dict.value"
                   :label="dict.label"
                   :value="dict.value"
@@ -60,13 +60,20 @@
         </el-row>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="审批状态" prop="name">
-              <el-input
-                v-model="queryParams.name"
-                placeholder="请输入"
+            <el-form-item label="审批状态" prop="approveStatus">
+              <el-select
+                v-model="queryParams.approveStatus"
+                placeholder="请选择"
                 clearable
                 style="width: 240px"
-              />
+              >
+                <el-option
+                  v-for="dict in dict.type.approve_status"
+                  :key="dict.value"
+                  :label="dict.label"
+                  :value="dict.value"
+                />
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -170,7 +177,7 @@ import {delApproveConfig} from "@/api/system/config";
 
 export default {
   name: "index",
-  dicts: ['sys_customer_status','approve_status'],
+  dicts: ['sys_customer_status','approve_status','delivery_status','store_status'],
   data() {
     return {
       queryParams: {

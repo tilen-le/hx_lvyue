@@ -96,7 +96,7 @@
         <el-form-item label="收货人电话" prop="phone">
           <el-input v-model="form.phone" placeholder="请输入" maxlength="11"/>
         </el-form-item>
-        <el-form-item label="收获地址" prop="location">
+        <el-form-item label="收货地址" prop="location">
           <RegionSelect
             style="width: 100%"
             placeholder="请选择"
