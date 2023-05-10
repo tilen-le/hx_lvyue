@@ -46,6 +46,12 @@ public class FcOrderInvoice extends BaseEntity {
     /**
      * 卖方银行
      */
+
+    /**
+     * 当前附件版本
+     */
+    private Integer currentVersion;
+
     @NotNull(message = "[卖方银行]不能为空")
     private Long saleBank;
     /**

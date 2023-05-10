@@ -32,6 +32,11 @@ public class FcOrderConsignment extends BaseEntity {
      * 发货单编号
      */
     private String consigmentNumber;
+
+    /**
+     * 当前附件版本
+     */
+    private Integer currentVersion;
     /**
      * 订单主键
      */
@@ -48,6 +53,8 @@ public class FcOrderConsignment extends BaseEntity {
      * 是否逾期【0：未逾期 1.已逾期】
      */
     private String isLatePayment;
+
+    private String consignmentAmount;
     /**
      * 运输方式【0。无、1.快递、2.物流、3.其他】
      */

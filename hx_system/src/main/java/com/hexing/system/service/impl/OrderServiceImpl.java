@@ -351,27 +351,11 @@ public class OrderServiceImpl implements IOrderService {
                 item.setSaleType(fcOrder.getSaleType());
                 item.setOrderTitle(fcOrder.getOrderTitle());
                 item.setCustomer(fcOrder.getReciver());
-                List<FcOrderConsignmentDetail> consignmentDetails = fcOrderConsignmentDetailMapper.selectList(new LambdaQueryWrapper<FcOrderConsignmentDetail>().eq(FcOrderConsignmentDetail::getConsignmentId, item.getId()));
-                BigDecimal sum = BigDecimal.ZERO;
-                consignmentDetails.forEach(temp -> {
-                    FcOrderProduct product = fcOrderProductMapper.selectById(temp.getOrderProductId());
-                    if (ObjectUtil.isNull(product)) {
-                        return;
-                    }
-                    String unitPrice = product.getUnitPrice();
-                    if (StringUtils.isNotEmpty(unitPrice)&& temp.getProductNum()!=null){
-                        BigDecimal decimal = new BigDecimal(unitPrice).multiply(new BigDecimal(temp.getProductNum()));
-                        sum.add(decimal);
-                    }
-
-                });
-                item.setAmount(sum.toPlainString());
+                item.setAmount(item.getConsignmentAmount());
             });
         }
-
         //认领单
         List<PaymentClaimVO> paymentClaims = fcPaymentClaimMapper.selectPaymentClaimByOrder(id);
-
         //接口日志
         result.put("order", fcOrder);
         result.put("contract", fcContract);
