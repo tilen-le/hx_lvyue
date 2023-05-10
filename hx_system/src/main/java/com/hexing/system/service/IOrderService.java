@@ -2,6 +2,7 @@ package com.hexing.system.service;
 
 import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.page.TableDataInfo;
+import com.hexing.system.domain.FcContract;
 import com.hexing.system.domain.FcOrder;
 import com.hexing.system.domain.form.OrderForm;
 import com.hexing.system.domain.form.ReciveOrderDTO;
@@ -20,6 +21,8 @@ public interface IOrderService {
      * @return
      */
     int saveOrder(ReciveOrderDTO orders);
+
+    FcContract getContact(String number);
 
 
     /**

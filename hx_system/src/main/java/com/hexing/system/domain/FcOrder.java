@@ -27,9 +27,9 @@ public class FcOrder extends BaseEntity {
     @TableId(value = "id",type = IdType.AUTO)
     private Long id;
     /**
-     * 合同id
+     * 合同编号
      */
-    private Long contractId;
+    private String contractNumber;
     /**
      * 订单编号
      */
@@ -183,9 +183,6 @@ public class FcOrder extends BaseEntity {
      * 税率
      */
     private String deleted;
-
-    @TableField(exist = false)
-    private String contractNumber;
 
     @TableField(exist = false)
     private String contractName;

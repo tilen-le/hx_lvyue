@@ -4,6 +4,8 @@ import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.page.TableDataInfo;
 import com.hexing.system.domain.FcOrderInvoice;
 
+import java.util.Map;
+
 /**
  * @author firerock_tech
  */
@@ -43,6 +45,6 @@ public interface IFcOrderInvoiceService {
      * @param id
      * @return
      */
-    FcOrderInvoice getDetailById(Long id);
+    Map<String,Object> getDetailById(Long id);
 
 }
