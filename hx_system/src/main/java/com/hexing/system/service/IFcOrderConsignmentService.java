@@ -4,6 +4,8 @@ import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.page.TableDataInfo;
 import com.hexing.system.domain.FcOrderConsignment;
 
+import java.util.Map;
+
 /**
  * @author firerock_tech
  */
@@ -39,7 +41,7 @@ public interface IFcOrderConsignmentService {
      * @param id
      * @return
      */
-    FcOrderConsignment getDetailById(Long id);
+    Map<String,Object> getDetailById(Long id);
 
 
 

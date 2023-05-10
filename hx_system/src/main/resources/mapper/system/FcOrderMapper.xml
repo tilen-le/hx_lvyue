@@ -5,19 +5,19 @@
 <mapper namespace="com.hexing.system.mapper.FcOrderMapper">
 
     <select id="selectPageOrderList" resultType="com.hexing.system.domain.FcOrder">
-        select fco.id,
-        fco.contract_id,
+        select
+        fco.id,
         fco.order_number,
         fco.order_title,
         fco.amount,
         fco.status,
         fco.sold_to_party_cd,
         fco.sold_to_party,
-        fcc.contract_number contractNumber,
+        fco.contract_number contractNumber,
         fcc.contract_name contractName,
         fco.require_delivery_date
         from fc_order fco
-        left join fc_contract fcc on fcc.id = fco.contract_id
+        left join fc_contract fcc on fcc.contract_number= fco.contract_number
         <where>
             <if test="order.orderNumber!=null and order.orderNumber !=''">
                 and fco.order_number like concat('%', #{order.orderNumber}, '%')

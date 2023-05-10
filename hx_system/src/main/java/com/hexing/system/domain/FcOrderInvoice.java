@@ -27,7 +27,7 @@ public class FcOrderInvoice extends BaseEntity {
     /**
      * 主键
      */
-   @TableId(value = "id",type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     /**
      * 开票单编号
@@ -100,6 +100,7 @@ public class FcOrderInvoice extends BaseEntity {
     @TableField(exist = false)
     private List<FcOrderInvoiceDetail> productList;
 
+    @TableField(exist = false)
     private String fileIds;
 
 

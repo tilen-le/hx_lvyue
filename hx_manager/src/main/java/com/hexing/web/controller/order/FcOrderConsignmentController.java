@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 /**
  * @author firerock_tech
  */
@@ -52,7 +54,7 @@ public class FcOrderConsignmentController extends BaseController {
 
     @SaCheckPermission("order:consignment:check")
     @PostMapping("/check")
-    public R<FcOrderConsignment> detail(@RequestBody FcOrderConsignment fcOrderConsignment) {
+    public R<Map<String,Object>> detail(@RequestBody FcOrderConsignment fcOrderConsignment) {
         return R.ok(iFcOrderConsignmentService.getDetailById(fcOrderConsignment.getId()));
     }
 
