@@ -473,7 +473,6 @@
     },
     cancel(){
       this.$modal.confirm('确认关闭页面？').then(function () {
-
       });
     }
   }

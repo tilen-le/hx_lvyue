@@ -288,10 +288,10 @@
     },
     handleDelete(row) {
       this.$modal.confirm('是否确认删除地址为"' + row.location + '"的数据项？').then(function () {
-        return delAddress(row.id);
+        return delAddress(row);
       }).then(() => {
-        this.getList();
         this.$modal.msgSuccess("删除成功");
+        this.getAddress();
       }).catch(() => {
       });
     },
