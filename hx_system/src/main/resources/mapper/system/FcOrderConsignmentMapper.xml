@@ -5,14 +5,16 @@
 <mapper namespace="com.hexing.system.mapper.FcOrderConsignmentMapper">
     <select id="listFcOrder" resultType="com.hexing.system.domain.FcOrderConsignment">
         select fcc.id,
-               fcc.consigment_number,
-               fcc.approval_status,
-               fc.order_title      orderTitle,
-               fc.sold_to_party_cd customer,
-               fcc.create_time,
-               fc.amount           amount
+        fcc.consigment_number,
+        fcc.approval_status,
+        fc.order_title      orderTitle,
+        fc.sold_to_party_cd customer,
+        fcc.create_time,
+        fcc.consignment_amount
         from fc_order_consignment fcc
-                 left join fc_order fc on fc.id = fcc.order_id
+        left join fc_order fc on fc.id = fcc.order_id
+
+
     </select>
     <select id="getConsignmentSum" resultType="java.lang.Integer">
         SELECT SUM(focd.product_num)
