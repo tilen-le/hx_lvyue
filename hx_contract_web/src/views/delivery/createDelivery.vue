@@ -153,17 +153,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row style="margin: 15px 15px 0 15px">
-          <el-col :span="6">
-            <el-form-item label="备注" style="width: 100%">
-              <el-input
-                placeholder="请输入"
-                style="width:90%"
-                v-model="deliveryForm.remark"
-              />
-            </el-form-item>
-          </el-col>
-        </el-row>
       </div>
       <div class="info-header">
         <div style="display: flex;align-items: center">
@@ -211,7 +200,7 @@
             <el-form-item label="配件单独包装" style="width: 100%" prop="isSeparatePackaging">
               <el-select v-model="deliveryForm.isSeparatePackaging" placeholder="请选择" style="width: 90%">
                 <el-option
-                  v-for="dict in ysOptions"
+                  v-for="dict in dict.type.ynn"
                   :key="dict.value"
                   :label="dict.label"
                   :value="dict.value"
@@ -259,6 +248,19 @@
                 style="width: 90%"
                 placeholder="选择日期">
               </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row style="margin: 15px 15px 0 15px">
+          <el-col :span="12">
+            <el-form-item label="备注" style="width: 100%">
+              <el-input
+                placeholder="请输入备注"
+                style="width:90%"
+                v-model="deliveryForm.remark"
+                type="textarea"
+                :rows="2"
+              />
             </el-form-item>
           </el-col>
         </el-row>
@@ -345,24 +347,10 @@
   export default {
   name: "createDelivery",
   components: {RegionSelect},
-  dicts: ['invoice_type', 'sys_trans_category', 'sys_y_n','delivery_category'],
+  dicts: ['invoice_type', 'sys_trans_category', 'sys_y_n','delivery_category', 'ynn'],
   data() {
     return {
       deliveryForm: {},
-      ysOptions: [
-        {
-          label: '无',
-          value: '0'
-        },
-        {
-          label: '是',
-          value: '1'
-        },
-        {
-          label: '否',
-          value: '2'
-        },
-      ],
       address: [],
       searchLoading: false,
       receiveInvoice: [],
@@ -460,8 +448,11 @@
       this.$refs["queryForm"].validate(valid => {
         if (valid) {
           this.deliveryForm.approvalStatus=val
+          debugger
           if (this.deliveryForm.fileIds != null && this.deliveryForm.fileIds != "") {
-            this.deliveryForm.fileIds = this.deliveryForm.fileIds.split(",")
+            if(!Array.isArray(this.deliveryForm.fileIds)){
+              this.deliveryForm.fileIds = this.deliveryForm.fileIds.split(",")
+            }
           } else {
             this.deliveryForm.fileIds = []
           }
@@ -471,7 +462,7 @@
         }
       })
     },
-    cancel(){
+    cancel() {
       this.$modal.confirm('确认关闭页面？').then(function () {
       });
     }
