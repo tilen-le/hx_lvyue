@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-form :model="planForm" ref="queryForm" size="small" :rules="rules" label-width="130px"
              style="margin: 15px">
-<!--      发货计划信息-->
+      <!--      发货计划信息-->
       <div class="plan-header">
         <div style="display: flex;align-items: center">
           <div class="line-item"></div>
@@ -26,12 +26,12 @@
           <el-col :span="6">
             <el-form-item label="清关金额" prop="currentNode">
               <el-input-number :min="0" :precision="2" v-model="planForm.currentNode"
-                        placeholder="请输入" maxlength="30" />
+                               placeholder="请输入" maxlength="30" />
             </el-form-item>
           </el-col>
         </el-row>
       </div>
-<!--      详细信息-->
+      <!--      详细信息-->
       <div class="plan-header">
         <div style="display: flex;align-items: center">
           <div class="line-item"></div>
@@ -303,7 +303,7 @@
                     style="width: 95%"/>
         </el-form-item>
       </div>
-<!--      报关信息-->
+      <!--      报关信息-->
       <div class="plan-header">
         <div style="display: flex;align-items: center">
           <div class="line-item"></div>
@@ -312,12 +312,12 @@
         <el-row style="margin: 15px 15px 0 15px">
           <el-col :span="6">
             <el-form-item label="单证专员" prop="documentSpecialist">
-              <el-select v-model="planForm.documentSpecialist" placeholder="请选择" style="width: 100%" :loading="searchLoading5">
+              <el-select v-model="planForm.documentSpecialist" placeholder="请选择" style="width: 100%">
                 <el-option
                   v-for="item in docKeeper"
-                  :key="item.userName"
+                  :key="item.userId"
                   :label="item.nickName"
-                  :value="item.userName"
+                  :value="item.userId"
                 />
               </el-select>
             </el-form-item>
@@ -325,19 +325,19 @@
           <el-col :span="6">
 
             <el-form-item label="财务人员" prop="financialStaff">
-              <el-select v-model="planForm.financialStaff" placeholder="请选择" style="width: 100%":loading="searchLoading6">
+              <el-select v-model="planForm.financialStaff" placeholder="请选择" style="width: 100%">
                 <el-option
                   v-for="item in bookKeeper"
-                  :key="item.userName"
+                  :key="item.userId"
                   :label="item.nickName"
-                  :value="item.userName"
+                  :value="item.userId"
                 />
               </el-select>
             </el-form-item>
           </el-col>
         </el-row>
       </div>
-<!--      汇总信息-->
+      <!--      汇总信息-->
       <div class="plan-header">
         <div style="display: flex;align-items: center">
           <div class="line-item"></div>
@@ -474,7 +474,7 @@
           </el-col>
         </el-row>
       </div>
-<!--      实际业务报关信息-->
+      <!--      实际业务报关信息-->
       <div class="plan-header">
         <div style="display: flex;justify-content: space-between;align-items: center;padding-right: 15px">
           <div style="display: flex;align-items: center">
@@ -490,9 +490,15 @@
           style="margin-top: 15px"
           size="mini"
         >
-          <el-table-column   label="编号" align="center">
-            <template slot-scope="scop">
-              {{scop.$index+1}}
+          <el-table-column label="序号" align="center" min-width="60px" prop="sequence">
+            <template slot-scope="scope">
+              <el-input
+                controls-position="right"
+                :precision="2"
+                placeholder="请输入"
+                style="width: 70%"
+                v-model="scope.row.sequence"
+              />
             </template>
           </el-table-column>
           <el-table-column label="货物描述(中文)" align="center" min-width="60px" prop="goodsDescCn">
@@ -509,20 +515,20 @@
           <el-table-column label="报关数量" align="center" min-width="60px" prop="num">
             <template slot-scope="scope">
               <el-input-number :min="0"
-                controls-position="right"
-                placeholder="请输入"
-                style="width: 70%"
-                v-model="scope.row.num"
+                               controls-position="right"
+                               placeholder="请输入"
+                               style="width: 70%"
+                               v-model="scope.row.num"
               />
             </template>
           </el-table-column>
           <el-table-column label="报关金额" align="center" min-width="60px" prop="amount">
             <template slot-scope="scope">
               <el-input-number :min="0" :precision="2"
-                controls-position="right"
-                placeholder="请输入"
-                style="width: 70%"
-                v-model="scope.row.amount"
+                               controls-position="right"
+                               placeholder="请输入"
+                               style="width: 70%"
+                               v-model="scope.row.amount"
               />
             </template>
           </el-table-column>
@@ -539,12 +545,12 @@
           </el-table-column>
           <el-table-column label="包装件数" align="center" min-width="60px">
             <template slot-scope="scope">
-              <el-input-number :min="0"
-                controls-position="right"
-                placeholder="请输入"
-                style="width: 70%"
-                v-model="scope.row.packNumber"
-              />
+              <<el-input-number :min="0"
+                                controls-position="right"
+                                placeholder="请输入"
+                                style="width: 70%"
+                                v-model="scope.row.packNumber"
+            />
             </template>
           </el-table-column>
           <el-table-column label="包装种类" align="center" min-width="60px">
@@ -607,7 +613,7 @@
           </el-table-column>
         </el-table>
       </div>
-<!--      SAP财务核算收入-->
+      <!--      SAP财务核算收入-->
       <div class="plan-header">
         <div style="display: flex;justify-content: space-between;align-items: center;padding-right: 15px">
           <div style="display: flex;align-items: center">
@@ -675,9 +681,9 @@
           <el-table-column label="实际报关金额" align="center" min-width="60px" prop="realityReportCustomsAmount">
             <template slot-scope="scope">
               <el-input-number :min="0" :precision="2"
-                controls-position="right"
-                style="width: 70%"
-                v-model="scope.row.realityReportCustomsAmount"
+                               controls-position="right"
+                               style="width: 70%"
+                               v-model="scope.row.realityReportCustomsAmount"
               />
             </template>
           </el-table-column>
@@ -700,7 +706,7 @@
           </el-table-column>
         </el-table>
       </div>
-<!--      附件-->
+      <!--      附件-->
       <div class="info-header">
         <div style="display: flex;align-items: center">
           <div class="line-item"></div>
@@ -715,9 +721,9 @@
       <el-button type="primary" @click="submitForm">提交</el-button>
       <el-button @click="cancel">取 消</el-button>
     </div>
-<!--    订单列表选择弹窗-->
+    <!--    订单列表选择弹窗-->
     <el-dialog title="SAP财务核算收入新增" :visible.sync="dialogVisible" >
-<!--      筛选条件-->
+      <!--      筛选条件-->
       <el-input
         placeholder="请输入内容"
         v-model="orderKeyword"
@@ -727,10 +733,10 @@
       <el-table :data="orderList" ref="orderListTable" style="margin-top: 10px">
         <el-table-column type="selection" width="55"/>
         <el-table-column property="orderNumber" label="订单编号"></el-table-column>
-        <el-table-column property="sapDetailNumber" label="行项目"></el-table-column>
+        <el-table-column property="name" label="行项目"></el-table-column>
         <el-table-column property="productName" label="产品名"></el-table-column>
-        <el-table-column property="orderTitle" label="订单名称"></el-table-column>
-        <el-table-column property="soldToParty" label="客户"></el-table-column>
+        <el-table-column property="orderName" label="订单名称"></el-table-column>
+        <el-table-column property="customer" label="客户"></el-table-column>
       </el-table>
       <span slot="footer" class="dialog-footer">
       <el-button @click="undoSelectedOrders">取 消</el-button>
@@ -746,10 +752,10 @@ import {deptTreeSelect} from "@/api/system/user";
 import { getAddress, listCustomer } from '@/api/customer'
 import {listBookKeeper, listDocKeeper} from "@/api/system/role";
 import { listOrderByKeyWordApi } from '@/api/order'
-import { addPlanApi, listSAPFinancialApi } from '@/api/plan'
+import { listSAPFinancialApi, updatePlanApi } from '@/api/plan'
 
 export default {
-  name: "create",
+  name: "edit",
   components: {Treeselect},
   dicts: ['sys_customer_status', 'sys_currency', 'continent', 'sys_y_n', 'sys_receive_master',
     'sys_trans_category', 'trade_type', 'pol_cate', 'exs_cate', 'sold_for','sys_yes_no'],
@@ -768,10 +774,8 @@ export default {
       deptOptions: undefined,
       searchLoading: false,
       searchLoading2: false,
-      searchLoading3: true,
+      searchLoading3: false,
       searchLoading4: false,
-      searchLoading5: false,
-      searchLoading6: false,
       nation: [
         {
           label: '中国',
@@ -812,9 +816,6 @@ export default {
         ],
         goodsCompleteDateAndLocate: [
           {required: true, message: "请输入", trigger: "blur"}
-        ],
-        reportCustomsInstitutions: [
-          {required: true, message: "请选择", trigger: "blur"}
         ],
         transType: [
           {required: true, message: "请选择", trigger: "blur"}
@@ -867,10 +868,37 @@ export default {
     }
   },
   created() {
+    // 获取计划id
+    this.planForm.planId=this.$route.params.oid
+    // 获取人员列表
+    listCustomer().then(res => {
+      this.customer = res.rows
+      this.customer2 = res.rows
+      this.customer3 = res.rows
+    })
+    // 获取单证专员和财务人员列表
     this.initKeeper()
+    // 获取部门树
     this.getDeptTree()
+    // 获取计划详细
+    this.getPlanDetail()
   },
   methods: {
+    // 获取计划详细
+    getPlanDetail(){
+      this.planForm.planId
+      let param={
+
+      }
+      detailPlanApi(param).then(res=>{
+        this.planForm=res.data
+      }).then(res=>{
+        // 客户联系人列表
+        this.changeConsignee(this.planForm.consignee)
+        // 国家列表
+        this.changeContinent(this.planForm.continent)
+      })
+    },
     // 下拉框--远程获取人员信息
     remoteMethod(query) {
       setTimeout(() => {
@@ -916,7 +944,7 @@ export default {
       this.nation
     },
     // 《收货方》下拉框改变
-    changeConsignee() {
+    changeConsignee(value) {
       this.searchLoading3=true
       if(null==this.planForm.consignee){
         this.$message({
@@ -928,11 +956,10 @@ export default {
       this.customerContactList=[]
       // 修改客户可选联系人列表
       let param={
-        customerId: this.planForm.consignee
+        customerId: value
       }
       getAddress(param).then((res => {
         this.customerContactList = res.data
-        this.searchLoading3=false
       }))
     },
     // 客户联系人改变
@@ -950,6 +977,7 @@ export default {
     createReport() {
       const length = this.planForm.reportList.length;
       this.planForm.reportList.push({
+        sequence: length===0?1:this.planForm.reportList[length-1].sequence+1,
         goodsDescCn: undefined,
         num: undefined,
         amount: undefined,
@@ -961,6 +989,7 @@ export default {
         volume: undefined
       });
     },
+    // 部门树
     getDeptTree() {
       deptTreeSelect().then(response => {
         this.deptOptions = response.data;
@@ -974,9 +1003,8 @@ export default {
     removeSap(row, index){
       this.planForm.financialList.splice(index,1);
     },
+    // 单证人员、财务人员
     initKeeper() {
-      this.searchLoading5=true
-      this.searchLoading6=true
       const params = {
         roleName: "财务",
       }
@@ -985,16 +1013,10 @@ export default {
       }
       listBookKeeper(params).then(res => {
         this.bookKeeper = res.data
-        this.searchLoading5=false
       })
       listDocKeeper(params2).then(res => {
         this.docKeeper = res.data
-        this.searchLoading6=false
       })
-    },
-    // SAP财务核算收入:选择订单
-    createActInfo() {
-      this.dialogVisible=true
     },
     // 查询订单列表
     queryOrderList(){
@@ -1006,6 +1028,10 @@ export default {
       listOrderByKeyWordApi(param).then(res=>{
         this.orderList=res.data
       })
+    },
+    // SAP财务核算收入:选择订单
+    createActInfo() {
+      this.dialogVisible=true
     },
     // 确定选中订单
     doSelectedOrders(){
@@ -1039,9 +1065,7 @@ export default {
     // 提交表单
     submitForm(){
       this.$refs["queryForm"].validate(valid => {
-        // 判断  是否合格
         if (valid) {
-          // 判断文件项目
           if (this.planForm.file != null && this.planForm.file != "") {
             if (!Array.isArray(this.planForm.file)) {
               this.planForm.file = JSON.parse(this.planForm.file)
@@ -1049,7 +1073,7 @@ export default {
           } else {
             this.planForm.file = []
           }
-          addPlanApi(this.planForm).then(res => {
+          updatePlanApi(this.planForm).then(res => {
             this.$message({
               message: '新增完成',
               type: 'success'

@@ -8,3 +8,12 @@ export function getDeliveryDetail(data){
     data: data
   })
 }
+
+// 发货单撤销审批
+export function undoDeliveryApi(query){
+  return request({
+    url: '/delivery/detail',
+    method: 'get',
+    params: query
+  })
+}

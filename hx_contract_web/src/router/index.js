@@ -243,6 +243,18 @@ export const dynamicRoutes = [
         component: () => import('@/views/delivery/plan/create.vue'),
         name: 'Data',
         meta: {title: '发货计划', activeMenu: '/delivery/plan'}
+      },
+      {
+        path: 'detail',
+        component: () => import('@/views/delivery/plan/detail.vue'),
+        name: 'Data',
+        meta: {title: '发货计划详情', activeMenu: '/delivery/plan'}
+      },
+      {
+        path: 'edit',
+        component: () => import('@/views/delivery/plan/edit.vue'),
+        name: 'Data',
+        meta: {title: '发货计划编辑', activeMenu: '/delivery/plan'}
       }
     ]
   },
