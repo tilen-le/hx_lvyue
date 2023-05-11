@@ -15,6 +15,7 @@ import com.hexing.common.helper.LoginHelper;
 import com.hexing.common.utils.JsonUtils;
 import com.hexing.common.utils.StringUtils;
 import com.hexing.system.domain.*;
+import com.hexing.system.domain.bo.SysOssBo;
 import com.hexing.system.mapper.*;
 import com.hexing.system.service.IFcApproveService;
 import com.hexing.system.service.IFcOrderConsignmentService;
@@ -88,11 +89,14 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
                 //库存锁定
                 if (Objects.equals(fcOrderConsignment.getApprovalStatus(), 3)) {
                     FcOrderProduct product = fcOrderProductMapper.selectById(productId);
-                    double v = Double.parseDouble(product.getNotSentNum()) - (double) item.getProductNum();
+                    double v = Double.parseDouble(product.getNotSentNum()) - Double.parseDouble( item.getProductNum());
                     product.setNotSentNum(String.valueOf(v));
                     fcOrderProductMapper.updateById(product);
                 }
             });
+        }
+        if (Objects.isNull(fcOrderConsignment.getApprovalStatus())){
+            handleApprove(fcOrderConsignment);
         }
         return result;
     }
@@ -137,7 +141,7 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
                 fcOrderConsignmentDetailMapper.updateById(item);
                 //库存锁定
                 FcOrderProduct product = fcOrderProductMapper.selectById(productId);
-                double v = Double.parseDouble(product.getNotSentNum()) - (double) item.getProductNum();
+                double v = Double.parseDouble(product.getNotSentNum()) - Double.parseDouble( item.getProductNum());
                 product.setNotSentNum(String.valueOf(v));
                 fcOrderProductMapper.updateById(product);
             });
@@ -147,11 +151,12 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
     }
 
     private void handleOssFile(FcOrderConsignment fcOrderConsignment) {
-        List<String> fileIds = fcOrderConsignment.getFileIds();
-        if (CollectionUtils.isNotEmpty(fileIds)) {
+        List<SysOssBo> files = fcOrderConsignment.getFiles();
+        if (CollectionUtils.isNotEmpty(files)) {
+            List<Long> fileIds =files.stream().map(SysOssBo::getOssId).collect(Collectors.toList());
             fileIds.forEach(temp -> {
                 FcOssRelevance fcOssRelevance = new FcOssRelevance();
-                fcOssRelevance.setOssId(Long.parseLong(temp));
+                fcOssRelevance.setOssId(temp);
                 fcOssRelevance.setMainId(fcOrderConsignment.getId());
                 fcOssRelevance.setType(1);
                 fcOssRelevance.setVersion(fcOrderConsignment.getCurrentVersion());
@@ -195,7 +200,7 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
         result.put("fcOrder", fcOrder);
         result.put("fcContract", fcContract);
         result.put("customerConsignment", customerConsignment);
-        result.put("producs", details);
+        result.put("products", details);
 
 
         return result;
@@ -203,9 +208,9 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
 
     private void handleApprove(FcOrderConsignment fcOrderConsignment) {
         FcApprove fcApprove = new FcApprove();
-        fcApprove.setTitle("发货审批");
+        fcApprove.setTitle("发货审批"+fcOrderConsignment.getConsigmentNumber());
         fcApprove.setType(1);
-        fcApprove.setOriginator(LoginHelper.getUserId().toString());
+        fcApprove.setOriginator(Objects.requireNonNull(LoginHelper.getUserId()).toString());
         fcApprove.setStatus("0");
         fcApprove.setRequestTime(new Date());
         fcApprove.setMainId(fcOrderConsignment.getId());

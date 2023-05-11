@@ -43,7 +43,7 @@ public class FcOrderInvoiceDetail extends BaseEntity
     /**
     * 申请开票数量
     */
-    private Integer appliedQuantity;
+    private String appliedQuantity;
     /**
     * 开票含税单价
     */

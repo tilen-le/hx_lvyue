@@ -41,25 +41,31 @@ public class FcShippingPlanFinancialAccounting extends BaseEntity {
     private Integer reportCustomsResidueNum;
     /**
     * 产品总金额
-    */
+     */
     private BigDecimal totalProductAmount;
-    /**
-    * 剩余报关金额
-    */
-    private BigDecimal remainingReportCustomsAmount;
-    /**
-    * 本次报关金额
-    */
-    private BigDecimal currentReportCustomsAmount;
-    /**
-    * 单价
-    */
-    private BigDecimal unitPrice;
-    /**
-    * SAP物料编码
-    */
-    private String sapMaterialCode;
-    private String deleted;
+ /**
+  * 剩余报关金额
+  */
+ private BigDecimal remainingReportCustomsAmount;
+ /**
+  * 本次报关金额
+  */
+ private BigDecimal currentReportCustomsAmount;
+
+ /**
+  * 实际报关金额
+  */
+ private BigDecimal realityReportCustomsAmount;
+
+ /**
+  * 单价
+  */
+ private BigDecimal unitPrice;
+ /**
+  * SAP物料编码
+  */
+ private String sapMaterialCode;
+ private String deleted;
 
 
 }

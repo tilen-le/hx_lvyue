@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hexing.common.core.domain.PageQuery;
+import com.hexing.common.core.domain.R;
 import com.hexing.common.core.page.TableDataInfo;
 import com.hexing.common.exception.ServiceException;
 import com.hexing.common.utils.JsonUtils;
@@ -40,7 +41,6 @@ public class OrderServiceImpl implements IOrderService {
     private final FcContractMapper fcContractMapper;
     private final FcOrderProductMapper fcOrderProductMapper;
     private final FcOrderConsignmentMapper fcOrderConsignmentMapper;
-    private final FcOrderConsignmentDetailMapper fcOrderConsignmentDetailMapper;
 
     private final FcOrderPayMilestoneMapper fcOrderPayMilestoneMapper;
     private final FcPaymentClaimMapper fcPaymentClaimMapper;
@@ -297,13 +297,14 @@ public class OrderServiceImpl implements IOrderService {
      */
     private Integer getConsignmentStatus(Long orderId) {
         FcOrder fcOrder = this.baseMapper.selectById(orderId);
-        String amount = fcOrder.getAmount();
-        Integer sum = fcOrderConsignmentMapper.getConsignmentSum(orderId);
+        List<FcOrderProduct> products = fcOrderProductMapper.selectList(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderId, orderId));
+        double orderSum = products.stream().mapToDouble(item-> Double.parseDouble(item.getNum())).sum();
+        double sum = fcOrderConsignmentMapper.getConsignmentSum(orderId);
         if (ObjectUtil.isNull(sum) || sum == 0) {
             return 3;
         } else {
             double v = sum;
-            int compare = Double.compare(v, Double.parseDouble(amount));
+            int compare = Double.compare(v, orderSum);
             if (compare == 0) {
                 return 1;
             } else if (compare < 0) {
@@ -373,4 +374,31 @@ public class OrderServiceImpl implements IOrderService {
         queryWrapper.select(FcOrder::getId, FcOrder::getOrderTitle).eq(FcOrder::getReciver, code).or().eq(FcOrder::getSoldToParty, code);
         return baseMapper.selectList(queryWrapper);
     }
+
+    @Override
+    public R<List<FcShippingPlanReportInfoVo>> getOrderByNoOrName(String orderNoOrName) {
+        if (StringUtils.isEmpty(orderNoOrName)) {
+            return R.fail("请输入订单编号或者订单名称");
+        }
+        LambdaQueryWrapper<FcOrder> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(FcOrder::getOrderNumber, orderNoOrName).or()
+                .eq(FcOrder::getOrderTitle, orderNoOrName);
+        FcOrder fcOrder = baseMapper.selectVoOne(queryWrapper);
+        if (Objects.isNull(fcOrder)) {
+            return R.fail("未查询到对应的订单信息");
+        }
+        List<FcOrderProduct> products = fcOrderProductMapper.selectList(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderId, fcOrder));
+        List<FcShippingPlanReportInfoVo> voList = new ArrayList<>();
+        products.forEach(fcOrderProduct -> {
+            FcShippingPlanReportInfoVo vo = new FcShippingPlanReportInfoVo();
+            vo.setOrderNumber(fcOrder.getOrderNumber());
+            vo.setOrderTitle(fcOrder.getOrderTitle());
+            vo.setSoldToParty(fcOrder.getSoldToParty());
+            vo.setSapDetailNumber(fcOrderProduct.getSapDetailNumber());
+            vo.setProductName(fcOrderProduct.getProductName());
+            voList.add(vo);
+        });
+        return R.ok(voList);
+    }
+
 }

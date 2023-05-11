@@ -84,4 +84,12 @@ public interface SysUserMapper extends BaseMapperPlus<SysUserMapper, SysUser, Sy
      */
     SysUser selectUserById(Long userId);
 
+    /**
+     * 根据角色名称查询该角色的用户列表
+     *
+     * @param roleName
+     * @return
+     */
+    List<SysUser> getUserByRoleName(String roleName);
+
 }

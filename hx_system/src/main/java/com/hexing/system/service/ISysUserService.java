@@ -1,6 +1,7 @@
 package com.hexing.system.service;
 
 import com.hexing.common.core.domain.PageQuery;
+import com.hexing.common.core.domain.R;
 import com.hexing.common.core.domain.entity.SysUser;
 import com.hexing.common.core.page.TableDataInfo;
 
@@ -216,4 +217,11 @@ public interface ISysUserService {
      */
     int deleteUserByIds(Long[] userIds);
 
+    /**
+     * 根据角色名称查询当前角色的所有用户
+     *
+     * @param roleName
+     * @return
+     */
+    R<List<SysUser>> getUserByRoleName(String roleName);
 }

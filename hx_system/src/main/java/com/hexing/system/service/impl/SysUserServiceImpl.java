@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hexing.common.constant.CacheNames;
 import com.hexing.common.constant.UserConstants;
 import com.hexing.common.core.domain.PageQuery;
+import com.hexing.common.core.domain.R;
 import com.hexing.common.core.domain.entity.SysDept;
 import com.hexing.common.core.domain.entity.SysRole;
 import com.hexing.common.core.domain.entity.SysUser;
@@ -484,6 +485,15 @@ public class SysUserServiceImpl implements ISysUserService, UserService {
         // 删除用户与岗位表
         userPostMapper.delete(new LambdaQueryWrapper<SysUserPost>().in(SysUserPost::getUserId, ids));
         return baseMapper.deleteBatchIds(ids);
+    }
+
+    @Override
+    public R<List<SysUser>> getUserByRoleName(String roleName) {
+        if (StringUtils.isEmpty(roleName)) {
+            return R.fail("角色名称不能为空");
+        }
+        List<SysUser> userList = baseMapper.getUserByRoleName(roleName);
+        return R.ok(userList);
     }
 
     @Cacheable(cacheNames = CacheNames.SYS_USER_NAME, key = "#userId")

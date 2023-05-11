@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.hexing.common.core.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 
 /**
@@ -16,7 +18,7 @@ import java.math.BigDecimal;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("fc_shipping_plan")
+@TableName("fc_shipping_plan_report_info")
 public class FcShippingPlanReportInfo extends BaseEntity {
 
     /**
@@ -24,22 +26,26 @@ public class FcShippingPlanReportInfo extends BaseEntity {
      */
    @TableId(value = "id",type = IdType.AUTO)
     private Long id;
-    /**
-     * 序号
-     */
-    private Integer sequence;
-    /**
-     * 货物描述（中文)
-     */
-    private String goodsDescCn;
-    /**
-     * 货物描述（英文）
-     */
-    private String goodsDescEn;
-    /**
-     * 报关数量
-     */
-    private Integer num;
+ /**
+  * 序号
+  */
+ private Integer sequence;
+ /**
+  * 货物描述（中文)
+  */
+ @NotEmpty(message = "货物描述（中文)不能为空")
+ @Length(min = 1, max = 100)
+ private String goodsDescCn;
+ /**
+  * 货物描述（英文）
+  */
+ @NotEmpty(message = "货物描述（英文)不能为空")
+ @Length(min = 1, max = 100)
+ private String goodsDescEn;
+ /**
+  * 报关数量
+  */
+ private Integer num;
     /**
      * 报关金额
      */
@@ -47,6 +53,7 @@ public class FcShippingPlanReportInfo extends BaseEntity {
     /**
      * 品牌型号
      */
+    @NotEmpty(message = "品牌型号不能为空")
     private String brandModel;
     /**
      * 包装件数

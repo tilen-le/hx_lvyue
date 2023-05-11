@@ -13,5 +13,5 @@ public interface FcOrderConsignmentMapper extends BaseMapperPlus<FcOrderConsignm
 
     Page<FcOrderConsignment> listFcOrder(@Param("page") Page<FcOrderConsignment> page, @Param("config") FcOrderConsignment order);
 
-    Integer getConsignmentSum(@Param("orderId") Long orderId);
+    Double getConsignmentSum(@Param("orderId") Long orderId);
 }

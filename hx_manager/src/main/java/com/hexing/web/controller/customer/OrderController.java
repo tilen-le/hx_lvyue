@@ -6,6 +6,7 @@ import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.domain.R;
 import com.hexing.common.core.page.TableDataInfo;
 import com.hexing.system.domain.FcOrder;
+import com.hexing.system.domain.form.FcShippingPlanReportInfoVo;
 import com.hexing.system.service.IOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -61,6 +62,13 @@ public class OrderController extends BaseController {
     @PostMapping("/getOrderByCusId")
     public R<List<FcOrder>> getOrderByCusId(@RequestBody FcOrder fcOrder) {
         return R.ok(orderService.getOrdersByCusId(fcOrder.getCusCode()));
+    }
+
+
+    //    @SaCheckPermission("order:all:list")
+    @GetMapping("/getOrderByNoOrName")
+    public R<List<FcShippingPlanReportInfoVo>> getOrderByNoOrName(String orderNoOrName) {
+        return orderService.getOrderByNoOrName(orderNoOrName);
     }
 
 
