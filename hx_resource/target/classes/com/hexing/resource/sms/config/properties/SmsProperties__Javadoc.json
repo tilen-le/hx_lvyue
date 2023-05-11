@@ -1,1 +1,0 @@
-{"doc":" SMS短信 配置属性\n\n @author firerock_tech\n @version 4.2.0\n","fields":[{"name":"endpoint","doc":" 配置节点\n 阿里云 dysmsapi.aliyuncs.com\n 腾讯云 sms.tencentcloudapi.com\n"},{"name":"accessKeyId","doc":" key\n"},{"name":"accessKeySecret","doc":" 密匙\n"},{"name":"sdkAppId","doc":" 短信应用ID (腾讯专属)\n"}],"enumConstants":[],"methods":[],"constructors":[]}
