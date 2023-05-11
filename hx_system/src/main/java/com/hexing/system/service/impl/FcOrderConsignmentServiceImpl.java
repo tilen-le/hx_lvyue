@@ -94,7 +94,7 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
                 //库存锁定
                 if (!Objects.equals(fcOrderConsignment.getApprovalStatus(), 3)) {
                     FcOrderProduct product = fcOrderProductMapper.selectById(productId);
-                    if (item.getProductNum() .compareTo(product.getInTransitNum())>0) {
+                    if (item.getProductNum().compareTo(product.getInStorageNum())>0) {
                         throw new ServiceException("行项目"+product.getSapDetailNumber()+"库存不足");
                     }
                     double v = Double.parseDouble(product.getNotSentNum()) - Double.parseDouble(item.getProductNum());
@@ -223,7 +223,7 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
     public void approve(FcOrderConsignment consignment) {
         Integer status = consignment.getApprovalStatus();
         //撤销审批
-        baseMapper.update(null, new LambdaUpdateWrapper<FcOrderConsignment>().eq(FcOrderConsignment::getApprovalStatus, status));
+        baseMapper.update(null, new LambdaUpdateWrapper<FcOrderConsignment>().set(FcOrderConsignment::getApprovalStatus, status).eq(FcOrderConsignment::getId,consignment.getId()));
         if (Objects.equals(1,status)|| Objects.equals(2,status)){
             FcApprove fcApprove = getFcApprove(consignment.getId());
             fcApprove.setStatus(status);
@@ -256,7 +256,10 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
         FcOrder order = fcOrderMapper.selectById(fcOrderConsignment.getOrderId());
         FcApproveConfig approveConfig = approveConfigMapper.selectOne(new LambdaQueryWrapper<FcApproveConfig>()
                 .eq(FcApproveConfig::getFactory, order.getFactory())
-                .eq(FcApproveConfig::getSaleDept, order.getMarketingDepartment()));
+                .eq(FcApproveConfig::getSaleDept, order.getMarketingDepartmentId(order.getMarketingDepartment())).last("limit 1"));
+        if (Objects.isNull(approveConfig)){
+            throw new ServiceException("未找到对应审批人，请维护审批配置");
+        }
         fcApprove.setCurrentNode(approveConfig.getStoreKeeper());
         fcApprove.setRequestTime(new Date());
         fcApprove.setMainId(fcOrderConsignment.getId());
@@ -299,6 +302,7 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
         if (CollectionUtils.isEmpty(details)) {
             throw new ServiceException("发货明细不能为空");
         }
+        fcOrderConsignment = baseMapper.selectById(consignmentId);
         Map<String, Object> params = new HashMap<>();
         params.put("interfaceCode", "ZLVY_FHD");
         List<Object> data = new ArrayList<>(details.size());
@@ -307,9 +311,8 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
         FcOrder order = fcOrderMapper.selectOne(orderWrapper);
         List<OrderForm> forms = new ArrayList<>();
         for (FcOrderConsignmentDetail info : details) {
-
             FcOrderProduct fcOrderProduct = fcOrderProductMapper.selectById(info.getOrderProductId());
-            FcCustomerConsignment consignment = fcCustomerConsignmentMapper.selectById(fcOrderConsignment.getConsigneeId());
+            FcCustomerConsignment consignment = fcCustomerConsignmentMapper.selectById(fcOrderConsignment.getAddressId());
             OrderForm orderForm = new OrderForm();
             orderForm.setMatnr(fcOrderProduct.getProductNumber());
             orderForm.setWerks(order.getFactory());
@@ -322,7 +325,9 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
             item.put("KDPOS", fcOrderProduct.getSapDetailNumber());
             item.put("EMATN", fcOrderProduct.getProductNumber());
             item.put("MENGE", info.getProductNum());
+
             item.put("CREATE_TYPE", "C");
+
             item.put("VBELN", order.getOrderNumber());
             item.put("POSNR", fcOrderProduct.getSapDetailNumber());
             item.put("LTCYN_D", fcOrderConsignment.getIsReserveSend());
@@ -339,6 +344,7 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
             data.add(item);
         }
         params.put("data", data);
+        log.error("ZLVY_FHD:{}",params);
         String result = httpKit.postData(params);
         SapFhdForm fhdForm = JSONObject.parseObject(result, SapFhdForm.class);
         if ("S".equals(fhdForm.getTypes())){

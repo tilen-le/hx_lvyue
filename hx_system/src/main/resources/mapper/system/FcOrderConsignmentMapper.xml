@@ -15,20 +15,20 @@
         from fc_order_consignment fcc
         left join fc_order fc on fc.id = fcc.order_id
         <where>
-        <if test="orderNumber!=null and orderNumber != ''">
-            fc.order_number like  concat('%', #{orderNumber}, '%')
+        <if test="param.orderNumber!=null and param.orderNumber != ''">
+            fc.order_number like  concat('%', #{param.orderNumber}, '%')
         </if>
-        <if test="customer!=null and customer!=''">
-            and fc.sold_to_party like concat('%', #{customer}, '%')
+        <if test="param.customer!=null and param.customer!=''">
+            and fc.sold_to_party like concat('%', #{param.customer}, '%')
         </if>
-        <if test="approveStatus!=null and approveStatus!=''">
-            and fcc.approval_status = #{approveStatus}
+        <if test="null!=param.approvalStatus">
+            and fcc.approval_status = #{param.approvalStatus}
         </if>
-        <if test="productDateStart!=null">
-            fcc.productDate >= #{productDateStart}
+        <if test="param.productDateStart!=null">
+            fcc.productDate >= #{param.productDateStart}
         </if>
-         <if test="productDateEnd!=null">
-             fcc.productDate >= #{productDateEnd}
+         <if test="param.productDateEnd!=null">
+             fcc.productDate >= #{param.productDateEnd}
          </if>
         </where>
 
