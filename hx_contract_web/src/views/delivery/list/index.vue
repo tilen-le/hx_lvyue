@@ -4,66 +4,30 @@
       <el-form :model="queryParams" ref="queryForm" size="small" :inline="true">
         <el-row>
           <el-col :span="6">
-            <el-form-item label="订单编号" prop="name">
+            <el-form-item label="订单编号" prop="orderNumber">
               <el-input
-                v-model="queryParams.consigmentNumber"
-                placeholder="请输入"
+                v-model="queryParams.orderNumber"
+                placeholder="请输入订单编号"
                 clearable
                 style="width: 240px"
               />
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="客户名称" prop="name">
+            <el-form-item label="客户名称" prop="customer">
               <el-input
                 v-model="queryParams.customer"
-                placeholder="请输入"
+                placeholder="请输入客户名称"
                 clearable
                 style="width: 240px"
               />
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="发货状态" prop="deliveryStatus">
-              <el-select
-                v-model="queryParams.deliveryStatus"
-                placeholder="请选择"
-                clearable
-                style="width: 240px"
-              >
-                <el-option
-                  v-for="dict in dict.type.delivery_status"
-                  :key="dict.value"
-                  :label="dict.label"
-                  :value="dict.value"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="库存状态" prop="storeStatus">
-              <el-select
-                v-model="queryParams.storeStatus"
-                placeholder="请选择"
-                clearable
-                style="width: 240px"
-              >
-                <el-option
-                  v-for="dict in dict.type.store_status"
-                  :key="dict.value"
-                  :label="dict.label"
-                  :value="dict.value"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="6">
             <el-form-item label="审批状态" prop="approveStatus">
               <el-select
                 v-model="queryParams.approveStatus"
-                placeholder="请选择"
+                placeholder="请选择审批状态"
                 clearable
                 style="width: 240px"
               >
@@ -76,32 +40,17 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="订单状态" prop="name">
-              <el-input
-                v-model="queryParams.name"
-                placeholder="请输入"
-                clearable
-                style="width: 240px"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="合同编号" prop="status">
-              <el-input
-                v-model="queryParams.name"
-                placeholder="请输入"
-                clearable
-                style="width: 240px"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="预计发货时间" prop="status">
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="预计发货时间" prop="productDate">
               <el-date-picker
-                v-model="queryParams.devlieryTime"
-                type="date"
-                placeholder="选择日期">
+                v-model="productDateRange"
+                type="daterange"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                value-format="yyyy-MM-dd">
               </el-date-picker>
             </el-form-item>
           </el-col>
@@ -160,7 +109,7 @@
               size="mini"
               type="text"
               v-show="scope.row.approvalStatus == '0'"
-              @click="removeApprove(scope.row)"
+              @click="revokeApprove(scope.row)"
             >撤销审批
             </el-button>
           </template>
@@ -179,7 +128,8 @@
 
 <script>
 import {listOrderDelivery} from "@/api/order";
-import {delApproveConfig} from "@/api/system/config";
+import {approveDelivery} from "@/api/invoice";
+import {addDateRange} from "../../../utils/ruoyi";
 
 export default {
   name: "index",
@@ -188,10 +138,14 @@ export default {
     return {
       queryParams: {
         pageSize: 10,
-        pageNum: 1
+        pageNum: 1,
+        orderNumber: "",
+        customer: "",
+        approveStatus: ""
       },
       loading: false,
       deliveryList: [],
+      productDateRange: [],
       total: 0,
     }
   },
@@ -199,30 +153,35 @@ export default {
     this.getList()
   },
   methods: {
-    handleQuery(){
+    handleQuery() {
+      this.queryParams.pageNum = 1;
       this.getList()
     },
     getList() {
-      listOrderDelivery(this.queryParams).then(res => {
+      const params = addDateRange(this.queryParams, this.productDateRange, 'customize', 'productDateStart','productDateEnd')
+      listOrderDelivery(params).then(res => {
         this.deliveryList=res.rows
         this.total=res.total
       })
     },
-    removeApprove(row){
+    revokeApprove(row){
+      const params = {id: row.id, approvalStatus: 3}
       this.$modal.confirm('确认撤销该发货单的审批？').then(function () {
-        return delApproveConfig(row);
-      }).then(() => {
-        this.$modal.msgSuccess("撤销成功");
-        this.getDeliveryConfig()
-        this.getInvoiceConfig()
-      }).catch(function () {
-      });
+        approveDelivery(params).then(res => {
+          this.$modal.msgSuccess("撤销成功");
+          this.getList();
+        })
+      })
     },
     detail(row) {
       this.$router.push(`/delivery/detail/index/${row.id}`)
     },
     updateHandle(row) {
       this.$router.push(`/delivery/update/index/${row.id}`)
+    },
+    resetQuery() {
+      this.resetForm("queryForm");
+      this.handleQuery();
     }
   }
 }

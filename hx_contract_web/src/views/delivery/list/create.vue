@@ -333,7 +333,6 @@
     <div style="text-align: center">
       <el-button :loading="buttonLoading" type="primary" @click="submitForm(3)">保存为草稿</el-button>
       <el-button :loading="buttonLoading" type="primary" @click="submitForm(0)">提交审核</el-button>
-      <el-button @click="cancel">取 消</el-button>
     </div>
   </div>
 </template>

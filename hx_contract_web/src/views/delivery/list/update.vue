@@ -337,7 +337,6 @@
       <el-button @click="submitForm(0)" type="primary"
                  v-show="deliveryForm.consignment.approvalStatus=='2' || deliveryForm.consignment.approvalStatus=='3' || deliveryForm.consignment.approvalStatus=='4'">
         提交审核</el-button>
-      <el-button @click="cancel">取 消</el-button>
     </div>
   </div>
 </template>
