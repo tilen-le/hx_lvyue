@@ -312,8 +312,7 @@
                 size="mini"
                 type="text"
                 icon="el-icon-edit"
-                @click="handleDownload(scope.row)"
-                v-hasPermi="['system:oss:download']"
+                @click="resetRow(scope.row)"
               >重置
               </el-button>
             </template>
@@ -331,8 +330,13 @@
       </div>
     </el-form>
     <div style="text-align: center">
-      <el-button :loading="buttonLoading" type="primary" @click="submitForm(3)">保存为草稿</el-button>
-      <el-button :loading="buttonLoading" type="primary" @click="submitForm(0)">提交审核</el-button>
+
+      <el-button @click="submitForm(3)" type="primary"
+                 v-show="deliveryForm.consignment.approvalStatus=='2' || deliveryForm.consignment.approvalStatus=='3' || deliveryForm.consignment.approvalStatus=='4'">
+        保存为草稿</el-button>
+      <el-button @click="submitForm(0)" type="primary"
+                 v-show="deliveryForm.consignment.approvalStatus=='2' || deliveryForm.consignment.approvalStatus=='3' || deliveryForm.consignment.approvalStatus=='4'">
+        提交审核</el-button>
       <el-button @click="cancel">取 消</el-button>
     </div>
   </div>
@@ -351,6 +355,7 @@
   data() {
     return {
       deliveryForm: {
+        id: null,
         consignorCode: '',
         transType:'',
         isReserveSend:'',
@@ -410,12 +415,14 @@
     getDeliveryDetail() {
       const oid = this.$route.params.oid;
       const params = {id: oid}
+      this.deliveryForm.id = oid
       getDeliveryDetail(params).then(res => {
         this.order = res.data.order
         this.contract = res.data.contract
         this.deliveryForm.products=res.data.products
         this.deliveryForm.orderId = res.data.order.id
-        this.deliveryForm.consigneeId=res.data.order.soldToParty
+        this.remoteMethod(res.data.order.soldToPartyCd)
+        this.deliveryForm.consigneeId=res.data.order.soldToPartyCd
         //将发货方信息调整到外层
         this.deliveryForm.consignorCode = res.data.consignment.consignorCode
         this.deliveryForm.transType = res.data.consignment.transType
@@ -504,6 +511,10 @@
     cancel() {
       this.$modal.confirm('确认关闭页面？').then(function () {
       });
+    },
+    resetRow(row) {
+      row.productNum = null
+      row.technicalRequirement = ''
     }
   }
 }

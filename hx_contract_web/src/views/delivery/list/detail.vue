@@ -7,7 +7,10 @@
           {{ deliveryForm.consignment.consigmentNumber }}
         </div>
         <div>
-          <el-button @click="submitForm" type="primary" v-show="deliveryForm.status==0">提交审批</el-button>
+          <el-button @click="approveDelivery(1)" type="primary" v-show="deliveryForm.consignment.approvalStatus=='0'">
+            审批通过</el-button>
+          <el-button @click="approveDelivery(2)" type="primary" v-show="deliveryForm.consignment.approvalStatus=='0'">
+            审批驳回</el-button>
           <i class="el-icon-close" style="cursor: pointer;margin-left: 15px" @click="close"></i>
         </div>
       </div>
@@ -124,13 +127,11 @@
 </template>
 
 <script>
-import RegionSelect from "@/components/Forms/RegionSelect.vue";
-import {getOrderDetail} from "@/api/order";
-import {getAddressByCode, getOpenBankByBe, listCustomer} from "@/api/customer";
-import {addDelivery, addInvoice} from "@/api/invoice";
-import { getDeliveryDetail } from '@/api/delivery'
+  import RegionSelect from "@/components/Forms/RegionSelect.vue";
+  import {getDeliveryDetail} from '@/api/delivery';
+  import {approveDelivery} from "@/api/invoice";
 
-export default {
+  export default {
   name: "detail",
   components: {RegionSelect},
   dicts: ['invoice_type', 'sys_trans_category', 'sys_y_n','delivery_category', 'ynn'],
@@ -144,6 +145,7 @@ export default {
       submitForApprovalDialogVisible: false,
       // 撤销审批弹窗
       revokeApprovalDialogVisible: false,
+      id: null
     }
   },
   created() {
@@ -154,28 +156,10 @@ export default {
     getDeliveryDetail() {
       const oid = this.$route.params.oid;
       const params = {id: oid}
+      this.id = oid;
       getDeliveryDetail(params).then(res => {
         this.deliveryForm = res.data
       })
-    },
-    // 提交发货单审批
-    submitForm(val){
-      // 收货方、发货地址、详细地址、发货方、运输方式、是否备表直发、配件单独包装、预计到货日期、预计质保起算日期、预计验收日期、出厂日期
-      // 验证发货单字段
-      if(null!=this.deliveryForm.Consignee&&null!=this.deliveryForm.shippingAddress&&
-        null!=this.deliveryForm.detailedAddress&&null!=this.deliveryForm.shippers&&
-        null!=this.deliveryForm.tranSport&&null!=this.deliveryForm.straightHair&&
-        null!=this.deliveryForm.individuallyPackaged&&null!=this.deliveryForm.estimatedArrivalDate&&
-        null!=this.deliveryForm.estimatedCommencementDate&&null!=this.deliveryForm.estimatedAcceptanceDate&&
-        null!=this.deliveryForm.factoryDate
-      ){
-        // 表单校验通过&&发送发货单申请
-        addDelivery(this.deliveryForm).then(res => {
-          this.$modal.msgSuccess("提交成功");
-        })
-      }else{
-        this.submitForApprovalDialogVisible=true
-      }
     },
     // 接口重推
     cancel(){
@@ -192,7 +176,6 @@ export default {
     },
     // 确定撤销审批
     decideRevokeApproval(){
-
       this.revokeApprovalDialogVisible=false
       this.getDeliveryDetail()
     },
@@ -201,7 +184,14 @@ export default {
       this.revokeApprovalDialogVisible=false
     },
     close() {
-
+    },
+    approveDelivery(val) {
+      const params = {id: this.id, approvalStatus: val}
+      this.$modal.confirm('是否确认审批该发货？').then(function () {
+        approveDelivery(params).then(res => {
+          this.$modal.msgSuccess("审批成功");
+        })
+      });
     }
   }
 }

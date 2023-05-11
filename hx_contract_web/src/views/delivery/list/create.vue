@@ -312,7 +312,7 @@
                 size="mini"
                 type="text"
                 icon="el-icon-edit"
-                @click="handleDownload(scope.row)"
+                @click="resetRow(scope.row)"
                 v-hasPermi="['system:oss:download']"
               >重置
               </el-button>
@@ -412,7 +412,8 @@
       getOrderDetail(params).then(res => {
         this.order = res.data.order
         this.deliveryForm.orderId = res.data.order.id
-        this.deliveryForm.consigneeId=res.data.order.soldToParty
+        this.remoteMethod(res.data.order.soldToPartyCd)
+        this.deliveryForm.consigneeId=res.data.order.soldToPartyCd
         this.deliveryForm.products=res.data.products
         this.contract = res.data.contract
         //收货联系人列表
@@ -464,6 +465,10 @@
     cancel() {
       this.$modal.confirm('确认关闭页面？').then(function () {
       });
+    },
+    resetRow(row) {
+      row.productNum = null
+      row.technicalRequirement = ''
     }
   }
 }
