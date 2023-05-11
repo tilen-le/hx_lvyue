@@ -146,15 +146,19 @@
             <el-button
               size="mini"
               type="text"
+              @click="updateHandle(scope.row)"
+            >编辑
+            </el-button>
+            <el-button
+              size="mini"
+              type="text"
               @click="detail(scope.row)"
-              v-hasPermi="['system:user:edit']"
             >详情
             </el-button>
             <el-button
               size="mini"
               type="text"
               @click="removeApprove(scope.row)"
-              v-hasPermi="['system:user:edit']"
             >撤销审批
             </el-button>
           </template>
@@ -215,6 +219,9 @@ export default {
     detail(row) {
       this.$router.push(`/delivery/detail/index/${row.id}`)
     },
+    updateHandle(row) {
+
+    }
   }
 }
 </script>
