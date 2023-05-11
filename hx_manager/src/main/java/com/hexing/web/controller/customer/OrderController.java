@@ -1,6 +1,7 @@
 package com.hexing.web.controller.customer;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import com.alibaba.fastjson.JSON;
 import com.hexing.common.core.controller.BaseController;
 import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.domain.R;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -64,11 +66,27 @@ public class OrderController extends BaseController {
         return R.ok(orderService.getOrdersByCusId(fcOrder.getCusCode()));
     }
 
-
+    /**
+     * 根据订单名称或订单编号搜索订单
+     *
+     * @param orderNoOrName
+     * @return
+     */
     //    @SaCheckPermission("order:all:list")
     @GetMapping("/getOrderByNoOrName")
     public R<List<FcShippingPlanReportInfoVo>> getOrderByNoOrName(String orderNoOrName) {
         return orderService.getOrderByNoOrName(orderNoOrName);
+    }
+
+    /**
+     * 根据productIds查询发货计划sap财务核算所需数据
+     *
+     * @param productIds
+     * @return
+     */
+    @PostMapping("/getOrderAndProduct")
+    public R<List<FcShippingPlanReportInfoVo>> getOrderAndProduct(@RequestBody List<String> productIds) {
+        return orderService.getOrderAndProduct(productIds);
     }
 
 

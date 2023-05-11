@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hexing.system.mapper.FcShippingPlanMapper">
+
+    <select id="selectPageList" resultType="com.hexing.system.domain.FcShippingPlan">
+        SELECT
+        a.id,
+        a.plan_code,
+        a.customer_id,
+        a.invoice_no,
+        a.customer_contact,
+        a.contact_information,
+        a.consignee,
+        a.notify_id,
+        a.shipping_mark,
+        a.report_customs_complted,
+        a.sync_sap_success
+        FROM
+        `fc_shipping_plan` AS a
+        <where>
+            <if test="fcShippingPlan.planCode!=null and fcShippingPlan.planCode !=''">
+                and a.plan_code like concat('%', #{fcShippingPlan.planCode}, '%')
+            </if>
+            <if test="fcShippingPlan.consignee!=null and fcShippingPlan.consignee !=''">
+                and a.consignee = #{fcShippingPlan.consignee}
+            </if>
+        </where>
+    </select>
+
+</mapper>

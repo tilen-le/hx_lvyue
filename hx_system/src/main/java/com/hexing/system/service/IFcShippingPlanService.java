@@ -28,9 +28,16 @@ public interface IFcShippingPlanService {
 
     /**
      * 获取发货计划单列表
+     *
      * @param fcShippingPlan
      * @param pageQuery
      * @return
      */
     TableDataInfo<FcShippingPlan> listFcShippingPlan(FcShippingPlan fcShippingPlan, PageQuery pageQuery);
+
+    TableDataInfo<FcShippingPlan> list(FcShippingPlan fcShippingPlan, PageQuery pageQuery);
+
+
+    R<FcShippingPlan> getShippingPlanDetail(Long id);
+
 }
