@@ -58,6 +58,13 @@ public class FcOrderConsignmentController extends BaseController {
         return R.ok(iFcOrderConsignmentService.getDetailById(fcOrderConsignment.getId()));
     }
 
+    @SaCheckPermission("order:consignment:approve")
+    @PostMapping("/approve")
+    public R<Void> approve(@RequestBody FcOrderConsignment fcOrderConsignment) {
+        iFcOrderConsignmentService.approve(fcOrderConsignment);
+        return R.ok();
+    }
+
 
     @SaCheckPermission("order:consignment:update")
     @PostMapping("/update")

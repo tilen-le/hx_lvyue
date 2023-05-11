@@ -7,6 +7,8 @@ import lombok.Data;
  */
 @Data
 public class StockForm {
+    private String evType;
+    private String evMessage;
     private Double kzsl;
     private Double fhsl;
     private Double ztsl;

@@ -209,5 +209,14 @@ public class FcOrder extends BaseEntity {
     @TableField(exist = false)
     private Integer storeStatus;
 
+    public String getMarketingDepartmentId(String marketingDepartment){
+        if ("国内".equals(marketingDepartment)){
+            return "1";
+        }else if ("国际".equals(marketingDepartment)){
+            return "2";
+        }else{
+            return "";
+        }
+    }
 
 }

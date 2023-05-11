@@ -50,6 +50,12 @@ public class CustomerController extends BaseController {
         return iFcCustomerService.listCustomer(fcCustomer, pageQuery);
     }
 
+    @SaCheckPermission(" customer:all:list")
+    @GetMapping("/all")
+    public R<List<FcCustomer>> all(FcCustomer fcCustomer) {
+        return R.ok(iFcCustomerService.allCustomer(fcCustomer));
+    }
+
     /**
      * 客户详情
      * A01
@@ -162,8 +168,8 @@ public class CustomerController extends BaseController {
     @SaCheckPermission("customer:openbank:list")
     @Log(title = "获取开户行信息", businessType = BusinessType.EXPORT)
     @PostMapping("/getOpenBankByBe")
-    public R<List<FcCustomerInvoice>> getOpenBankByBe(@RequestBody FcOrder fcOrder) {
-        return R.ok(iFcCustomerInvoiceService.getOpenBankByBillee(fcOrder.getBillee()));
+    public R<List<FcCustomerInvoice>> getOpenBankByBe(@RequestBody FcCustomer fcCustomer ) {
+        return R.ok(iFcCustomerInvoiceService.getOpenBankByBillee(fcCustomer.getCode()));
     }
 
 

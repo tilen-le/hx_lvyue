@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -70,6 +71,12 @@ public class FcCustomerServiceImpl implements IFcCustomerService {
     public TableDataInfo<FcCustomer> listCustomer(FcCustomer fcCustomer, PageQuery pageQuery) {
         Page<FcCustomer> page = baseMapper.selectPage(pageQuery.build(), buildQueryWrapper(fcCustomer));
         return TableDataInfo.build(page);
+    }
+
+    @Override
+    public List<FcCustomer> allCustomer(FcCustomer fcCustomer) {
+       // baseMapper.lis
+        return null;
     }
 
     private Wrapper<FcCustomer> buildQueryWrapper(FcCustomer fcCustomer) {

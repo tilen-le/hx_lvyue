@@ -168,6 +168,7 @@
       openInvoice: false,
       form: {},
       invoiceForm: {},
+      customerId: "",
       rules: {
         name: [
           {required: true, message: "请输入收货人", trigger: "blur"}
@@ -200,6 +201,7 @@
     const cid = this.$route.params.cid;
     this.form.customerId = cid;
     this.invoiceForm.customerId = cid;
+    this.customerId = cid;
     this.detail(cid)
     this.getAddress()
     this.getInvoiceList()
@@ -222,6 +224,8 @@
       }))
     },
     createAddress() {
+/*      this.form = {};
+      this.form.customerId = this.customerId*/
       this.openAddress = true
     },
     updateAddress(row) {

@@ -1,6 +1,7 @@
 package com.hexing.system.domain.form;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.hexing.system.domain.FcOrderProduct;
 import lombok.Data;
 
 import java.util.Date;
@@ -19,6 +20,8 @@ public class OrderForm {
     private String vbelnT;
     private String matnr;
     private String vbelnRe;
+
+    private String zgnw;
     private String kunnrPy;
     private String netprZpr0;
     private String zywlx;
@@ -66,5 +69,7 @@ public class OrderForm {
 
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date erdat;
+
+    private FcOrderProduct orderProduct;
 
 }

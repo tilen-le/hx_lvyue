@@ -8,6 +8,7 @@ import com.hexing.system.domain.FcOrder;
 import com.hexing.system.domain.form.FcShippingPlanReportInfoVo;
 import com.hexing.system.domain.form.OrderForm;
 import com.hexing.system.domain.form.ReciveOrderDTO;
+import com.hexing.system.domain.form.StockForm;
 
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,8 @@ public interface IOrderService {
      * @return
      */
     TableDataInfo<FcOrder> listOrders(FcOrder fcOrder, PageQuery pageQuery);
+
+    StockForm getStore(OrderForm orderForm);
 
 
     /**

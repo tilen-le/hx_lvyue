@@ -2,6 +2,8 @@ package com.hexing.system.service.impl;
 
 import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -42,7 +44,6 @@ public class OrderServiceImpl implements IOrderService {
     private final FcContractMapper fcContractMapper;
     private final FcOrderProductMapper fcOrderProductMapper;
     private final FcOrderConsignmentMapper fcOrderConsignmentMapper;
-    private final FcOrderConsignmentDetailMapper fcOrderConsignmentDetailMapper;
 
     private final FcOrderPayMilestoneMapper fcOrderPayMilestoneMapper;
     private final FcPaymentClaimMapper fcPaymentClaimMapper;
@@ -102,7 +103,9 @@ public class OrderServiceImpl implements IOrderService {
         Date date = c.getTime();
         queryWrapper.clear();
         queryWrapper.eq(FcOrderPayMilestone::getOrderNumber, milestoneForm.getVbeln());
-        List<FcOrderPayMilestone> payMilestones = fcOrderPayMilestoneMapper.selectList();
+        List<FcOrderPayMilestone> payMilestones = fcOrderPayMilestoneMapper.selectList(new LambdaQueryWrapper<FcOrderPayMilestone>()
+                .eq(FcOrderPayMilestone::getOrderNumber,fcOrder.getOrderNumber())
+                .le(FcOrderPayMilestone::getExpectPayDate,date));
         List<String> allPlanList = payMilestones.stream().map(FcOrderPayMilestone::getPlanPayAmount).collect(Collectors.toList());
         AtomicReference<Double> sum = new AtomicReference<>(0.0);
         allPlanList.forEach(item -> {
@@ -150,6 +153,7 @@ public class OrderServiceImpl implements IOrderService {
             existOrder.setOrderTitle(orderForm.getVbelnT());
             existOrder.setCurrency(orderForm.getWaers());
             existOrder.setSapCreateTime(orderForm.getErdat());
+            existOrder.setMarketingDepartment(orderForm.getZgnw());
             //售达方
             existOrder.setSoldToParty(orderForm.getKunnrSpT());
             existOrder.setSoldToPartyCd(orderForm.getKunnrSp());
@@ -190,6 +194,7 @@ public class OrderServiceImpl implements IOrderService {
             existOrder.setOrderTitle(orderForm.getVbelnT());
             existOrder.setCurrency(orderForm.getWaers());
             existOrder.setSapCreateTime(orderForm.getErdat());
+            existOrder.setMarketingDepartment(orderForm.getZgnw());
             //售达方
             existOrder.setSoldToParty(orderForm.getKunnrSpT());
             existOrder.setSoldToPartyCd(orderForm.getKunnrSp());
@@ -224,7 +229,7 @@ public class OrderServiceImpl implements IOrderService {
             baseMapper.insert(existOrder);
         }
         StockForm stockForm = getStore(orderForm);
-        FcOrderProduct fcOrderProduct = fcOrderProductMapper.selectOne(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderId, existOrder.getId()));
+        FcOrderProduct fcOrderProduct = fcOrderProductMapper.selectOne(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderId, existOrder.getId()).eq(FcOrderProduct::getSapDetailNumber,orderForm.getPosnr()));
         if (ObjectUtil.isNull(fcOrderProduct)) {
             fcOrderProduct = new FcOrderProduct();
             fcOrderProduct.setOrderId(existOrder.getId());
@@ -252,6 +257,11 @@ public class OrderServiceImpl implements IOrderService {
         }
     }
 
+    /**
+     * 获取库存信息
+     * @param orderForm
+     * @return
+     */
     public StockForm getStore(OrderForm orderForm) {
         Map<String, Object> params = new HashMap<>();
         params.put("interfaceCode", "ZLVY_KCGX");
@@ -264,10 +274,9 @@ public class OrderServiceImpl implements IOrderService {
         String result = httpKit.getData(params);
         log.error(result);
         if (ObjectUtil.isNotNull(result)) {
-            Type type = new TypeToken<ResultForm<StockForm>>() {
-            }.getType();
-            ResultForm<StockForm> customers = new Gson().fromJson(result, type);
-            return customers.getData();
+            JSONObject obj = JSONObject.parseObject(result);
+            StockForm stockForm = obj.getObject("data", StockForm.class);
+            return stockForm;
         }
         return null;
     }
@@ -300,14 +309,15 @@ public class OrderServiceImpl implements IOrderService {
      * 3.未发货是所有行项目已发都为0
      */
     private Integer getConsignmentStatus(Long orderId) {
-        FcOrder fcOrder = this.baseMapper.selectById(orderId);
-        String amount = fcOrder.getAmount();
-        Integer sum = fcOrderConsignmentMapper.getConsignmentSum(orderId);
+        //FcOrder fcOrder = this.baseMapper.selectById(orderId);
+        List<FcOrderProduct> products = fcOrderProductMapper.selectList(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderId, orderId));
+        Double orderSum = products.stream().mapToDouble(item-> Double.parseDouble(item.getNum())).sum();
+        Double sum = fcOrderConsignmentMapper.getConsignmentSum(orderId);
         if (ObjectUtil.isNull(sum) || sum == 0) {
             return 3;
         } else {
             double v = sum;
-            int compare = Double.compare(v, Double.parseDouble(amount));
+            int compare = Double.compare(v, orderSum);
             if (compare == 0) {
                 return 1;
             } else if (compare < 0) {

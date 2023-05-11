@@ -48,10 +48,11 @@ export function updateAddress(data) {
   })
 }
 
-export function delAddress(aid) {
+export function delAddress(data) {
   return request({
-    url: '/customer/deleteAddress/' + aid,
-    method: 'delete'
+    url: '/customer/deleteAddress',
+    method: 'delete',
+    data: data
   })
 }
 

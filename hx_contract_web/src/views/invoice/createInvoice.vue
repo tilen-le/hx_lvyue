@@ -351,7 +351,7 @@
 import {getOrderDetail} from "@/api/order";
 import {listAvailableBank} from "@/api/system/bank";
 import {getAddressByCode, getOpenBankByBe, listCustomer} from "@/api/customer";
-import {addInvoice} from "@/api/invoice";
+import {addInvoice,upload} from "@/api/invoice";
 
 export default {
   name: "createInvoice",
@@ -396,8 +396,15 @@ export default {
   created() {
     this.getOrderDetail()
     this.getSaleBank()
+    this.getOssId()
   },
   methods: {
+    getOssId(){
+      const param = invoiceForm.fileIds;
+      upload(param).then(res=>{
+            this.invoiceForm.oosId = res.data.ossid
+      })
+    },
     invoiceUnitPrice(val, row) {
       if (row.invoicingUnitPriceWithTax != undefined && row.appliedQuantity != undefined) {
         const totalAmount = row.invoicingUnitPriceWithTax * row.appliedQuantity
@@ -447,7 +454,7 @@ export default {
           soldToPartyCd: order.soldToPartyCd,
           consigneeId: order.billee
         }
-        this.getOpenBank(order.billee)
+        this.getOpenBank(order.bileeCd)
         this.handleProduct(res.data.products, order)
       })
     },
@@ -511,7 +518,7 @@ export default {
     },
     getOpenBank(code) {
       const params = {
-        billee: code
+        code: code
       }
       getOpenBankByBe(params).then(res => {
         this.openBank = res.data
@@ -519,6 +526,7 @@ export default {
       const codePa = {
         code: code
       }
+      /** 获取客户信息列表**/
       getAddressByCode(codePa).then(res => {
         this.address = res.data
       })

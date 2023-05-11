@@ -5,6 +5,8 @@ import com.hexing.common.core.page.TableDataInfo;
 import com.hexing.system.domain.FcCustomer;
 import com.hexing.system.domain.form.CustomerForm;
 
+import java.util.List;
+
 /**
  * @author firerock_tech
  */
@@ -35,4 +37,6 @@ public interface IFcCustomerService {
      * @return
      */
     TableDataInfo<FcCustomer> listCustomer(FcCustomer fcCustomer, PageQuery pageQuery);
+
+    List<FcCustomer> allCustomer(FcCustomer fcCustomer);
 }

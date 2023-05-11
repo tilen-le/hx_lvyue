@@ -163,6 +163,20 @@ export const dynamicRoutes = [
     ]
   },
   {
+    path: '/invoice/detail',
+    component: Layout,
+    hidden: true,
+    permissions: ['invoice:list:add'],
+    children: [
+      {
+        path: 'index/:oid(\\d+)',
+        component: () => import('@/views/invoice/detail.vue'),
+        name: 'Data',
+        meta: {title: '开票详情', activeMenu: '/invoice/list'}
+      }
+    ]
+  },
+  {
     path: '/claim/create',
     component: Layout,
     hidden: true,
@@ -229,6 +243,18 @@ export const dynamicRoutes = [
         component: () => import('@/views/delivery/plan/create.vue'),
         name: 'Data',
         meta: {title: '发货计划', activeMenu: '/delivery/plan'}
+      },
+      {
+        path: 'detail',
+        component: () => import('@/views/delivery/plan/detail.vue'),
+        name: 'Data',
+        meta: {title: '发货计划详情', activeMenu: '/delivery/plan'}
+      },
+      {
+        path: 'edit',
+        component: () => import('@/views/delivery/plan/edit.vue'),
+        name: 'Data',
+        meta: {title: '发货计划编辑', activeMenu: '/delivery/plan'}
       }
     ]
   },
@@ -240,9 +266,23 @@ export const dynamicRoutes = [
     children: [
       {
         path: 'index/:oid(\\d+)',
-        component: () => import('@/views/delivery/createDelivery.vue'),
+        component: () => import('@/views/delivery/list/create.vue'),
+        name: 'createDelivery',
+        meta: {title: '创建发货', activeMenu: '/delivery/list'}
+      }
+    ]
+  },
+  {
+    path: '/delivery/update',
+    component: Layout,
+    permissions: ['delivery:plan:add'],
+    hidden: true,
+    children: [
+      {
+        path: 'index/:oid(\\d+)',
+        component: () => import('@/views/delivery/list/update.vue'),
         name: 'Data',
-        meta: {title: '发货', activeMenu: '/delivery/list'}
+        meta: {title: '编辑发货', activeMenu: '/delivery/list'}
       }
     ]
   },
@@ -287,7 +327,22 @@ export const dynamicRoutes = [
         meta: {title: '设计表单', activeMenu: '/workflow/dynamicForm'}
       }
     ]
-  }
+  },
+  {
+    path: '/delivery/detail',
+    component: Layout,
+    hidden: true,
+    permissions: ['delivery:plan:add'],
+    children: [
+      {
+        path: 'index/:oid(\\d+)',
+        component: () => import('@/views/delivery/list/detail.vue'),
+        name: 'Data',
+        meta: {title: '发货详情', activeMenu: '/delivery/list'}
+      }
+    ]
+  },
+
 ]
 
 // 防止连续点击多次路由报错

@@ -200,9 +200,10 @@
         <el-table-column label="收款里程碑" align="center" prop="type" min-width="120px">
         </el-table-column>
         <el-table-column label="预计回款时间" align="center" prop="expectPayDate" min-width="120px">
+          {{ parseTime(scope.row.expectPayDate, '{y}-{m}-{d}') }}
         </el-table-column>
         <el-table-column label="预计回款比例" align="center" prop="expectPayScale" min-width="120px">
-          <template scope="scope"> {{ scope.row.expectPayScale }}% </template>
+          <template scope="scope"> {{ scope.row.expectPayScale*100 }}% </template>
         </el-table-column>
         <el-table-column label="剩余回款金额" align="center" prop="surplusPayAmount" min-width="120px">
         </el-table-column>
@@ -257,12 +258,14 @@
               size="mini"
               type="text"
               @click="cancel(scope.row)"
+              v-show="0==scope.row.approvalStatus"
             >撤销
             </el-button>
             <el-button
               size="mini"
               type="text"
               @click="cancel(scope.row)"
+              v-show="0==scope.row.approvalStatus"
             >催办
             </el-button>
           </template>
@@ -459,7 +462,7 @@ export default {
     },
     // 查看发货单详情
     orderConsignmentDetail(row) {
-      this.$router.push(`/order/detail/index/${row.id}`)
+      this.$router.push(`/delivery/detail/index/${row.id}`)
     },
     // 查看认领单详情
     paymentCliamDetail(row) {

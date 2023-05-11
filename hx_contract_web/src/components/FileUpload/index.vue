@@ -27,9 +27,9 @@
 
     <!-- 文件列表 -->
     <transition-group class="upload-file-list el-upload-list el-upload-list--text" name="el-fade-in-linear" tag="ul">
-      <li :key="file.url" class="el-upload-list__item ele-upload-list__item-content" v-for="(file, index) in fileList">
-        <el-link :href="`${file.url}`" :underline="false" target="_blank">
-          <span class="el-icon-document"> {{ getFileName(file.name) }} </span>
+      <li :key="index" class="el-upload-list__item ele-upload-list__item-content" v-for="(file, index) in fileList">
+        <el-link :href="`${file.url}`" :underline="false" target="_blank" :id="`${file.url}`" :name="`${file.originalName}`" >
+          <span class="el-icon-document"> {{ file.originalName }} </span>
         </el-link>
         <div class="ele-upload-list__item-content-action">
           <el-link :underline="false" @click="handleDelete(index)" type="danger">删除</el-link>
@@ -41,7 +41,6 @@
 
 <script>
   import {getToken} from "@/utils/auth";
-  import {delOss, listByIds} from "@/api/system/oss";
 
   export default {
   name: "FileUpload",
@@ -67,12 +66,15 @@
     isShowTip: {
       type: Boolean,
       default: true
-    }
+    },
+    valueJson: {
+      type: Boolean,
+      default: false
+    },
   },
   data() {
     return {
       number: 0,
-      uploadList: [],
       baseUrl: process.env.VUE_APP_BASE_API,
       uploadFileUrl: process.env.VUE_APP_BASE_API + "/system/oss/upload", // 上传文件服务器地址
       headers: {
@@ -85,25 +87,27 @@
     value: {
       async handler(val) {
         if (val) {
-          let temp = 1;
-          // 首先将值转为数组
-          let list;
-          if (Array.isArray(val)) {
-            list = val;
+          if (this.valueJson) {
+            let list;
+            if (Array.isArray(val)) {
+              list = val;
+            } else {
+              list= JSON.parse(val)
+            }
+            this.fileList = list
           } else {
-            await listByIds(val).then(res => {
-              list = res.data.map(oss => {
-                oss = { name: oss.originalName, url: oss.url, ossId: oss.ossId };
-                return oss;
-              });
-            })
+            let temp = 1;
+            // 首先将值转为数组
+            const list = Array.isArray(val) ? val : this.value.split(',');
+            // 然后将数组转为对象数组
+            this.fileList = list.map(item => {
+              if (typeof item === "string") {
+                item = { name: item, url: item };
+              }
+              item.uid = item.uid || new Date().getTime() + temp++;
+              return item;
+            });
           }
-          // 然后将数组转为对象数组
-          this.fileList = list.map(item => {
-            item = { name: item.name, url: item.url, ossId: item.ossId };
-            item.uid = item.uid || new Date().getTime() + temp++;
-            return item;
-          });
         } else {
           this.fileList = [];
           return [];
@@ -140,8 +144,6 @@
           return false;
         }
       }
-      this.$modal.loading("正在上传文件，请稍候...");
-      this.number++;
       return true;
     },
     // 文件个数超出
@@ -151,37 +153,24 @@
     // 上传失败
     handleUploadError(err) {
       this.$modal.msgError("上传文件失败，请重试");
-      this.$modal.closeLoading();
     },
     // 上传成功回调
     handleUploadSuccess(res, file) {
       if (res.code == 200) {
-        this.uploadList.push({ name: res.data.fileName, url: res.data.url, ossId: res.data.ossId });
-        this.uploadedSuccessfully();
+        setTimeout(() => {
+          this.fileList.push({originalName: res.data.originalName, url: res.data.url, ossId: res.data.ossId});
+          this.$emit("input", this.listToString(this.fileList));
+        }, 200);
       } else {
-        this.number--;
-        this.$modal.closeLoading();
         this.$modal.msgError(res.msg);
-        this.$refs.fileUpload.handleRemove(file);
-        this.uploadedSuccessfully();
       }
     },
     // 删除文件
     handleDelete(index) {
-      let ossId = this.fileList[index].ossId;
-      delOss(ossId);
+      // let ossId = this.fileList[index].ossId;
+      // delOss(ossId);
       this.fileList.splice(index, 1);
       this.$emit("input", this.listToString(this.fileList));
-    },
-    // 上传结束处理
-    uploadedSuccessfully() {
-      if (this.number > 0 && this.uploadList.length === this.number) {
-        this.fileList = this.fileList.concat(this.uploadList);
-        this.uploadList = [];
-        this.number = 0;
-        this.$emit("input", this.listToString(this.fileList));
-        this.$modal.closeLoading();
-      }
     },
     // 获取文件名称
     getFileName(name) {
@@ -194,13 +183,16 @@
     },
     // 对象转成指定字符串分隔
     listToString(list, separator) {
+      if (this.valueJson) {
+        return JSON.stringify(list);
+      }
       let strs = "";
       separator = separator || ",";
       for (let i in list) {
-        strs += list[i].ossId + separator;
+        strs += list[i].url + separator;
       }
-      return strs != "" ? strs.substr(0, strs.length - 1) : "";
-    },
+      return strs != '' ? strs.substr(0, strs.length - 1) : '';
+    }
   },
 };
 </script>

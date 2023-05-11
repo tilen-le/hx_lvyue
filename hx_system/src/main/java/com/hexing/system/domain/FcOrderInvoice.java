@@ -50,7 +50,7 @@ public class FcOrderInvoice extends BaseEntity {
     /**
      * 当前附件版本
      */
-    private Integer currentVersion;
+//    private Integer currentVersion;
 
     @NotNull(message = "[卖方银行]不能为空")
     private Long saleBank;
@@ -92,6 +92,11 @@ public class FcOrderInvoice extends BaseEntity {
      * 税额合计
      */
     private BigDecimal tax;
+
+    /**
+     * 附件id
+     */
+    private String ossId;
 
     /**
      * 客户收货地址id
