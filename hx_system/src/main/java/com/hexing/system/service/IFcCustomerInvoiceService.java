@@ -37,10 +37,10 @@ public interface IFcCustomerInvoiceService {
     /**
      * 通过收票方获取开户行信息
      *
-     * @param billee
+     * @param code
      * @return
      */
-    List<FcCustomerInvoice> getOpenBankByBillee(String billee);
+    List<FcCustomerInvoice> getOpenBankByBillee(String code);
 
     /**
      * 删除开户行信息

@@ -53,9 +53,9 @@ public class FcCustomerInvoiceImpl implements IFcCustomerInvoiceService {
     }
 
     @Override
-    public List<FcCustomerInvoice> getOpenBankByBillee(String billeeCd) {
+    public List<FcCustomerInvoice> getOpenBankByBillee(String code) {
         LambdaQueryWrapper<FcCustomer> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(FcCustomer::getCode, billeeCd);
+        queryWrapper.eq(FcCustomer::getCode, code);
         FcCustomer fcCustomer = fcCustomerMapper.selectOne(queryWrapper);
         if (ObjectUtils.isNull(fcCustomer)) {
             throw new ServiceException("该收票方不存在");
