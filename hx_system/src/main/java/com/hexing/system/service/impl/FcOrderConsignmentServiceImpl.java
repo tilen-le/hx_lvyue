@@ -343,7 +343,10 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
 
             data.add(item);
         }
-        params.put("data", data);
+        Map<String,Object> item01 = new HashMap<>(1);
+        item01.put("ITEM_01",data);
+        params.put("data", item01);
+
         log.error("ZLVY_FHD:{}",params);
         String result = httpKit.postData(params);
         SapFhdForm fhdForm = JSONObject.parseObject(result, SapFhdForm.class);
