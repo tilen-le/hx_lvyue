@@ -199,12 +199,10 @@
   },
   created() {
     const cid = this.$route.params.cid;
-    this.form.customerId = cid;
-    this.invoiceForm.customerId = cid;
     this.customerId = cid;
     this.detail(cid)
-    this.getAddress()
-    this.getInvoiceList()
+    this.getAddress(cid)
+    this.getInvoiceList(cid)
   },
   methods: {
     close() {
@@ -219,28 +217,33 @@
       return row.location.replaceAll(",", "") + row.address
     },
     getAddress() {
-      getAddress(this.form).then((res => {
+      const params = {
+        customerId: this.customerId
+      }
+      getAddress(params).then((res => {
         this.address = res.data
       }))
     },
     createAddress() {
-/*      this.form = {};
-      this.form.customerId = this.customerId*/
+      this.form = {};
+      this.form.customerId = this.customerId
       this.openAddress = true
     },
     updateAddress(row) {
       this.title = "编辑收货信息"
       this.reset()
-      this.form = row
+      this.form = JSON.parse(JSON.stringify(row))
       this.openAddress = true
     },
     updateInvoice(row) {
       this.invoiceTitle = "编辑开户行"
       this.reset()
-      this.invoiceForm = row
+      this.invoiceForm = JSON.parse(JSON.stringify(row))
       this.openInvoice = true
     },
     createInvoice() {
+      this.invoiceForm = {}
+      this.invoiceForm.customerId = this.customerId
       this.invoiceTitle = "新增开户行"
       this.openInvoice = true
     },
@@ -265,7 +268,7 @@
     },
     getInvoiceList() {
       const params = {
-        customerId: this.invoiceForm.customerId
+        customerId: this.customerId
       }
       getOpenBank(params).then(res => {
         this.invoice = res.data
