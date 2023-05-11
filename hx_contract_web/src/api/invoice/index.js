@@ -41,3 +41,16 @@ export function getInvoiceDetail(query) {
     params: query
   })
 }
+
+/**
+ * 附件上传
+ * @param query
+ * @returns {*}
+ */
+export function upload(query) {
+  return request({
+    url: '/system/oss/upload',
+    method: 'post',
+    params: query
+  })
+}

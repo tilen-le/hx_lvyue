@@ -152,6 +152,11 @@
           <div class="line-item"></div>
           <span>附件</span>
         </div>
+        <div style="padding: 15px">
+          <el-link v-for="fileItem in invoiceForm.ossList"
+                   :underline="false"  type="primary" target="_blank" :href="`${fileItem.url}`" class="fileShow">
+            {{ fileItem.originalName }} </el-link>
+        </div>
       </div>
 
     </div>

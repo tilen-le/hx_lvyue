@@ -94,6 +94,11 @@ public class FcOrderInvoice extends BaseEntity {
     private BigDecimal tax;
 
     /**
+     * 附件id
+     */
+    private String ossId;
+
+    /**
      * 客户收货地址id
      */
     private String consignmentId;

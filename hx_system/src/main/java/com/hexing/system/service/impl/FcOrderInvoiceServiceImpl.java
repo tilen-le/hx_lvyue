@@ -14,14 +14,17 @@ import com.hexing.common.exception.ServiceException;
 import com.hexing.common.helper.LoginHelper;
 import com.hexing.common.utils.JsonUtils;
 import com.hexing.system.domain.*;
+import com.hexing.system.domain.vo.SysOssVo;
 import com.hexing.system.mapper.*;
 import com.hexing.system.service.IFcApproveService;
 import com.hexing.system.service.IFcCustomerConsignmentService;
 import com.hexing.system.service.IFcOrderInvoiceService;
+import com.hexing.system.service.ISysOssService;
 import com.hexing.system.utils.HttpKit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -40,6 +43,9 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
     private FcOrderMapper fcOrderMapper;
 
     @Resource
+    private FcOssRelevanceMapper fcOssRelevanceMapper;
+
+    @Resource
     private FcOrderProductMapper productMapper;
 
     @Resource
@@ -51,6 +57,8 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
     @Resource
     private FcOrderInvoiceDetailMapper fcOrderInvoiceDetailMapper;
     private final HttpKit httpKit;
+
+    private final ISysOssService iSysOssService;
 
     public String generateOrderCode() {
         // 获取最新的订单ID
@@ -80,6 +88,11 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
                 fcOrderInvoiceDetailMapper.insert(detail);
             }
         }
+        FcOssRelevance fcOssRelevance = new FcOssRelevance();
+        fcOssRelevance.setOssId(Long.valueOf(fcOrderInvoice.getOssId()));
+        fcOssRelevance.setType(Integer.valueOf("2"));
+        fcOssRelevance.setMainId(fcOrderInvoice.getOrderId());
+        fcOssRelevanceMapper.insert(fcOssRelevance);
         handleApprove(fcOrderInvoice);
         return result;
     }
@@ -89,7 +102,7 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
         fcApprove.setTitle("开票审批");
         fcApprove.setType(2);
         fcApprove.setOriginator(LoginHelper.getUserId().toString());
-        fcApprove.setStatus("0");
+        fcApprove.setStatus(Integer.valueOf("0"));
         fcApprove.setRequestTime(new Date());
         fcApprove.setMainId(fcOrderInvoice.getId());
         iFcApproveService.saveFcApprove(fcApprove);
