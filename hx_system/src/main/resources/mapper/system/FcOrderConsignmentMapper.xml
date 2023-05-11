@@ -39,6 +39,7 @@
                  left join fc_order_consignment foc on foc.order_id = fo.id
                  LEFT JOIN fc_order_consignment_detail focd on foc.id = focd.consignment_id
         where fo.id = #{orderId}
-          and foc.sync_sap_status = '1'
+          and foc.sync_sap_status = 1
+        and foc.approval_status = 3
     </select>
 </mapper>

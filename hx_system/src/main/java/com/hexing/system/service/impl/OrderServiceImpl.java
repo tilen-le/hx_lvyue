@@ -100,7 +100,9 @@ public class OrderServiceImpl implements IOrderService {
         Date date = c.getTime();
         queryWrapper.clear();
         queryWrapper.eq(FcOrderPayMilestone::getOrderNumber, milestoneForm.getVbeln());
-        List<FcOrderPayMilestone> payMilestones = fcOrderPayMilestoneMapper.selectList();
+        List<FcOrderPayMilestone> payMilestones = fcOrderPayMilestoneMapper.selectList(new LambdaQueryWrapper<FcOrderPayMilestone>()
+                .eq(FcOrderPayMilestone::getOrderNumber,fcOrder.getOrderNumber())
+                .le(FcOrderPayMilestone::getExpectPayDate,date));
         List<String> allPlanList = payMilestones.stream().map(FcOrderPayMilestone::getPlanPayAmount).collect(Collectors.toList());
         AtomicReference<Double> sum = new AtomicReference<>(0.0);
         allPlanList.forEach(item -> {
@@ -270,7 +272,7 @@ public class OrderServiceImpl implements IOrderService {
         log.error(result);
         if (ObjectUtil.isNotNull(result)) {
             JSONObject obj = JSONObject.parseObject(result);
-            StockForm stockForm = obj.getObject("data", new TypeReference<List<StockForm>>(){});
+            StockForm stockForm = obj.getObject("data", StockForm.class);
             return stockForm;
         }
         return null;
@@ -304,7 +306,7 @@ public class OrderServiceImpl implements IOrderService {
      * 3.未发货是所有行项目已发都为0
      */
     private Integer getConsignmentStatus(Long orderId) {
-        FcOrder fcOrder = this.baseMapper.selectById(orderId);
+        //FcOrder fcOrder = this.baseMapper.selectById(orderId);
         List<FcOrderProduct> products = fcOrderProductMapper.selectList(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderId, orderId));
         Double orderSum = products.stream().mapToDouble(item-> Double.parseDouble(item.getNum())).sum();
         Double sum = fcOrderConsignmentMapper.getConsignmentSum(orderId);
