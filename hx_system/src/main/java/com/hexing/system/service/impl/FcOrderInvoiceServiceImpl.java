@@ -78,7 +78,7 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
         fcApprove.setTitle("开票审批");
         fcApprove.setType(2);
         fcApprove.setOriginator(LoginHelper.getUserId().toString());
-        fcApprove.setStatus("0");
+        fcApprove.setStatus(0);
         fcApprove.setRequestTime(new Date());
         fcApprove.setMainId(fcOrderInvoice.getId());
         iFcApproveService.saveFcApprove(fcApprove);

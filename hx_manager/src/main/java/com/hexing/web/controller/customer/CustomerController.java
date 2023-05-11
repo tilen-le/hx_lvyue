@@ -50,6 +50,12 @@ public class CustomerController extends BaseController {
         return iFcCustomerService.listCustomer(fcCustomer, pageQuery);
     }
 
+    @SaCheckPermission(" customer:all:list")
+    @GetMapping("/all")
+    public R<List<FcCustomer>> all(FcCustomer fcCustomer) {
+        return R.ok(iFcCustomerService.allCustomer(fcCustomer));
+    }
+
     /**
      * 客户详情
      * A01

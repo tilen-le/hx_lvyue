@@ -3,17 +3,34 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hexing.system.mapper.FcOrderConsignmentMapper">
-    <select id="listFcOrder" resultType="com.hexing.system.domain.FcOrderConsignment">
+    <select id="listFcOrder" resultType="com.hexing.system.domain.FcOrderConsignment" parameterType="com.hexing.system.domain.FcOrderConsignment">
         select fcc.id,
         fcc.consigment_number,
         fcc.approval_status,
         fc.order_title      orderTitle,
         fc.sold_to_party_cd customer,
         fcc.create_time,
-        fcc.consignment_amount
+        fcc.consignment_amount,
+        fc.sale_type
         from fc_order_consignment fcc
         left join fc_order fc on fc.id = fcc.order_id
-
+        <where>
+        <if test="orderNumber!=null and orderNumber != ''">
+            fc.order_number like  concat('%', #{orderNumber}, '%')
+        </if>
+        <if test="customer!=null and customer!=''">
+            and fc.sold_to_party like concat('%', #{customer}, '%')
+        </if>
+        <if test="approveStatus!=null and approveStatus!=''">
+            and fcc.approval_status = #{approveStatus}
+        </if>
+        <if test="productDateStart!=null">
+            fcc.productDate >= #{productDateStart}
+        </if>
+         <if test="productDateEnd!=null">
+             fcc.productDate >= #{productDateEnd}
+         </if>
+        </where>
 
     </select>
     <select id="getConsignmentSum" resultType="java.lang.Double">
