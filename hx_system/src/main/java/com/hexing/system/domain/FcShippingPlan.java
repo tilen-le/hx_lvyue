@@ -32,28 +32,33 @@ public class FcShippingPlan extends BaseEntity {
     /**
      * 主键
      */
-   @TableId(value = "id",type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
- /**
-  * 原计划出库时间
-  */
- @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
- @NotNull(message = "原计划出库时间不能为空")
- private Date originalPlannedDeliveryDate;
- /**
-  * 出库地点
-  */
- @NotEmpty(message = "出库地点不能为空")
- @Length(min = 1, max = 50)
- private String deliveryLocation;
- /**
-  * 清关金额
-  */
- private BigDecimal currentNode;
- /**
-  * INVOICE NO
-  */
- @NotEmpty(message = "出库地点不能为空")
+
+    /**
+     * 发货计划编码
+     */
+    private String planCode;
+    /**
+     * 原计划出库时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @NotNull(message = "原计划出库时间不能为空")
+    private Date originalPlannedDeliveryDate;
+    /**
+     * 出库地点
+     */
+    @NotEmpty(message = "出库地点不能为空")
+    @Length(min = 1, max = 50)
+    private String deliveryLocation;
+    /**
+     * 清关金额
+     */
+    private BigDecimal currentNode;
+    /**
+     * INVOICE NO
+     */
+    @NotEmpty(message = "出库地点不能为空")
  @Length(min = 1, max = 50)
  private String invoiceNo;
  /**
@@ -141,10 +146,12 @@ public class FcShippingPlan extends BaseEntity {
     /**
      * 预计到货日
      */
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date expectedDeliveryDate;
     /**
      * 预计出运日
      */
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date expectedShipmentDate;
     /**
      * 报关单号
@@ -153,10 +160,12 @@ public class FcShippingPlan extends BaseEntity {
     /**
      * 最迟装箱日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date latestPackingDate;
     /**
      * 实际开船日
      */
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date actualDepartureDate;
     /**
      * 信用证号码
@@ -231,30 +240,42 @@ public class FcShippingPlan extends BaseEntity {
     /**
      * 预收汇日期
      */
-    private String preCollectDate;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date preCollectDate;
     /**
      * 成交方式
      */
     @NotEmpty(message = "成交方式不能为空")
     private String transactionMethod;
     /**
-     * 是否同步SAP【0.否 1.是】
+     * 同步SAP是否成功【0.否 1.是】
      */
-    @NotEmpty(message = "是否同步SAP为必填项")
-    private String isSyncSap;
- private String deleted;
+    private String syncSapSuccess;
 
- @TableField(exist = false)
- private List<FcShippingPlanFinancialAccounting> accountIfs;
+    /**
+     * 附件地址通过逗号隔开
+     */
+    private String attachment;
 
- @TableField(exist = false)
- private List<FcShippingPlanReportInfo> reportIfs;
 
- public static void main(String[] args) {
-  FcShippingPlan fcShippingPlan = new FcShippingPlan();
-  fcShippingPlan.setAirFreight("a");
-  Object o = JSON.toJSON(fcShippingPlan);
-  System.out.println("o = " + o);
+    private String deleted;
+    /**
+     * sap核算
+     */
+    @TableField(exist = false)
+    private List<FcShippingPlanFinancialAccounting> financialList;
+
+    /**
+     * 报关信息
+     */
+    @TableField(exist = false)
+    private List<FcShippingPlanReportInfo> reportList;
+
+    public static void main(String[] args) {
+        FcShippingPlan fcShippingPlan = new FcShippingPlan();
+        fcShippingPlan.setAirFreight("a");
+        Object o = JSON.toJSON(fcShippingPlan);
+        System.out.println("o = " + o);
 
  }
 

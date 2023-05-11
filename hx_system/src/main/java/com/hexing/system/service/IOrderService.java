@@ -75,4 +75,12 @@ public interface IOrderService {
      * @return
      */
     R<List<FcShippingPlanReportInfoVo>> getOrderByNoOrName(String orderNoOrName);
+
+    /**
+     * 根据productId查询发货计划sap财务核算所需数据
+     *
+     * @param productIds
+     * @return
+     */
+    R<List<FcShippingPlanReportInfoVo>> getOrderAndProduct(List<String> productIds);
 }

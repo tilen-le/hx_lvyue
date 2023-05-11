@@ -9,6 +9,15 @@ export function listOrder(query) {
   })
 }
 
+// 查询订单列表
+export function listOrderByKeyWordApi(query) {
+  return request({
+    url: '/order/getOrderByNoOrName',
+    method: 'get',
+    params: query
+  })
+}
+
 export function getOrderDetail(data) {
   return request({
     url: '/order/detailMap',

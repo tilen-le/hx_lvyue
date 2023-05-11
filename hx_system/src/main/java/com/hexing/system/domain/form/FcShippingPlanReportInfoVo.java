@@ -28,6 +28,11 @@ public class FcShippingPlanReportInfoVo {
     private String productName;
 
     /**
+     * productId
+     */
+    private Long productId;
+
+    /**
      * 售达方=客户
      */
     private String soldToParty;
@@ -55,12 +60,12 @@ public class FcShippingPlanReportInfoVo {
     /**
      * 报关数量
      */
-    private Integer reportCustomsNum;
+    private String reportCustomsNum;
 
     /**
      * 报关剩余数量
      */
-    private Integer reportCustomsResidueNum;
+    private String reportCustomsResidueNum;
 
     /**
      * 产品总金额
@@ -81,6 +86,11 @@ public class FcShippingPlanReportInfoVo {
      * 实际报关金额
      */
     private BigDecimal realityReportCustomsAmount;
+
+    /**
+     * SAP物料编码
+     */
+    private String sapMaterialCode;
 
 
 }

@@ -24,28 +24,33 @@ public class FcShippingPlanReportInfo extends BaseEntity {
     /**
      * 主键
      */
-   @TableId(value = "id",type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
- /**
-  * 序号
-  */
- private Integer sequence;
- /**
-  * 货物描述（中文)
-  */
- @NotEmpty(message = "货物描述（中文)不能为空")
- @Length(min = 1, max = 100)
- private String goodsDescCn;
- /**
-  * 货物描述（英文）
-  */
- @NotEmpty(message = "货物描述（英文)不能为空")
- @Length(min = 1, max = 100)
- private String goodsDescEn;
- /**
-  * 报关数量
-  */
- private Integer num;
+
+    /**
+     * 发货计划id
+     */
+    private Long shippingPlanId;
+    /**
+     * 序号
+     */
+    private Integer sequence;
+    /**
+     * 货物描述（中文)
+     */
+    @NotEmpty(message = "货物描述（中文)不能为空")
+    @Length(min = 1, max = 100)
+    private String goodsDescCn;
+    /**
+     * 货物描述（英文）
+     */
+    @NotEmpty(message = "货物描述（英文)不能为空")
+    @Length(min = 1, max = 100)
+    private String goodsDescEn;
+    /**
+     * 报关数量
+     */
+    private Integer num;
     /**
      * 报关金额
      */

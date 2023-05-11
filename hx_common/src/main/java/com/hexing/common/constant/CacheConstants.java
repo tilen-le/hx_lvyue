@@ -46,4 +46,9 @@ public interface CacheConstants {
      * 登录账户密码错误次数 redis key
      */
     String PWD_ERR_CNT_KEY = "pwd_err_cnt:";
+
+    /**
+     * 生成发货计划code的key值
+     */
+    public static final String GEN_SHIPPING_PLAN_CODE = "gen:code:shipping_plan_code";
 }

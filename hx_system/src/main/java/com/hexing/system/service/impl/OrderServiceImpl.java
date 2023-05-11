@@ -1,5 +1,6 @@
 package com.hexing.system.service.impl;
 
+import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -48,6 +49,8 @@ public class OrderServiceImpl implements IOrderService {
     private final FcPaymentClaimMapper fcPaymentClaimMapper;
 
     private final HttpKit httpKit;
+
+    private final FcShippingPlanFinancialAccountingMapper planFinancialAccountingMapper;
 
     @Override
     public int saveOrder(ReciveOrderDTO orders) {
@@ -397,7 +400,7 @@ public class OrderServiceImpl implements IOrderService {
         if (Objects.isNull(fcOrder)) {
             return R.fail("未查询到对应的订单信息");
         }
-        List<FcOrderProduct> products = fcOrderProductMapper.selectList(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderId, fcOrder));
+        List<FcOrderProduct> products = fcOrderProductMapper.selectList(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderId, fcOrder.getId()));
         List<FcShippingPlanReportInfoVo> voList = new ArrayList<>();
         products.forEach(fcOrderProduct -> {
             FcShippingPlanReportInfoVo vo = new FcShippingPlanReportInfoVo();
@@ -406,6 +409,62 @@ public class OrderServiceImpl implements IOrderService {
             vo.setSoldToParty(fcOrder.getSoldToParty());
             vo.setSapDetailNumber(fcOrderProduct.getSapDetailNumber());
             vo.setProductName(fcOrderProduct.getProductName());
+            vo.setProductId(fcOrderProduct.getId());
+            voList.add(vo);
+        });
+        return R.ok(voList);
+    }
+
+    @Override
+    public R<List<FcShippingPlanReportInfoVo>> getOrderAndProduct(List<String> productIds) {
+        if (productIds.isEmpty()) {
+            return R.fail("productIds不能为空");
+        }
+        List<FcShippingPlanReportInfoVo> voList = new ArrayList<>();
+        productIds.forEach(productId -> {
+            FcOrderProduct product = fcOrderProductMapper.selectOne(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getId, Long.valueOf(productId)));
+            Long orderId = product.getOrderId();
+            LambdaQueryWrapper<FcOrder> wrapper = new LambdaQueryWrapper<>();
+            wrapper.eq(FcOrder::getId, orderId);
+            FcOrder fcOrder = baseMapper.selectVoOne(wrapper);
+            //封装vo
+            FcShippingPlanReportInfoVo vo = new FcShippingPlanReportInfoVo();
+            vo.setOrderNumber(fcOrder.getOrderNumber());
+            vo.setOrderTitle(fcOrder.getOrderTitle());
+            vo.setSoldToParty(fcOrder.getSoldToParty());
+            vo.setSapDetailNumber(product.getSapDetailNumber());
+            vo.setProductName(product.getProductName());
+            vo.setProductNumber(product.getProductNumber());
+            vo.setProductModel(product.getProductModel());
+            //订单数量
+            vo.setProductNum(product.getNum());
+            //产品单价
+            vo.setUnitPrice(product.getUnitPrice());
+            //sap物料编码
+            vo.setSapMaterialCode(product.getProductNumber());
+            //计算产品总金额
+            BigDecimal productNum = new BigDecimal(product.getNum());
+            BigDecimal unitPrice = new BigDecimal(product.getNum());
+            BigDecimal amount = productNum.multiply(unitPrice).setScale(2, BigDecimal.ROUND_HALF_UP);
+            vo.setTotalProductAmount(amount);
+            //计算报关剩余数量 取值逻辑：订单产品明细的总数量-已报关数量
+            LambdaQueryWrapper<FcShippingPlanFinancialAccounting> accountingWrapper = new LambdaQueryWrapper<>();
+            accountingWrapper.eq(FcShippingPlanFinancialAccounting::getOrderProductId, productId);
+            accountingWrapper.orderByAsc(FcShippingPlanFinancialAccounting::getId);
+            List<FcShippingPlanFinancialAccounting> accountings = planFinancialAccountingMapper.selectList(accountingWrapper);
+            if (accountings.isEmpty()) {
+                //如果为null则取订单明细上的订单数量
+                vo.setReportCustomsResidueNum(product.getNum());
+                //剩余报关金额=产品总金额
+                vo.setRemainingReportCustomsAmount(amount);
+            } else {
+                //不为null则获取最后一次报关的剩余数量
+                FcShippingPlanFinancialAccounting fcShippingPlanFinancialAccounting = accountings.get(accountings.size() - 1);
+                vo.setReportCustomsResidueNum(fcShippingPlanFinancialAccounting.getReportCustomsResidueNum());
+                //不为null则获取最后一次计算出来的报关总金额
+                vo.setRemainingReportCustomsAmount(fcShippingPlanFinancialAccounting.getRemainingReportCustomsAmount());
+            }
+            vo.setProductId(product.getId());
             voList.add(vo);
         });
         return R.ok(voList);

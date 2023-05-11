@@ -19,53 +19,63 @@ import java.math.BigDecimal;
 public class FcShippingPlanFinancialAccounting extends BaseEntity {
 
     /**
-    * 主键
-    */
-   @TableId(value = "id",type = IdType.AUTO)
+     * 主键
+     */
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     /**
-    * 序号
-    */
+     * 序号
+     */
     private Integer sequence;
     /**
-    * 订单产品id
-    */
+     * 发货计划id
+     */
+    private Long shippingPlanId;
+    /**
+     * 订单产品id
+     */
     private String orderProductId;
     /**
-    * 报关数量
-    */
-    private Integer reportCustomsNum;
+     * 报关数量
+     */
+    private String reportCustomsNum;
     /**
-    * 报关剩余数量
-    */
-    private Integer reportCustomsResidueNum;
+     * 报关剩余数量
+     */
+    private String reportCustomsResidueNum;
     /**
-    * 产品总金额
+     * 产品总金额
      */
     private BigDecimal totalProductAmount;
  /**
   * 剩余报关金额
   */
  private BigDecimal remainingReportCustomsAmount;
- /**
-  * 本次报关金额
-  */
- private BigDecimal currentReportCustomsAmount;
+    /**
+     * 本次报关金额
+     */
+    private BigDecimal currentReportCustomsAmount;
 
- /**
-  * 实际报关金额
-  */
- private BigDecimal realityReportCustomsAmount;
+    /**
+     * 实际报关金额
+     */
+    private BigDecimal realityReportCustomsAmount;
 
- /**
-  * 单价
-  */
- private BigDecimal unitPrice;
- /**
-  * SAP物料编码
-  */
- private String sapMaterialCode;
- private String deleted;
+    /**
+     * 单价
+     */
+    private BigDecimal unitPrice;
+    /**
+     * SAP物料编码
+     */
+    private String sapMaterialCode;
+
+    /**
+     * 是否需要同步sap标识，0 否 1 是
+     */
+    private String sapSyncFlag;
+
+    private String deleted;
 
 
 }
