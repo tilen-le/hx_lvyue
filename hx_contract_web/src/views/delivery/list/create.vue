@@ -326,7 +326,7 @@
           <span>附件</span>
         </div>
         <el-form-item label="" style="margin: 15px" label-width="0px">
-          <fileUpload v-model="deliveryForm.fileIds"/>
+          <fileUpload v-model="deliveryForm.files" :valueJson="true"/>
         </el-form-item>
       </div>
     </el-form>
@@ -446,12 +446,11 @@
     },
     submitForm(val){
       this.$refs["queryForm"].validate(valid => {
-        if (valid) {
+        if (val === 3 || valid) {
           this.deliveryForm.approvalStatus=val
-          debugger
-          if (this.deliveryForm.fileIds != null && this.deliveryForm.fileIds != "") {
-            if(!Array.isArray(this.deliveryForm.fileIds)){
-              this.deliveryForm.fileIds = this.deliveryForm.fileIds.split(",")
+          if (this.deliveryForm.files != null && this.deliveryForm.files != "") {
+            if(!Array.isArray(this.deliveryForm.files)){
+              this.deliveryForm.files = JSON.parse(this.deliveryForm.files)
             }
           } else {
             this.deliveryForm.fileIds = []

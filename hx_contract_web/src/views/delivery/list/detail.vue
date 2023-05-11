@@ -29,8 +29,8 @@
       <el-descriptions-item label="收货方">{{ deliveryForm.fcOrder.reciver }}</el-descriptions-item>
       <el-descriptions-item label="收货联系人">{{ deliveryForm.customerConsignment.name }}</el-descriptions-item>
       <el-descriptions-item label="收货人电话">{{ deliveryForm.customerConsignment.phone }}</el-descriptions-item>
-      <el-descriptions-item label="收货地址">{{ deliveryForm.customerConsignment.address }}</el-descriptions-item>
-      <el-descriptions-item label="详细地址">{{ deliveryForm.customerConsignment.location }}</el-descriptions-item>
+      <el-descriptions-item label="收货地址">{{ deliveryForm.customerConsignment.location }}</el-descriptions-item>
+      <el-descriptions-item label="详细地址">{{ deliveryForm.customerConsignment.address }}</el-descriptions-item>
     </el-descriptions>
     <el-descriptions title="发货信息" size="medium" border :column="3">
       <el-descriptions-item label="发货方">
@@ -90,61 +90,17 @@
       </el-table>
     </div>
 
-
-      <div class="info-header">
-        <div style="display: flex;align-items: center">
-          <div class="line-item"></div>
-          <span>附件</span>
-        </div>
-        <el-form-item label="" style="margin: 15px" label-width="0px">
-          <fileUpload v-model="deliveryForm.fileIds"/>
-        </el-form-item>
+    <div class="info-header">
+      <div style="display: flex;align-items: center">
+        <div class="line-item"></div>
+        <span>附件</span>
       </div>
-      <!--    接口日志-->
-      <div class="claim-header">
-        <div style="display: flex;justify-content: space-between;align-items: center;padding-right: 15px">
-          <div style="display: flex;align-items: center">
-            <div class="line-item"></div>
-            <span>接口日志</span>
-          </div>
-        </div>
-        <el-table
-          :data="logList"
-          border
-          style="margin-top: 15px"
-          size="mini">
-          <el-table-column label="执行时间" align="center" prop="createTime" min-width="120px">
-          </el-table-column>
-          <el-table-column label="所属模块" align="center" prop="syncSapInfoTime" min-width="120px">
-          </el-table-column>
-          <el-table-column label="接口ID" align="center" prop="claimNumber" min-width="120px">
-          </el-table-column>
-          <el-table-column label="接口名" align="center" prop="claimAmount" min-width="120px">
-          </el-table-column>
-          <el-table-column label="状态" align="center" prop="syncSapInfoTime" min-width="120px">
-          </el-table-column>
-          <el-table-column label="日志信息" align="center" prop="syncSapInfoTime" min-width="120px">
-          </el-table-column>
-          <el-table-column
-            label="操作"
-            align="center"
-            width="160"
-            class-name="small-padding fixed-width"
-          >
-            <template slot-scope="scope" v-if="scope.row.status !='0'">
-              <el-button
-                size="mini"
-                type="text"
-                @click="cancel(scope.row)"
-                v-hasPermi="['claim:list:cancel']"
-              >接口重推
-              </el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+      <div style="padding: 15px">
+        <el-link v-for="fileItem in deliveryForm.ossList"
+                 :underline="false"  type="primary" target="_blank" :href="`${fileItem.url}`" class="fileShow">
+          {{ fileItem.originalName }} </el-link>
       </div>
-
-
+    </div>
 
 
 
@@ -255,5 +211,11 @@ export default {
 </script>
 
 <style scoped>
-
+  .fileShow{
+    color: blue;
+    margin-right: 15px;
+  }
+  .fileShow:hover{
+    color: red;
+  }
 </style>
