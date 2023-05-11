@@ -459,7 +459,7 @@ export default {
     },
     // 查看发货单详情
     orderConsignmentDetail(row) {
-      this.$router.push(`/order/detail/index/${row.id}`)
+      this.$router.push(`/delivery/detail/index/${row.id}`)
     },
     // 查看认领单详情
     paymentCliamDetail(row) {

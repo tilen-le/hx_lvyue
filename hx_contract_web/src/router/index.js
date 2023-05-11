@@ -315,7 +315,22 @@ export const dynamicRoutes = [
         meta: {title: '设计表单', activeMenu: '/workflow/dynamicForm'}
       }
     ]
-  }
+  },
+  {
+    path: '/delivery/detail',
+    component: Layout,
+    hidden: true,
+    permissions: ['delivery:plan:add'],
+    children: [
+      {
+        path: 'index/:oid(\\d+)',
+        component: () => import('@/views/delivery/list/detail.vue'),
+        name: 'Data',
+        meta: {title: '发货详情', activeMenu: '/delivery/list'}
+      }
+    ]
+  },
+
 ]
 
 // 防止连续点击多次路由报错
