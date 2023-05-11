@@ -13,6 +13,15 @@ export function addDelivery(data) {
     data: data
   })
 }
+export function approveDelivery(data) {
+  return request({
+    url: '/order/consignment/approve',
+    method: 'post',
+    data: data
+  })
+}
+
+
 export function listInvoice(query) {
   return request({
     url: '/invoice/list',
