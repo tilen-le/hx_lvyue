@@ -43,7 +43,16 @@ public interface IFcOrderConsignmentService {
      */
     Map<String,Object> getDetailById(Long id);
 
+    /**
+     * 判断当前用户是否拥有发货审批权限
+     * @return
+     */
+    boolean hasConsApprove(FcOrderConsignment consignment);
 
-
+    /**
+     * 发货审批
+     * @param fcOrderConsignment
+     */
+    void approve(FcOrderConsignment fcOrderConsignment);
 
 }

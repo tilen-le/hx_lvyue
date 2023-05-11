@@ -78,7 +78,7 @@ public class SysOssController extends BaseController {
         SysOssVo oss = iSysOssService.upload(file);
         Map<String, String> map = new HashMap<>(2);
         map.put("url", oss.getUrl());
-        map.put("fileName", oss.getOriginalName());
+        map.put("originalName", oss.getOriginalName());
         map.put("ossId", oss.getOssId().toString());
         return R.ok(map);
     }

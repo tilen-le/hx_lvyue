@@ -163,7 +163,7 @@ public class CustomerController extends BaseController {
     @Log(title = "获取开户行信息", businessType = BusinessType.EXPORT)
     @PostMapping("/getOpenBankByBe")
     public R<List<FcCustomerInvoice>> getOpenBankByBe(@RequestBody FcOrder fcOrder) {
-        return R.ok(iFcCustomerInvoiceService.getOpenBankByBillee(fcOrder.getBillee()));
+        return R.ok(iFcCustomerInvoiceService.getOpenBankByBillee(fcOrder.getBileeCd()));
     }
 
 

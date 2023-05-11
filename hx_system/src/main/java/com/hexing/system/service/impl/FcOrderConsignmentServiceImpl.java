@@ -4,6 +4,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -15,7 +16,7 @@ import com.hexing.common.helper.LoginHelper;
 import com.hexing.common.utils.JsonUtils;
 import com.hexing.common.utils.StringUtils;
 import com.hexing.system.domain.*;
-import com.hexing.system.domain.bo.SysOssBo;
+import com.hexing.system.domain.bo.SysOssCons;
 import com.hexing.system.mapper.*;
 import com.hexing.system.service.IFcApproveService;
 import com.hexing.system.service.IFcOrderConsignmentService;
@@ -55,8 +56,11 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
 
     private final SysOssMapper sysOssMapper;
 
-    @Resource
-    private IFcApproveService iFcApproveService;
+    private final FcApproveMapper fcApproveMapper;
+
+    private final FcApproveRecordMapper fcApproveRecordMapper;
+
+    private final FcApproveConfigMapper approveConfigMapper;
 
     private final HttpKit httpKit;
 
@@ -87,7 +91,7 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
                 item.setId(null);
                 fcOrderConsignmentDetailMapper.insert(item);
                 //库存锁定
-                if (Objects.equals(fcOrderConsignment.getApprovalStatus(), 3)) {
+                if (!Objects.equals(fcOrderConsignment.getApprovalStatus(), 3)) {
                     FcOrderProduct product = fcOrderProductMapper.selectById(productId);
                     double v = Double.parseDouble(product.getNotSentNum()) - Double.parseDouble( item.getProductNum());
                     product.setNotSentNum(String.valueOf(v));
@@ -95,7 +99,8 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
                 }
             });
         }
-        if (Objects.isNull(fcOrderConsignment.getApprovalStatus())){
+        //审批信息
+        if (Objects.equals(0,fcOrderConsignment.getApprovalStatus()) ){
             handleApprove(fcOrderConsignment);
         }
         return result;
@@ -151,12 +156,12 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
     }
 
     private void handleOssFile(FcOrderConsignment fcOrderConsignment) {
-        List<SysOssBo> files = fcOrderConsignment.getFiles();
+        List<SysOssCons> files = fcOrderConsignment.getFiles();
         if (CollectionUtils.isNotEmpty(files)) {
-            List<Long> fileIds =files.stream().map(SysOssBo::getOssId).collect(Collectors.toList());
+            List<String> fileIds =files.stream().map(SysOssCons::getOssId).collect(Collectors.toList());
             fileIds.forEach(temp -> {
                 FcOssRelevance fcOssRelevance = new FcOssRelevance();
-                fcOssRelevance.setOssId(temp);
+                fcOssRelevance.setOssId(Long.parseLong(temp));
                 fcOssRelevance.setMainId(fcOrderConsignment.getId());
                 fcOssRelevance.setType(1);
                 fcOssRelevance.setVersion(fcOrderConsignment.getCurrentVersion());
@@ -175,6 +180,9 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
     public Map<String, Object> getDetailById(Long id) {
         Map<String, Object> result = new HashMap<>();
         FcOrderConsignment consignment = baseMapper.selectById(id);
+        if (Objects.isNull(consignment)){
+            throw new ServiceException("未找到此发货单信息");
+        }
         List<FcOrderConsignmentDetail> details = fcOrderConsignmentDetailMapper.selectList(new LambdaQueryWrapper<FcOrderConsignmentDetail>().eq(FcOrderConsignmentDetail::getConsignmentId, consignment.getId()));
         details.forEach(item -> {
             FcOrderProduct orderProduct = fcOrderProductMapper.selectById(item.getOrderProductId());
@@ -189,33 +197,83 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
                 .eq(FcOssRelevance::getType, 1)
                 .eq(FcOssRelevance::getMainId, id)
                 .eq(FcOssRelevance::getVersion, consignment.getCurrentVersion()));
+        List<SysOss> ossList;
         if (CollectionUtils.isNotEmpty(ossRelevanceList)) {
             List<Long> idList = ossRelevanceList.stream().map(FcOssRelevance::getOssId).collect(Collectors.toList());
-            List<SysOss> ossList = sysOssMapper.selectBatchIds(idList);
-            result.put("ossList", ossList);
+            ossList = sysOssMapper.selectBatchIds(idList);
+        }else {
+            ossList = new ArrayList<>();
         }
 
+        boolean hasConsApprove = hasConsApprove(consignment);
 
+        result.put("ossList", ossList);
         result.put("consignment", consignment);
-        result.put("fcOrder", fcOrder);
-        result.put("fcContract", fcContract);
+        result.put("order", Objects.nonNull(fcOrder)?fcOrder:new FcOrder());
+        result.put("contract", Objects.nonNull(fcContract) ? fcContract :new FcContract() );
         result.put("customerConsignment", customerConsignment);
         result.put("products", details);
-
-
+        result.put("hasConsApprove",hasConsApprove);
         return result;
     }
 
-    private void handleApprove(FcOrderConsignment fcOrderConsignment) {
-        FcApprove fcApprove = new FcApprove();
-        fcApprove.setTitle("发货审批"+fcOrderConsignment.getConsigmentNumber());
-        fcApprove.setType(1);
-        fcApprove.setOriginator(Objects.requireNonNull(LoginHelper.getUserId()).toString());
-        fcApprove.setStatus("0");
-        fcApprove.setRequestTime(new Date());
-        fcApprove.setMainId(fcOrderConsignment.getId());
-        iFcApproveService.saveFcApprove(fcApprove);
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void approve(FcOrderConsignment consignment) {
+        Integer status = consignment.getApprovalStatus();
+        baseMapper.update(null,new LambdaUpdateWrapper<FcOrderConsignment>().eq(FcOrderConsignment::getApprovalStatus,status));
+        FcApprove fcApprove = getFcApprove(consignment.getId());
+        fcApprove.setStatus(status);
+        fcApproveMapper.updateById(fcApprove);
+        FcApproveRecord approveRecord = new FcApproveRecord();
+        approveRecord.setApproveId(fcApprove.getId());
+        approveRecord.setResult(String.valueOf(status));
+        approveRecord.setOptUser(LoginHelper.getUsername());
+        fcApproveRecordMapper.insert(approveRecord);
     }
+
+    private void handleApprove(FcOrderConsignment fcOrderConsignment) {
+        FcApprove fcApprove = getFcApprove(fcOrderConsignment.getId());
+        if (Objects.isNull(fcApprove)) {
+            fcApprove = new FcApprove();
+        }
+            fcApprove.setTitle("发货审批" + fcOrderConsignment.getConsigmentNumber());
+            fcApprove.setType(1);
+            fcApprove.setOriginator(Objects.requireNonNull(LoginHelper.getUserId()).toString());
+            fcApprove.setStatus(0);
+            FcOrder order = fcOrderMapper.selectById(fcOrderConsignment.getOrderId());
+            FcApproveConfig approveConfig = approveConfigMapper.selectOne(new LambdaQueryWrapper<FcApproveConfig>()
+                    .eq(FcApproveConfig::getFactory, order.getFactory())
+                    .eq(FcApproveConfig::getSaleDept, order.getMarketingDepartment()));
+            fcApprove.setCurrentNode(approveConfig.getStoreKeeper());
+            fcApprove.setRequestTime(new Date());
+            fcApprove.setMainId(fcOrderConsignment.getId());
+            fcApproveMapper.insertOrUpdate(fcApprove);
+    }
+
+    public FcApprove getFcApprove(Long consignmentId){
+        return fcApproveMapper.selectOne(new LambdaQueryWrapper<FcApprove>()
+                .eq(FcApprove::getMainId, consignmentId)
+                .eq(FcApprove::getType, 1));
+
+    }
+
+    public boolean hasConsApprove(FcOrderConsignment fcOrderConsignment){
+        String username = LoginHelper.getUsername();
+        Integer approvalStatus = fcOrderConsignment.getApprovalStatus();
+        if (Objects.equals(0,approvalStatus)){
+            FcApprove fcApprove = fcApproveMapper.selectOne(new LambdaQueryWrapper<FcApprove>()
+                    .eq(FcApprove::getMainId, fcOrderConsignment.getId())
+                    .eq(FcApprove::getType, 1)
+                    .eq(FcApprove::getCurrentNode, username));
+
+            return Objects.nonNull(fcApprove);
+        }else {
+            return false;
+        }
+    }
+
+
 
     /**
      * 创建发货单同步sap
