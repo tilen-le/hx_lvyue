@@ -146,6 +146,7 @@ public class OrderServiceImpl implements IOrderService {
             existOrder.setOrderTitle(orderForm.getVbelnT());
             existOrder.setCurrency(orderForm.getWaers());
             existOrder.setSapCreateTime(orderForm.getErdat());
+            existOrder.setMarketingDepartment(orderForm.getZgnw());
             //售达方
             existOrder.setSoldToParty(orderForm.getKunnrSpT());
             existOrder.setSoldToPartyCd(orderForm.getKunnrSp());
@@ -186,6 +187,7 @@ public class OrderServiceImpl implements IOrderService {
             existOrder.setOrderTitle(orderForm.getVbelnT());
             existOrder.setCurrency(orderForm.getWaers());
             existOrder.setSapCreateTime(orderForm.getErdat());
+            existOrder.setMarketingDepartment(orderForm.getZgnw());
             //售达方
             existOrder.setSoldToParty(orderForm.getKunnrSpT());
             existOrder.setSoldToPartyCd(orderForm.getKunnrSp());
@@ -220,7 +222,7 @@ public class OrderServiceImpl implements IOrderService {
             baseMapper.insert(existOrder);
         }
         StockForm stockForm = getStore(orderForm);
-        FcOrderProduct fcOrderProduct = fcOrderProductMapper.selectOne(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderId, existOrder.getId()));
+        FcOrderProduct fcOrderProduct = fcOrderProductMapper.selectOne(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderId, existOrder.getId()).eq(FcOrderProduct::getSapDetailNumber,orderForm.getPosnr()));
         if (ObjectUtil.isNull(fcOrderProduct)) {
             fcOrderProduct = new FcOrderProduct();
             fcOrderProduct.setOrderId(existOrder.getId());
@@ -248,6 +250,11 @@ public class OrderServiceImpl implements IOrderService {
         }
     }
 
+    /**
+     * 获取库存信息
+     * @param orderForm
+     * @return
+     */
     public StockForm getStore(OrderForm orderForm) {
         Map<String, Object> params = new HashMap<>();
         params.put("interfaceCode", "ZLVY_KCGX");
@@ -298,8 +305,8 @@ public class OrderServiceImpl implements IOrderService {
     private Integer getConsignmentStatus(Long orderId) {
         FcOrder fcOrder = this.baseMapper.selectById(orderId);
         List<FcOrderProduct> products = fcOrderProductMapper.selectList(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderId, orderId));
-        double orderSum = products.stream().mapToDouble(item-> Double.parseDouble(item.getNum())).sum();
-        double sum = fcOrderConsignmentMapper.getConsignmentSum(orderId);
+        Double orderSum = products.stream().mapToDouble(item-> Double.parseDouble(item.getNum())).sum();
+        Double sum = fcOrderConsignmentMapper.getConsignmentSum(orderId);
         if (ObjectUtil.isNull(sum) || sum == 0) {
             return 3;
         } else {

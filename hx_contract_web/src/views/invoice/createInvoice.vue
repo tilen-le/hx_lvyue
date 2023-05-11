@@ -447,7 +447,7 @@ export default {
           soldToPartyCd: order.soldToPartyCd,
           consigneeId: order.billee
         }
-        this.getOpenBank(order.billee)
+        this.getOpenBank(order.bileeCd)
         this.handleProduct(res.data.products, order)
       })
     },
@@ -511,7 +511,7 @@ export default {
     },
     getOpenBank(code) {
       const params = {
-        billee: code
+        code: code
       }
       getOpenBankByBe(params).then(res => {
         this.openBank = res.data
@@ -519,6 +519,7 @@ export default {
       const codePa = {
         code: code
       }
+      /** 获取客户信息列表**/
       getAddressByCode(codePa).then(res => {
         this.address = res.data
       })

@@ -22,7 +22,7 @@ public class FcApproveRecord implements Serializable {
     /**
      * 审批id
      */
-    private Integer approveId;
+    private Long approveId;
 
     /**
      * 审批结果【1.通过，2驳回】

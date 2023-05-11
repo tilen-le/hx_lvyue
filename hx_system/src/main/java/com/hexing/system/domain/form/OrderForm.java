@@ -19,6 +19,8 @@ public class OrderForm {
     private String vbelnT;
     private String matnr;
     private String vbelnRe;
+
+    private String zgnw;
     private String kunnrPy;
     private String netprZpr0;
     private String zywlx;
