@@ -220,7 +220,7 @@ export default {
       this.$router.push(`/delivery/detail/index/${row.id}`)
     },
     updateHandle(row) {
-
+      this.$router.push(`/delivery/update/index/${row.id}`)
     }
   }
 }
