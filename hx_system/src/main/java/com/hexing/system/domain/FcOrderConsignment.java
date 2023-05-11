@@ -123,6 +123,12 @@ public class FcOrderConsignment extends BaseEntity {
     private String amount;
     @TableField(exist = false)
     private String saleType;
+    @TableField(exist = false)
+    private String orderNumber;
+    @TableField(exist = false)
+    private Date productDateStart   ;
+    @TableField(exist = false)
+    private Date productDateEnd;
 
 
 }

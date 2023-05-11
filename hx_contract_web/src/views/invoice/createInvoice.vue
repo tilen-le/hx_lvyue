@@ -351,7 +351,7 @@
 import {getOrderDetail} from "@/api/order";
 import {listAvailableBank} from "@/api/system/bank";
 import {getAddressByCode, getOpenBankByBe, listCustomer} from "@/api/customer";
-import {addInvoice} from "@/api/invoice";
+import {addInvoice,upload} from "@/api/invoice";
 
 export default {
   name: "createInvoice",
@@ -396,8 +396,15 @@ export default {
   created() {
     this.getOrderDetail()
     this.getSaleBank()
+    this.getOssId()
   },
   methods: {
+    getOssId(){
+      const param = invoiceForm.fileIds;
+      upload(param).then(res=>{
+            this.invoiceForm.oosId = res.data.ossid
+      })
+    },
     invoiceUnitPrice(val, row) {
       if (row.invoicingUnitPriceWithTax != undefined && row.appliedQuantity != undefined) {
         const totalAmount = row.invoicingUnitPriceWithTax * row.appliedQuantity

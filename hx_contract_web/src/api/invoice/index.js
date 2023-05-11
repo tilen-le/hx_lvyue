@@ -29,3 +29,37 @@ export function listInvoice(query) {
     params: query
   })
 }
+
+export function getAddressByCode(query) {
+  return request({
+    url: '/customer/getAddressByCode',
+    method: 'get',
+    params: query
+  })
+}
+
+/**
+ * 获取发票详情
+ * @param query
+ * @returns {*}
+ */
+export function getInvoiceDetail(query) {
+  return request({
+    url: '/invoice/detail',
+    method: 'get',
+    params: query
+  })
+}
+
+/**
+ * 附件上传
+ * @param query
+ * @returns {*}
+ */
+export function upload(query) {
+  return request({
+    url: '/system/oss/upload',
+    method: 'post',
+    params: query
+  })
+}

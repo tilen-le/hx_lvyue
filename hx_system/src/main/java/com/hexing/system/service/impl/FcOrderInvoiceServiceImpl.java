@@ -14,14 +14,17 @@ import com.hexing.common.exception.ServiceException;
 import com.hexing.common.helper.LoginHelper;
 import com.hexing.common.utils.JsonUtils;
 import com.hexing.system.domain.*;
+import com.hexing.system.domain.vo.SysOssVo;
 import com.hexing.system.mapper.*;
 import com.hexing.system.service.IFcApproveService;
 import com.hexing.system.service.IFcCustomerConsignmentService;
 import com.hexing.system.service.IFcOrderInvoiceService;
+import com.hexing.system.service.ISysOssService;
 import com.hexing.system.utils.HttpKit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -40,6 +43,9 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
     private FcOrderMapper fcOrderMapper;
 
     @Resource
+    private FcOssRelevanceMapper fcOssRelevanceMapper;
+
+    @Resource
     private FcOrderProductMapper productMapper;
 
     @Resource
@@ -52,6 +58,17 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
     private FcOrderInvoiceDetailMapper fcOrderInvoiceDetailMapper;
     private final HttpKit httpKit;
 
+    private final ISysOssService iSysOssService;
+
+    public String generateOrderCode() {
+        // 获取最新的订单ID
+        Long latestId = baseMappr.selectMaxid();
+        Long sequence = (latestId != null) ? latestId + 1 : 1;
+
+        String formattedSequence = String.format("%04d", sequence); // 格式化为4位数字
+        return "I-" + formattedSequence;
+    }
+
     @Override
     public int saveFcOrderInvoice(FcOrderInvoice fcOrderInvoice) {
         LambdaQueryWrapper<FcOrderInvoice> queryWrapper = new LambdaQueryWrapper<>();
@@ -62,6 +79,8 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
         if (fcOrderInvoice.getProductList() == null) {
             throw new ServiceException("开票明细不能为空");
         }
+
+        fcOrderInvoice.setInvoiceNumber(generateOrderCode());
         int result = baseMappr.insert(fcOrderInvoice);
         if (result > 0) {
             for (FcOrderInvoiceDetail detail : fcOrderInvoice.getProductList()) {
@@ -69,6 +88,11 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
                 fcOrderInvoiceDetailMapper.insert(detail);
             }
         }
+        FcOssRelevance fcOssRelevance = new FcOssRelevance();
+        fcOssRelevance.setOssId(Long.valueOf(fcOrderInvoice.getOssId()));
+        fcOssRelevance.setType(Integer.valueOf("2"));
+        fcOssRelevance.setMainId(fcOrderInvoice.getOrderId());
+        fcOssRelevanceMapper.insert(fcOssRelevance);
         handleApprove(fcOrderInvoice);
         return result;
     }
@@ -78,7 +102,7 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
         fcApprove.setTitle("开票审批");
         fcApprove.setType(2);
         fcApprove.setOriginator(LoginHelper.getUserId().toString());
-        fcApprove.setStatus("0");
+        fcApprove.setStatus(Integer.valueOf("0"));
         fcApprove.setRequestTime(new Date());
         fcApprove.setMainId(fcOrderInvoice.getId());
         iFcApproveService.saveFcApprove(fcApprove);
@@ -149,7 +173,11 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
     public Map<String,Object> getDetailById(Long id) {
         Map<String,Object> result = new HashMap<>();
         FcOrderInvoice fcOrderInvoice = baseMappr.selectById(id);
+        FcOrderInvoiceDetail[] fcOrderInvoiceDetails = fcOrderInvoiceDetailMapper.findAllFcOrderInvoiceDetail(id);
+        FcCustomerConsignment fcCustomerConsignment = fcCustomerConsignmentMapper.selectById(fcOrderInvoice.getConsignmentId());
         result.put("fcOrderInvoice",fcOrderInvoice);
+        result.put("fcOrderInvoiceDetail",fcOrderInvoiceDetails);
+        result.put("fcCustomerConsignment",fcCustomerConsignment);
         return result;
     }
 

@@ -7,6 +7,7 @@ import com.hexing.common.core.domain.R;
 import com.hexing.common.core.page.TableDataInfo;
 import com.hexing.system.domain.FcOrderConsignment;
 import com.hexing.system.domain.FcOrderInvoice;
+import com.hexing.system.domain.vo.SysOssVo;
 import com.hexing.system.service.IFcOrderInvoiceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -53,8 +54,8 @@ public class InvoiceController extends BaseController {
     }
 
     @SaCheckPermission("invoice:list:add")
-    @PostMapping("/detail")
-    public R<Map<String,Object>> detail(@RequestBody FcOrderInvoice fcOrderInvoice) {
+    @GetMapping("/detail")
+    public R<Map<String,Object>> detail( FcOrderInvoice fcOrderInvoice) {
         return R.ok(iFcOrderInvoiceService.getDetailById(fcOrderInvoice.getId()));
     }
 

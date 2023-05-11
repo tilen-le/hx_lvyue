@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface FcOrderConsignmentMapper extends BaseMapperPlus<FcOrderConsignmentMapper, FcOrderConsignment,FcOrderConsignment> {
 
-    Page<FcOrderConsignment> listFcOrder(@Param("page") Page<FcOrderConsignment> page, @Param("config") FcOrderConsignment order);
+    Page<FcOrderConsignment> listFcOrder(@Param("page") Page<FcOrderConsignment> page, @Param("param") FcOrderConsignment param);
 
     Double getConsignmentSum(@Param("orderId") Long orderId);
 }
