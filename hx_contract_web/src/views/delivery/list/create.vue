@@ -312,7 +312,7 @@
                 size="mini"
                 type="text"
                 icon="el-icon-edit"
-                @click="handleDownload(scope.row)"
+                @click="resetRow(scope.row)"
                 v-hasPermi="['system:oss:download']"
               >重置
               </el-button>
@@ -332,7 +332,7 @@
     </el-form>
     <div style="text-align: center">
       <el-button :loading="buttonLoading" type="primary" @click="submitForm(3)">保存为草稿</el-button>
-      <el-button :loading="buttonLoading" type="primary" @click="submitForm(1)">提交审核</el-button>
+      <el-button :loading="buttonLoading" type="primary" @click="submitForm(0)">提交审核</el-button>
       <el-button @click="cancel">取 消</el-button>
     </div>
   </div>
@@ -347,7 +347,7 @@
   export default {
   name: "createDelivery",
   components: {RegionSelect},
-  dicts: ['invoice_type', 'sys_trans_category', 'sys_y_n','delivery_category', 'ynn'],
+  dicts: ['sys_trans_category', 'sys_y_n','delivery_category', 'ynn'],
   data() {
     return {
       deliveryForm: {},
@@ -412,7 +412,8 @@
       getOrderDetail(params).then(res => {
         this.order = res.data.order
         this.deliveryForm.orderId = res.data.order.id
-        this.deliveryForm.consigneeId=res.data.order.soldToParty
+        this.remoteMethod(res.data.order.soldToPartyCd)
+        this.deliveryForm.consigneeId=res.data.order.soldToPartyCd
         this.deliveryForm.products=res.data.products
         this.contract = res.data.contract
         //收货联系人列表
@@ -423,12 +424,12 @@
       this.getOpenBank(val)
     },
     getOpenBank(code) {
-      const params = {
+/*      const params = {
         billee: code
       }
       getOpenBankByBe(params).then(res => {
         this.openBank = res.data
-      })
+      })*/
       const codePa = {
         code: code
       }
@@ -453,7 +454,7 @@
               this.deliveryForm.files = JSON.parse(this.deliveryForm.files)
             }
           } else {
-            this.deliveryForm.fileIds = []
+            this.deliveryForm.files = []
           }
           addDelivery(this.deliveryForm).then(res => {
             this.$modal.msgSuccess("提交成功");
@@ -464,6 +465,10 @@
     cancel() {
       this.$modal.confirm('确认关闭页面？').then(function () {
       });
+    },
+    resetRow(row) {
+      row.productNum = null
+      row.technicalRequirement = ''
     }
   }
 }

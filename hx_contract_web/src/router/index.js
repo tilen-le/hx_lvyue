@@ -246,20 +246,34 @@ export const dynamicRoutes = [
       }
     ]
   },
-  // {
-  //   path: '/delivery/create',
-  //   component: Layout,
-  //   hidden: true,
-  //   permissions: ['delivery:plan:add'],
-  //   children: [
-  //     {
-  //       path: 'index/:oid(\\d+)',
-  //       component: () => import('@/views/delivery/createDelivery.vue'),
-  //       name: 'Data',
-  //       meta: {title: '发货', activeMenu: '/delivery/list'}
-  //     }
-  //   ]
-  // },
+  {
+    path: '/delivery/create',
+    component: Layout,
+    hidden: true,
+    permissions: ['delivery:plan:add'],
+    children: [
+      {
+        path: 'index/:oid(\\d+)',
+        component: () => import('@/views/delivery/list/create.vue'),
+        name: 'createDelivery',
+        meta: {title: '创建发货', activeMenu: '/delivery/list'}
+      }
+    ]
+  },
+  {
+    path: '/delivery/update',
+    component: Layout,
+    permissions: ['delivery:plan:add'],
+    hidden: true,
+    children: [
+      {
+        path: 'index/:oid(\\d+)',
+        component: () => import('@/views/delivery/list/update.vue'),
+        name: 'Data',
+        meta: {title: '编辑发货', activeMenu: '/delivery/list'}
+      }
+    ]
+  },
   {
     path: '/system/oss-config',
     component: Layout,

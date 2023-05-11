@@ -253,7 +253,7 @@
         </el-row>
         <el-row style="margin: 15px 15px 0 15px">
           <el-col :span="12">
-            <el-form-item label="备注" style="width: 100%">
+            <el-form-item label="备注" style="width: 100%" prop="remark">
               <el-input
                 placeholder="请输入备注"
                 style="width:90%"
@@ -273,8 +273,8 @@
         <el-table :data="deliveryForm.products" border
                   style="margin-top: 15px"
                   row-key="id">
-          <el-table-column label="SAP订单明细编码" align="center" key="sapDetailNumber" prop="sapDetailNumber"/>
-          <el-table-column label="产品名称" align="center" key="productName" prop="productName"/>
+          <el-table-column label="SAP订单明细编码" align="center" key="sapDetailNumber" prop="orderProduct.sapDetailNumber"/>
+          <el-table-column label="产品名称" align="center" key="productName" prop="orderProduct.productName"/>
           <el-table-column label="发货数量" align="center" key="productNum" prop="productNum">
             <template slot-scope="scope">
               <el-input
@@ -287,13 +287,13 @@
               />
             </template>
           </el-table-column>
-          <el-table-column label="剩余发货" align="center" key="notSentNum" prop="notSentNum"/>
-          <el-table-column label="库存" align="center" key="inStorageNum" prop="inStorageNum"/>
-          <el-table-column label="SAP物料编码" align="center" key="productNumber" prop="productNumber">
+          <el-table-column label="剩余发货" align="center" key="notSentNum" prop="orderProduct.notSentNum"/>
+          <el-table-column label="库存" align="center" key="inStorageNum" prop="orderProduct.inStorageNum"/>
+          <el-table-column label="SAP物料编码" align="center" key="productNumber" prop="orderProduct.productNumber">
           </el-table-column>
           <el-table-column label="单价" align="center" key="unitPrice" prop="unitPrice">
               <template slot-scope="scope">
-                {{ scope.row.currency }} {{ scope.row.unitPrice }}
+                {{ order.currency }} {{ scope.row.orderProduct.unitPrice }}
               </template>
           </el-table-column>
           <el-table-column label="技术要求" align="center" key="technicalRequirement" prop="technicalRequirement">
@@ -312,8 +312,7 @@
                 size="mini"
                 type="text"
                 icon="el-icon-edit"
-                @click="handleDownload(scope.row)"
-                v-hasPermi="['system:oss:download']"
+                @click="resetRow(scope.row)"
               >重置
               </el-button>
             </template>
@@ -331,8 +330,13 @@
       </div>
     </el-form>
     <div style="text-align: center">
-      <el-button :loading="buttonLoading" type="primary" @click="submitForm(3)">保存为草稿</el-button>
-      <el-button :loading="buttonLoading" type="primary" @click="submitForm(1)">提交审核</el-button>
+
+      <el-button @click="submitForm(3)" type="primary"
+                 v-show="deliveryForm.consignment.approvalStatus=='2' || deliveryForm.consignment.approvalStatus=='3' || deliveryForm.consignment.approvalStatus=='4'">
+        保存为草稿</el-button>
+      <el-button @click="submitForm(0)" type="primary"
+                 v-show="deliveryForm.consignment.approvalStatus=='2' || deliveryForm.consignment.approvalStatus=='3' || deliveryForm.consignment.approvalStatus=='4'">
+        提交审核</el-button>
       <el-button @click="cancel">取 消</el-button>
     </div>
   </div>
@@ -340,17 +344,36 @@
 
 <script>
   import RegionSelect from "@/components/Forms/RegionSelect.vue";
-  import {getOrderDetail} from "@/api/order";
   import {getAddressByCode, getOpenBankByBe, listCustomer} from "@/api/customer";
   import {addDelivery} from "@/api/invoice";
+  import {getDeliveryDetail} from '@/api/delivery'
 
   export default {
   name: "createDelivery",
   components: {RegionSelect},
-  dicts: ['invoice_type', 'sys_trans_category', 'sys_y_n','delivery_category', 'ynn'],
+  dicts: ['sys_trans_category', 'sys_y_n','delivery_category', 'ynn'],
   data() {
     return {
-      deliveryForm: {},
+      deliveryForm: {
+        id: null,
+        consignorCode: '',
+        transType:'',
+        isReserveSend:'',
+        isSeparatePackaging:'',
+        expectedArrivalDate: null,
+        expectedWarrantyDate: null,
+        expectedCheckDate: null,
+        productDate: null,
+        remark: null,
+        addressId: null,
+        mobile: null,
+        address: null,
+        products:null,
+        orderId: null,
+        consigneeId:null,
+        customerConsignment:{},
+        consignment:{},
+      },
       address: [],
       searchLoading: false,
       receiveInvoice: [],
@@ -386,9 +409,52 @@
     }
   },
   created() {
-    this.getOrderDetail()
+    this.getDeliveryDetail()
   },
   methods: {
+    getDeliveryDetail() {
+      const oid = this.$route.params.oid;
+      const params = {id: oid}
+      this.deliveryForm.id = oid
+      getDeliveryDetail(params).then(res => {
+        this.order = res.data.order
+        this.contract = res.data.contract
+        this.deliveryForm.products=res.data.products
+        this.deliveryForm.orderId = res.data.order.id
+        this.remoteMethod(res.data.order.soldToPartyCd)
+        this.deliveryForm.consigneeId=res.data.order.soldToPartyCd
+        //将发货方信息调整到外层
+        this.deliveryForm.consignorCode = res.data.consignment.consignorCode
+        this.deliveryForm.transType = res.data.consignment.transType
+        this.deliveryForm.isReserveSend = res.data.consignment.isReserveSend
+        this.deliveryForm.isSeparatePackaging = res.data.consignment.isSeparatePackaging
+        this.deliveryForm.expectedArrivalDate = res.data.consignment.expectedArrivalDate
+        this.deliveryForm.expectedWarrantyDate = res.data.consignment.expectedWarrantyDate
+        this.deliveryForm.expectedCheckDate = res.data.consignment.expectedCheckDate
+        this.deliveryForm.productDate = res.data.consignment.productDate
+        this.deliveryForm.remark = res.data.consignment.remark
+        //收货联系人列表
+        this.getAddressByCodeApi(res.data.order.reciverCd);
+        //将收货方信息调整到外层
+        if (res.data.customerConsignment.id) {
+          this.deliveryForm.addressId = res.data.customerConsignment.id
+          this.deliveryForm.mobile = res.data.customerConsignment.phone
+          this.deliveryForm.address = res.data.customerConsignment.location.replaceAll(",", "") + res.data.customerConsignment.address
+        }
+        this.deliveryForm.customerConsignment = res.data.customerConsignment
+        this.deliveryForm.consignment = res.data.consignment
+        this.deliveryForm.order = res.data.order
+        this.deliveryForm.contract = res.data.contract
+      })
+    },
+    getAddressByCodeApi(code) {
+      const codePa = {
+        code: code
+      }
+      getAddressByCode(codePa).then(res => {
+        this.address = res.data
+      })
+    },
     addressChange(val) {
       this.address.map(item => {
         if (item.id == val) {
@@ -406,29 +472,17 @@
         this.receiveInvoice = res.rows
       })
     },
-    getOrderDetail() {
-      const oid = this.$route.params.oid;
-      const params = {id: oid}
-      getOrderDetail(params).then(res => {
-        this.order = res.data.order
-        this.deliveryForm.orderId = res.data.order.id
-        this.deliveryForm.consigneeId=res.data.order.soldToParty
-        this.deliveryForm.products=res.data.products
-        this.contract = res.data.contract
-        //收货联系人列表
-        this.getAddressByCodeApi(res.data.order.reciverCd);
-      })
-    },
+
     changeBe(val) {
       this.getOpenBank(val)
     },
     getOpenBank(code) {
-      const params = {
+/*      const params = {
         billee: code
       }
       getOpenBankByBe(params).then(res => {
         this.openBank = res.data
-      })
+      })*/
       const codePa = {
         code: code
       }
@@ -436,14 +490,7 @@
         this.address = res.data
       })
     },
-    getAddressByCodeApi(code) {
-      const codePa = {
-        code: code
-      }
-      getAddressByCode(codePa).then(res => {
-        this.address = res.data
-      })
-    },
+
     submitForm(val){
       this.$refs["queryForm"].validate(valid => {
         if (val === 3 || valid) {
@@ -453,7 +500,7 @@
               this.deliveryForm.files = JSON.parse(this.deliveryForm.files)
             }
           } else {
-            this.deliveryForm.fileIds = []
+            this.deliveryForm.files = []
           }
           addDelivery(this.deliveryForm).then(res => {
             this.$modal.msgSuccess("提交成功");
@@ -464,6 +511,10 @@
     cancel() {
       this.$modal.confirm('确认关闭页面？').then(function () {
       });
+    },
+    resetRow(row) {
+      row.productNum = null
+      row.technicalRequirement = ''
     }
   }
 }

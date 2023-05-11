@@ -7,26 +7,29 @@
           {{ deliveryForm.consignment.consigmentNumber }}
         </div>
         <div>
-          <el-button @click="submitForm" type="primary" v-show="deliveryForm.status==0">提交审批</el-button>
+          <el-button @click="approveDelivery(1)" type="primary" v-show="deliveryForm.consignment.approvalStatus=='0'">
+            审批通过</el-button>
+          <el-button @click="approveDelivery(2)" type="primary" v-show="deliveryForm.consignment.approvalStatus=='0'">
+            审批驳回</el-button>
           <i class="el-icon-close" style="cursor: pointer;margin-left: 15px" @click="close"></i>
         </div>
       </div>
     </div>
 
     <el-descriptions title="订单信息" size="medium" border :column="3">
-      <el-descriptions-item label="合同名称">{{ deliveryForm.fcContract.contractName }}</el-descriptions-item>
-      <el-descriptions-item label="订单编号">{{ deliveryForm.fcOrder.orderNumber }}</el-descriptions-item>
-      <el-descriptions-item label="订单名称">{{ deliveryForm.fcOrder.orderTitle }}</el-descriptions-item>
-      <el-descriptions-item label="客户名称">{{ deliveryForm.fcOrder.soldToParty }}</el-descriptions-item>
-      <el-descriptions-item label="事业部">{{ deliveryForm.fcOrder.businessUnit }}</el-descriptions-item>
-      <el-descriptions-item label="工厂">{{ deliveryForm.fcOrder.factory }}</el-descriptions-item>
-      <el-descriptions-item label="仓储部经理">{{ deliveryForm.fcOrder.warehouseManager }}</el-descriptions-item>
+      <el-descriptions-item label="合同名称">{{ deliveryForm.contract.contractName }}</el-descriptions-item>
+      <el-descriptions-item label="订单编号">{{ deliveryForm.order.orderNumber }}</el-descriptions-item>
+      <el-descriptions-item label="订单名称">{{ deliveryForm.order.orderTitle }}</el-descriptions-item>
+      <el-descriptions-item label="客户名称">{{ deliveryForm.order.soldToParty }}</el-descriptions-item>
+      <el-descriptions-item label="事业部">{{ deliveryForm.order.businessUnit }}</el-descriptions-item>
+      <el-descriptions-item label="工厂">{{ deliveryForm.order.factory }}</el-descriptions-item>
+      <el-descriptions-item label="仓储部经理">{{ deliveryForm.order.warehouseManager }}</el-descriptions-item>
       <el-descriptions-item label="内销-库管员">暂未返回</el-descriptions-item>
-      <el-descriptions-item label="国内/国际营销部">{{ deliveryForm.fcOrder.marketingDepartment }}</el-descriptions-item>
-      <el-descriptions-item label="交货日期">{{ deliveryForm.fcOrder.requireDeliveryDate }}</el-descriptions-item>
+      <el-descriptions-item label="国内/国际营销部">{{ deliveryForm.order.marketingDepartment }}</el-descriptions-item>
+      <el-descriptions-item label="交货日期">{{ deliveryForm.order.requireDeliveryDate }}</el-descriptions-item>
     </el-descriptions>
     <el-descriptions title="收货信息" size="medium" border :column="3">
-      <el-descriptions-item label="收货方">{{ deliveryForm.fcOrder.reciver }}</el-descriptions-item>
+      <el-descriptions-item label="收货方">{{ deliveryForm.order.reciver }}</el-descriptions-item>
       <el-descriptions-item label="收货联系人">{{ deliveryForm.customerConsignment.name }}</el-descriptions-item>
       <el-descriptions-item label="收货人电话">{{ deliveryForm.customerConsignment.phone }}</el-descriptions-item>
       <el-descriptions-item label="收货地址">{{ deliveryForm.customerConsignment.location }}</el-descriptions-item>
@@ -82,7 +85,7 @@
         </el-table-column>
         <el-table-column label="单价" align="center" key="unitPrice" prop="unitPrice">
           <template slot-scope="scope">
-            {{ deliveryForm.fcOrder.currency }} {{ scope.row.orderProduct.unitPrice }}
+            {{ deliveryForm.order.currency }} {{ scope.row.orderProduct.unitPrice }}
           </template>
         </el-table-column>
         <el-table-column label="技术要求" align="center" key="technicalRequirement" prop="technicalRequirement">
@@ -124,13 +127,11 @@
 </template>
 
 <script>
-import RegionSelect from "@/components/Forms/RegionSelect.vue";
-import {getOrderDetail} from "@/api/order";
-import {getAddressByCode, getOpenBankByBe, listCustomer} from "@/api/customer";
-import {addDelivery, addInvoice} from "@/api/invoice";
-import { getDeliveryDetail } from '@/api/delivery'
+  import RegionSelect from "@/components/Forms/RegionSelect.vue";
+  import {getDeliveryDetail} from '@/api/delivery';
+  import {approveDelivery} from "@/api/invoice";
 
-export default {
+  export default {
   name: "detail",
   components: {RegionSelect},
   dicts: ['invoice_type', 'sys_trans_category', 'sys_y_n','delivery_category', 'ynn'],
@@ -144,6 +145,7 @@ export default {
       submitForApprovalDialogVisible: false,
       // 撤销审批弹窗
       revokeApprovalDialogVisible: false,
+      id: null
     }
   },
   created() {
@@ -154,31 +156,10 @@ export default {
     getDeliveryDetail() {
       const oid = this.$route.params.oid;
       const params = {id: oid}
+      this.id = oid;
       getDeliveryDetail(params).then(res => {
         this.deliveryForm = res.data
-        const po1 = this.deliveryForm
-        const po2 = this.deliveryForm.products
-        debugger
       })
-    },
-    // 提交发货单审批
-    submitForm(val){
-      // 收货方、发货地址、详细地址、发货方、运输方式、是否备表直发、配件单独包装、预计到货日期、预计质保起算日期、预计验收日期、出厂日期
-      // 验证发货单字段
-      if(null!=this.deliveryForm.Consignee&&null!=this.deliveryForm.shippingAddress&&
-        null!=this.deliveryForm.detailedAddress&&null!=this.deliveryForm.shippers&&
-        null!=this.deliveryForm.tranSport&&null!=this.deliveryForm.straightHair&&
-        null!=this.deliveryForm.individuallyPackaged&&null!=this.deliveryForm.estimatedArrivalDate&&
-        null!=this.deliveryForm.estimatedCommencementDate&&null!=this.deliveryForm.estimatedAcceptanceDate&&
-        null!=this.deliveryForm.factoryDate
-      ){
-        // 表单校验通过&&发送发货单申请
-        addDelivery(this.deliveryForm).then(res => {
-          this.$modal.msgSuccess("提交成功");
-        })
-      }else{
-        this.submitForApprovalDialogVisible=true
-      }
     },
     // 接口重推
     cancel(){
@@ -195,7 +176,6 @@ export default {
     },
     // 确定撤销审批
     decideRevokeApproval(){
-
       this.revokeApprovalDialogVisible=false
       this.getDeliveryDetail()
     },
@@ -204,7 +184,14 @@ export default {
       this.revokeApprovalDialogVisible=false
     },
     close() {
-
+    },
+    approveDelivery(val) {
+      const params = {id: this.id, approvalStatus: val}
+      this.$modal.confirm('是否确认审批该发货？').then(function () {
+        approveDelivery(params).then(res => {
+          this.$modal.msgSuccess("审批成功");
+        })
+      });
     }
   }
 }

@@ -120,13 +120,13 @@
       <el-table v-loading="loading" :data="deliveryList" border
                 row-key="id">
         <el-table-column label="发货单编号" align="center" key="consigmentNumber" prop="consigmentNumber"/>
-        <el-table-column label="记录类型" align="center" key="" prop=""
+        <el-table-column label="记录类型" align="center" key="" prop="saleType"
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="发货总金额" align="center" key="amount" prop="amount"
+        <el-table-column label="发货总金额" align="center" key="consignmentAmount" prop="consignmentAmount"
                          :show-overflow-tooltip="true"/>
         <el-table-column label="订单名称" align="center" key="orderTitle" prop="orderTitle">
         </el-table-column>
-        <el-table-column label="审批状态" align="center" key="amount" prop="amount"
+        <el-table-column label="审批状态" align="center" key="approvalStatus" prop="approvalStatus"
                          :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <dict-tag :options="dict.type.approve_status" :value="scope.row.approvalStatus"/>
@@ -146,6 +146,7 @@
             <el-button
               size="mini"
               type="text"
+              v-show="scope.row.approvalStatus == '2' || scope.row.approvalStatus == '3' || scope.row.approvalStatus == '4'"
               @click="updateHandle(scope.row)"
             >编辑
             </el-button>
@@ -158,6 +159,7 @@
             <el-button
               size="mini"
               type="text"
+              v-show="scope.row.approvalStatus == '0'"
               @click="removeApprove(scope.row)"
             >撤销审批
             </el-button>

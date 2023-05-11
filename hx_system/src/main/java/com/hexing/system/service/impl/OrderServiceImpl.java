@@ -1,6 +1,8 @@
 package com.hexing.system.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -267,10 +269,9 @@ public class OrderServiceImpl implements IOrderService {
         String result = httpKit.getData(params);
         log.error(result);
         if (ObjectUtil.isNotNull(result)) {
-            Type type = new TypeToken<ResultForm<StockForm>>() {
-            }.getType();
-            ResultForm<StockForm> customers = new Gson().fromJson(result, type);
-            return customers.getData();
+            JSONObject obj = JSONObject.parseObject(result);
+            StockForm stockForm = obj.getObject("data", new TypeReference<List<StockForm>>(){});
+            return stockForm;
         }
         return null;
     }
