@@ -52,6 +52,15 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
     private FcOrderInvoiceDetailMapper fcOrderInvoiceDetailMapper;
     private final HttpKit httpKit;
 
+    public String generateOrderCode() {
+        // 获取最新的订单ID
+        Long latestId = baseMappr.selectMaxid();
+        Long sequence = (latestId != null) ? latestId + 1 : 1;
+
+        String formattedSequence = String.format("%04d", sequence); // 格式化为4位数字
+        return "I-" + formattedSequence;
+    }
+
     @Override
     public int saveFcOrderInvoice(FcOrderInvoice fcOrderInvoice) {
         LambdaQueryWrapper<FcOrderInvoice> queryWrapper = new LambdaQueryWrapper<>();
@@ -62,6 +71,8 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
         if (fcOrderInvoice.getProductList() == null) {
             throw new ServiceException("开票明细不能为空");
         }
+
+        fcOrderInvoice.setInvoiceNumber(generateOrderCode());
         int result = baseMappr.insert(fcOrderInvoice);
         if (result > 0) {
             for (FcOrderInvoiceDetail detail : fcOrderInvoice.getProductList()) {
@@ -78,7 +89,7 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
         fcApprove.setTitle("开票审批");
         fcApprove.setType(2);
         fcApprove.setOriginator(LoginHelper.getUserId().toString());
-        fcApprove.setStatus("0");
+        fcApprove.setStatus(Integer.valueOf("0"));
         fcApprove.setRequestTime(new Date());
         fcApprove.setMainId(fcOrderInvoice.getId());
         iFcApproveService.saveFcApprove(fcApprove);
@@ -149,7 +160,11 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
     public Map<String,Object> getDetailById(Long id) {
         Map<String,Object> result = new HashMap<>();
         FcOrderInvoice fcOrderInvoice = baseMappr.selectById(id);
+        FcOrderInvoiceDetail[] fcOrderInvoiceDetails = fcOrderInvoiceDetailMapper.findAllFcOrderInvoiceDetail(id);
+        FcCustomerConsignment fcCustomerConsignment = fcCustomerConsignmentMapper.selectById(fcOrderInvoice.getConsignmentId());
         result.put("fcOrderInvoice",fcOrderInvoice);
+        result.put("fcOrderInvoiceDetail",fcOrderInvoiceDetails);
+        result.put("fcCustomerConsignment",fcCustomerConsignment);
         return result;
     }
 

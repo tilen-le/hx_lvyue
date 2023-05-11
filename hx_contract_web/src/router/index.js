@@ -163,6 +163,20 @@ export const dynamicRoutes = [
     ]
   },
   {
+    path: '/invoice/detail',
+    component: Layout,
+    hidden: true,
+    permissions: ['invoice:list:add'],
+    children: [
+      {
+        path: 'index/:oid(\\d+)',
+        component: () => import('@/views/invoice/detail.vue'),
+        name: 'Data',
+        meta: {title: '开票详情', activeMenu: '/invoice/list'}
+      }
+    ]
+  },
+  {
     path: '/claim/create',
     component: Layout,
     hidden: true,
@@ -232,20 +246,20 @@ export const dynamicRoutes = [
       }
     ]
   },
-  {
-    path: '/delivery/create',
-    component: Layout,
-    hidden: true,
-    permissions: ['delivery:plan:add'],
-    children: [
-      {
-        path: 'index/:oid(\\d+)',
-        component: () => import('@/views/delivery/createDelivery.vue'),
-        name: 'Data',
-        meta: {title: '发货', activeMenu: '/delivery/list'}
-      }
-    ]
-  },
+  // {
+  //   path: '/delivery/create',
+  //   component: Layout,
+  //   hidden: true,
+  //   permissions: ['delivery:plan:add'],
+  //   children: [
+  //     {
+  //       path: 'index/:oid(\\d+)',
+  //       component: () => import('@/views/delivery/createDelivery.vue'),
+  //       name: 'Data',
+  //       meta: {title: '发货', activeMenu: '/delivery/list'}
+  //     }
+  //   ]
+  // },
   {
     path: '/system/oss-config',
     component: Layout,

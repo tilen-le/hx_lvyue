@@ -138,7 +138,11 @@ export default {
         this.deliveryList = res.rows
         this.total = res.total
       })
-    }
+    },
+    /** 开票详情**/
+    detail(row) {
+      this.$router.push(`/invoice/detail/index/${row.id}`)
+    },
   }
 }
 </script>

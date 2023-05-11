@@ -53,8 +53,8 @@ public class InvoiceController extends BaseController {
     }
 
     @SaCheckPermission("invoice:list:add")
-    @PostMapping("/detail")
-    public R<Map<String,Object>> detail(@RequestBody FcOrderInvoice fcOrderInvoice) {
+    @GetMapping("/detail")
+    public R<Map<String,Object>> detail( FcOrderInvoice fcOrderInvoice) {
         return R.ok(iFcOrderInvoiceService.getDetailById(fcOrderInvoice.getId()));
     }
 
