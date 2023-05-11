@@ -332,7 +332,7 @@
     </el-form>
     <div style="text-align: center">
       <el-button :loading="buttonLoading" type="primary" @click="submitForm(3)">保存为草稿</el-button>
-      <el-button :loading="buttonLoading" type="primary" @click="submitForm(1)">提交审核</el-button>
+      <el-button :loading="buttonLoading" type="primary" @click="submitForm(0)">提交审核</el-button>
       <el-button @click="cancel">取 消</el-button>
     </div>
   </div>
@@ -347,7 +347,7 @@
   export default {
   name: "createDelivery",
   components: {RegionSelect},
-  dicts: ['invoice_type', 'sys_trans_category', 'sys_y_n','delivery_category', 'ynn'],
+  dicts: ['sys_trans_category', 'sys_y_n','delivery_category', 'ynn'],
   data() {
     return {
       deliveryForm: {},
@@ -423,12 +423,12 @@
       this.getOpenBank(val)
     },
     getOpenBank(code) {
-      const params = {
+/*      const params = {
         billee: code
       }
       getOpenBankByBe(params).then(res => {
         this.openBank = res.data
-      })
+      })*/
       const codePa = {
         code: code
       }
@@ -453,7 +453,7 @@
               this.deliveryForm.files = JSON.parse(this.deliveryForm.files)
             }
           } else {
-            this.deliveryForm.fileIds = []
+            this.deliveryForm.files = []
           }
           addDelivery(this.deliveryForm).then(res => {
             this.$modal.msgSuccess("提交成功");

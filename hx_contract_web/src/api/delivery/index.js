@@ -1,10 +1,10 @@
 import request from '@/utils/request'
 
 // 获取发货单详情
-export function getDeliveryApi(query){
+export function getDeliveryDetail(data){
   return request({
-    url: '/delivery/detail',
-    method: 'get',
-    params: query
+    url: '/order/consignment/check',
+    method: 'post',
+    data: data
   })
 }
