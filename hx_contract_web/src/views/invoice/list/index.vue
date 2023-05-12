@@ -124,7 +124,7 @@
 </template>
 
 <script>
-import {listInvoice} from "@/api/invoice";
+import {listInvoice,approveInvoice} from "@/api/invoice";
 
 export default {
   name: "index",
@@ -156,6 +156,15 @@ export default {
     /** 开票详情**/
     detail(row) {
       this.$router.push(`/invoice/detail/index/${row.id}`)
+    },
+    revokeApprove(row){
+      const params = {id: row.id, approvalStatus: 3}
+      this.$modal.confirm('确认撤销该开票的审批？').then(function () {
+        approveInvoice(params).then(res => {
+          this.$modal.msgSuccess("撤销成功");
+          this.getList();
+        })
+      })
     },
   }
 }

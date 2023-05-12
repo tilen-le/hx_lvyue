@@ -13,14 +13,6 @@ export function addDelivery(data) {
     data: data
   })
 }
-export function approveDelivery(data) {
-  return request({
-    url: '/order/consignment/approve',
-    method: 'post',
-    data: data
-  })
-}
-
 
 export function listInvoice(query) {
   return request({
@@ -48,6 +40,14 @@ export function getInvoiceDetail(query) {
     url: '/invoice/detail',
     method: 'get',
     params: query
+  })
+}
+
+export function approveInvoice(data) {
+  return request({
+    url: '/invoice/approve',
+    method: 'post',
+    data: data
   })
 }
 

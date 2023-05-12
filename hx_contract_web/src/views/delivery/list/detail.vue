@@ -7,9 +7,9 @@
           {{ deliveryForm.consignment.consigmentNumber }}
         </div>
         <div>
-          <el-button @click="approveDelivery(1)" type="primary" v-show="deliveryForm.consignment.approvalStatus=='0'">
+          <el-button @click="approveDelivery(1)" type="primary" v-show="deliveryForm.hasConsApprove && deliveryForm.consignment.approvalStatus=='0'">
             审批通过</el-button>
-          <el-button @click="approveDelivery(2)" type="primary" v-show="deliveryForm.consignment.approvalStatus=='0'">
+          <el-button @click="approveDelivery(2)" type="primary" v-show="deliveryForm.hasConsApprove && deliveryForm.consignment.approvalStatus=='0'">
             审批驳回</el-button>
           <i class="el-icon-close" style="cursor: pointer;margin-left: 15px" @click="close"></i>
         </div>
@@ -128,8 +128,7 @@
 
 <script>
   import RegionSelect from "@/components/Forms/RegionSelect.vue";
-  import {getDeliveryDetail} from '@/api/delivery';
-  import {approveDelivery} from "@/api/invoice";
+  import {getDeliveryDetail, approveDelivery} from '@/api/delivery';
 
   export default {
   name: "detail",

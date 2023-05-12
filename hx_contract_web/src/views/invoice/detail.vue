@@ -6,6 +6,13 @@
           <span>开票编号：</span>
           {{ fcOrderInvoice.invoiceNumber }}
         </div>
+        <div>
+          <el-button @click="approveInvoice(1)" type="primary" v-show="invoiceForm.hasConsApprove && fcOrderInvoice.approvalStatus=='0'">
+            审批通过</el-button>
+          <el-button @click="approveInvoice(2)" type="primary" v-show="invoiceForm.hasConsApprove && fcOrderInvoice.approvalStatus=='0'">
+            审批驳回</el-button>
+          <i class="el-icon-close" style="cursor: pointer;margin-left: 15px" @click="close"></i>
+        </div>
       </div>
     </div>
 
@@ -133,7 +140,7 @@
 
 <script>
 
-import {getInvoiceDetail} from "@/api/invoice";
+import {getInvoiceDetail,approveInvoice} from "@/api/invoice";
 
 export default {
   name: "createClaim",
@@ -166,6 +173,16 @@ export default {
         this.fcOrderInvoiceDetail = res.data.fcOrderInvoiceDetail
         this.fcCustomerConsignment = res.data.fcCustomerConsignment
       })
+    },
+    close() {
+    },
+    approveInvoice(val) {
+      const params = {id: this.id, approvalStatus: val}
+      this.$modal.confirm('是否确认审批该开票？').then(function () {
+        approveInvoice(params).then(res => {
+          this.$modal.msgSuccess("审批成功");
+        })
+      });
     }
   }
 }
