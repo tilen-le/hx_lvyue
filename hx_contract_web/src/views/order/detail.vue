@@ -200,7 +200,7 @@
         <el-table-column label="收款里程碑" align="center" prop="type" min-width="120px">
         </el-table-column>
         <el-table-column label="预计回款时间" align="center" prop="expectPayDate" min-width="120px">
-          {{ parseTime(scope.row.expectPayDate, '{y}-{m}-{d}') }}
+          <template scope="scope">{{ parseTime(scope.row.expectPayDate, '{y}-{m}-{d}') }}</template>
         </el-table-column>
         <el-table-column label="预计回款比例" align="center" prop="expectPayScale" min-width="120px">
           <template scope="scope"> {{ scope.row.expectPayScale*100 }}% </template>

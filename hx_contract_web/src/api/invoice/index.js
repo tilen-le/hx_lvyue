@@ -6,6 +6,13 @@ export function addInvoice(data) {
     data: data
   })
 }
+export function updateInvoice(data) {
+  return request({
+    url: '/invoice/update',
+    method: 'post',
+    data: data
+  })
+}
 export function addDelivery(data) {
   return request({
     url: '/order/consignment/add',
@@ -13,14 +20,14 @@ export function addDelivery(data) {
     data: data
   })
 }
-export function approveDelivery(data) {
+
+export function updateDelivery(data) {
   return request({
-    url: '/order/consignment/approve',
+    url: '/order/consignment/update',
     method: 'post',
     data: data
   })
 }
-
 
 export function listInvoice(query) {
   return request({
@@ -51,15 +58,11 @@ export function getInvoiceDetail(query) {
   })
 }
 
-/**
- * 附件上传
- * @param query
- * @returns {*}
- */
-export function upload(query) {
+export function approveInvoice(data) {
   return request({
-    url: '/system/oss/upload',
+    url: '/invoice/approve',
     method: 'post',
-    params: query
+    data: data
   })
 }
+

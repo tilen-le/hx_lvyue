@@ -345,7 +345,7 @@
 <script>
   import RegionSelect from "@/components/Forms/RegionSelect.vue";
   import {getAddressByCode, getOpenBankByBe, listCustomer} from "@/api/customer";
-  import {addDelivery} from "@/api/invoice";
+  import {updateDelivery} from "@/api/invoice";
   import {getDeliveryDetail} from '@/api/delivery'
 
   export default {
@@ -502,7 +502,7 @@
           } else {
             this.deliveryForm.files = []
           }
-          addDelivery(this.deliveryForm).then(res => {
+          updateDelivery(this.deliveryForm).then(res => {
             this.$modal.msgSuccess("提交成功");
           })
         }

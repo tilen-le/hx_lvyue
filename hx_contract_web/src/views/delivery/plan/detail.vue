@@ -1,35 +1,42 @@
 <template>
   <div class="app-container">
-    <el-form :model="planForm" ref="queryForm" size="small" :rules="rules" label-width="130px"
+    <el-form :model="planForm" ref="queryForm" size="small" label-width="130px"
              style="margin: 15px">
       <div class="angel-card">
         <div style="display: flex;justify-content: space-between;align-items: center">
           <div>
             <span>发货单编号：</span>
-            {{ deliveryForm.consignment.consigmentNumber }}
+            {{ planForm.planCode }}
           </div>
           <div>
             <el-button size="mini" type="text" @click="notifyCommissioner"
+                       v-show="null!=planForm.reportCustomsComplted&&planForm.reportCustomsComplted==0"
+                       v-hasPermi="['system:user:edit']" >通知单证专员</el-button>
                        v-hasPermi="['invoice:list:add']" >通知单证专员</el-button>
             <el-button size="mini" type="text" @click="completeCustomsDeclaration"
               v-hasPermi="['invoice:list:add']">报关完成</el-button>
             <el-button v-show="scope.row.customsDeclarationCompleted==1"
               size="mini" type="text" @click="synchronizeSAP"
               v-hasPermi="['invoice:list:add']" >同步SAP
+                       v-show="null!=planForm.reportCustomsComplted&&planForm.reportCustomsComplted==0"
+                       v-hasPermi="['system:user:edit']">报关完成</el-button>
+            <el-button v-show="null!=planForm.reportCustomsComplted&&planForm.reportCustomsComplted==1"
+                       size="mini" type="text" @click="synchronizeSAP"
+                       v-hasPermi="['system:user:edit']" >同步SAP
             </el-button>
           </div>
         </div>
       </div>
 <!--      发货计划信息-->
-      <div class="plan-header">
-        <el-descriptions title="发货计划信息" size="medium" border :column="3">
+      <div class="plan-header"  style="padding-right: 10px;padding-left: 10px">
+        <el-descriptions title="发货计划信息" size="medium" border >
           <el-descriptions-item label="原计划出库时间">{{ planForm.originalPlannedDeliveryDate }}</el-descriptions-item>
           <el-descriptions-item label="出库地点">{{ planForm.deliveryLocation }}</el-descriptions-item>
           <el-descriptions-item label="清关金额">{{ planForm.currentNode }}</el-descriptions-item>
         </el-descriptions>
       </div>
 <!--      详细信息-->
-      <div class="plan-header">
+      <div class="plan-header" style="padding-right: 10px;padding-left: 10px">
         <el-descriptions title="详细信息" size="medium" border :column="3">
           <el-descriptions-item label="INVOICE NO">{{ planForm.invoiceNo }}</el-descriptions-item>
           <el-descriptions-item label="客户">{{ planForm.customerId }}</el-descriptions-item>
@@ -40,7 +47,9 @@
           <el-descriptions-item label="国家">{{ planForm.nation }}</el-descriptions-item>
           <el-descriptions-item label="通知方">{{ planForm.notifyId }}</el-descriptions-item>
           <el-descriptions-item label="SIHIPPING MARK">{{ planForm.shippingMark }}</el-descriptions-item>
-          <el-descriptions-item label="是否通知单证专员">{{ planForm.isNoticeDocumentSpecialist }}</el-descriptions-item>
+          <el-descriptions-item label="是否通知单证专员">
+              <dict-tag :options="dict.type.ynn" :value="planForm.isNoticeDocumentSpecialist"/>
+          </el-descriptions-item>
           <el-descriptions-item label="运费">{{ planForm.freight }}</el-descriptions-item>
           <el-descriptions-item label="保费">{{ planForm.premium }}</el-descriptions-item>
           <el-descriptions-item label="税费">{{ planForm.taxation }}</el-descriptions-item>
@@ -55,37 +64,19 @@
           <el-descriptions-item label="SAP交货项目">{{ planForm.lcDeliveryNo }}</el-descriptions-item>
         </el-descriptions>
       </div>
-      <div>
-        <div>
-          <span>实际开船日: {{ planForm.actualDepartureDate }}</span>
-        </div>
-        <div>
-          <span>货物完成时间及地点: {{ planForm.goodsCompleteDateAndLocate }}</span>
-        </div>
-        <div>
-          <span>保险条款: {{ planForm.insuranceClauses }}</span>
-        </div>
-        <div>
-          <span>特殊要求: {{ planForm.specialRequirements }}</span>
-        </div>
-        <div>
-          <span>备注: {{ planForm.remark }}</span>
-        </div>
-        <div>
-          <span>报清关差异原因: {{ planForm.reportCustomsClearanceReason }}</span>
-        </div>
-      </div>
-      <div class="plan-header">
+      <div class="plan-header" style="padding-right: 10px;padding-left: 10px">
         <el-descriptions title="报关信息" size="medium" border :column="3">
           <el-descriptions-item label="单证专员">{{ planForm.documentSpecialist }}</el-descriptions-item>
           <el-descriptions-item label="财务人员">{{ planForm.financialStaff }}</el-descriptions-item>
         </el-descriptions>
       </div>
 <!--      汇总信息-->
-      <div class="plan-header">
+      <div class="plan-header" style="padding-right: 10px;padding-left: 10px">
         <el-descriptions title="汇总信息" size="medium" border :column="3">
           <el-descriptions-item label="报关单位">{{ planForm.reportCustomsInstitutions }}</el-descriptions-item>
-          <el-descriptions-item label="运输方式">{{ planForm.transType }}</el-descriptions-item>
+          <el-descriptions-item label="运输方式">
+            <dict-tag :options="dict.type.sys_trans_category" :value="planForm.transType"/>
+          </el-descriptions-item>
           <el-descriptions-item label="柜型及数量">{{ planForm.abinetTypeAndQuantity }}</el-descriptions-item>
           <el-descriptions-item label="贸易方式">{{ planForm.tradeMode }}</el-descriptions-item>
           <el-descriptions-item label="出运港">{{ planForm.shipmentPort }}</el-descriptions-item>
@@ -109,25 +100,28 @@
           style="margin-top: 15px"
           size="mini"
         >
-          <el-table-column label="序号" align="center" min-width="60px" prop="sequence">
+          <el-table-column   label="编号" align="center">
+            <template slot-scope="scop">
+              {{scop.$index+1}}
+            </template>
           </el-table-column>
-          <el-table-column label="货物描述(中文)" align="center" min-width="60px">
+          <el-table-column label="货物描述(中文)" align="center" min-width="60px" prop="goodsDescCn">
           </el-table-column>
-          <el-table-column label="报关数量" align="center" min-width="60px">
+          <el-table-column label="报关数量" align="center" min-width="60px" prop="num">
           </el-table-column>
-          <el-table-column label="报关金额" align="center" min-width="60px">
+          <el-table-column label="报关金额" align="center" min-width="60px" prop="amount">
           </el-table-column>
-          <el-table-column label="品牌型号" align="center" min-width="60px">
+          <el-table-column label="品牌型号" align="center" min-width="60px" prop="brandModel">
           </el-table-column>
-          <el-table-column label="包装件数" align="center" min-width="60px">
+          <el-table-column label="包装件数" align="center" min-width="60px" prop="packNumber">
           </el-table-column>
-          <el-table-column label="包装种类" align="center" min-width="60px">
+          <el-table-column label="包装种类" align="center" min-width="60px" prop="packagingType">
           </el-table-column>
-          <el-table-column label="毛重" align="center" min-width="60px">
+          <el-table-column label="毛重" align="center" min-width="60px" prop="grossWeight">
           </el-table-column>
-          <el-table-column label="净重" align="center" min-width="60px">
+          <el-table-column label="净重" align="center" min-width="60px" prop="netWeight">
           </el-table-column>
-          <el-table-column label="体积(CBM)" align="center" min-width="60px">
+          <el-table-column label="体积(CBM)" align="center" min-width="60px" prop="volume">
           </el-table-column>
         </el-table>
       </div>
@@ -145,40 +139,43 @@
           style="margin-top: 15px"
           size="mini"
         >
-          <el-table-column label="序号" align="center" min-width="60px">
-          </el-table-column>
-          <el-table-column label="是否同步SAP" align="center" min-width="60px">
-            <template scope="scope">
-              <dict-tag :options="dict.type.ynn" :value="scope.row.unitPrice"/>
+          <el-table-column   label="编号" align="center">
+            <template slot-scope="scop">
+              {{scop.$index+1}}
             </template>
           </el-table-column>
-          <el-table-column label="订单名称" align="center" min-width="60px">
+          <el-table-column label="是否同步SAP" align="center" min-width="60px" prop="sapSyncFlag">
+            <template scope="scope">
+              <dict-tag :options="dict.type.ynn" :value="scope.row.sapSyncFlag"/>
+            </template>
           </el-table-column>
-          <el-table-column label="订单编号" align="center" min-width="60px">
+          <el-table-column label="订单名称" align="center" min-width="60px" prop="orderTitle">
           </el-table-column>
-          <el-table-column label="订单明细编号" align="center" min-width="60px">
+          <el-table-column label="订单编号" align="center" min-width="60px" prop="orderNumber">
           </el-table-column>
-          <el-table-column label="产品型号" align="center" min-width="60px">
+          <el-table-column label="订单明细编号" align="center" min-width="60px" prop="productNumber">
           </el-table-column>
-          <el-table-column label="产品型号名" align="center" min-width="60px">
+          <el-table-column label="产品型号" align="center" min-width="60px" prop="productModel">
           </el-table-column>
-          <el-table-column label="报关数量" align="center" min-width="60px">
+          <el-table-column label="产品型号名" align="center" min-width="60px" prop="">
           </el-table-column>
-          <el-table-column label="报关剩余数量" align="center" min-width="60px">
+          <el-table-column label="报关数量" align="center" min-width="60px" prop="reportCustomsNum">
           </el-table-column>
-          <el-table-column label="订单数量" align="center" min-width="60px">
+          <el-table-column label="报关剩余数量" align="center" min-width="60px" prop="reportCustomsResidueNum">
           </el-table-column>
-          <el-table-column label="产品总金额" align="center" min-width="60px">
+          <el-table-column label="订单数量" align="center" min-width="60px" prop="num">
           </el-table-column>
-          <el-table-column label="剩余报关金额" align="center" min-width="60px">
+          <el-table-column label="产品总金额" align="center" min-width="60px" prop="totalProductAmount">
           </el-table-column>
-          <el-table-column label="本次报关金额" align="center" min-width="60px">
+          <el-table-column label="剩余报关金额" align="center" min-width="60px" prop="remainingReportCustomsAmount">
           </el-table-column>
-          <el-table-column label="实际报关金额" align="center" min-width="60px">
+          <el-table-column label="本次报关金额" align="center" min-width="60px" prop="currentReportCustomsAmount">
           </el-table-column>
-          <el-table-column label="单价" align="center" min-width="60px">
+          <el-table-column label="实际报关金额" align="center" min-width="60px" prop="realityReportCustomsAmount">
           </el-table-column>
-          <el-table-column label="SAP物料编码" align="center" min-width="60px">
+          <el-table-column label="单价" align="center" min-width="60px" prop="unitPrice">
+          </el-table-column>
+          <el-table-column label="SAP物料编码" align="center" min-width="60px" prop="sapMaterialCode">
           </el-table-column>
         </el-table>
       </div>
@@ -188,13 +185,15 @@
           <div class="line-item"></div>
           <span>附件</span>
         </div>
-        <el-form-item label="">
-          <fileUpload v-model="planForm.file"/>
-        </el-form-item>
+        <div style="padding: 15px">
+          <el-link v-for="fileItem in planForm.file"
+                   :underline="false"  type="primary" target="_blank" :href="`${fileItem.url}`" class="fileShow">
+            {{ fileItem.originalName }} </el-link>
+        </div>
       </div>
     </el-form>
     <div style="text-align: right">
-      <el-button :loading="buttonLoading" type="primary" @click="submitForm">提交</el-button>
+<!--      <el-button type="primary" @click="submitForm">提交</el-button>-->
       <el-button @click="cancel">取 消</el-button>
     </div>
   </div>
@@ -237,7 +236,7 @@ export default {
     getPlanDetail(){
       this.planForm.planId
       let param={
-
+        id: this.planForm.planId
       }
       detailPlanApi(param).then(res=>{
         this.planForm=res.data
@@ -247,7 +246,7 @@ export default {
     notifyCommissioner(){
       this.planForm.planId
       let param={
-
+        id: this.planForm.planId
       }
       notifyCommissionerApi(param).then(res=>{
         this.$message({
@@ -260,7 +259,7 @@ export default {
     completeCustomsDeclaration(){
       this.planForm.planId
       let param={
-
+        id: this.planForm.planId
       }
       completeCustomsDeclarationApi(param).then(res=>{
         this.$message({
@@ -272,17 +271,27 @@ export default {
     },
     // 同步sap
     synchronizeSAP(){
-      this.planForm.planId
-      let param={
-
-      }
-      synchronizeSAPApi(param).then(res=>{
+      this.$confirm('此订单将会同步sap, 请问您是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        let param={
+          id: this.planForm.planId
+        }
+        synchronizeSAPApi(param).then(res=>{
+          this.$message({
+            message: 'SAP同步已完成',
+            type: 'success'
+          });
+          this.getPlanDetail();
+        })
+      }).catch(() => {
         this.$message({
-          message: 'SAP同步已完成',
-          type: 'success'
+          type: 'info',
+          message: '已取消'
         });
-        this.getPlanDetail();
-      })
+      });
     },
     // 提交表单
     submitForm(){

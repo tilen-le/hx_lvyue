@@ -131,7 +131,7 @@
 
 <script>
 import {listOrderDelivery} from "@/api/order";
-import {approveDelivery} from "@/api/invoice";
+import {approveDelivery} from "@/api/delivery";
 import {addDateRange} from "../../../utils/ruoyi";
 
 export default {
