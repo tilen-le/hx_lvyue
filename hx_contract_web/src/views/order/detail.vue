@@ -8,9 +8,9 @@
         </div>
         <div>
 <!--          在该订单有库存的情况下，显示发货，点击进入穿件发货界面-->
-          <el-button :loading="buttonLoading" type="primary" @click="toDelivery">发货</el-button>
+          <el-button :loading="buttonLoading" type="primary" @click="toDelivery" v-hasPermi="['delivery:plan:add']">发货</el-button>
 <!--          在该订单存在在途库时显示开票操作，点击进入创建开票界面-->
-          <el-button @click="toInvoice" type="primary">申请开票</el-button>
+          <el-button @click="toInvoice" type="primary" v-hasPermi="['invoice:list:add']">申请开票</el-button>
           <i class="el-icon-close" style="cursor: pointer;margin-left: 15px" @click="close"></i>
         </div>
       </div>
@@ -200,7 +200,7 @@
         <el-table-column label="收款里程碑" align="center" prop="type" min-width="120px">
         </el-table-column>
         <el-table-column label="预计回款时间" align="center" prop="expectPayDate" min-width="120px">
-          {{ parseTime(scope.row.expectPayDate, '{y}-{m}-{d}') }}
+          <template scope="scope">{{ parseTime(scope.row.expectPayDate, '{y}-{m}-{d}') }}</template>
         </el-table-column>
         <el-table-column label="预计回款比例" align="center" prop="expectPayScale" min-width="120px">
           <template scope="scope"> {{ scope.row.expectPayScale*100 }}% </template>
@@ -252,6 +252,7 @@
               size="mini"
               type="text"
               @click="orderConsignmentDetail(scope.row)"
+              v-hasPermi="['delivery:list:detail']"
             >查看详情
             </el-button>
             <el-button
@@ -259,6 +260,7 @@
               type="text"
               @click="cancel(scope.row)"
               v-show="0==scope.row.approvalStatus"
+              v-hasPermi="['order:delivery:revoke']"
             >撤销
             </el-button>
             <el-button
@@ -266,6 +268,7 @@
               type="text"
               @click="cancel(scope.row)"
               v-show="0==scope.row.approvalStatus"
+              v-hasPermi="['order:delivery:urging']"
             >催办
             </el-button>
           </template>
@@ -314,7 +317,7 @@
               size="mini"
               type="text"
               @click="paymentCliamDetail(scope.row)"
-              v-hasPermi="['claim:list:cancel']"
+              v-hasPermi="['claim:list:detail']"
             >查看详情
             </el-button>
           </template>
@@ -357,7 +360,7 @@
               size="mini"
               type="text"
               @click="cancel(scope.row)"
-              v-hasPermi="['claim:list:cancel']"
+              v-hasPermi="['log:list:reset']"
             >接口重推
             </el-button>
           </template>

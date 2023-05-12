@@ -6,9 +6,11 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hexing.common.core.domain.BaseEntity;
+import com.hexing.system.domain.bo.SysOssCons;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -50,17 +52,30 @@ public class FcOrderInvoice extends BaseEntity {
     /**
      * 当前附件版本
      */
-//    private Integer currentVersion;
+    private Integer currentVersion;
+
 
     @NotNull(message = "[卖方银行]不能为空")
     private Long saleBank;
+
+    @TableField(exist = false)
+    private String saleBankName;
     /**
      * 收票方
      */
     private String consigneeId;
 
+    /**
+     * 收票方名称
+     */
+    @TableField(exist = false)
+    private String consigneeName;
+
     private Integer syncSapStatus;
 
+    private String syncSapVoucher;
+
+    private Date syncSapTime;
 
     /**
      * 开户行
@@ -94,14 +109,9 @@ public class FcOrderInvoice extends BaseEntity {
     private BigDecimal tax;
 
     /**
-     * 附件id
-     */
-    private String ossId;
-
-    /**
      * 客户收货地址id
      */
-    private String consignmentId;
+    private Long consignmentId;
 
     private String deleted;
 
@@ -112,8 +122,7 @@ public class FcOrderInvoice extends BaseEntity {
     private List<FcOrderInvoiceDetail> productList;
 
     @TableField(exist = false)
-    private String fileIds;
-
+    private List<SysOssCons> files;
 
     @TableField(exist = false)
     private String orderTitle;

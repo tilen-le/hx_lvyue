@@ -27,5 +27,5 @@ public interface IFcApproveService {
      * @param mainId
      * @return
      */
-    FcApprove getFcApprove(String mainId);
+    FcApprove getFcApprove(Long mainId,Integer type);
 }

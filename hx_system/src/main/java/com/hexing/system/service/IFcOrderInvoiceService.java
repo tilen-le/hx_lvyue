@@ -2,6 +2,7 @@ package com.hexing.system.service;
 
 import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.page.TableDataInfo;
+import com.hexing.system.domain.FcOrderConsignment;
 import com.hexing.system.domain.FcOrderInvoice;
 
 import java.util.Map;
@@ -47,4 +48,10 @@ public interface IFcOrderInvoiceService {
      */
     Map<String,Object> getDetailById(Long id);
 
+
+    /**
+     * 开票审批
+     * @param fcOrderInvoice
+     */
+    void approve(FcOrderInvoice fcOrderInvoice);
 }

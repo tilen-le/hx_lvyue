@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="planForm" ref="queryForm" size="small" :rules="rules" label-width="130px"
-             style="margin: 15px">
+             style="margin: 15px" v-loading="loading">
       <!--      发货计划信息-->
       <div class="plan-header">
         <div style="display: flex;align-items: center">
@@ -56,9 +56,9 @@
                 :loading="searchLoading">
                 <el-option
                   v-for="item in customer"
-                  :key="item.code"
+                  :key="item.id"
                   :label="item.name"
-                  :value="item.code">
+                  :value="item.id">
                   {{ item.name }}({{ item.code }})
                 </el-option>
               </el-select>
@@ -89,7 +89,7 @@
             <el-form-item label="客户联系人" prop="customerContact">
               <el-select
                 @focus="changeConsignee"
-                v-model="planForm.customerContact"
+                v-model="planForm.customerContactItem"
                 style="width: 90%"
                 placeholder="请输入"
                 @change="changeCustomerContact"
@@ -98,7 +98,7 @@
                   v-for="item in customerContactList"
                   :key="item.id"
                   :label="item.name"
-                  :value="item.id">
+                  :value="item">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -107,18 +107,7 @@
         <el-row style="margin: 15px 15px 0 15px">
           <el-col :span="6">
             <el-form-item label="联系方式" prop="contactInformation">
-              <el-select
-                v-model="planForm.contactInformation"
-                style="width: 90%"
-                placeholder="请输入"
-                :loading="searchLoading3">
-                <el-option
-                  v-for="item in customerContactList"
-                  :key="item.phone"
-                  :label="item.phone"
-                  :value="item.phone">
-                </el-option>
-              </el-select>
+              <el-input v-model="planForm.contactInformation" placeholder="请输入" maxlength="50" style="width: 90%"/>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -167,9 +156,9 @@
                 :loading="searchLoading4">
                 <el-option
                   v-for="item in customer3"
-                  :key="item.code"
+                  :key="item.id"
                   :label="item.name"
-                  :value="item.code">
+                  :value="item.id">
                   {{ item.name }}({{ item.code }})
                 </el-option>
               </el-select>
@@ -315,9 +304,9 @@
               <el-select v-model="planForm.documentSpecialist" placeholder="请选择" style="width: 100%">
                 <el-option
                   v-for="item in docKeeper"
-                  :key="item.userId"
+                  :key="item.userName"
                   :label="item.nickName"
-                  :value="item.userId"
+                  :value="item.userName"
                 />
               </el-select>
             </el-form-item>
@@ -328,9 +317,9 @@
               <el-select v-model="planForm.financialStaff" placeholder="请选择" style="width: 100%">
                 <el-option
                   v-for="item in bookKeeper"
-                  :key="item.userId"
+                  :key="item.userName"
                   :label="item.nickName"
-                  :value="item.userId"
+                  :value="item.userName"
                 />
               </el-select>
             </el-form-item>
@@ -490,15 +479,9 @@
           style="margin-top: 15px"
           size="mini"
         >
-          <el-table-column label="序号" align="center" min-width="60px" prop="sequence">
-            <template slot-scope="scope">
-              <el-input
-                controls-position="right"
-                :precision="2"
-                placeholder="请输入"
-                style="width: 70%"
-                v-model="scope.row.sequence"
-              />
+          <el-table-column   label="编号" align="center">
+            <template slot-scope="scop">
+              {{scop.$index+1}}
             </template>
           </el-table-column>
           <el-table-column label="货物描述(中文)" align="center" min-width="60px" prop="goodsDescCn">
@@ -543,7 +526,7 @@
               />
             </template>
           </el-table-column>
-          <el-table-column label="包装件数" align="center" min-width="60px">
+          <el-table-column label="包装件数" align="center" min-width="60px" prop="packNumber">
             <template slot-scope="scope">
               <<el-input-number :min="0"
                                 controls-position="right"
@@ -553,7 +536,7 @@
             />
             </template>
           </el-table-column>
-          <el-table-column label="包装种类" align="center" min-width="60px">
+          <el-table-column label="包装种类" align="center" min-width="60px" prop="packagingType">
             <template slot-scope="scope">
               <el-input
                 controls-position="right"
@@ -564,7 +547,7 @@
               />
             </template>
           </el-table-column>
-          <el-table-column label="毛重" align="center" min-width="60px">
+          <el-table-column label="毛重" align="center" min-width="60px" prop="grossWeight">
             <template slot-scope="scope">
               <el-input
                 maxlength="100"
@@ -576,7 +559,7 @@
               />
             </template>
           </el-table-column>
-          <el-table-column label="净重" align="center" min-width="60px">
+          <el-table-column label="净重" align="center" min-width="60px" prop="netWeight">
             <template slot-scope="scope">
               <el-input
                 controls-position="right"
@@ -587,7 +570,7 @@
               />
             </template>
           </el-table-column>
-          <el-table-column label="体积(CBM)" align="center" min-width="60px">
+          <el-table-column label="体积(CBM)" align="center" min-width="60px" prop="volume">
             <template slot-scope="scope">
               <el-input
                 controls-position="right"
@@ -640,7 +623,7 @@
                 v-model="scope.row.sapSyncFlag"
                 placeholder="请输入">
                 <el-option
-                  v-for="dict in dict.type.sys_yes_no"
+                  v-for="dict in dict.type.ynn"
                   :key="dict.value"
                   :label="dict.label"
                   :value="dict.value">
@@ -670,7 +653,7 @@
           </el-table-column>
           <el-table-column label="报关剩余数量" align="center" min-width="60px" prop="reportCustomsResidueNum">
           </el-table-column>
-          <el-table-column label="订单数量" align="center" min-width="60px" prop="orderQuantity">
+          <el-table-column label="订单数量" align="center" min-width="60px" prop="num">
           </el-table-column>
           <el-table-column label="产品总金额" align="center" min-width="60px" prop="totalProductAmount">
           </el-table-column>
@@ -718,7 +701,7 @@
       </div>
     </el-form>
     <div style="text-align: right">
-      <el-button type="primary" @click="submitForm">提交</el-button>
+      <el-button type="primary" @click="submitForm">提 交</el-button>
       <el-button @click="cancel">取 消</el-button>
     </div>
     <!--    订单列表选择弹窗-->
@@ -740,7 +723,7 @@
       </el-table>
       <span slot="footer" class="dialog-footer">
       <el-button @click="undoSelectedOrders">取 消</el-button>
-      <el-button type="primary" @click="doSelectedOrders">确 定</el-button>
+      <el-button type="primary" @click="doSelectedOrders" v-hasPermi="['delivery:all:list']" >确 定</el-button>
   </span>
     </el-dialog>
   </div>
@@ -749,16 +732,16 @@
 <script>
 import Treeselect from "@riophae/vue-treeselect";
 import {deptTreeSelect} from "@/api/system/user";
-import { getAddress, listCustomer } from '@/api/customer'
+import { getAddress, listCustomer, listCustomer2 } from '@/api/customer'
 import {listBookKeeper, listDocKeeper} from "@/api/system/role";
 import { listOrderByKeyWordApi } from '@/api/order'
-import { listSAPFinancialApi, updatePlanApi } from '@/api/plan'
+import { detailPlanApi, listSAPFinancialApi, updatePlanApi } from '@/api/plan'
 
 export default {
   name: "edit",
   components: {Treeselect},
   dicts: ['sys_customer_status', 'sys_currency', 'continent', 'sys_y_n', 'sys_receive_master',
-    'sys_trans_category', 'trade_type', 'pol_cate', 'exs_cate', 'sold_for','sys_yes_no'],
+    'sys_trans_category', 'trade_type', 'pol_cate', 'exs_cate', 'sold_for','sys_yes_no','ynn'],
   data() {
     return {
       planForm: {
@@ -871,11 +854,6 @@ export default {
     // 获取计划id
     this.planForm.planId=this.$route.params.oid
     // 获取人员列表
-    listCustomer().then(res => {
-      this.customer = res.rows
-      this.customer2 = res.rows
-      this.customer3 = res.rows
-    })
     // 获取单证专员和财务人员列表
     this.initKeeper()
     // 获取部门树
@@ -886,55 +864,77 @@ export default {
   methods: {
     // 获取计划详细
     getPlanDetail(){
+      this.loading=true
       this.planForm.planId
       let param={
-
+        id: this.planForm.planId
       }
       detailPlanApi(param).then(res=>{
         this.planForm=res.data
       }).then(res=>{
+        // 客户
+        let param1={id: this.planForm.customerId}
+        // 收货方
+        let param2={id: this.planForm.consignee}
+        // 通知方
+        let param3={id: this.planForm.notifyId}
+        listCustomer2(param1).then(res => {
+          this.customer = res.data
+        })
+        listCustomer2(param2).then(res => {
+          this.customer2 = res.data
+        })
+        listCustomer2(param3).then(res => {
+          this.customer3 = res.data
+        })
         // 客户联系人列表
-        this.changeConsignee(this.planForm.consignee)
+        this.initConsignee()
         // 国家列表
         this.changeContinent(this.planForm.continent)
+      }).then(res=>{
+        this.loading=false
       })
     },
     // 下拉框--远程获取人员信息
     remoteMethod(query) {
+
       setTimeout(() => {
+        if(null==query||""==query)
+          return
         const params = {
-          code: query,
           name: query
         }
-        listCustomer(params).then(res => {
+        listCustomer2(params).then(res => {
           this.customer = []
-          this.customer = res.rows
+          this.customer = res.data
         })
       }, 1000)
     },
     // 下拉框--远程获取人员信息
     remoteMethod2(query) {
       setTimeout(() => {
+        if(null==query||""==query)
+          return
         const params = {
-          code: query,
           name: query
         }
-        listCustomer(params).then(res => {
+        listCustomer2(params).then(res => {
           this.customer2 = []
-          this.customer2 = res.rows
+          this.customer2 = res.data
         })
       }, 1000)
     },
     // 下拉框--远程获取人员信息
     remoteMethod3(query) {
       setTimeout(() => {
+        if(null==query||""==query)
+          return
         const params = {
-          code: query,
           name: query
         }
-        listCustomer(params).then(res => {
+        listCustomer2(params).then(res => {
           this.customer3 = []
-          this.customer3 = res.rows
+          this.customer3 = res.data
         })
       }, 1000)
     },
@@ -943,8 +943,27 @@ export default {
       // 依据大洲id获取国家列表
       this.nation
     },
+    // 初始化
+    initConsignee() {
+      this.searchLoading3=true
+      this.customerContactList=[]
+      // 修改客户可选联系人列表
+      let param={
+        customerId: this.planForm.consignee
+      }
+      getAddress(param).then((res => {
+        this.customerContactList = res.data
+        for (let customerContact of this.customerContactList) {
+          if(customerContact.id==this.planForm.customerContact){
+            this.planForm.customerContactItem=customerContact
+            break
+          }
+        }
+        this.searchLoading3=false
+      }))
+    },
     // 《收货方》下拉框改变
-    changeConsignee(value) {
+    changeConsignee() {
       this.searchLoading3=true
       if(null==this.planForm.consignee){
         this.$message({
@@ -956,22 +975,19 @@ export default {
       this.customerContactList=[]
       // 修改客户可选联系人列表
       let param={
-        customerId: value
+        customerId: this.planForm.consignee
       }
       getAddress(param).then((res => {
         this.customerContactList = res.data
+        this.searchLoading3=false
       }))
     },
     // 客户联系人改变
-    changeCustomerContact(){
-      // 遍历收获联系人数组
-      for (let customerContactListElement of this.customerContactList) {
-        if(customerContactListElement.id==this.planForm.customerContact){
-          // 取出phone,赋值
-          this.planForm.contactInformation=customerContactListElement.phone
-          break
-        }
-      }
+    changeCustomerContact(value){
+      // 联系人赋值
+      this.planForm.customerContact=value.id
+      // 电话赋值
+      this.planForm.contactInformation=value.phone
     },
     // 新增报表项
     createReport() {
@@ -1036,7 +1052,7 @@ export default {
     // 确定选中订单
     doSelectedOrders(){
       let myProductIds=[]
-      this.orderList.forEach(function(e) {
+      this.$refs.orderListTable.selection.forEach(function(e) {
         myProductIds.push(e.productId);
       })
       // 获取SAP财务核算收入列表
@@ -1075,7 +1091,7 @@ export default {
           }
           updatePlanApi(this.planForm).then(res => {
             this.$message({
-              message: '新增完成',
+              message: '更新完成',
               type: 'success'
             });
             // 关闭表单

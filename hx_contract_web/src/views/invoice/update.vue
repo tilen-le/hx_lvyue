@@ -182,7 +182,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="收货地址" prop="configName">
+            <el-form-item label="收货地址" prop="address">
               <el-input
                 style="width: 90%"
                 disabled
@@ -200,14 +200,14 @@
         <el-table :data="invoiceForm.productList" border
                   style="margin-top: 15px;width: 100%"
                   row-key="id">
-          <el-table-column label="行项目号" align="center" key="sapDetailNumber" prop="sapDetailNumber"
+          <el-table-column label="产品编码" align="center" key="productNumber" prop="productNumber"
                            width="160"/>
           <el-table-column label="产品型号" align="center" key="productModel" prop="productModel"
                            width="150"/>
+          <el-table-column label="SPA明细编码" align="center" key="sapDetailNumber" prop="sapDetailNumber"
+                           width="150"/>
           <el-table-column label="产品名称" align="center" key="productName" prop="productName"
                            width="200"/>
-          <el-table-column label="SPA明细编码" align="center" key="productNumber" prop="productNumber"
-                           width="150"/>
           <el-table-column label="已下单数量" align="center" key="num" prop="num"
                            width="150"/>
           <el-table-column label="单位" align="center" key="unit" prop="unit"
@@ -277,7 +277,8 @@
               />
             </template>
           </el-table-column>
-          <el-table-column label="税率" align="center" key="taxRate" prop="taxRate" width="150">
+          <el-table-column label="税率" align="center" key="taxRate" prop="taxRate"
+                           width="150">
           </el-table-column>
           <el-table-column label="客户物料名称" align="center" key="customerMaterialName" prop="customerMaterialName"
                            width="150">
@@ -325,30 +326,37 @@
           <span>附件(送货单和验收单必需上传)</span>
         </div>
         <el-form-item label=" " label-width="10px" prop="files">
-          <fileUpload v-model="invoiceForm.files" :valueJson="true" style="margin: 15px"/>
+          <fileUpload v-model="invoiceForm.ossList" :valueJson="true" style="margin: 15px"/>
         </el-form-item>
       </div>
     </el-form>
     <div style="text-align: center">
-      <el-button :loading="buttonLoading" type="primary" @click="submitForm(3)" v-hasPermi="['invoice:list:add']">保存为草稿</el-button>
-      <el-button :loading="buttonLoading" type="primary" @click="submitForm(0)" v-hasPermi="['invoice:list:add']">提交审核</el-button>
-      <el-button @click="cancel">取 消</el-button>
+      <el-button @click="submitForm(3)" type="primary"
+                 v-show="approvalStatus=='2' || approvalStatus=='3' || approvalStatus=='4'">
+        保存为草稿</el-button>
+      <el-button @click="submitForm(0)" type="primary"
+                 v-show="approvalStatus=='2' || approvalStatus=='3' || approvalStatus=='4'">
+        提交审核</el-button>
     </div>
   </div>
 </template>
 
 <script>
-import {getOrderDetail} from "@/api/order";
+
 import {listAvailableBank} from "@/api/system/bank";
 import {getAddressByCode, getOpenBankByBe, listCustomer} from "@/api/customer";
-import {addInvoice} from "@/api/invoice";
+import {updateInvoice} from "@/api/invoice";
+import {getInvoiceDetail,approveInvoice} from "@/api/invoice";
 
 export default {
   name: "createInvoice",
   dicts: ['invoice_type', 'finance_cate'],
   data() {
     return {
-      invoiceForm: {},
+      invoiceForm: {
+        ossList: [],
+        productList: []
+      },
       saleBank: [],
       openBank: [],
       address: [],
@@ -379,15 +387,86 @@ export default {
         ],
         unit: [
           {required: true, message: "请填写单位", trigger: "blur"},
-        ],
-      }
+        ]
+      },
+      approvalStatus: null
     }
   },
   created() {
-    this.getOrderDetail()
     this.getSaleBank()
+    this.getInvoiceInfo()
   },
   methods: {
+    getInvoiceInfo() {
+      const oid = this.$route.params.oid;
+      const params = {id: oid}
+      getInvoiceDetail(params).then(res => {
+        const result = res.data;
+        this.remoteMethod(result.fcOrderInvoice.consigneeId)
+        this.getOpenBank(result.fcOrderInvoice.consigneeId)
+        this.approvalStatus = result.fcOrderInvoice.approvalStatus
+        this.invoiceForm = {
+          orderId: result.fcOrderInvoice.orderId,
+          orderTitle: result.fcOrderInvoice.orderTitle,
+          consigneeId: result.fcOrderInvoice.consigneeId,
+          consignmentId: result.fcOrderInvoice.consignmentId,
+          bilee: result.fcOrderInvoice.customer,
+          ossList: result.ossList,
+          invoiceType: result.fcOrderInvoice.invoiceType,
+          saleBank: result.fcOrderInvoice.saleBank,
+          openingBank: result.fcCustomerInvoice.id,
+          arrivalDate: result.fcOrderInvoice.arrivalDate,
+          checkDate: result.fcOrderInvoice.checkDate,
+          totalAmountWithTax: result.fcOrderInvoice.totalAmountWithTax,
+          totalAmountWithoutTax: result.fcOrderInvoice.totalAmountWithoutTax,
+          tax: result.fcOrderInvoice.tax,
+        }
+        if (result.fcCustomerConsignment) {
+          this.invoiceForm.mobile = result.fcCustomerConsignment.phone;
+          this.invoiceForm.address = result.fcCustomerConsignment.location.replaceAll(",", "") + result.fcCustomerConsignment.address
+        }
+
+        if (result.fcOrderInvoiceDetail) {
+          const models = []
+          result.fcOrderInvoiceDetail.map(item => {
+            const el = {
+              id: item.id,
+              orderProductId:item.orderProductId,
+              sapDetailNumber: item.product.sapDetailNumber,
+              productModel: item.product.productModel,
+              productName: item.product.productName,
+              productNumber: item.product.productNumber,
+              num: item.product.num,
+              unit: item.unit,
+              sapFinancialCode: item.sapFinancialCode,
+              factory: result.fcOrderInvoice.factory,
+              inTransitNum: item.product.inTransitNum,
+              appliedQuantity: item.appliedQuantity,
+              unitPrice: item.product.unitPrice,
+              invoicingUnitPriceWithTax: item.invoicingUnitPriceWithTax,
+              taxRate: item.product.taxRate,
+              customerMaterialName: item.customerMaterialName,
+              customerSpecName: item.customerSpecName,
+              invoicingAmountWithTax: item.invoicingAmountWithTax
+            }
+            models.push(el)
+          })
+          this.invoiceForm.productList = models
+        } else {
+          this.invoiceForm.productList = []
+        }
+      })
+    },
+    remoteMethod(query) {
+      const params = {
+        code: query,
+        name: query
+      }
+      listCustomer(params).then(res => {
+        this.receiveInvoice = res.rows
+      })
+    },
+
     invoiceUnitPrice(val, row) {
       if (row.invoicingUnitPriceWithTax && row.appliedQuantity) {
         const totalAmount = row.invoicingUnitPriceWithTax * row.appliedQuantity
@@ -433,25 +512,7 @@ export default {
         }
       })
     },
-    getOrderDetail() {
-      const oid = this.$route.params.oid;
-      const params = {id: oid}
-      getOrderDetail(params).then(res => {
-        const order = res.data.order
-        this.remoteMethod(order.bileeCd)
-        this.invoiceForm = {
-          orderId: order.id,
-          orderTitle: order.orderTitle,
-          soldToPartyCd: order.soldToPartyCd,
-          consigneeId: order.bileeCd,
-          totalAmountWithTax: undefined,
-          totalAmountWithoutTax: undefined,
-          tax: undefined
-        }
-        this.getOpenBank(order.bileeCd)
-        this.handleProduct(res.data.products, order)
-      })
-    },
+
     clear(row) {
       row.unit = undefined
       row.sapFinancialCode = undefined
@@ -465,41 +526,7 @@ export default {
     cancel() {
       this.$router.go(-1)
     },
-    handleProduct(val, order) {
-      const models = []
-      val.map(item => {
-        const pa = {
-          orderProductId:item.id,
-          taxRate: item.taxRate,
-          productNumber: item.productNumber,
-          productModel: item.productModel,
-          sapDetailNumber: item.sapDetailNumber,
-          productName: item.productName,
-          num: item.num,
-          unit: "",
-          sapFinancialCode: '',
-          factory: order.factory,
-          inTransitNum: item.inTransitNum,
-          appliedQuantity: '',
-          unitPrice: item.unitPrice,
-          currency: order.currency,
-          invoicingUnitPriceWithTax: '',
-          customerMaterialName: '',
-          customerSpecName: ''
-        }
-        models.push(pa)
-      })
-      this.invoiceForm.productList = models
-    },
-    remoteMethod(query) {
-      const params = {
-        code: query,
-        name: query
-      }
-      listCustomer(params).then(res => {
-        this.receiveInvoice = res.rows
-      })
-    },
+
     getSaleBank() {
       listAvailableBank().then(res => {
         this.saleBank = res.data
@@ -526,7 +553,7 @@ export default {
     submitForm(val) {
       this.$refs["form"].validate(valid => {
         if (val === 3 || valid) {
-          this.invoiceForm.approvalStatus=val
+          this.invoiceForm.approvalStatus = val
           if (this.invoiceForm.files) {
             if(!Array.isArray(this.invoiceForm.files)){
               this.invoiceForm.files = JSON.parse(this.invoiceForm.files)
@@ -534,7 +561,7 @@ export default {
           } else {
             this.invoiceForm.files = []
           }
-          addInvoice(this.invoiceForm).then(res => {
+          updateInvoice(this.invoiceForm).then(res => {
             this.$modal.msgSuccess("提交成功");
           })
         }
@@ -544,7 +571,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .invoice-header {
   background: white;
   border-radius: 4px;

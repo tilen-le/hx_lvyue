@@ -5,6 +5,7 @@ import com.hexing.common.core.controller.BaseController;
 import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.domain.R;
 import com.hexing.common.core.page.TableDataInfo;
+import com.hexing.system.domain.FcOrder;
 import com.hexing.system.domain.FcPayment;
 import com.hexing.system.domain.FcPaymentClaim;
 import com.hexing.system.domain.FcPaymentClaimDetail;

@@ -17,3 +17,11 @@ export function undoDeliveryApi(query){
     params: query
   })
 }
+
+export function approveDelivery(data) {
+  return request({
+    url: '/order/consignment/approve',
+    method: 'post',
+    data: data
+  })
+}

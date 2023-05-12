@@ -4,7 +4,7 @@
     <div class="angel-card">
       <el-form :model="queryParams" ref="queryForm" size="small" :inline="true">
         <el-row>
-          <el-col :span="8">
+          <el-col :span="10">
             <el-form-item label="发货计划编码" prop="name">
               <el-input
                 v-model="queryParams.planCode"
@@ -14,7 +14,7 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="7">
 <!--            收货人-->
             <el-form-item label="收货方" prop="consignee">
               <el-select
@@ -36,10 +36,10 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="7">
               <el-form-item style="width:100%;text-align: right">
-                <el-button type="primary" size="mini" @click="addPlan">创建发货计划</el-button>
-                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">查询</el-button>
+                <el-button type="primary" size="mini" @click="addPlan" v-hasPermi="['delivery:plan:add']">创建发货计划</el-button>
+                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" >查询</el-button>
                 <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
               </el-form-item>
           </el-col>
@@ -50,26 +50,26 @@
     <div class="angel-card-table">
       <el-table v-loading="loading" :data="planList" border
                 row-key="id">
-        <el-table-column label="发货计划编号" align="center" key="orderNumber" prop="planCode"/>
-        <el-table-column label="INVOICE NO" align="center" key="soldToPartyCd" prop="invoiceNo"
+        <el-table-column label="发货计划编号" align="center" prop="planCode"/>
+        <el-table-column label="INVOICE NO" align="center" prop="invoiceNo"
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="客户联系人" align="center" key="status"  prop="customerContact">
+        <el-table-column label="客户联系人" align="center" prop="customerContact">
         </el-table-column>
-        <el-table-column label="联系方式" align="center" key="amount" prop="contactInformation"
+        <el-table-column label="联系方式" align="center" prop="contactInformation"
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="收货方" align="center" key="" prop="consignee"
+        <el-table-column label="收货方" align="center" prop="consignee"
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="通知方" align="center" key="" prop="notifyId"
+        <el-table-column label="通知方" align="center" prop="notifyId"
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="SHIPPING MARK" align="center" key="" prop="shippingMark"
+        <el-table-column label="SHIPPING MARK" align="center" prop="shippingMark"
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="是否报关完成" align="center" key="" prop="reportCustomsComplted"
+        <el-table-column label="是否报关完成" align="center" prop="reportCustomsComplted"
                          :show-overflow-tooltip="true">
           <template scope="scope">
             <dict-tag :options="dict.type.ynn" :value="scope.row.reportCustomsComplted"/>
           </template>
         </el-table-column>
-        <el-table-column label="是否同步SAP" align="center" key="" prop="syncSapSuccess"
+        <el-table-column label="是否同步SAP" align="center" prop="syncSapSuccess"
                          :show-overflow-tooltip="true">
           <template scope="scope">
             <dict-tag :options="dict.type.ynn" :value="scope.row.syncSapSuccess"/>
@@ -81,34 +81,36 @@
           width="160"
           class-name="small-padding fixed-width"
         >
-          <template slot-scope="scope" v-if="scope.row.userId !== 1">
+          <template slot-scope="scope">
             <el-button
+              v-show="scope.row.reportCustomsComplted==0"
               size="mini"
               type="text"
               @click="notifyCommissioner(scope.row)"
-              v-hasPermi="['system:user:edit']"
+              v-hasPermi="['invoice:list:add']"
             >通知单证专员
             </el-button>
             <el-button
+              v-show="scope.row.reportCustomsComplted==0"
               size="mini"
               type="text"
               @click="completeCustomsDeclaration(scope.row)"
-              v-hasPermi="['system:user:edit']"
+              v-hasPermi="['invoice:list:add']"
             >报关完成
             </el-button>
             <el-button
-              v-show="scope.row.customsDeclarationCompleted==1"
+              v-show="scope.row.reportCustomsComplted==1"
               size="mini"
               type="text"
               @click="synchronizeSAP(scope.row)"
-              v-hasPermi="['system:user:edit']"
+              v-hasPermi="['invoice:list:add']"
             >同步SAP
             </el-button>
             <el-button
               size="mini"
               type="text"
               @click="toDetail(scope.row)"
-              v-hasPermi="['system:user:edit']"
+              v-hasPermi="['delivery:plan:add']"
             >详情
             </el-button>
 <!--            同步完成后不可编辑-->
@@ -117,7 +119,7 @@
               size="mini"
               type="text"
               @click="toEdit(scope.row)"
-              v-hasPermi="['system:user:edit']"
+              v-hasPermi="['delivery:plan:add']"
             >编辑
             </el-button>
           </template>
@@ -136,6 +138,7 @@
 
 <script>
 import { completeCustomsDeclarationApi, listPlanApi, notifyCommissionerApi, synchronizeSAPApi } from '@/api/plan'
+import { listCustomer } from '@/api/customer'
 
 export default {
   name: "index",
@@ -188,7 +191,7 @@ export default {
     // 通知专证专员
     notifyCommissioner(row){
       let param={
-
+        id: row.id
       }
       notifyCommissionerApi(param).then(res=>{
         this.$message({
@@ -200,7 +203,7 @@ export default {
     // 报关完成
     completeCustomsDeclaration(row){
       let param={
-
+        id: row.id
       }
       completeCustomsDeclarationApi(param).then(res=>{
         this.$message({
@@ -210,17 +213,28 @@ export default {
         this.handleQuery();
       })
     },
-    // 同步sap
+    // 同步sap（二次确认）
     synchronizeSAP(row){
-      let param={
-
-      }
-      synchronizeSAPApi(param).then(res=>{
+      this.$confirm('此订单将会同步sap, 请问您是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        let param={
+          id: row.id
+        }
+        synchronizeSAPApi(param).then(res=>{
+          this.$message({
+            message: 'SAP同步已完成',
+            type: 'success'
+          });
+        })
+      }).catch(() => {
         this.$message({
-          message: 'SAP同步已完成',
-          type: 'success'
+          type: 'info',
+          message: '已取消'
         });
-      })
+      });
     },
     // 跳转详情
     toDetail(row){

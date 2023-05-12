@@ -138,6 +138,7 @@
               type="text"
               style="margin-left: 5px"
               @click="addAllAmount(scope.row, scope.$index)"
+              v-hasPermi="['payment:claim:all']"
             >全部
             </el-button>
           </template>
@@ -151,6 +152,7 @@
             <el-button
               type="text"
               @click="handleRemovePrice(scope.row, scope.$index)"
+              v-hasPermi="['payment:create:create:delete']"
             >删除
             </el-button>
           </template>
@@ -158,7 +160,7 @@
       </el-table>
     </div>
     <div style="text-align: end;margin-top: 30px">
-      <el-button :loading="buttonLoading" type="primary" @click="submitForm">保存</el-button>
+      <el-button :loading="buttonLoading" type="primary" @click="submitForm" v-hasPermi="['payment:claim:add']">保存</el-button>
       <el-button @click="close">取 消</el-button>
     </div>
   </div>

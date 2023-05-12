@@ -108,7 +108,7 @@
               size="mini"
               type="text"
               @click="cancel(scope.row)"
-              v-hasPermi="['claim:list:cancel']"
+              v-hasPermi="['payment:detail:cancel']"
             >撤销
             </el-button>
           </template>

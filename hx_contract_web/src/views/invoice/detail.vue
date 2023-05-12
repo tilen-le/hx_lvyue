@@ -4,109 +4,40 @@
       <div style="display: flex;justify-content: space-between;align-items: center">
         <div>
           <span>开票编号：</span>
-          {{ invoiceForm.invoiceNumber }}
+          {{ fcOrderInvoice.invoiceNumber }}
+        </div>
+        <div>
+          <el-button @click="approveInvoice(1)" type="primary" v-show="invoiceForm.hasConsApprove && fcOrderInvoice.approvalStatus=='0'">
+            审批通过</el-button>
+          <el-button @click="approveInvoice(2)" type="primary" v-show="invoiceForm.hasConsApprove && fcOrderInvoice.approvalStatus=='0'">
+            审批驳回</el-button>
+          <i class="el-icon-close" style="cursor: pointer;margin-left: 15px" @click="close"></i>
         </div>
       </div>
     </div>
-    <!--    开票信息 -->
-    <div class="claim-header">
-      <div style="display: flex;align-items: center">
-        <div class="line-item"></div>
-        <span>开票信息</span>
-      </div>
-      <el-row style="margin: 15px">
-        <el-col :span="6">
-          <div>
-            <span>开票类型: 标准开票</span>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div>
-            <span>订单名称: {{ invoiceForm.id }}</span>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div>
-            <span>客户名称: {{ invoiceForm.soldToPartyCd }}</span>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div>
-            <span>发票类型: {{ invoiceForm.invoiceType }}</span>
-          </div>
-        </el-col>
-      </el-row>
-      <el-row style="margin: 15px">
-        <el-col :span="6">
-          <div>
-            <span>买方银行: {{ invoiceForm.saleBank }}</span>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div>
-            <span>收票方: {{ invoiceForm.consigneeId}}</span>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div>
-            <span>开户行: {{ invoiceForm.openingBank}}</span>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div>
-            <span>送货日期: {{ invoiceForm.arrivalDate }}</span>
-          </div>
-        </el-col>
-      </el-row>
-      <el-row style="margin: 15px">
-        <el-col :span="6">
-          <div>
-            <span>验收日期: {{ invoiceForm.checkDate }}</span>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div>
-            <span>含税金额合计: {{ invoiceForm.totalAmountWithTax }}</span>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div>
-            <span>不含税金额合计: {{ invoiceForm.totalAmountWithoutTax }}</span>
-          </div>
-        </el-col>
-      </el-row>
-      <el-row style="margin: 15px">
-        <el-col :span="6">
-          <div>
-            <span>是否退开票: {{ invoiceForm.amount }}</span>
-          </div>
-        </el-col>
-      </el-row>
-    </div>
-    <!--    客户接受信息-->
-    <div class="claim-header">
-      <div style="display: flex;align-items: center">
-        <div class="line-item"></div>
-        <span>客户接受信息</span>
-      </div>
-      <el-row style="margin: 15px">
-        <el-col :span="6">
-          <div>
-            <span>收件人: {{ customerGetMsg.name }}</span>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div>
-            <span>联系电话: {{ customerGetMsg.phone }}</span>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div>
-            <span>收货人地址: {{ customerGetMsg.address }}</span>
-          </div>
-        </el-col>
-      </el-row>
-    </div>
+
+    <el-descriptions title="开票信息" size="medium" border :column="3">
+      <el-descriptions-item label="开票信息">开票类型: 标准开票</el-descriptions-item>
+      <el-descriptions-item label="订单名称">{{ fcOrderInvoice.orderTitle}}</el-descriptions-item>
+      <el-descriptions-item label="客户名称">{{ fcOrderInvoice.customer }}</el-descriptions-item>
+      <el-descriptions-item label="发票类型">
+        <dict-tag :options="dict.type.invoice_type" :value="fcOrderInvoice.invoiceType"/>
+      </el-descriptions-item>
+      <el-descriptions-item label="卖方银行">{{ fcOrderInvoice.saleBankName }}</el-descriptions-item>
+      <el-descriptions-item label="收票方">{{ fcOrderInvoice.consigneeName }}</el-descriptions-item>
+      <el-descriptions-item label="开户行">{{ invoiceForm.fcCustomerInvoice.openingBank }}</el-descriptions-item>
+      <el-descriptions-item label="送货日期">{{ fcOrderInvoice.arrivalDate }}</el-descriptions-item>
+      <el-descriptions-item label="验收日期">{{ fcOrderInvoice.checkDate }}</el-descriptions-item>
+      <el-descriptions-item label="含税金额合计">{{ fcOrderInvoice.totalAmountWithTax }}</el-descriptions-item>
+      <el-descriptions-item label="不含税金额合计">{{  fcOrderInvoice.totalAmountWithoutTax}}</el-descriptions-item>
+    </el-descriptions>
+    <el-descriptions title="客户接收信息" size="medium" border :column="3">
+      <el-descriptions-item label="收件人">{{ fcCustomerConsignment.name }}</el-descriptions-item>
+      <el-descriptions-item label="联系电话">{{ fcCustomerConsignment.phone }}</el-descriptions-item>
+      <el-descriptions-item label="收货地址">{{ fcCustomerConsignment.location }}</el-descriptions-item>
+      <el-descriptions-item label="收货人地址">{{ fcCustomerConsignment.address }}</el-descriptions-item>
+    </el-descriptions>
+
     <!--    开票明细-->
     <div class="claim-header">
       <div style="display: flex;justify-content: space-between;align-items: center;padding-right: 15px">
@@ -116,32 +47,32 @@
         </div>
       </div>
       <el-table
-        :data="invoiceDetail"
+        :data="fcOrderInvoiceDetail"
         border
         style="margin-top: 15px"
         size="mini"
       >
-        <el-table-column label="开票明细编号" align="center" prop="productNumber" min-width="120px">
+        <el-table-column label="行项目号" align="center" prop="product.sapDetailNumber" min-width="120px">
         </el-table-column>
-        <el-table-column label="订单产品" align="center" prop="productModel" min-width="120px">
+        <el-table-column label="产品型号" align="center" prop="product.productModel" min-width="120px">
         </el-table-column>
-        <el-table-column label="产品型号" align="center" prop="productModel" min-width="120px">
+        <el-table-column label="产品名称" align="center" prop="product.productName" min-width="120px">
         </el-table-column>
-        <el-table-column label="SAP明细编码" align="center" prop="sapDetailNumber" min-width="120px">
-        </el-table-column>
-        <el-table-column label="产品名称" align="center" prop="productName" min-width="120px">
-        </el-table-column>
-        <el-table-column label="SAP物料编码" align="center" prop="planPayAmount" min-width="120px">
+        <el-table-column label="SAP物料编码" align="center" prop="product.productNumber" min-width="120px">
         </el-table-column>
         <el-table-column label="单位" align="center" prop="unit" min-width="120px">
         </el-table-column>
         <el-table-column label="财务软件编码" align="center" prop="sapFinancialCode" min-width="120px">
+          <template slot-scope="scope">
+            <dict-tag :options="dict.type.finance_cate" :value="scope.row.sapFinancialCode"/>
+          </template>
         </el-table-column>
         <el-table-column label="工厂" align="center" prop="factory" min-width="120px">
+            {{ fcOrderInvoice.factory }}
         </el-table-column>
         <el-table-column label="申请开票数量" align="center" prop="appliedQuantity" min-width="120px">
         </el-table-column>
-        <el-table-column label="订单含税单价" align="center" prop="unitPrice" min-width="120px">
+        <el-table-column label="订单含税单价" align="center" prop="invoicingUnitPriceWithTax" min-width="120px">
         </el-table-column>
       </el-table>
     </div>
@@ -162,7 +93,7 @@
     </div>
 
     <!--    接口日志-->
-    <div class="claim-header">
+<!--    <div class="claim-header">
       <div style="display: flex;justify-content: space-between;align-items: center;padding-right: 15px">
         <div style="display: flex;align-items: center">
           <div class="line-item"></div>
@@ -203,29 +134,32 @@
           </template>
         </el-table-column>
       </el-table>
-    </div>
+    </div>-->
   </div>
 </template>
 
 <script>
 
-import { getInvoiceDetail } from "../../api/invoice/index";
+import {getInvoiceDetail,approveInvoice} from "@/api/invoice";
 
 export default {
   name: "createClaim",
-  dicts: ['claim_progress_status', 'sys_currency','approve_status'],
+  dicts: ['invoice_type', 'finance_cate'],
   data() {
     return {
       // 开票信息
-      invoiceForm: [],
+      invoiceForm: {},
+      //主体
+      fcOrderInvoice: {},
       // 客户收信息
-      customerGetMsg: {},
+      fcCustomerConsignment: {},
       // 开票明细
-      invoiceDetail: [],
+      fcOrderInvoiceDetail: [],
       // 附件
       annex: [],
       // 接口日志列表
       logList: [],
+      id: null
     }
   },
   created() {
@@ -233,12 +167,25 @@ export default {
   },
   methods: {
     getInvoiceInfo(){
-      const params = {id:this.$route.params.oid }
+      const oid = this.$route.params.oid;
+      const params = {id: oid}
+      this.id = oid
       getInvoiceDetail(params).then(res =>{
-        this.invoiceForm = res.data.fcOrderInvoice
-        this.invoiceDetail = res.data.fcOrderInvoiceDetail
-        this.customerGetMsg = res.data.fcCustomerConsignment
+        this.invoiceForm = res.data
+        this.fcOrderInvoice = res.data.fcOrderInvoice
+        this.fcOrderInvoiceDetail = res.data.fcOrderInvoiceDetail
+        this.fcCustomerConsignment = res.data.fcCustomerConsignment
       })
+    },
+    close() {
+    },
+    approveInvoice(val) {
+      const params = {id: this.id, approvalStatus: val}
+      this.$modal.confirm('是否确认审批该开票？').then(function () {
+        approveInvoice(params).then(res => {
+          this.$modal.msgSuccess("审批成功");
+        })
+      });
     }
   }
 }

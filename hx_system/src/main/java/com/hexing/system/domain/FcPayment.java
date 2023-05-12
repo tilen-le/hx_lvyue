@@ -1,6 +1,7 @@
 package com.hexing.system.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hexing.common.core.domain.BaseEntity;
@@ -74,5 +75,8 @@ public class FcPayment extends BaseEntity {
      */
     private Date sapCreateDate;
     private String deleted;
+
+    @TableField(exist = false)
+    private Integer claimStatus;
 
 }

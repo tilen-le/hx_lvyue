@@ -100,6 +100,11 @@ public class FcOrderConsignment extends BaseEntity {
 
     private Integer syncSapStatus;
 
+    private String syncSapVoucher;
+
+    private Date syncSapTime;
+
+
     /**
      * 发货人code
      */
@@ -129,6 +134,8 @@ public class FcOrderConsignment extends BaseEntity {
     private Date productDateStart   ;
     @TableField(exist = false)
     private Date productDateEnd;
+    @TableField(exist = false)
+    private String storeKeeper;
 
 
 }

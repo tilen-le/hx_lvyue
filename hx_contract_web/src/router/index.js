@@ -138,7 +138,7 @@ export const dynamicRoutes = [
     path: '/customer/detail',
     component: Layout,
     hidden: true,
-    permissions: ['customer:all:list'],
+    permissions: ['customer:list:detail'],
     children: [
       {
         path: 'index/:cid(\\d+)',
@@ -177,6 +177,20 @@ export const dynamicRoutes = [
     ]
   },
   {
+    path: '/invoice/update',
+    component: Layout,
+    hidden: true,
+    permissions: ['invoice:list:update'],
+    children: [
+      {
+        path: 'index/:oid(\\d+)',
+        component: () => import('@/views/invoice/update.vue'),
+        name: 'Data',
+        meta: {title: '开票编辑', activeMenu: '/invoice/list'}
+      }
+    ]
+  },
+  {
     path: '/claim/create',
     component: Layout,
     hidden: true,
@@ -208,7 +222,7 @@ export const dynamicRoutes = [
     path: '/claim/detail',
     component: Layout,
     hidden: true,
-    permissions: ['payment:detail:check'],
+    permissions: ['claim:list:detail'],
     children: [
       {
         path: 'index/:cid(\\d+)',
@@ -245,13 +259,13 @@ export const dynamicRoutes = [
         meta: {title: '发货计划', activeMenu: '/delivery/plan'}
       },
       {
-        path: 'detail',
+        path: 'detail/:oid(\\d+)',
         component: () => import('@/views/delivery/plan/detail.vue'),
         name: 'Data',
         meta: {title: '发货计划详情', activeMenu: '/delivery/plan'}
       },
       {
-        path: 'edit',
+        path: 'edit/:oid(\\d+)',
         component: () => import('@/views/delivery/plan/edit.vue'),
         name: 'Data',
         meta: {title: '发货计划编辑', activeMenu: '/delivery/plan'}
@@ -275,7 +289,7 @@ export const dynamicRoutes = [
   {
     path: '/delivery/update',
     component: Layout,
-    permissions: ['delivery:plan:add'],
+    permissions: ['delivery:list:update'],
     hidden: true,
     children: [
       {
@@ -332,7 +346,7 @@ export const dynamicRoutes = [
     path: '/delivery/detail',
     component: Layout,
     hidden: true,
-    permissions: ['delivery:plan:add'],
+    permissions: ['delivery:list:detail'],
     children: [
       {
         path: 'index/:oid(\\d+)',

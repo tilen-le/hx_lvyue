@@ -7,9 +7,11 @@
           {{ deliveryForm.consignment.consigmentNumber }}
         </div>
         <div>
-          <el-button @click="approveDelivery(1)" type="primary" v-show="deliveryForm.consignment.approvalStatus=='0'">
+          <el-button @click="approveDelivery(1)" type="primary" v-hasPermi="['order:consignment:approve']" >
+          <el-button @click="approveDelivery(1)" type="primary" v-show="deliveryForm.hasConsApprove && deliveryForm.consignment.approvalStatus=='0'">
             审批通过</el-button>
-          <el-button @click="approveDelivery(2)" type="primary" v-show="deliveryForm.consignment.approvalStatus=='0'">
+          <el-button @click="approveDelivery(2)" type="primary" v-hasPermi="['order:consignment:approve']" >
+          <el-button @click="approveDelivery(2)" type="primary" v-show="deliveryForm.hasConsApprove && deliveryForm.consignment.approvalStatus=='0'">
             审批驳回</el-button>
           <i class="el-icon-close" style="cursor: pointer;margin-left: 15px" @click="close"></i>
         </div>
@@ -24,7 +26,7 @@
       <el-descriptions-item label="事业部">{{ deliveryForm.order.businessUnit }}</el-descriptions-item>
       <el-descriptions-item label="工厂">{{ deliveryForm.order.factory }}</el-descriptions-item>
       <el-descriptions-item label="仓储部经理">{{ deliveryForm.order.warehouseManager }}</el-descriptions-item>
-      <el-descriptions-item label="内销-库管员">暂未返回</el-descriptions-item>
+      <el-descriptions-item label="内销-库管员">{{ deliveryForm.consignment.storeKeeper }}</el-descriptions-item>
       <el-descriptions-item label="国内/国际营销部">{{ deliveryForm.order.marketingDepartment }}</el-descriptions-item>
       <el-descriptions-item label="交货日期">{{ deliveryForm.order.requireDeliveryDate }}</el-descriptions-item>
     </el-descriptions>
@@ -111,16 +113,16 @@
     <el-dialog title="提示" :visible.sync="submitForApprovalDialogVisible" width="30%" >
       <span> 非常抱歉，该发货单必要信息缺失，请完善后提交</span>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="submitForApprovalDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitForApprovalDialogVisible = false">编辑发货单</el-button>
+        <el-button @click="submitForApprovalDialogVisible = false"  v-hasPermi="['approve:submit:cancel']">取 消</el-button>
+        <el-button type="primary" @click="submitForApprovalDialogVisible = false" v-hasPermi="['approve:submit:edit']">编辑发货单</el-button>
       </span>
     </el-dialog>
 <!--    撤销审批弹窗-->
     <el-dialog title="提示" :visible.sync="revokeApprovalDialogVisible" width="30%">
       <span>您是否确认撤销该发货单的审批？</span>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="revokeApprovalDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="revokeApprovalDialogVisible = false">确 定</el-button>
+        <el-button @click="revokeApprovalDialogVisible = false" v-hasPermi="['approve:revoke:cancel']">取 消</el-button>
+        <el-button type="primary" @click="revokeApprovalDialogVisible = false" v-hasPermi="['approve:revoke:sure']">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -128,8 +130,7 @@
 
 <script>
   import RegionSelect from "@/components/Forms/RegionSelect.vue";
-  import {getDeliveryDetail} from '@/api/delivery';
-  import {approveDelivery} from "@/api/invoice";
+  import {getDeliveryDetail, approveDelivery} from '@/api/delivery';
 
   export default {
   name: "detail",

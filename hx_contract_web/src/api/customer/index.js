@@ -8,6 +8,13 @@ export function listCustomer(query) {
     params: query
   })
 }
+export function listCustomer2(query) {
+  return request({
+    url: '/customer/getCustomerlist',
+    method: 'get',
+    params: query
+  })
+}
 
 export function getCustomer(cid) {
   return request({

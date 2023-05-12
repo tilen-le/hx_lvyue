@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.page.TableDataInfo;
 import com.hexing.common.exception.ServiceException;
+import com.hexing.common.utils.StringUtils;
 import com.hexing.system.domain.FcApproveConfig;
+import com.hexing.system.domain.FcOrder;
 import com.hexing.system.mapper.FcApproveConfigMapper;
 import com.hexing.system.service.IFcApproveConfigService;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +53,21 @@ public class FcApproveConfigServiceImpl implements IFcApproveConfigService {
     public TableDataInfo<FcApproveConfig> listApproveConfig(FcApproveConfig fcApproveConfig, PageQuery pageQuery) {
         Page<FcApproveConfig> page = baseMapper.listPageConfig(pageQuery.build(),fcApproveConfig);
         return TableDataInfo.build(page);
+    }
+
+    public FcApproveConfig getFcApproveConfig(FcOrder order) {
+        String marketingDepartment = order.getMarketingDepartment();
+        if (StringUtils.isEmpty(marketingDepartment)){
+            if ( "ZOR1".equals(order.getSaleTypeCd())){
+                marketingDepartment = "国内";
+            }else {
+                marketingDepartment = "国外";
+            }
+        }
+        FcApproveConfig approveConfig = baseMapper.selectOne(new LambdaQueryWrapper<FcApproveConfig>()
+                .eq(FcApproveConfig::getFactory, order.getFactory())
+                .eq(FcApproveConfig::getSaleDept, order.getMarketingDepartmentId(marketingDepartment)).last("limit 1"));
+        return approveConfig;
     }
 
 }

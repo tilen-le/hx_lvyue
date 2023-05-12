@@ -313,6 +313,7 @@
                 type="text"
                 icon="el-icon-edit"
                 @click="resetRow(scope.row)"
+                v-hasPermi="['delivery:update:reset']"
               >重置
               </el-button>
             </template>
@@ -331,10 +332,10 @@
     </el-form>
     <div style="text-align: center">
 
-      <el-button @click="submitForm(3)" type="primary"
+      <el-button @click="submitForm(3)" type="primary" v-hasPermi="['order:consignment:add']"
                  v-show="deliveryForm.consignment.approvalStatus=='2' || deliveryForm.consignment.approvalStatus=='3' || deliveryForm.consignment.approvalStatus=='4'">
         保存为草稿</el-button>
-      <el-button @click="submitForm(0)" type="primary"
+      <el-button @click="submitForm(0)" type="primary" v-hasPermi="['order:consignment:add']"
                  v-show="deliveryForm.consignment.approvalStatus=='2' || deliveryForm.consignment.approvalStatus=='3' || deliveryForm.consignment.approvalStatus=='4'">
         提交审核</el-button>
     </div>
@@ -344,7 +345,7 @@
 <script>
   import RegionSelect from "@/components/Forms/RegionSelect.vue";
   import {getAddressByCode, getOpenBankByBe, listCustomer} from "@/api/customer";
-  import {addDelivery} from "@/api/invoice";
+  import {updateDelivery} from "@/api/invoice";
   import {getDeliveryDetail} from '@/api/delivery'
 
   export default {
@@ -501,7 +502,7 @@
           } else {
             this.deliveryForm.files = []
           }
-          addDelivery(this.deliveryForm).then(res => {
+          updateDelivery(this.deliveryForm).then(res => {
             this.$modal.msgSuccess("提交成功");
           })
         }

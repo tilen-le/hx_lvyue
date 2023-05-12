@@ -10,6 +10,7 @@
               type="text"
               icon="el-icon-refresh-right"
               @click="refreshCacheNames()"
+              v-hasPermi="['monitor:cache:list']"
             ></el-button>
           </div>
           <el-table
@@ -18,6 +19,7 @@
             :height="tableHeight"
             highlight-current-row
             @row-click="getCacheKeys"
+            v-hasPermi="['monitor:cache:list']"
             style="width: 100%"
           >
             <el-table-column
@@ -52,6 +54,7 @@
                   type="text"
                   icon="el-icon-delete"
                   @click="handleClearCacheName(scope.row)"
+                  v-hasPermi="['monitor:cache:list']"
                 ></el-button>
               </template>
             </el-table-column>
@@ -68,6 +71,7 @@
               type="text"
               icon="el-icon-refresh-right"
               @click="refreshCacheKeys()"
+              v-hasPermi="['monitor:cache:list']"
             ></el-button>
           </div>
           <el-table
@@ -76,6 +80,7 @@
             :height="tableHeight"
             highlight-current-row
             @row-click="handleCacheValue"
+            v-hasPermi="['monitor:cache:list']"
             style="width: 100%"
           >
             <el-table-column
@@ -102,6 +107,7 @@
                   type="text"
                   icon="el-icon-delete"
                   @click="handleClearCacheKey(scope.row)"
+                  v-hasPermi="['monitor:cache:list']"
                 ></el-button>
               </template>
             </el-table-column>
@@ -118,6 +124,7 @@
               type="text"
               icon="el-icon-refresh-right"
               @click="handleClearCacheAll()"
+              v-hasPermi="['monitor:cache:list']"
               >清理全部</el-button
             >
           </div>

@@ -22,7 +22,7 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+          <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" v-hasPermi="['system:dept:query']">搜索</el-button>
           <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
         </el-form-item>
       </el-form>
@@ -46,6 +46,7 @@
             icon="el-icon-sort"
             size="mini"
             @click="toggleExpandAll"
+            v-hasPermi="['system:dept:fold']"
           >展开/折叠
           </el-button>
         </el-col>
@@ -88,7 +89,7 @@
               type="text"
               icon="el-icon-plus"
               @click="handleAdd(scope.row)"
-              v-hasPermi="['system:dept:add']"
+              v-hasPermi="['system:dept:table:add']"
             >新增
             </el-button>
             <el-button

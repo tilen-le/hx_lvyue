@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hexing.system.mapper.FcPaymentMapper">
+
+    <select id="listFcPayment" resultType="com.hexing.system.domain.FcPayment">
+        SELECT * from fc_payment
+        <where>
+            <if test="payment.customerName!=null and payment.customerName!=''">
+                and customer_name like concat('%',#{payment.customerName}, '%')
+            </if>
+            <if test="payment.paymentNumber != null  and payment.paymentNumber!=''">
+                and payment_number like concat('%',#{payment.paymentNumber}, '%')
+            </if>
+            <if test="payment.claimStatus!=null">
+                <if test=' payment.claimStatus=="1"'>
+                    and allocated_amount = '0.00'
+                </if>
+                <if test=' payment.claimStatus=="2"'>
+                    and allocated_amount != '0.00'
+                    and allocated_amount != received_amount
+                </if>
+                <if test='payment.claimStatus == "3"'>
+                    and allocated_amount = received_amount
+                </if>
+            </if>
+
+        </where>
+        order by update_time desc
+    </select>
+</mapper>

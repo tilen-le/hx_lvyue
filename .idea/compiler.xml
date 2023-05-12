@@ -3,73 +3,23 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
-      <profile name="Maven default annotation processors profile" enabled="true">
+      <profile name="Annotation profile for hexing_lvyue" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="hexing_starter_web" />
-        <module name="hexing_starter_biz_operatelog" />
-        <module name="hexing_starter_biz_pay" />
-        <module name="hexing_report_biz" />
-        <module name="hexing_starter_monitor" />
-        <module name="hexing_report_api" />
-        <module name="hexing_starter_biz_ip" />
-        <module name="hexing_pay_api" />
-        <module name="hx_job" />
-        <module name="hx_common" />
-        <module name="hexing_starter_test" />
-        <module name="hexing_base_biz" />
-        <module name="hexing_workflow_api" />
+        <processorPath useClasspath="false">
+          <entry name="$PROJECT_DIR$/../../Downloads/MyRepo/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$PROJECT_DIR$/../../Downloads/MyRepo/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$PROJECT_DIR$/../../Downloads/MyRepo/org/projectlombok/lombok/1.18.26/lombok-1.18.26.jar" />
+          <entry name="$PROJECT_DIR$/../../Downloads/MyRepo/org/springframework/boot/spring-boot-configuration-processor/2.7.9/spring-boot-configuration-processor-2.7.9.jar" />
+        </processorPath>
         <module name="hx_system" />
-        <module name="hexing_starter_mq" />
         <module name="hx_core" />
-        <module name="hexing_system_api" />
-        <module name="hexing_starter_biz_dict" />
+        <module name="hx_job" />
         <module name="hx_resource" />
+        <module name="hx_common" />
         <module name="hx_manager" />
-        <module name="hexing_pay_biz" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="bom" target="1.5" />
-      <module name="hexing_base" target="1.8" />
-      <module name="hexing_base_api" target="1.8" />
-      <module name="hexing_common" target="1.8" />
-      <module name="hexing_core" target="1.8" />
-      <module name="hexing_manager" target="1.8" />
-      <module name="hexing_member" target="1.8" />
-      <module name="hexing_member_api" target="1.8" />
-      <module name="hexing_member_biz" target="1.8" />
-      <module name="hexing_report" target="1.8" />
-      <module name="hexing_service" target="1.8" />
-      <module name="hexing_starter_banner" target="1.8" />
-      <module name="hexing_starter_biz_data_permission" target="1.8" />
-      <module name="hexing_starter_biz_error_code" target="1.8" />
-      <module name="hexing_starter_biz_sms" target="1.8" />
-      <module name="hexing_starter_biz_social" target="1.8" />
-      <module name="hexing_starter_biz_tenant" target="1.8" />
-      <module name="hexing_starter_biz_weixin" target="1.8" />
-      <module name="hexing_starter_captcha" target="1.8" />
-      <module name="hexing_starter_desensitize" target="1.8" />
-      <module name="hexing_starter_excel" target="1.8" />
-      <module name="hexing_starter_file" target="1.8" />
-      <module name="hexing_starter_flowable" target="1.8" />
-      <module name="hexing_starter_job" target="1.8" />
-      <module name="hexing_starter_mybatis" target="1.8" />
-      <module name="hexing_starter_protection" target="1.8" />
-      <module name="hexing_starter_redis" target="1.8" />
-      <module name="hexing_starter_security" target="1.8" />
-      <module name="hexing_starter_ws" target="1.8" />
-      <module name="hexing_system" target="1.8" />
-      <module name="hexing_system_biz" target="1.8" />
-      <module name="hexing_workflow" target="1.8" />
-      <module name="hexing_workflow_biz" target="1.8" />
-      <module name="hx_oss" target="1.8" />
-      <module name="hx_sms" target="1.8" />
-      <module name="hx_test" target="1.8" />
-      <module name="hx_workflow" target="1.8" />
-      <module name="yudao" target="1.8" />
-      <module name="yudao-dependencies" target="1.5" />
-    </bytecodeTargetLevel>
   </component>
 </project>
