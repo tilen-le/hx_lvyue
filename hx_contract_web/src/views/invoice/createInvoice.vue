@@ -335,7 +335,7 @@
           <span>附件(送货单和验收单必需上传)</span>
         </div>
         <el-form-item label=" " label-width="10px" prop="fileIds">
-          <fileUpload v-model="invoiceForm.fileIds" style="margin: 15px"/>
+          <fileUpload v-model="invoiceForm.fileIds" :valueJson="true" style="margin: 15px"/>
         </el-form-item>
       </div>
     </el-form>
@@ -396,15 +396,8 @@ export default {
   created() {
     this.getOrderDetail()
     this.getSaleBank()
-    this.getOssId()
   },
   methods: {
-    getOssId(){
-      const param = invoiceForm.fileIds;
-      upload(param).then(res=>{
-            this.invoiceForm.oosId = res.data.ossid
-      })
-    },
     invoiceUnitPrice(val, row) {
       if (row.invoicingUnitPriceWithTax != undefined && row.appliedQuantity != undefined) {
         const totalAmount = row.invoicingUnitPriceWithTax * row.appliedQuantity
