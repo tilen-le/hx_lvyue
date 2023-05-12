@@ -75,13 +75,6 @@
           </div>
         </el-col>
       </el-row>
-      <el-row style="margin: 15px">
-        <el-col :span="6">
-          <div>
-            <span>是否退开票: {{ invoiceForm.amount }}</span>
-          </div>
-        </el-col>
-      </el-row>
     </div>
     <!--    客户接受信息-->
     <div class="claim-header">

@@ -201,7 +201,7 @@
                   style="margin-top: 15px;width: 100%"
                   row-key="id">
           <el-table-column label="产品编码" align="center" key="productNumber" prop="productNumber"
-                           width="150"/>
+                           width="160"/>
           <el-table-column label="产品型号" align="center" key="productModel" prop="productModel"
                            width="150"/>
           <el-table-column label="SPA明细编码" align="center" key="sapDetailNumber" prop="sapDetailNumber"
@@ -270,7 +270,7 @@
                 placeholder="请输入"
                 style="width: 70%"
                 type="number"
-                @input="(val)=>invoiceUnitPrice(val,scope.row)"
+                @input="(val)=>invoiceUnitPrice(val, scope.row)"
                 v-model="scope.row.invoicingUnitPriceWithTax"
               />
             </template>
@@ -323,7 +323,7 @@
                 size="mini"
                 type="text"
                 icon="el-icon-edit"
-                @click="clear(scope.row)">清空
+                @click="clear(scope.row)">重置
               </el-button>
             </template>
           </el-table-column>
@@ -334,8 +334,8 @@
           <div class="line-item"></div>
           <span>附件(送货单和验收单必需上传)</span>
         </div>
-        <el-form-item label=" " label-width="10px" prop="fileIds">
-          <fileUpload v-model="invoiceForm.fileIds" :valueJson="true" style="margin: 15px"/>
+        <el-form-item label=" " label-width="10px" prop="files">
+          <fileUpload v-model="invoiceForm.files" :valueJson="true" style="margin: 15px"/>
         </el-form-item>
       </div>
     </el-form>
@@ -387,7 +387,7 @@ export default {
         consignmentId: [
           {required: true, message: "请选择收件人", trigger: "blur"},
         ],
-        fileIds: [
+        files: [
           {required: true, message: "请添加", trigger: "blur"},
         ]
       }
@@ -399,33 +399,46 @@ export default {
   },
   methods: {
     invoiceUnitPrice(val, row) {
-      if (row.invoicingUnitPriceWithTax != undefined && row.appliedQuantity != undefined) {
+      debugger
+      if (row.invoicingUnitPriceWithTax && row.appliedQuantity) {
         const totalAmount = row.invoicingUnitPriceWithTax * row.appliedQuantity
-        this.invoiceForm.totalAmountWithTax = totalAmount
-        this.invoiceForm.tax = totalAmount
-        if (row.rate != undefined) {
-          this.invoiceForm.totalAmountWithoutTax = totalAmount - (1 - row.rate / 100)
-        }
         row.invoicingAmountWithTax = totalAmount
+      } else {
+        row.invoicingAmountWithTax = 0;
       }
+      this.computeTotal();
     },
     invoiceRate(val, row) {
-      if (row.invoicingUnitPriceWithTax != undefined && row.appliedQuantity != undefined) {
-        const totalAmount = row.invoicingUnitPriceWithTax * row.appliedQuantity
-        this.invoiceForm.totalAmountWithoutTax = totalAmount - (1 - row.rate / 100)
-        row.invoicingAmountWithTax = totalAmount
-      }
+      this.computeTotal();
     },
     invoiceNumChange(val, row) {
-      if (row.invoicingUnitPriceWithTax != undefined && row.appliedQuantity != undefined) {
-        const totalAmount = row.invoicingUnitPriceWithTax * row.appliedQuantityÒ
-
-        if (row.rate != undefined) {
-          this.invoiceForm.totalAmountWithoutTax = totalAmount - (1 - row.rate / 100)
-        }
-        this.invoiceForm.totalAmountWithTax = totalAmount
-        this.invoiceForm.tax = totalAmount
+      debugger
+      if (row.invoicingUnitPriceWithTax && row.appliedQuantity) {
+        const totalAmount = row.invoicingUnitPriceWithTax * row.appliedQuantity
         row.invoicingAmountWithTax = totalAmount
+      } else {
+        row.invoicingAmountWithTax = 0;
+      }
+      this.computeTotal();
+    },
+    computeTotal() {
+      debugger
+      //计算合计
+      const productList = this.invoiceForm.productList
+      if (productList) {
+        let totalAmountWithTax = 0;
+        let tax = 0;
+        for (const product of productList) {
+          if (product.invoicingAmountWithTax) {
+            totalAmountWithTax += product.invoicingAmountWithTax
+          }
+          if (product.rate) {
+            tax += (product.invoicingAmountWithTax * product.rate)
+          }
+        }
+        this.invoiceForm.totalAmountWithTax = totalAmountWithTax
+        this.invoiceForm.tax = tax
+        this.invoiceForm.totalAmountWithoutTax = (totalAmountWithTax - tax)
       }
     },
     addressChange(val) {
@@ -441,11 +454,15 @@ export default {
       const params = {id: oid}
       getOrderDetail(params).then(res => {
         const order = res.data.order
+        this.remoteMethod(order.bileeCd)
         this.invoiceForm = {
           orderId: order.id,
           orderTitle: order.orderTitle,
           soldToPartyCd: order.soldToPartyCd,
-          consigneeId: order.billee
+          consigneeId: order.bileeCd,
+          totalAmountWithTax: undefined,
+          totalAmountWithoutTax: undefined,
+          tax: undefined
         }
         this.getOpenBank(order.bileeCd)
         this.handleProduct(res.data.products, order)
@@ -460,9 +477,7 @@ export default {
       row.customerMaterialName = undefined
       row.customerSpecName = undefined
       row.invoicingAmountWithTax = undefined
-      this.invoiceForm.totalAmountWithTax = undefined
-      this.invoiceForm.tax = undefined
-      this.invoiceForm.totalAmountWithoutTax = undefined
+      this.computeTotal();
     },
     cancel() {
       this.$router.go(-1)
@@ -526,7 +541,7 @@ export default {
     },
     submitForm(val) {
       this.$refs["queryForm"].validate(valid => {
-        if (valid) {
+        if (val === 3 || valid) {
           let isUnitNum = false
           this.invoiceForm.productList.map(item => {
             if (item.unit == undefined || item.unit == '') {
@@ -538,6 +553,13 @@ export default {
             return
           }
           this.invoiceForm.approvalStatus=val
+          if (this.deliveryForm.files != null && this.deliveryForm.files != "") {
+            if(!Array.isArray(this.deliveryForm.files)){
+              this.deliveryForm.files = JSON.parse(this.deliveryForm.files)
+            }
+          } else {
+            this.deliveryForm.files = []
+          }
           addInvoice(this.invoiceForm).then(res => {
             this.$modal.msgSuccess("提交成功");
           })
