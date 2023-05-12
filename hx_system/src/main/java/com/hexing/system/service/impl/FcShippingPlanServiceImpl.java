@@ -9,6 +9,7 @@ import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.domain.R;
 import com.hexing.common.core.domain.entity.SysUser;
 import com.hexing.common.core.page.TableDataInfo;
+import com.hexing.common.exception.ServiceException;
 import com.hexing.common.utils.CodeGenerate;
 import com.hexing.common.utils.StringUtils;
 import com.hexing.system.domain.*;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.rmi.ServerException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -340,9 +342,8 @@ public class FcShippingPlanServiceImpl implements IFcShippingPlanService {
         String vf = dataJO.getString("vf");
         String message = dataJO.getString("ev_message");
         if (StringUtils.isEmpty(vl) || StringUtils.isEmpty(vf)) {
-            return R.ok(message);
+            throw new ServiceException(message);
         }
-
         //更新同步SAP是否成功为是
         fcShippingPlan.setSyncSapSuccess("1");
         planMapper.updateById(fcShippingPlan);
