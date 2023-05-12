@@ -87,13 +87,27 @@
           width="160"
           class-name="small-padding fixed-width"
         >
-          <template slot-scope="scope" v-if="scope.row.userId !== 1">
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              type="text"
+              v-show="scope.row.approvalStatus == '2' || scope.row.approvalStatus == '3' || scope.row.approvalStatus == '4'"
+              @click="updateHandle(scope.row)"
+            >编辑
+            </el-button>
             <el-button
               size="mini"
               type="text"
               @click="detail(scope.row)"
-              v-hasPermi="['system:user:edit']"
+
             >详情
+            </el-button>
+            <el-button
+              size="mini"
+              type="text"
+              v-show="scope.row.approvalStatus == '0'"
+              @click="revokeApprove(scope.row)"
+            >撤销审批
             </el-button>
           </template>
         </el-table-column>

@@ -132,21 +132,18 @@
               size="mini"
               type="text"
               @click="detail(scope.row)"
-              v-hasPermi="['system:user:edit']"
             >详情
             </el-button>
             <el-button
               size="mini"
               type="text"
               @click="addInvoice(scope.row)"
-              v-hasPermi="['system:user:edit']"
             >开票
             </el-button>
             <el-button
               size="mini"
               type="text"
               @click="delivery(scope.row)"
-              v-hasPermi="['system:user:edit']"
             >发货
             </el-button>
           </template>
