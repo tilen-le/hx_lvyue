@@ -166,6 +166,9 @@ export default {
         })
       })
     },
+    updateHandle(row) {
+      this.$router.push(`/invoice/update/index/${row.id}`)
+    },
   }
 }
 </script>

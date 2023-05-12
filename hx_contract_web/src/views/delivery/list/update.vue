@@ -330,7 +330,6 @@
       </div>
     </el-form>
     <div style="text-align: center">
-
       <el-button @click="submitForm(3)" type="primary"
                  v-show="deliveryForm.consignment.approvalStatus=='2' || deliveryForm.consignment.approvalStatus=='3' || deliveryForm.consignment.approvalStatus=='4'">
         保存为草稿</el-button>

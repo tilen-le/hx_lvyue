@@ -200,14 +200,14 @@
         <el-table :data="invoiceForm.productList" border
                   style="margin-top: 15px;width: 100%"
                   row-key="id">
-          <el-table-column label="产品编码" align="center" key="productNumber" prop="productNumber"
+          <el-table-column label="行项目号" align="center" key="sapDetailNumber" prop="sapDetailNumber"
                            width="160"/>
           <el-table-column label="产品型号" align="center" key="productModel" prop="productModel"
                            width="150"/>
-          <el-table-column label="SPA明细编码" align="center" key="sapDetailNumber" prop="sapDetailNumber"
-                           width="150"/>
           <el-table-column label="产品名称" align="center" key="productName" prop="productName"
                            width="200"/>
+          <el-table-column label="SPA明细编码" align="center" key="productNumber" prop="productNumber"
+                           width="150"/>
           <el-table-column label="已下单数量" align="center" key="num" prop="num"
                            width="150"/>
           <el-table-column label="单位" align="center" key="unit" prop="unit"
@@ -275,19 +275,7 @@
               />
             </template>
           </el-table-column>
-          <el-table-column label="税率" align="center" key="rate" prop="rate"
-                           width="150">
-            <template slot-scope="scope">
-              <el-input
-                controls-position="right"
-                :precision="2"
-                placeholder="请输入"
-                type="number"
-                @input="(val)=>invoiceRate(val,scope.row)"
-                style="width: 70%"
-                v-model="scope.row.rate"
-              />
-            </template>
+          <el-table-column label="税率" align="center" key="taxRate" prop="taxRate" width="150">
           </el-table-column>
           <el-table-column label="客户物料名称" align="center" key="customerMaterialName" prop="customerMaterialName"
                            width="150">
@@ -407,9 +395,6 @@ export default {
       }
       this.computeTotal();
     },
-    invoiceRate(val, row) {
-      this.computeTotal();
-    },
     invoiceNumChange(val, row) {
       if (row.invoicingUnitPriceWithTax && row.appliedQuantity) {
         const totalAmount = row.invoicingUnitPriceWithTax * row.appliedQuantity
@@ -429,8 +414,8 @@ export default {
           if (product.invoicingAmountWithTax) {
             totalAmountWithTax += product.invoicingAmountWithTax
           }
-          if (product.rate) {
-            tax += (product.invoicingAmountWithTax * product.rate)
+          if (product.taxRate) {
+            tax += (product.invoicingAmountWithTax * product.taxRate)
           }
         }
         this.invoiceForm.totalAmountWithTax = totalAmountWithTax
@@ -470,7 +455,6 @@ export default {
       row.sapFinancialCode = undefined
       row.appliedQuantity = undefined
       row.invoicingUnitPriceWithTax = undefined
-      row.rate = undefined
       row.customerMaterialName = undefined
       row.customerSpecName = undefined
       row.invoicingAmountWithTax = undefined
@@ -484,6 +468,7 @@ export default {
       val.map(item => {
         const pa = {
           orderProductId:item.id,
+          taxRate: item.taxRate,
           productNumber: item.productNumber,
           productModel: item.productModel,
           sapDetailNumber: item.sapDetailNumber,

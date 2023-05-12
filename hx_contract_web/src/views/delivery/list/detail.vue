@@ -24,7 +24,7 @@
       <el-descriptions-item label="事业部">{{ deliveryForm.order.businessUnit }}</el-descriptions-item>
       <el-descriptions-item label="工厂">{{ deliveryForm.order.factory }}</el-descriptions-item>
       <el-descriptions-item label="仓储部经理">{{ deliveryForm.order.warehouseManager }}</el-descriptions-item>
-      <el-descriptions-item label="内销-库管员">暂未返回</el-descriptions-item>
+      <el-descriptions-item label="内销-库管员">{{ deliveryForm.consignment.storeKeeper }}</el-descriptions-item>
       <el-descriptions-item label="国内/国际营销部">{{ deliveryForm.order.marketingDepartment }}</el-descriptions-item>
       <el-descriptions-item label="交货日期">{{ deliveryForm.order.requireDeliveryDate }}</el-descriptions-item>
     </el-descriptions>

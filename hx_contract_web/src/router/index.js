@@ -177,6 +177,20 @@ export const dynamicRoutes = [
     ]
   },
   {
+    path: '/invoice/update',
+    component: Layout,
+    hidden: true,
+    permissions: ['invoice:list:update'],
+    children: [
+      {
+        path: 'index/:oid(\\d+)',
+        component: () => import('@/views/invoice/update.vue'),
+        name: 'Data',
+        meta: {title: '开票编辑', activeMenu: '/invoice/list'}
+      }
+    ]
+  },
+  {
     path: '/claim/create',
     component: Layout,
     hidden: true,

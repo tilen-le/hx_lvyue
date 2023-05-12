@@ -23,7 +23,7 @@
       <el-descriptions-item label="发票类型">
         <dict-tag :options="dict.type.invoice_type" :value="fcOrderInvoice.invoiceType"/>
       </el-descriptions-item>
-      <el-descriptions-item label="卖方银行">{{ invoiceForm.fcSaleBank.bankName }}</el-descriptions-item>
+      <el-descriptions-item label="卖方银行">{{ fcOrderInvoice.saleBankName }}</el-descriptions-item>
       <el-descriptions-item label="收票方">{{ fcOrderInvoice.consigneeName }}</el-descriptions-item>
       <el-descriptions-item label="开户行">{{ invoiceForm.fcCustomerInvoice.openingBank }}</el-descriptions-item>
       <el-descriptions-item label="送货日期">{{ fcOrderInvoice.arrivalDate }}</el-descriptions-item>
@@ -159,6 +159,7 @@ export default {
       annex: [],
       // 接口日志列表
       logList: [],
+      id: null
     }
   },
   created() {
@@ -166,7 +167,9 @@ export default {
   },
   methods: {
     getInvoiceInfo(){
-      const params = {id:this.$route.params.oid }
+      const oid = this.$route.params.oid;
+      const params = {id: oid}
+      this.id = oid
       getInvoiceDetail(params).then(res =>{
         this.invoiceForm = res.data
         this.fcOrderInvoice = res.data.fcOrderInvoice
