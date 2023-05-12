@@ -61,7 +61,7 @@
               size="mini"
               type="text"
               @click="detail(scope.row)"
-              v-hasPermi="['system:user:edit']"
+              v-hasPermi="['claim:list:detail']"
             >详情
             </el-button>
             <el-button

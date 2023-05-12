@@ -38,8 +38,8 @@
           </el-col>
           <el-col :span="8">
               <el-form-item style="width:100%;text-align: right">
-                <el-button type="primary" size="mini" @click="addPlan">创建发货计划</el-button>
-                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">查询</el-button>
+                <el-button type="primary" size="mini" @click="addPlan" v-hasPermi="['delivery:plan:add']">创建发货计划</el-button>
+                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" >查询</el-button>
                 <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
               </el-form-item>
           </el-col>
@@ -86,14 +86,14 @@
               size="mini"
               type="text"
               @click="notifyCommissioner(scope.row)"
-              v-hasPermi="['system:user:edit']"
+              v-hasPermi="['invoice:list:add']"
             >通知单证专员
             </el-button>
             <el-button
               size="mini"
               type="text"
               @click="completeCustomsDeclaration(scope.row)"
-              v-hasPermi="['system:user:edit']"
+              v-hasPermi="['invoice:list:add']"
             >报关完成
             </el-button>
             <el-button
@@ -101,14 +101,14 @@
               size="mini"
               type="text"
               @click="synchronizeSAP(scope.row)"
-              v-hasPermi="['system:user:edit']"
+              v-hasPermi="['invoice:list:add']"
             >同步SAP
             </el-button>
             <el-button
               size="mini"
               type="text"
               @click="toDetail(scope.row)"
-              v-hasPermi="['system:user:edit']"
+              v-hasPermi="['delivery:plan:add']"
             >详情
             </el-button>
 <!--            同步完成后不可编辑-->
@@ -117,7 +117,7 @@
               size="mini"
               type="text"
               @click="toEdit(scope.row)"
-              v-hasPermi="['system:user:edit']"
+              v-hasPermi="['delivery:plan:add']"
             >编辑
             </el-button>
           </template>

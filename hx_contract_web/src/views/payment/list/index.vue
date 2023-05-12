@@ -70,14 +70,14 @@
               size="mini"
               type="text"
               @click="detail(scope.row)"
-              v-hasPermi="['system:user:edit']"
+              v-hasPermi="['payment:detail:check']"
             >详情
             </el-button>
             <el-button
               size="mini"
               type="text"
               @click="createClaim(scope.row)"
-              v-hasPermi="['system:user:edit']"
+              v-hasPermi="['payment:claim:add']"
             >回款认领
             </el-button>
           </template>

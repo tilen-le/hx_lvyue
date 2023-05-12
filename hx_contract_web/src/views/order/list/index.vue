@@ -59,8 +59,8 @@
           </el-col>
           <el-col :span="6">
             <el-form-item style="width:100%;text-align: right">
-              <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">查询</el-button>
-              <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+              <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" v-hasPermi="['order:list:query']">查询</el-button>
+              <el-button icon="el-icon-refresh" size="mini" @click="resetQuery" v-hasPermi="['order:list:reset']">重置</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -132,21 +132,21 @@
               size="mini"
               type="text"
               @click="detail(scope.row)"
-              v-hasPermi="['system:user:edit']"
+              v-hasPermi="['order:detail:check']"
             >详情
             </el-button>
             <el-button
               size="mini"
               type="text"
               @click="addInvoice(scope.row)"
-              v-hasPermi="['system:user:edit']"
+              v-hasPermi="['invoice:list:add']"
             >开票
             </el-button>
             <el-button
               size="mini"
               type="text"
               @click="delivery(scope.row)"
-              v-hasPermi="['system:user:edit']"
+              v-hasPermi="['delivery:plan:add']"
             >发货
             </el-button>
           </template>

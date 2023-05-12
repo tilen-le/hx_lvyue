@@ -58,8 +58,8 @@
         <el-row>
           <el-col :span="24">
             <el-form-item style="width:100%;text-align: right">
-              <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">查询</el-button>
-              <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+              <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" v-hasPermi="['delivery:list:query']">查询</el-button>
+              <el-button icon="el-icon-refresh" size="mini" @click="resetQuery" v-hasPermi="['delivery:list:reset']">重置</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -97,12 +97,14 @@
               type="text"
               v-show="scope.row.approvalStatus == '2' || scope.row.approvalStatus == '3' || scope.row.approvalStatus == '4'"
               @click="updateHandle(scope.row)"
+              v-hasPermi="['delivery:list:update']"
             >编辑
             </el-button>
             <el-button
               size="mini"
               type="text"
               @click="detail(scope.row)"
+              v-hasPermi="['delivery:list:detail']"
             >详情
             </el-button>
             <el-button
@@ -110,6 +112,7 @@
               type="text"
               v-show="scope.row.approvalStatus == '0'"
               @click="revokeApprove(scope.row)"
+              v-hasPermi="['order:consignment:approve']"
             >撤销审批
             </el-button>
           </template>

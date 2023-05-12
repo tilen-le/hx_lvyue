@@ -7,9 +7,9 @@
           {{ deliveryForm.consignment.consigmentNumber }}
         </div>
         <div>
-          <el-button @click="approveDelivery(1)" type="primary" v-show="deliveryForm.consignment.approvalStatus=='0'">
+          <el-button @click="approveDelivery(1)" type="primary" v-hasPermi="['order:consignment:approve']" v-show="deliveryForm.consignment.approvalStatus=='0'">
             审批通过</el-button>
-          <el-button @click="approveDelivery(2)" type="primary" v-show="deliveryForm.consignment.approvalStatus=='0'">
+          <el-button @click="approveDelivery(2)" type="primary" v-hasPermi="['order:consignment:approve']" v-show="deliveryForm.consignment.approvalStatus=='0'">
             审批驳回</el-button>
           <i class="el-icon-close" style="cursor: pointer;margin-left: 15px" @click="close"></i>
         </div>
@@ -111,16 +111,16 @@
     <el-dialog title="提示" :visible.sync="submitForApprovalDialogVisible" width="30%" >
       <span> 非常抱歉，该发货单必要信息缺失，请完善后提交</span>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="submitForApprovalDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitForApprovalDialogVisible = false">编辑发货单</el-button>
+        <el-button @click="submitForApprovalDialogVisible = false"  v-hasPermi="['approve:submit:cancel']">取 消</el-button>
+        <el-button type="primary" @click="submitForApprovalDialogVisible = false" v-hasPermi="['approve:submit:edit']">编辑发货单</el-button>
       </span>
     </el-dialog>
 <!--    撤销审批弹窗-->
     <el-dialog title="提示" :visible.sync="revokeApprovalDialogVisible" width="30%">
       <span>您是否确认撤销该发货单的审批？</span>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="revokeApprovalDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="revokeApprovalDialogVisible = false">确 定</el-button>
+        <el-button @click="revokeApprovalDialogVisible = false" v-hasPermi="['approve:revoke:cancel']">取 消</el-button>
+        <el-button type="primary" @click="revokeApprovalDialogVisible = false" v-hasPermi="['approve:revoke:sure']">确 定</el-button>
       </span>
     </el-dialog>
   </div>

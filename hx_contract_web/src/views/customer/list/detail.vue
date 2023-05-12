@@ -13,7 +13,7 @@
     <div class="angel-card-top">
       <div style="display: flex;align-items: center;margin-bottom: 15px">
         <div>客户收货信息</div>
-        <el-button type="primary" @click="createAddress" style="margin-left: 15px">创建</el-button>
+        <el-button type="primary" @click="createAddress" v-hasPermi="['customer:address:add']" style="margin-left: 15px">创建</el-button>
       </div>
       <el-table :data="address" border>
         <el-table-column label="收货人" align="center" key="name" prop="name"/>
@@ -34,7 +34,7 @@
               type="text"
               icon="el-icon-edit"
               @click="updateAddress(scope.row)"
-              v-hasPermi="['customer:address:add']"
+              v-hasPermi="['customer:msg:edit']"
             >编辑
             </el-button>
             <el-button
@@ -42,7 +42,7 @@
               type="text"
               icon="el-icon-edit"
               @click="handleDelete(scope.row)"
-              v-hasPermi="['system:user:edit']"
+              v-hasPermi="['customer:msg:delete']"
             >删除
             </el-button>
           </template>
@@ -125,7 +125,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitInvoice">确 定</el-button>
+        <el-button type="primary" @click="submitInvoice" v-hasPermi="['customer:address:add']">确 定</el-button>
         <el-button @click="cancelInvoice">取 消</el-button>
       </div>
     </el-dialog>

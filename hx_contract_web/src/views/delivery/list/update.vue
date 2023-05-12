@@ -313,6 +313,7 @@
                 type="text"
                 icon="el-icon-edit"
                 @click="resetRow(scope.row)"
+                v-hasPermi="['delivery:update:reset']"
               >重置
               </el-button>
             </template>
@@ -331,10 +332,10 @@
     </el-form>
     <div style="text-align: center">
 
-      <el-button @click="submitForm(3)" type="primary"
+      <el-button @click="submitForm(3)" type="primary" v-hasPermi="['order:consignment:add']"
                  v-show="deliveryForm.consignment.approvalStatus=='2' || deliveryForm.consignment.approvalStatus=='3' || deliveryForm.consignment.approvalStatus=='4'">
         保存为草稿</el-button>
-      <el-button @click="submitForm(0)" type="primary"
+      <el-button @click="submitForm(0)" type="primary" v-hasPermi="['order:consignment:add']"
                  v-show="deliveryForm.consignment.approvalStatus=='2' || deliveryForm.consignment.approvalStatus=='3' || deliveryForm.consignment.approvalStatus=='4'">
         提交审核</el-button>
     </div>

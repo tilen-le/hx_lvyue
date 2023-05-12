@@ -340,8 +340,8 @@
       </div>
     </el-form>
     <div style="text-align: center">
-      <el-button :loading="buttonLoading" type="primary" @click="submitForm(3)">保存为草稿</el-button>
-      <el-button :loading="buttonLoading" type="primary" @click="submitForm(0)">提交审核</el-button>
+      <el-button :loading="buttonLoading" type="primary" @click="submitForm(3)" v-hasPermi="['invoice:list:add']">保存为草稿</el-button>
+      <el-button :loading="buttonLoading" type="primary" @click="submitForm(0)" v-hasPermi="['invoice:list:add']">提交审核</el-button>
       <el-button @click="cancel">取 消</el-button>
     </div>
   </div>
@@ -351,7 +351,7 @@
 import {getOrderDetail} from "@/api/order";
 import {listAvailableBank} from "@/api/system/bank";
 import {getAddressByCode, getOpenBankByBe, listCustomer} from "@/api/customer";
-import {addInvoice,upload} from "@/api/invoice";
+import {addInvoice} from "@/api/invoice";
 
 export default {
   name: "createInvoice",

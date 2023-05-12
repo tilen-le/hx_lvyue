@@ -46,7 +46,7 @@
             type="primary"
             icon="el-icon-plus"
             @click="handleAddInvoice"
-            v-hasPermi="['approve:config:add']"
+            v-hasPermi="['approve:invoice:add']"
           >新建
           </el-button>
           <el-table v-loading="loading" :data="invoice" border style="margin-top: 15px">
@@ -64,7 +64,7 @@
                   type="text"
                   icon="el-icon-edit"
                   @click="handleInvoiceUpdate(scope.row)"
-                  v-hasPermi="['approve:config:update']"
+                  v-hasPermi="['approve:invoice:update']"
                 >修改
                 </el-button>
                 <el-button
@@ -72,7 +72,7 @@
                   type="text"
                   icon="el-icon-delete"
                   @click="handleDelete(scope.row)"
-                  v-hasPermi="['approve:config:remove']"
+                  v-hasPermi="['approve:invoice:remove']"
                 >删除
                 </el-button>
               </template>
@@ -125,7 +125,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handleDeliveryAdd">确 定</el-button>
+        <el-button type="primary" @click="handleDeliveryAdd" v-hasPermi="['approve:config:add','approve:config:update']">确 定</el-button>
         <el-button @click="showDelivery = false">取 消</el-button>
       </div>
     </el-dialog>
@@ -163,7 +163,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handleInvoiceAdd">确 定</el-button>
+        <el-button type="primary" @click="handleInvoiceAdd"  v-hasPermi="['approve:config:add','approve:config:update']">确 定</el-button>
         <el-button @click="showInvoice = false">取 消</el-button>
       </div>
     </el-dialog>

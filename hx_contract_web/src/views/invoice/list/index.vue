@@ -92,7 +92,7 @@
               size="mini"
               type="text"
               @click="detail(scope.row)"
-              v-hasPermi="['system:user:edit']"
+              v-hasPermi="['invoice:list:add']"
             >详情
             </el-button>
           </template>

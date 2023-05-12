@@ -481,7 +481,7 @@
             <div class="line-item"></div>
             <span>实际业务报关信息</span>
           </div>
-          <el-button type="primary" icon="el-icon-plus" @click="createReport" style="margin-left: 15px">添加行
+          <el-button type="primary" icon="el-icon-plus" @click="createReport"  style="margin-left: 15px">添加行
           </el-button>
         </div>
         <el-table
@@ -712,8 +712,8 @@
       </div>
     </el-form>
     <div style="text-align: right">
-      <el-button type="primary" @click="submitForm">提交</el-button>
-      <el-button @click="cancel">取 消</el-button>
+      <el-button type="primary" @click="submitForm" v-hasPermi="['order:shippingPlan:add']">提交</el-button>
+      <el-button @click="cancel" >取 消</el-button>
     </div>
 <!--    订单列表选择弹窗-->
     <el-dialog title="SAP财务核算收入新增" :visible.sync="dialogVisible" >

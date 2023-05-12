@@ -10,12 +10,12 @@
           </div>
           <div>
             <el-button size="mini" type="text" @click="notifyCommissioner"
-                       v-hasPermi="['system:user:edit']" >通知单证专员</el-button>
+                       v-hasPermi="['invoice:list:add']" >通知单证专员</el-button>
             <el-button size="mini" type="text" @click="completeCustomsDeclaration"
-              v-hasPermi="['system:user:edit']">报关完成</el-button>
+              v-hasPermi="['invoice:list:add']">报关完成</el-button>
             <el-button v-show="scope.row.customsDeclarationCompleted==1"
               size="mini" type="text" @click="synchronizeSAP"
-              v-hasPermi="['system:user:edit']" >同步SAP
+              v-hasPermi="['invoice:list:add']" >同步SAP
             </el-button>
           </div>
         </div>

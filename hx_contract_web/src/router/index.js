@@ -138,7 +138,7 @@ export const dynamicRoutes = [
     path: '/customer/detail',
     component: Layout,
     hidden: true,
-    permissions: ['customer:all:list'],
+    permissions: ['customer:list:detail'],
     children: [
       {
         path: 'index/:cid(\\d+)',
@@ -208,7 +208,7 @@ export const dynamicRoutes = [
     path: '/claim/detail',
     component: Layout,
     hidden: true,
-    permissions: ['payment:detail:check'],
+    permissions: ['claim:list:detail'],
     children: [
       {
         path: 'index/:cid(\\d+)',
@@ -275,7 +275,7 @@ export const dynamicRoutes = [
   {
     path: '/delivery/update',
     component: Layout,
-    permissions: ['delivery:plan:add'],
+    permissions: ['delivery:list:update'],
     hidden: true,
     children: [
       {
@@ -332,7 +332,7 @@ export const dynamicRoutes = [
     path: '/delivery/detail',
     component: Layout,
     hidden: true,
-    permissions: ['delivery:plan:add'],
+    permissions: ['delivery:list:detail'],
     children: [
       {
         path: 'index/:oid(\\d+)',
