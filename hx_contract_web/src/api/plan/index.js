@@ -18,7 +18,7 @@ export function addPlanApi(data) {
 // 更新计划
 export function updatePlanApi(data) {
   return request({
-    url: '/invoice/add',
+    url: '/order/shippingPlan/updateFcShippingPlan',
     method: 'post',
     data: data
   })
@@ -32,19 +32,19 @@ export function detailPlanApi(query) {
   })
 }
 // 通知专证专员
-export function notifyCommissionerApi(query) {
+export function notifyCommissionerApi(data) {
   return request({
-    url: '/invoice/add',
-    method: 'get',
-    params: query
+    url: '/order/shippingPlan/noticeDocumentSpecialist',
+    method: 'post',
+    data: data
   })
 }
 // 报关完成
-export function completeCustomsDeclarationApi(query) {
+export function completeCustomsDeclarationApi(data) {
   return request({
-    url: '/invoice/add',
-    method: 'get',
-    params: query
+    url: '/order/shippingPlan/reportCustomsCompleted',
+    method: 'post',
+    data: data
   })
 }
 
@@ -57,10 +57,10 @@ export function listPlanApi(query) {
   })
 }
 // 同步sap
-export function synchronizeSAPApi(query) {
+export function synchronizeSAPApi(data) {
   return request({
-    url: '/invoice/add',
-    method: 'get',
-    params: query
+    url: '/order/shippingPlan/shippingPlanSyncSap',
+    method: 'post',
+    data: data
   })
 }

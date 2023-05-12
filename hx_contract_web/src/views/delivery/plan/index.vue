@@ -81,8 +81,9 @@
           width="160"
           class-name="small-padding fixed-width"
         >
-          <template slot-scope="scope" v-show="scope.row.reportCustomsComplted == 1">
+          <template slot-scope="scope">
             <el-button
+              v-show="scope.row.reportCustomsComplted==0"
               size="mini"
               type="text"
               @click="notifyCommissioner(scope.row)"
@@ -90,6 +91,7 @@
             >通知单证专员
             </el-button>
             <el-button
+              v-show="scope.row.reportCustomsComplted==0"
               size="mini"
               type="text"
               @click="completeCustomsDeclaration(scope.row)"
@@ -97,7 +99,7 @@
             >报关完成
             </el-button>
             <el-button
-              v-show="null!=scope.row.reportCustomsComplted&&scope.row.syncSapSuccess==1"
+              v-show="scope.row.reportCustomsComplted==1"
               size="mini"
               type="text"
               @click="synchronizeSAP(scope.row)"
@@ -189,7 +191,7 @@ export default {
     // 通知专证专员
     notifyCommissioner(row){
       let param={
-
+        id: row.id
       }
       notifyCommissionerApi(param).then(res=>{
         this.$message({
@@ -201,7 +203,7 @@ export default {
     // 报关完成
     completeCustomsDeclaration(row){
       let param={
-
+        id: row.id
       }
       completeCustomsDeclarationApi(param).then(res=>{
         this.$message({
@@ -211,17 +213,28 @@ export default {
         this.handleQuery();
       })
     },
-    // 同步sap
+    // 同步sap（二次确认）
     synchronizeSAP(row){
-      let param={
-
-      }
-      synchronizeSAPApi(param).then(res=>{
+      this.$confirm('此订单将会同步sap, 请问您是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        let param={
+          id: row.id
+        }
+        synchronizeSAPApi(param).then(res=>{
+          this.$message({
+            message: 'SAP同步已完成',
+            type: 'success'
+          });
+        })
+      }).catch(() => {
         this.$message({
-          message: 'SAP同步已完成',
-          type: 'success'
+          type: 'info',
+          message: '已取消'
         });
-      })
+      });
     },
     // 跳转详情
     toDetail(row){

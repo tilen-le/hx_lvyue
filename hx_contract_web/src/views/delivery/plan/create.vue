@@ -89,7 +89,7 @@
             <el-form-item label="客户联系人" prop="customerContact">
               <el-select
                 @focus="changeConsignee"
-                v-model="planForm.customerContact"
+                v-model="planForm.customerContactItem"
                 style="width: 90%"
                 placeholder="请输入"
                 @change="changeCustomerContact"
@@ -622,7 +622,7 @@
                 v-model="scope.row.sapSyncFlag"
                 placeholder="请输入">
                 <el-option
-                  v-for="dict in dict.type.sys_yes_no"
+                  v-for="dict in dict.type.ynn"
                   :key="dict.value"
                   :label="dict.label"
                   :value="dict.value">
@@ -740,7 +740,7 @@ export default {
   name: "create",
   components: {Treeselect},
   dicts: ['sys_customer_status', 'sys_currency', 'continent', 'sys_y_n', 'sys_receive_master',
-    'sys_trans_category', 'trade_type', 'pol_cate', 'exs_cate', 'sold_for','sys_yes_no'],
+    'sys_trans_category', 'trade_type', 'pol_cate', 'exs_cate', 'sold_for','sys_yes_no','ynn'],
   data() {
     return {
       planForm: {
@@ -862,6 +862,8 @@ export default {
     // 下拉框--远程获取人员信息
     remoteMethod(query) {
       setTimeout(() => {
+        if(null==query||""==query)
+          return
         const params = {
           code: query,
           name: query
@@ -875,6 +877,8 @@ export default {
     // 下拉框--远程获取人员信息
     remoteMethod2(query) {
       setTimeout(() => {
+        if(null==query||""==query)
+          return
         const params = {
           code: query,
           name: query
@@ -888,6 +892,8 @@ export default {
     // 下拉框--远程获取人员信息
     remoteMethod3(query) {
       setTimeout(() => {
+        if(null==query||""==query)
+          return
         const params = {
           code: query,
           name: query
@@ -925,10 +931,8 @@ export default {
     },
     // 客户联系人改变
     changeCustomerContact(value){
-      console.log('************************************')
-      console.log(value)
       // 联系人赋值
-      this.planForm.contactInformation=value.phone
+      this.planForm.customerContact=value.id
       // 电话赋值
       this.planForm.contactInformation=value.phone
     },
@@ -996,7 +1000,7 @@ export default {
     // 确定选中订单
     doSelectedOrders(){
       let myProductIds=[]
-      this.orderList.forEach(function(e) {
+      this.$refs.orderListTable.selection.forEach(function(e) {
         myProductIds.push(e.productId);
       })
       // 获取SAP财务核算收入列表

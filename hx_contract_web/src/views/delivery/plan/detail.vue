@@ -10,12 +10,14 @@
           </div>
           <div>
             <el-button size="mini" type="text" @click="notifyCommissioner"
+                       v-show="null!=planForm.reportCustomsComplted&&planForm.reportCustomsComplted==0"
                        v-hasPermi="['system:user:edit']" >通知单证专员</el-button>
             <el-button size="mini" type="text" @click="completeCustomsDeclaration"
-              v-hasPermi="['system:user:edit']">报关完成</el-button>
-            <el-button v-show="planForm.sync_sap_success==1"
-              size="mini" type="text" @click="synchronizeSAP"
-              v-hasPermi="['system:user:edit']" >同步SAP
+                       v-show="null!=planForm.reportCustomsComplted&&planForm.reportCustomsComplted==0"
+                       v-hasPermi="['system:user:edit']">报关完成</el-button>
+            <el-button v-show="null!=planForm.reportCustomsComplted&&planForm.reportCustomsComplted==1"
+                       size="mini" type="text" @click="synchronizeSAP"
+                       v-hasPermi="['system:user:edit']" >同步SAP
             </el-button>
           </div>
         </div>
@@ -244,9 +246,8 @@ export default {
     },
     // 通知专证专员
     notifyCommissioner(){
-      this.planForm.planId
       let param={
-
+        id: this.planForm.planId
       }
       notifyCommissionerApi(param).then(res=>{
         this.$message({
@@ -257,9 +258,8 @@ export default {
     },
     // 报关完成
     completeCustomsDeclaration(){
-      this.planForm.planId
       let param={
-
+        id: this.planForm.planId
       }
       completeCustomsDeclarationApi(param).then(res=>{
         this.$message({
@@ -271,17 +271,27 @@ export default {
     },
     // 同步sap
     synchronizeSAP(){
-      this.planForm.planId
-      let param={
-
-      }
-      synchronizeSAPApi(param).then(res=>{
+      this.$confirm('此订单将会同步sap, 请问您是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        let param={
+          id: this.planForm.planId
+        }
+        synchronizeSAPApi(param).then(res=>{
+          this.$message({
+            message: 'SAP同步已完成',
+            type: 'success'
+          });
+          this.getPlanDetail();
+        })
+      }).catch(() => {
         this.$message({
-          message: 'SAP同步已完成',
-          type: 'success'
+          type: 'info',
+          message: '已取消'
         });
-        this.getPlanDetail();
-      })
+      });
     },
     // 提交表单
     submitForm(){
