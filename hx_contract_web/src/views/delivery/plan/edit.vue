@@ -56,9 +56,9 @@
                 :loading="searchLoading">
                 <el-option
                   v-for="item in customer"
-                  :key="item.code"
+                  :key="item.id"
                   :label="item.name"
-                  :value="item.code">
+                  :value="item.id">
                   {{ item.name }}({{ item.code }})
                 </el-option>
               </el-select>
@@ -107,18 +107,7 @@
         <el-row style="margin: 15px 15px 0 15px">
           <el-col :span="6">
             <el-form-item label="联系方式" prop="contactInformation">
-              <el-select
-                v-model="planForm.contactInformation"
-                style="width: 90%"
-                placeholder="请输入"
-                :loading="searchLoading3">
-                <el-option
-                  v-for="item in customerContactList"
-                  :key="item.phone"
-                  :label="item.phone"
-                  :value="item.phone">
-                </el-option>
-              </el-select>
+              <el-input v-model="planForm.contactInformation" placeholder="请输入" maxlength="50" style="width: 90%"/>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -167,9 +156,9 @@
                 :loading="searchLoading4">
                 <el-option
                   v-for="item in customer3"
-                  :key="item.code"
+                  :key="item.id"
                   :label="item.name"
-                  :value="item.code">
+                  :value="item.id">
                   {{ item.name }}({{ item.code }})
                 </el-option>
               </el-select>
@@ -634,7 +623,7 @@
                 v-model="scope.row.sapSyncFlag"
                 placeholder="请输入">
                 <el-option
-                  v-for="dict in dict.type.sys_yes_no"
+                  v-for="dict in dict.type.ynn"
                   :key="dict.value"
                   :label="dict.label"
                   :value="dict.value">
@@ -664,7 +653,7 @@
           </el-table-column>
           <el-table-column label="报关剩余数量" align="center" min-width="60px" prop="reportCustomsResidueNum">
           </el-table-column>
-          <el-table-column label="订单数量" align="center" min-width="60px" prop="orderQuantity">
+          <el-table-column label="订单数量" align="center" min-width="60px" prop="num">
           </el-table-column>
           <el-table-column label="产品总金额" align="center" min-width="60px" prop="totalProductAmount">
           </el-table-column>
@@ -746,7 +735,7 @@ import {deptTreeSelect} from "@/api/system/user";
 import { getAddress, listCustomer } from '@/api/customer'
 import {listBookKeeper, listDocKeeper} from "@/api/system/role";
 import { listOrderByKeyWordApi } from '@/api/order'
-import { listSAPFinancialApi, updatePlanApi } from '@/api/plan'
+import { detailPlanApi, listSAPFinancialApi, updatePlanApi } from '@/api/plan'
 
 export default {
   name: "edit",
@@ -865,9 +854,19 @@ export default {
     // 获取计划id
     this.planForm.planId=this.$route.params.oid
     // 获取人员列表
-    listCustomer().then(res => {
+    // 客户
+    let param1={id: this.planForm.customerId}
+    // 收货方
+    let param2={id: this.planForm.consignee}
+    // 通知方
+    let param3={id: this.planForm.notifyId}
+    listCustomer(param1).then(res => {
       this.customer = res.rows
+    })
+    listCustomer(param2).then(res => {
       this.customer2 = res.rows
+    })
+    listCustomer(param3).then(res => {
       this.customer3 = res.rows
     })
     // 获取单证专员和财务人员列表
@@ -882,7 +881,7 @@ export default {
     getPlanDetail(){
       this.planForm.planId
       let param={
-
+        id: this.planForm.planId
       }
       detailPlanApi(param).then(res=>{
         this.planForm=res.data
