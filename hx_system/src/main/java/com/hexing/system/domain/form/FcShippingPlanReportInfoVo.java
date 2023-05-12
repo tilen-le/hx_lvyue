@@ -50,7 +50,7 @@ public class FcShippingPlanReportInfoVo {
     /**
      * 订单产品数量
      */
-    private String productNum;
+    private String num;
 
     /**
      * 单价

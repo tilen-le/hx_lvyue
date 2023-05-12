@@ -9,7 +9,8 @@ import lombok.Data;
 
 /**
  * fc_oss_relevance
- * @author 
+ *
+ * @author
  */
 @Data
 public class FcOssRelevance implements Serializable {
@@ -20,7 +21,7 @@ public class FcOssRelevance implements Serializable {
     private Long id;
 
     /**
-     * 归属类型【1.发货单 2.开票单】
+     * 归属类型【1.发货单 2.开票单 3.发货计划】
      */
     private Integer type;
 

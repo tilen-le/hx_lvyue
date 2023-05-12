@@ -27,11 +27,9 @@ public interface IFcCustomerService {
     FcCustomer getCustomerById(String id);
 
 
-
-
-
     /**
-     *获取客户列表
+     * 获取客户列表
+     *
      * @param fcCustomer
      * @param pageQuery
      * @return
@@ -39,4 +37,12 @@ public interface IFcCustomerService {
     TableDataInfo<FcCustomer> listCustomer(FcCustomer fcCustomer, PageQuery pageQuery);
 
     List<FcCustomer> allCustomer(FcCustomer fcCustomer);
+
+
+    /**
+     * 只查询 id 和 name
+     *
+     * @return
+     */
+    List<FcCustomer> getCustomerlist(FcCustomer fcCustomer);
 }

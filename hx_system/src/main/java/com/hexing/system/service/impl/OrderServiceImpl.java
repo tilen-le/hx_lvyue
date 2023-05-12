@@ -437,7 +437,7 @@ public class OrderServiceImpl implements IOrderService {
             vo.setProductNumber(product.getProductNumber());
             vo.setProductModel(product.getProductModel());
             //订单数量
-            vo.setProductNum(product.getNum());
+            vo.setNum(product.getNum());
             //产品单价
             vo.setUnitPrice(product.getUnitPrice());
             //sap物料编码

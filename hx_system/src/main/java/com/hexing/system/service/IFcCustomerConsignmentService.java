@@ -41,9 +41,12 @@ public interface IFcCustomerConsignmentService {
 
     /**
      * 删除指定客户收货信息
+     *
      * @param id
      * @return
      */
     int removeFcCustomerConsignment(Long id);
+
+    FcCustomerConsignment getById(Long id);
 
 }

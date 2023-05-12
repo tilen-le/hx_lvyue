@@ -1,6 +1,7 @@
 package com.hexing.system.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hexing.common.core.domain.BaseEntity;
@@ -76,6 +77,49 @@ public class FcShippingPlanFinancialAccounting extends BaseEntity {
     private String sapSyncFlag;
 
     private String deleted;
+
+    /**
+     * sap明细号=行项目
+     */
+    @TableField(exist = false)
+    private String sapDetailNumber;
+    /**
+     * 订单编号
+     */
+    @TableField(exist = false)
+    private String orderNumber;
+
+    /**
+     * 订单标题
+     */
+    @TableField(exist = false)
+    private String orderTitle;
+
+
+    /**
+     * 产品名称
+     */
+    @TableField(exist = false)
+    private String productName;
+
+
+    /**
+     * 产品编号
+     */
+    @TableField(exist = false)
+    private String productNumber;
+    /**
+     * 产品型号
+     */
+    @TableField(exist = false)
+    private String productModel;
+
+
+    /**
+     * 订单数量
+     */
+    @TableField(exist = false)
+    private String num;
 
 
 }

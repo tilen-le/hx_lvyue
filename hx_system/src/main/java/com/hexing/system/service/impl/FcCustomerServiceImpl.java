@@ -75,8 +75,13 @@ public class FcCustomerServiceImpl implements IFcCustomerService {
 
     @Override
     public List<FcCustomer> allCustomer(FcCustomer fcCustomer) {
-       // baseMapper.lis
+        // baseMapper.lis
         return null;
+    }
+
+    @Override
+    public List<FcCustomer> getCustomerlist(FcCustomer fcCustomer) {
+        return baseMapper.getCustomerlist(fcCustomer);
     }
 
     private Wrapper<FcCustomer> buildQueryWrapper(FcCustomer fcCustomer) {
