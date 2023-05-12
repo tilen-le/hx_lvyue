@@ -101,7 +101,7 @@ spring:
       # 允许对象忽略json中不存在的属性
       fail_on_unknown_properties: false
     generator:
-      write_numbers_as_strings: true
+      write_numbers_as_strings: false
 
 # Sa-Token配置
 sa-token:

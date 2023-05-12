@@ -8,17 +8,28 @@
         select foi.id,
                foi.invoice_number,
                fc.order_title orderTitle,
-               fc.sold_to_party_cd customer,
+               fc.billee customer,
                foi.tax,
                foi.approval_status,
                foi.create_by,
                foi.create_time,
+               foi.total_amount_with_tax,
                con.contract_name contractName,
                fc.business_unit businessUnit,
-               fc.factory factory
+               fc.factory factory,
+               fc.order_number,
+               foi.sync_sap_time
         from fc_order_invoice foi
                  left join fc_order fc on fc.id = foi.order_id
         left join fc_contract con on con.contract_number=fc.contract_number
-
+        <where>
+            <if test="invoice.invoiceNumber!=null and invoice.invoiceNumber != ''">
+                foi.invoice_number like  concat('%', #{invoice.invoiceNumber}, '%')
+            </if>
+            <if test="null!=invoice.approvalStatus">
+                and foi.approval_status = #{invoice.approvalStatus}
+            </if>
+        </where>
+        order by foi.update_time desc
     </select>
 </mapper>

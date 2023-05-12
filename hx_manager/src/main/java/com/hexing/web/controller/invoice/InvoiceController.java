@@ -39,6 +39,13 @@ public class InvoiceController extends BaseController {
         return toAjax(iFcOrderInvoiceService.saveFcOrderInvoice(fcOrderInvoice));
     }
 
+    @SaCheckPermission("invoice:list:update")
+    @PostMapping("/update")
+    public R<Void> update(@RequestBody FcOrderInvoice fcOrderInvoice) {
+        return toAjax(iFcOrderInvoiceService.updateFcOrderInvoice(fcOrderInvoice));
+    }
+
+
     /**
      * 查询开票单列表
      * A23
@@ -53,11 +60,18 @@ public class InvoiceController extends BaseController {
         return iFcOrderInvoiceService.listFcOrderInvoice(fcOrderInvoice, pageQuery);
     }
 
-    @SaCheckPermission("invoice:list:add")
+    @SaCheckPermission("invoice:list:detail")
     @GetMapping("/detail")
     public R<Map<String,Object>> detail( FcOrderInvoice fcOrderInvoice) {
         return R.ok(iFcOrderInvoiceService.getDetailById(fcOrderInvoice.getId()));
     }
 
+
+    @SaCheckPermission("invoice:list:approve")
+    @PostMapping("/approve")
+    public R<Void> approve(@RequestBody FcOrderInvoice fcOrderInvoice) {
+        iFcOrderInvoiceService.approve(fcOrderInvoice);
+        return R.ok();
+    }
 
 }
