@@ -4,9 +4,9 @@
       <el-form :model="queryParams" ref="queryForm" size="small" :inline="true">
         <el-row>
           <el-col :span="6">
-            <el-form-item label="回款编号" prop="name">
+            <el-form-item label="客户回款编号" prop="paymentNumber">
               <el-input
-                v-model="queryParams.name"
+                v-model="queryParams.paymentNumber"
                 placeholder="请输入"
                 clearable
                 style="width: 240px"
@@ -14,9 +14,9 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="客户" prop="name">
+            <el-form-item label="客户" prop="customerName">
               <el-input
-                v-model="queryParams.name"
+                v-model="queryParams.customerName"
                 placeholder="请输入"
                 clearable
                 style="width: 240px"
@@ -24,9 +24,9 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="认领状态" prop="status">
+            <el-form-item label="认领状态" prop="claimStatus">
               <el-select
-                v-model="queryParams.status"
+                v-model="queryParams.claimStatus"
                 placeholder="请选择"
                 clearable
                 style="width: 240px"
@@ -51,10 +51,18 @@
     </div>
     <div class="angel-card-table">
       <el-table v-loading="loading" :data="paymentList" border>
-        <el-table-column label="客户回款编码" align="center" key="paymentNumber" prop="paymentNumber"/>
+        <el-table-column label="客户回款编号" align="center" key="paymentNumber" prop="paymentNumber"/>
         <el-table-column label="凭证编号" align="center" key="documentNumber" prop="documentNumber"/>
-        <el-table-column label="公司名称" align="center" key="corporateName" prop="corporateName"/>
-        <el-table-column label="过账日期" align="center" key="postingDate" prop="postingDate"/>
+        <el-table-column label="公司名称" align="center" key="corporateName" prop="corporateName">
+            <template slot-scope="scope">
+              <dict-tag :options="dict.type.sys_receive_master" :value="scope.row.corporateName"/>
+            </template>
+        </el-table-column>
+        <el-table-column label="过账日期" align="center" key="postingDate" prop="postingDate">
+            <template slot-scope="scope">
+              {{ parseTime(scope.row.postingDate, '{y}-{m}-{d}') }}
+          </template>
+        </el-table-column>
         <el-table-column label="回款币种" align="center" key="paymentCurrency" prop="paymentCurrency"/>
         <el-table-column label="到账金额" align="center" key="receivedAmount" prop="receivedAmount"/>
         <el-table-column label="回款已分配金额" align="center" key="allocatedAmount" prop="allocatedAmount"/>
@@ -99,7 +107,7 @@ import {listPayment} from "@/api/payment";
 
 export default {
   name: "index",
-  dicts: ['payment_claim_status'],
+  dicts: ['payment_claim_status','sys_receive_master'],
   data() {
     return {
       queryParams: {
@@ -117,10 +125,12 @@ export default {
   },
   methods: {
     handleQuery() {
+
       this.getList()
     },
     resetQuery() {
-
+      this.resetForm("queryForm");
+      this.handleQuery();
     },
     createClaim(row){
       this.$router.push(`/claim/create/index/${row.id}`)

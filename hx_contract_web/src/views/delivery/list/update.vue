@@ -504,12 +504,16 @@
           }
           updateDelivery(this.deliveryForm).then(res => {
             this.$modal.msgSuccess("提交成功");
+            this.$store.dispatch('tagsView/delView', this.$route)
+            this.$router.go(-1)
           })
         }
       })
     },
     cancel() {
       this.$modal.confirm('确认关闭页面？').then(function () {
+        this.$store.dispatch('tagsView/delView', this.$route)
+        this.$router.go(-1)
       });
     },
     resetRow(row) {

@@ -7,10 +7,10 @@
           {{ deliveryForm.consignment.consigmentNumber }}
         </div>
         <div>
-          <el-button @click="approveDelivery(1)" type="primary" v-hasPermi="['order:consignment:approve']" >
+          <el-button @click="approveDelivery(1)" type="primary" v-hasPermi="['order:consignment:approve']" ></el-button>
           <el-button @click="approveDelivery(1)" type="primary" v-show="deliveryForm.hasConsApprove && deliveryForm.consignment.approvalStatus=='0'">
             审批通过</el-button>
-          <el-button @click="approveDelivery(2)" type="primary" v-hasPermi="['order:consignment:approve']" >
+            <el-button @click="approveDelivery(2)" type="primary" v-hasPermi="['order:consignment:approve']" ></el-button>
           <el-button @click="approveDelivery(2)" type="primary" v-show="deliveryForm.hasConsApprove && deliveryForm.consignment.approvalStatus=='0'">
             审批驳回</el-button>
           <i class="el-icon-close" style="cursor: pointer;margin-left: 15px" @click="close"></i>

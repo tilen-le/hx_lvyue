@@ -27,7 +27,7 @@
         </el-col>
         <el-col :span="6">
           <div>
-            <span>公司名称: {{ paymentDetail.corporateName }}</span>
+            <span><dict-tag :options="dict.type.sys_receive_master" :value="paymentDetail.corporateName"/></span>
           </div>
         </el-col>
         <el-col :span="6">
@@ -133,7 +133,7 @@ import {delUser} from "@/api/system/user";
 
 export default {
   name: "createClaim",
-  dicts: ['claim_progress_status', 'sys_currency'],
+  dicts: ['claim_progress_status', 'sys_currency','sys_receive_master'],
   data() {
     return {
       paymentDetail: {},

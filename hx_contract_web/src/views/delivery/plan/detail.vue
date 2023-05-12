@@ -12,14 +12,9 @@
             <el-button size="mini" type="text" @click="notifyCommissioner"
                        v-show="null!=planForm.reportCustomsComplted&&planForm.reportCustomsComplted==0"
                        v-hasPermi="['system:user:edit']" >通知单证专员</el-button>
-                       v-hasPermi="['invoice:list:add']" >通知单证专员</el-button>
-            <el-button size="mini" type="text" @click="completeCustomsDeclaration"
-              v-hasPermi="['invoice:list:add']">报关完成</el-button>
-            <el-button v-show="scope.row.customsDeclarationCompleted==1"
+            <el-button v-show="null!=planForm.reportCustomsComplted&&planForm.reportCustomsComplted==0"
               size="mini" type="text" @click="synchronizeSAP"
-              v-hasPermi="['invoice:list:add']" >同步SAP
-                       v-show="null!=planForm.reportCustomsComplted&&planForm.reportCustomsComplted==0"
-                       v-hasPermi="['system:user:edit']">报关完成</el-button>
+              v-hasPermi="['invoice:list:add']" >报关完成</el-button>
             <el-button v-show="null!=planForm.reportCustomsComplted&&planForm.reportCustomsComplted==1"
                        size="mini" type="text" @click="synchronizeSAP"
                        v-hasPermi="['system:user:edit']" >同步SAP
@@ -39,13 +34,17 @@
       <div class="plan-header" style="padding-right: 10px;padding-left: 10px">
         <el-descriptions title="详细信息" size="medium" border :column="3">
           <el-descriptions-item label="INVOICE NO">{{ planForm.invoiceNo }}</el-descriptions-item>
-          <el-descriptions-item label="客户">{{ planForm.customerId }}</el-descriptions-item>
-          <el-descriptions-item label="收货方">{{ planForm.consignee }}</el-descriptions-item>
-          <el-descriptions-item label="客户联系人">{{ planForm.customerContact }}</el-descriptions-item>
+          <el-descriptions-item label="客户">{{ planForm.customerName }}</el-descriptions-item>
+          <el-descriptions-item label="收货方">{{ planForm.consigneeName }}</el-descriptions-item>
+          <el-descriptions-item label="客户联系人">{{ planForm.customerContactName }}</el-descriptions-item>
           <el-descriptions-item label="联系方式">{{ planForm.contactInformation }}</el-descriptions-item>
-          <el-descriptions-item label="大洲">{{ planForm.continent }}</el-descriptions-item>
-          <el-descriptions-item label="国家">{{ planForm.nation }}</el-descriptions-item>
-          <el-descriptions-item label="通知方">{{ planForm.notifyId }}</el-descriptions-item>
+          <el-descriptions-item label="大洲">
+            <dict-tag :options="dict.type.continent" :value="planForm.continent"/>
+          </el-descriptions-item>
+          <el-descriptions-item label="国家">
+            <dict-tag :options="dict.type.nation" :value="planForm.nation"/>
+          </el-descriptions-item>
+          <el-descriptions-item label="通知方">{{ planForm.notifyName }}</el-descriptions-item>
           <el-descriptions-item label="SIHIPPING MARK">{{ planForm.shippingMark }}</el-descriptions-item>
           <el-descriptions-item label="是否通知单证专员">
               <dict-tag :options="dict.type.ynn" :value="planForm.isNoticeDocumentSpecialist"/>
@@ -66,8 +65,8 @@
       </div>
       <div class="plan-header" style="padding-right: 10px;padding-left: 10px">
         <el-descriptions title="报关信息" size="medium" border :column="3">
-          <el-descriptions-item label="单证专员">{{ planForm.documentSpecialist }}</el-descriptions-item>
-          <el-descriptions-item label="财务人员">{{ planForm.financialStaff }}</el-descriptions-item>
+          <el-descriptions-item label="单证专员">{{ planForm.documentSpecialistName }}</el-descriptions-item>
+          <el-descriptions-item label="财务人员">{{ planForm.financialStaffName }}</el-descriptions-item>
         </el-descriptions>
       </div>
 <!--      汇总信息-->
@@ -78,7 +77,9 @@
             <dict-tag :options="dict.type.sys_trans_category" :value="planForm.transType"/>
           </el-descriptions-item>
           <el-descriptions-item label="柜型及数量">{{ planForm.abinetTypeAndQuantity }}</el-descriptions-item>
-          <el-descriptions-item label="贸易方式">{{ planForm.tradeMode }}</el-descriptions-item>
+          <el-descriptions-item label="贸易方式">
+            <dict-tag :options="dict.type.trade_type" :value="planForm.tradeMode"/>
+          </el-descriptions-item>
           <el-descriptions-item label="出运港">{{ planForm.shipmentPort }}</el-descriptions-item>
           <el-descriptions-item label="目的港">{{ planForm.destinationPort }}</el-descriptions-item>
           <el-descriptions-item label="收汇方式">{{ planForm.collectionMethod }}</el-descriptions-item>
@@ -201,12 +202,13 @@
 
 <script>
 import Treeselect from "@riophae/vue-treeselect";
-import { detailPlanApi, updatePlanApi } from '@/api/plan'
+import { detailPlanApi, updatePlanApi,synchronizeSAPApi } from '@/api/plan'
 
 export default {
   name: "detail",
   components: {Treeselect},
-  dicts: ['sys_customer_status', 'sys_currency', 'continent', 'sys_y_n', 'sys_receive_master', 'sys_trans_category', 'trade_type', 'pol_cate', 'exs_cate', 'sold_for','ynn'],
+  dicts: ['sys_customer_status', 'sys_currency', 'continent', 'sys_y_n', 'sys_receive_master',
+    'sys_trans_category', 'trade_type', 'pol_cate', 'exs_cate', 'sold_for','ynn','nation'],
   data() {
     return {
       planForm: {
@@ -240,6 +242,7 @@ export default {
       }
       detailPlanApi(param).then(res=>{
         this.planForm=res.data
+        this.planForm.file=this.planForm.sysOssList
       })
     },
     // 通知专证专员
@@ -271,6 +274,7 @@ export default {
     },
     // 同步sap
     synchronizeSAP(){
+
       this.$confirm('此订单将会同步sap, 请问您是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -279,6 +283,7 @@ export default {
         let param={
           id: this.planForm.planId
         }
+        debugger
         synchronizeSAPApi(param).then(res=>{
           this.$message({
             message: 'SAP同步已完成',

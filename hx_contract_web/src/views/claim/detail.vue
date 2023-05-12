@@ -44,7 +44,7 @@
         </el-col>
         <el-col :span="6">
           <div>
-            <span>同步SAP状态: {{ claimDetail.syncSapStatus }}</span>
+            <span style="display: inline-block">同步SAP状态: </span><dict-tag  style="display: inline-block" :options="dict.type.sync_sap_status" :value="claimDetail.syncSapStatus"/>
           </div>
         </el-col>
         <el-col :span="6">
@@ -142,7 +142,7 @@ import {delUser} from "@/api/system/user";
 
 export default {
   name: "createClaim",
-  dicts: ['claim_progress_status', 'sys_currency'],
+  dicts: ['claim_progress_status', 'sys_currency','sync_sap_status'],
   data() {
     return {
       claimDetail: {},

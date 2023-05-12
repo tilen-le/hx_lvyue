@@ -463,6 +463,7 @@ export default {
       this.computeTotal();
     },
     cancel() {
+      this.$store.dispatch('tagsView/delView', this.$route)
       this.$router.go(-1)
     },
     handleProduct(val, order) {
