@@ -26,7 +26,7 @@ export function updatePlanApi(data) {
 // 计划详细
 export function detailPlanApi(query) {
   return request({
-    url: '/invoice/add',
+    url: '/order/shippingPlan/getShippingPlanDetail',
     method: 'get',
     params: query
   })
