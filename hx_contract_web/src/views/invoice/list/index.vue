@@ -4,35 +4,25 @@
       <el-form :model="queryParams" ref="queryForm" size="small" :inline="true">
         <el-row>
           <el-col :span="6">
-            <el-form-item label="开票编号" prop="name">
+            <el-form-item label="开票编号" prop="invoiceNumber">
               <el-input
-                v-model="queryParams.name"
-                placeholder="请输入"
+                v-model="queryParams.invoiceNumber"
+                placeholder="请输入开票编号"
                 clearable
                 style="width: 240px"
               />
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="开票类型" prop="name">
-              <el-input
-                v-model="queryParams.name"
-                placeholder="请输入"
-                clearable
-                style="width: 240px"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="审批状态" prop="status">
+            <el-form-item label="审批状态" prop="approvalStatus">
               <el-select
-                v-model="queryParams.status"
+                v-model="queryParams.approvalStatus"
                 placeholder="请选择"
                 clearable
                 style="width: 240px"
               >
                 <el-option
-                  v-for="dict in dict.type.sys_customer_status"
+                  v-for="dict in dict.type.approve_status"
                   :key="dict.value"
                   :label="dict.label"
                   :value="dict.value"
@@ -128,12 +118,14 @@ import {listInvoice,approveInvoice} from "@/api/invoice";
 
 export default {
   name: "index",
-  dicts: ['sys_customer_status','approve_status'],
+  dicts: ['approve_status'],
   data() {
     return {
       queryParams: {
         pageSize: 10,
-        pageNum: 1
+        pageNum: 1,
+        approvalStatus: null,
+        invoiceNumber: null
       },
       loading: false,
       deliveryList: [],
@@ -145,6 +137,7 @@ export default {
   },
   methods: {
     handleQuery() {
+      this.queryParams.pageNum = 1;
       this.getList()
     },
     getList() {
@@ -169,6 +162,10 @@ export default {
     updateHandle(row) {
       this.$router.push(`/invoice/update/index/${row.id}`)
     },
+    resetQuery() {
+      this.resetForm("queryForm");
+      this.handleQuery();
+    }
   }
 }
 </script>

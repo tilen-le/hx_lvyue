@@ -213,13 +213,15 @@
           <el-table-column label="单位" align="center" key="unit" prop="unit"
                            width="150">
             <template slot-scope="scope">
-              <el-input
-                controls-position="right"
-                :precision="2"
-                placeholder="单位"
-                style="width: 70%"
-                v-model="scope.row.unit"
-              />
+              <el-form-item :prop="'productList.' + scope.$index + '.unit'" :rules="rules.unit" style="text-align: center" label-width="0px">
+                <el-input
+                  controls-position="right"
+                  :precision="2"
+                  placeholder="单位"
+                  style="width: 70%"
+                  v-model="scope.row.unit"
+                />
+              </el-form-item>
             </template>
           </el-table-column>
           <el-table-column label="财务软件编吗" align="center" key="sapFinancialCode" prop="sapFinancialCode"
@@ -375,9 +377,9 @@ export default {
         consignmentId: [
           {required: true, message: "请选择收件人", trigger: "blur"},
         ],
-        files: [
-          {required: true, message: "请添加", trigger: "blur"},
-        ]
+        unit: [
+          {required: true, message: "请填写单位", trigger: "blur"},
+        ],
       }
     }
   },
@@ -524,16 +526,6 @@ export default {
     submitForm(val) {
       this.$refs["form"].validate(valid => {
         if (val === 3 || valid) {
-          let isUnitNum = false
-          this.invoiceForm.productList.map(item => {
-            if (item.unit == undefined || item.unit == '') {
-              isUnitNum = true
-            }
-          })
-          if (isUnitNum) {
-            this.$modal.msgWarning("请添加开票明细单位");
-            return
-          }
           this.invoiceForm.approvalStatus=val
           if (this.invoiceForm.files) {
             if(!Array.isArray(this.invoiceForm.files)){
@@ -552,7 +544,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .invoice-header {
   background: white;
   border-radius: 4px;

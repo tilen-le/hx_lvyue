@@ -182,7 +182,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="收货地址" prop="configName">
+            <el-form-item label="收货地址" prop="address">
               <el-input
                 style="width: 90%"
                 disabled
@@ -213,13 +213,15 @@
           <el-table-column label="单位" align="center" key="unit" prop="unit"
                            width="150">
             <template slot-scope="scope">
-              <el-input
-                controls-position="right"
-                :precision="2"
-                placeholder="单位"
-                style="width: 70%"
-                v-model="scope.row.unit"
-              />
+              <el-form-item :prop="'productList.' + scope.$index + '.unit'" :rules="rules.unit" style="text-align: center" label-width="0px">
+                <el-input
+                  controls-position="right"
+                  :precision="2"
+                  placeholder="单位"
+                  style="width: 70%"
+                  v-model="scope.row.unit"
+                />
+              </el-form-item>
             </template>
           </el-table-column>
           <el-table-column label="财务软件编吗" align="center" key="sapFinancialCode" prop="sapFinancialCode"
@@ -340,10 +342,10 @@
 </template>
 
 <script>
-import {getOrderDetail} from "@/api/order";
+
 import {listAvailableBank} from "@/api/system/bank";
 import {getAddressByCode, getOpenBankByBe, listCustomer} from "@/api/customer";
-import {addInvoice} from "@/api/invoice";
+import {updateInvoice} from "@/api/invoice";
 import {getInvoiceDetail,approveInvoice} from "@/api/invoice";
 
 export default {
@@ -383,8 +385,8 @@ export default {
         consignmentId: [
           {required: true, message: "请选择收件人", trigger: "blur"},
         ],
-        files: [
-          {required: true, message: "请添加", trigger: "blur"},
+        unit: [
+          {required: true, message: "请填写单位", trigger: "blur"},
         ]
       },
       approvalStatus: null
@@ -407,6 +409,7 @@ export default {
           orderId: result.fcOrderInvoice.orderId,
           orderTitle: result.fcOrderInvoice.orderTitle,
           consigneeId: result.fcOrderInvoice.consigneeId,
+          consignmentId: result.fcOrderInvoice.consignmentId,
           bilee: result.fcOrderInvoice.customer,
           ossList: result.ossList,
           invoiceType: result.fcOrderInvoice.invoiceType,
@@ -418,6 +421,11 @@ export default {
           totalAmountWithoutTax: result.fcOrderInvoice.totalAmountWithoutTax,
           tax: result.fcOrderInvoice.tax,
         }
+        if (result.fcCustomerConsignment) {
+          this.invoiceForm.mobile = result.fcCustomerConsignment.phone;
+          this.invoiceForm.address = result.fcCustomerConsignment.location.replaceAll(",", "") + result.fcCustomerConsignment.address
+        }
+
         if (result.fcOrderInvoiceDetail) {
           const models = []
           result.fcOrderInvoiceDetail.map(item => {
@@ -436,7 +444,7 @@ export default {
               appliedQuantity: item.appliedQuantity,
               unitPrice: item.product.unitPrice,
               invoicingUnitPriceWithTax: item.invoicingUnitPriceWithTax,
-              taxRate: item.taxRate.taxRate,
+              taxRate: item.product.taxRate,
               customerMaterialName: item.customerMaterialName,
               customerSpecName: item.customerSpecName,
               invoicingAmountWithTax: item.invoicingAmountWithTax
@@ -545,17 +553,7 @@ export default {
     submitForm(val) {
       this.$refs["form"].validate(valid => {
         if (val === 3 || valid) {
-          let isUnitNum = false
-          this.invoiceForm.productList.map(item => {
-            if (item.unit == undefined || item.unit == '') {
-              isUnitNum = true
-            }
-          })
-          if (isUnitNum) {
-            this.$modal.msgWarning("请添加开票明细单位");
-            return
-          }
-          this.invoiceForm.approvalStatus=val
+          this.invoiceForm.approvalStatus = val
           if (this.invoiceForm.files) {
             if(!Array.isArray(this.invoiceForm.files)){
               this.invoiceForm.files = JSON.parse(this.invoiceForm.files)
@@ -563,7 +561,7 @@ export default {
           } else {
             this.invoiceForm.files = []
           }
-          addInvoice(this.invoiceForm).then(res => {
+          updateInvoice(this.invoiceForm).then(res => {
             this.$modal.msgSuccess("提交成功");
           })
         }
