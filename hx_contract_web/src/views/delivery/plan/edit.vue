@@ -490,15 +490,9 @@
           style="margin-top: 15px"
           size="mini"
         >
-          <el-table-column label="序号" align="center" min-width="60px" prop="sequence">
-            <template slot-scope="scope">
-              <el-input
-                controls-position="right"
-                :precision="2"
-                placeholder="请输入"
-                style="width: 70%"
-                v-model="scope.row.sequence"
-              />
+          <el-table-column   label="编号" align="center">
+            <template slot-scope="scop">
+              {{scop.$index+1}}
             </template>
           </el-table-column>
           <el-table-column label="货物描述(中文)" align="center" min-width="60px" prop="goodsDescCn">
@@ -543,7 +537,7 @@
               />
             </template>
           </el-table-column>
-          <el-table-column label="包装件数" align="center" min-width="60px">
+          <el-table-column label="包装件数" align="center" min-width="60px" prop="packNumber">
             <template slot-scope="scope">
               <<el-input-number :min="0"
                                 controls-position="right"
@@ -553,7 +547,7 @@
             />
             </template>
           </el-table-column>
-          <el-table-column label="包装种类" align="center" min-width="60px">
+          <el-table-column label="包装种类" align="center" min-width="60px" prop="packagingType">
             <template slot-scope="scope">
               <el-input
                 controls-position="right"
@@ -564,7 +558,7 @@
               />
             </template>
           </el-table-column>
-          <el-table-column label="毛重" align="center" min-width="60px">
+          <el-table-column label="毛重" align="center" min-width="60px" prop="grossWeight">
             <template slot-scope="scope">
               <el-input
                 maxlength="100"
@@ -576,7 +570,7 @@
               />
             </template>
           </el-table-column>
-          <el-table-column label="净重" align="center" min-width="60px">
+          <el-table-column label="净重" align="center" min-width="60px" prop="netWeight">
             <template slot-scope="scope">
               <el-input
                 controls-position="right"
@@ -587,7 +581,7 @@
               />
             </template>
           </el-table-column>
-          <el-table-column label="体积(CBM)" align="center" min-width="60px">
+          <el-table-column label="体积(CBM)" align="center" min-width="60px" prop="volume">
             <template slot-scope="scope">
               <el-input
                 controls-position="right"

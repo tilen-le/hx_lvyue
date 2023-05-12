@@ -109,25 +109,28 @@
           style="margin-top: 15px"
           size="mini"
         >
-          <el-table-column label="序号" align="center" min-width="60px" prop="sequence">
+          <el-table-column   label="编号" align="center">
+            <template slot-scope="scop">
+              {{scop.$index+1}}
+            </template>
           </el-table-column>
-          <el-table-column label="货物描述(中文)" align="center" min-width="60px">
+          <el-table-column label="货物描述(中文)" align="center" min-width="60px" prop="goodsDescCn">
           </el-table-column>
-          <el-table-column label="报关数量" align="center" min-width="60px">
+          <el-table-column label="报关数量" align="center" min-width="60px" prop="num">
           </el-table-column>
-          <el-table-column label="报关金额" align="center" min-width="60px">
+          <el-table-column label="报关金额" align="center" min-width="60px" prop="amount">
           </el-table-column>
-          <el-table-column label="品牌型号" align="center" min-width="60px">
+          <el-table-column label="品牌型号" align="center" min-width="60px" prop="brandModel">
           </el-table-column>
-          <el-table-column label="包装件数" align="center" min-width="60px">
+          <el-table-column label="包装件数" align="center" min-width="60px" prop="packNumber">
           </el-table-column>
-          <el-table-column label="包装种类" align="center" min-width="60px">
+          <el-table-column label="包装种类" align="center" min-width="60px" prop="packagingType">
           </el-table-column>
-          <el-table-column label="毛重" align="center" min-width="60px">
+          <el-table-column label="毛重" align="center" min-width="60px" prop="grossWeight">
           </el-table-column>
-          <el-table-column label="净重" align="center" min-width="60px">
+          <el-table-column label="净重" align="center" min-width="60px" prop="netWeight">
           </el-table-column>
-          <el-table-column label="体积(CBM)" align="center" min-width="60px">
+          <el-table-column label="体积(CBM)" align="center" min-width="60px" prop="volume">
           </el-table-column>
         </el-table>
       </div>
@@ -147,38 +150,38 @@
         >
           <el-table-column label="序号" align="center" min-width="60px">
           </el-table-column>
-          <el-table-column label="是否同步SAP" align="center" min-width="60px">
+          <el-table-column label="是否同步SAP" align="center" min-width="60px" prop="sapSyncFlag">
             <template scope="scope">
-              <dict-tag :options="dict.type.ynn" :value="scope.row.unitPrice"/>
+              <dict-tag :options="dict.type.ynn" :value="scope.row.sapSyncFlag"/>
             </template>
           </el-table-column>
-          <el-table-column label="订单名称" align="center" min-width="60px">
+          <el-table-column label="订单名称" align="center" min-width="60px" prop="orderTitle">
           </el-table-column>
-          <el-table-column label="订单编号" align="center" min-width="60px">
+          <el-table-column label="订单编号" align="center" min-width="60px" prop="orderNumber">
           </el-table-column>
-          <el-table-column label="订单明细编号" align="center" min-width="60px">
+          <el-table-column label="订单明细编号" align="center" min-width="60px" prop="productNumber">
           </el-table-column>
-          <el-table-column label="产品型号" align="center" min-width="60px">
+          <el-table-column label="产品型号" align="center" min-width="60px" prop="productModel">
           </el-table-column>
-          <el-table-column label="产品型号名" align="center" min-width="60px">
+          <el-table-column label="产品型号名" align="center" min-width="60px" prop="">
           </el-table-column>
-          <el-table-column label="报关数量" align="center" min-width="60px">
+          <el-table-column label="报关数量" align="center" min-width="60px" prop="reportCustomsNum">
           </el-table-column>
-          <el-table-column label="报关剩余数量" align="center" min-width="60px">
+          <el-table-column label="报关剩余数量" align="center" min-width="60px" prop="reportCustomsResidueNum">
           </el-table-column>
-          <el-table-column label="订单数量" align="center" min-width="60px">
+          <el-table-column label="订单数量" align="center" min-width="60px" prop="orderQuantity">
           </el-table-column>
-          <el-table-column label="产品总金额" align="center" min-width="60px">
+          <el-table-column label="产品总金额" align="center" min-width="60px" prop="totalProductAmount">
           </el-table-column>
-          <el-table-column label="剩余报关金额" align="center" min-width="60px">
+          <el-table-column label="剩余报关金额" align="center" min-width="60px" prop="remainingReportCustomsAmount">
           </el-table-column>
-          <el-table-column label="本次报关金额" align="center" min-width="60px">
+          <el-table-column label="本次报关金额" align="center" min-width="60px" prop="currentReportCustomsAmount">
           </el-table-column>
-          <el-table-column label="实际报关金额" align="center" min-width="60px">
+          <el-table-column label="实际报关金额" align="center" min-width="60px" prop="realityReportCustomsAmount">
           </el-table-column>
-          <el-table-column label="单价" align="center" min-width="60px">
+          <el-table-column label="单价" align="center" min-width="60px" prop="unitPrice">
           </el-table-column>
-          <el-table-column label="SAP物料编码" align="center" min-width="60px">
+          <el-table-column label="SAP物料编码" align="center" min-width="60px" prop="sapMaterialCode">
           </el-table-column>
         </el-table>
       </div>
