@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="invoiceForm" ref="queryForm" size="small" :rules="rules" label-width="120px"
+    <el-form :model="invoiceForm" ref="form" size="small" :rules="rules" label-width="120px"
              style="margin: 15px">
       <div class="invoice-header">
         <div style="display: flex;align-items: center">
@@ -27,10 +27,10 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="客户名称" prop="soldToPartyCd">
+            <el-form-item label="客户名称" prop="bilee">
               <el-input
                 style="width: 90%"
-                v-model="invoiceForm.soldToPartyCd"
+                v-model="invoiceForm.bilee"
                 disabled
               />
             </el-form-item>
@@ -351,7 +351,7 @@
 import {getOrderDetail} from "@/api/order";
 import {listAvailableBank} from "@/api/system/bank";
 import {getAddressByCode, getOpenBankByBe, listCustomer} from "@/api/customer";
-import {addInvoice,upload} from "@/api/invoice";
+import {addInvoice} from "@/api/invoice";
 
 export default {
   name: "createInvoice",
@@ -399,7 +399,6 @@ export default {
   },
   methods: {
     invoiceUnitPrice(val, row) {
-      debugger
       if (row.invoicingUnitPriceWithTax && row.appliedQuantity) {
         const totalAmount = row.invoicingUnitPriceWithTax * row.appliedQuantity
         row.invoicingAmountWithTax = totalAmount
@@ -412,7 +411,6 @@ export default {
       this.computeTotal();
     },
     invoiceNumChange(val, row) {
-      debugger
       if (row.invoicingUnitPriceWithTax && row.appliedQuantity) {
         const totalAmount = row.invoicingUnitPriceWithTax * row.appliedQuantity
         row.invoicingAmountWithTax = totalAmount
@@ -422,7 +420,6 @@ export default {
       this.computeTotal();
     },
     computeTotal() {
-      debugger
       //计算合计
       const productList = this.invoiceForm.productList
       if (productList) {
@@ -540,7 +537,7 @@ export default {
       })
     },
     submitForm(val) {
-      this.$refs["queryForm"].validate(valid => {
+      this.$refs["form"].validate(valid => {
         if (val === 3 || valid) {
           let isUnitNum = false
           this.invoiceForm.productList.map(item => {
@@ -553,12 +550,12 @@ export default {
             return
           }
           this.invoiceForm.approvalStatus=val
-          if (this.deliveryForm.files != null && this.deliveryForm.files != "") {
-            if(!Array.isArray(this.deliveryForm.files)){
-              this.deliveryForm.files = JSON.parse(this.deliveryForm.files)
+          if (this.invoiceForm.files) {
+            if(!Array.isArray(this.invoiceForm.files)){
+              this.invoiceForm.files = JSON.parse(this.invoiceForm.files)
             }
           } else {
-            this.deliveryForm.files = []
+            this.invoiceForm.files = []
           }
           addInvoice(this.invoiceForm).then(res => {
             this.$modal.msgSuccess("提交成功");
