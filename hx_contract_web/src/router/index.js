@@ -208,7 +208,7 @@ export const dynamicRoutes = [
     path: '/payment/detail',
     component: Layout,
     hidden: true,
-    permissions: ['payment:detail:check'],
+    permissions: ['payment:list:detail'],
     children: [
       {
         path: 'index/:pid(\\d+)',
@@ -236,7 +236,7 @@ export const dynamicRoutes = [
     path: '/order/detail',
     component: Layout,
     hidden: true,
-    permissions: ['order:detail:check'],
+    permissions: ['order:list:detail'],
     children: [
       {
         path: 'index/:oid(\\d+)',

@@ -36,13 +36,13 @@ public class OrderController extends BaseController {
      * @param pageQuery
      * @return
      */
-    @SaCheckPermission("order:all:list")
+//    @SaCheckPermission("order:list:query")
     @GetMapping("/list")
     public TableDataInfo<FcOrder> list(FcOrder fcOrder, PageQuery pageQuery) {
         return orderService.listOrders(fcOrder, pageQuery);
     }
 
-    @SaCheckPermission("order:detail:check")
+//    @SaCheckPermission("order:detail:check")
     @PostMapping("/detail")
     public R<FcOrder> getDetailOrder(@RequestBody FcOrder fcOrder) {
         return R.ok(orderService.getOrderDetailById(fcOrder.getId()));
@@ -55,7 +55,7 @@ public class OrderController extends BaseController {
      * @param fcOrder
      * @return
      */
-    @SaCheckPermission("order:detail:check")
+//    @SaCheckPermission("order:detail:check")
     @PostMapping("/detailMap")
     public R<Map<String, Object>> getDetailOrderMap(@RequestBody FcOrder fcOrder) {
         return R.ok(orderService.getOrderDetail(fcOrder.getId()));

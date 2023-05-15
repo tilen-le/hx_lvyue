@@ -39,7 +39,7 @@ public class FcPaymentController extends BaseController {
      * @param pageQuery
      * @return
      */
-    @SaCheckPermission("payment:all:list")
+//    @SaCheckPermission("payment:list:query")
     @GetMapping("/list")
     public TableDataInfo<FcPayment> list(FcPayment fcPayment, PageQuery pageQuery) {
         return iFcPaymentService.listFcPayment(fcPayment, pageQuery);
@@ -52,7 +52,7 @@ public class FcPaymentController extends BaseController {
      * @param fcPayment
      * @return
      */
-    @SaCheckPermission("payment:all:check")
+//    @SaCheckPermission("payment:list:detail")
     @PostMapping("/detail")
     public R<FcPayment> detail(@RequestBody FcPayment fcPayment) {
         return R.ok(iFcPaymentService.getDetailById(fcPayment.getId()));
@@ -65,13 +65,13 @@ public class FcPaymentController extends BaseController {
      * @param fcPaymentClaim
      * @return
      */
-    @SaCheckPermission("payment:claim:add")
+//    @SaCheckPermission("payment:claim:add")
     @PostMapping("/addClaim")
     public R<Void> addClaim(@RequestBody FcPaymentClaim fcPaymentClaim) {
         return toAjax(fcPaymentClaimService.saveFcPaymentClaim(fcPaymentClaim));
     }
 
-    @SaCheckPermission("claim:all:list")
+//    @SaCheckPermission("claim:all:list")
     @GetMapping("/claim/list")
     public TableDataInfo<FcPaymentClaim> list(FcPaymentClaim fcPaymentClaim, PageQuery pageQuery) {
         return fcPaymentClaimService.listFcPaymentClaim(fcPaymentClaim, pageQuery);
@@ -84,7 +84,7 @@ public class FcPaymentController extends BaseController {
      * @param fcPaymentClaim
      * @return
      */
-    @SaCheckPermission("claim:list:cancel")
+//    @SaCheckPermission("claim:list:cancel")
     @PostMapping("/claim/cancel")
     public R<String> claimCancel(@RequestBody FcPaymentClaim fcPaymentClaim) {
         String result = fcPaymentClaimService.updateFcPaymentClaim(fcPaymentClaim);
@@ -112,7 +112,7 @@ public class FcPaymentController extends BaseController {
      * @param fcPaymentClaim
      * @return
      */
-    @SaCheckPermission("claim:all:list")
+    @SaCheckPermission("claim:list:detail")
     @PostMapping("/claim/detail")
     public R<FcPaymentClaim> claimDetail(@RequestBody FcPaymentClaim fcPaymentClaim) {
         return R.ok(fcPaymentClaimService.getClaimDetail(fcPaymentClaim.getId().toString()));
@@ -125,7 +125,7 @@ public class FcPaymentController extends BaseController {
      * @param fcPaymentClaim
      * @return
      */
-    @SaCheckPermission("claim:all:list")
+    @SaCheckPermission("claim:all:details")
     @PostMapping("/claim/detail/list")
     public R<List<FcPaymentClaimDetail>> claimDetailList(@RequestBody FcPaymentClaim fcPaymentClaim) {
         return R.ok(iFcPaymentClaimDetailService.listClaimDetail(fcPaymentClaim.getId()));

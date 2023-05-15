@@ -332,10 +332,10 @@
       </div>
     </el-form>
     <div style="text-align: center">
-      <el-button @click="submitForm(3)" type="primary" has-permi="['invoice:list:add']"
+      <el-button @click="submitForm(3)" type="primary" v-hasPermi="['invoice:update:save']"
                  v-show="approvalStatus=='2' || approvalStatus=='3' || approvalStatus=='4'">
         保存为草稿</el-button>
-      <el-button @click="submitForm(0)" type="primary" has-permi="['invoice:list:add']"
+      <el-button @click="submitForm(0)" type="primary"  v-hasPermi="['invoice:update:approve']"
                  v-show="approvalStatus=='2' || approvalStatus=='3' || approvalStatus=='4'">
         提交审核</el-button>
     </div>

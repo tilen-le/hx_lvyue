@@ -112,7 +112,7 @@
               type="text"
               v-show="scope.row.approvalStatus == '0'"
               @click="revokeApprove(scope.row)"
-              v-hasPermi="['order:consignment:approve']"
+              v-hasPermi="['order:approve:revoke']"
             >撤销审批
             </el-button>
           </template>

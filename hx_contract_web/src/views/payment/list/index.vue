@@ -78,7 +78,7 @@
               size="mini"
               type="text"
               @click="detail(scope.row)"
-              v-hasPermi="['payment:detail:check']"
+              v-hasPermi="['payment:list:detail']"
             >详情
             </el-button>
             <el-button

@@ -331,8 +331,8 @@
       </div>
     </el-form>
     <div style="text-align: center">
-      <el-button :loading="buttonLoading" type="primary" @click="submitForm(3)" v-hasPermi="['invoice:list:add']">保存为草稿</el-button>
-      <el-button :loading="buttonLoading" type="primary" @click="submitForm(0)" v-hasPermi="['invoice:list:add']">提交审核</el-button>
+      <el-button :loading="buttonLoading" type="primary" @click="submitForm(3)" v-hasPermi="['invoice:list:save']">保存为草稿</el-button>
+      <el-button :loading="buttonLoading" type="primary" @click="submitForm(0)" v-hasPermi="['invoice:list:approve']">提交审核</el-button>
       <el-button @click="cancel" v-hasPermi="['invoice:create:cancel']">取 消</el-button>
     </div>
   </div>

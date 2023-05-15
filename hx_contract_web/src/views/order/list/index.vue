@@ -132,7 +132,7 @@
               size="mini"
               type="text"
               @click="detail(scope.row)"
-              v-hasPermi="['order:detail:check']"
+              v-hasPermi="['order:list:detail']"
             >详情
             </el-button>
             <el-button
@@ -198,7 +198,6 @@ export default {
   },
   methods: {
     handleQuery() {
-
       this.getList()
     },
     resetQuery() {

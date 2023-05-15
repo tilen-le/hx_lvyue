@@ -331,8 +331,8 @@
       </div>
     </el-form>
     <div style="text-align: center">
-      <el-button :loading="buttonLoading" type="primary" v-hasPermi="['order:consignment:add']" @click="submitForm(3)">保存为草稿</el-button>
-      <el-button :loading="buttonLoading" type="primary" v-hasPermi="['order:consignment:add']" @click="submitForm(0)">提交审核</el-button>
+      <el-button :loading="buttonLoading" type="primary" v-hasPermi="['order:create:save']" @click="submitForm(3)">保存为草稿</el-button>
+      <el-button :loading="buttonLoading" type="primary" v-hasPermi="['order:create:approve']" @click="submitForm(0)">提交审核</el-button>
     </div>
   </div>
 </template>
