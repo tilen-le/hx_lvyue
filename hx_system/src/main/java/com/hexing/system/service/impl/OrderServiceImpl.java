@@ -379,7 +379,7 @@ public class OrderServiceImpl extends ServiceImpl<FcOrderMapper , FcOrder> imple
             vo.setSoldToParty(fcOrder.getSoldToParty());
             vo.setSapDetailNumber(fcOrderProduct.getSapDetailNumber());
             vo.setProductName(fcOrderProduct.getProductName());
-            vo.setProductId(fcOrderProduct.getId());
+            vo.setOrderProductId(fcOrderProduct.getId().toString());
             voList.add(vo);
         });
         return R.ok(voList);
@@ -434,7 +434,7 @@ public class OrderServiceImpl extends ServiceImpl<FcOrderMapper , FcOrder> imple
                 //不为null则获取最后一次计算出来的报关总金额
                 vo.setRemainingReportCustomsAmount(fcShippingPlanFinancialAccounting.getRemainingReportCustomsAmount());
             }
-            vo.setProductId(product.getId());
+            vo.setOrderProductId(product.getId().toString());
             voList.add(vo);
         });
         return R.ok(voList);

@@ -30,7 +30,7 @@ public class FcShippingPlanReportInfoVo {
     /**
      * productId
      */
-    private Long productId;
+    private String orderProductId;
 
     /**
      * 售达方=客户
