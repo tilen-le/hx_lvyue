@@ -122,4 +122,8 @@ public class FcShippingPlanFinancialAccounting extends BaseEntity {
     private String num;
 
 
+    @TableField(exist = false)
+    private String productId;
+
+
 }
