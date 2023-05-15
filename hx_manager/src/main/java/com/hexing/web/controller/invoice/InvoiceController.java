@@ -33,13 +33,13 @@ public class InvoiceController extends BaseController {
      * @param fcOrderInvoice
      * @return
      */
-    @SaCheckPermission("invoice:list:add")
+//    @SaCheckPermission("invoice:list:add")
     @PostMapping("/add")
     public R<Void> add(@RequestBody FcOrderInvoice fcOrderInvoice) {
         return toAjax(iFcOrderInvoiceService.saveFcOrderInvoice(fcOrderInvoice));
     }
 
-    @SaCheckPermission("invoice:list:update")
+//    @SaCheckPermission("invoice:list:update")
     @PostMapping("/update")
     public R<Void> update(@RequestBody FcOrderInvoice fcOrderInvoice) {
         return toAjax(iFcOrderInvoiceService.updateFcOrderInvoice(fcOrderInvoice));
@@ -54,20 +54,20 @@ public class InvoiceController extends BaseController {
      * @param pageQuery
      * @return
      */
-    @SaCheckPermission("invoice:list:add")
+//    @SaCheckPermission("invoice:list:all")
     @GetMapping("/list")
     public TableDataInfo<FcOrderInvoice> list(FcOrderInvoice fcOrderInvoice, PageQuery pageQuery) {
         return iFcOrderInvoiceService.listFcOrderInvoice(fcOrderInvoice, pageQuery);
     }
 
-    @SaCheckPermission("invoice:list:detail")
+//    @SaCheckPermission("invoice:list:detail")
     @GetMapping("/detail")
     public R<Map<String,Object>> detail( FcOrderInvoice fcOrderInvoice) {
         return R.ok(iFcOrderInvoiceService.getDetailById(fcOrderInvoice.getId()));
     }
 
 
-    @SaCheckPermission("invoice:list:approve")
+//    @SaCheckPermission("invoice:list:approve")
     @PostMapping("/approve")
     public R<Void> approve(@RequestBody FcOrderInvoice fcOrderInvoice) {
         iFcOrderInvoiceService.approve(fcOrderInvoice);

@@ -143,8 +143,8 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="收货地址" style="width: 100%">
+          <el-col :span="12">
+            <el-form-item label="收货地址">
               <el-input
                 style="width: 90%"
                 disabled
@@ -332,10 +332,10 @@
     </el-form>
     <div style="text-align: center">
 
-      <el-button @click="submitForm(3)" type="primary" v-hasPermi="['order:consignment:add']"
+      <el-button @click="submitForm(3)" type="primary" v-hasPermi="['order:update:save']"
                  v-show="deliveryForm.consignment.approvalStatus=='2' || deliveryForm.consignment.approvalStatus=='3' || deliveryForm.consignment.approvalStatus=='4'">
         保存为草稿</el-button>
-      <el-button @click="submitForm(0)" type="primary" v-hasPermi="['order:consignment:add']"
+      <el-button @click="submitForm(0)" type="primary" v-hasPermi="['order:update:approve']"
                  v-show="deliveryForm.consignment.approvalStatus=='2' || deliveryForm.consignment.approvalStatus=='3' || deliveryForm.consignment.approvalStatus=='4'">
         提交审核</el-button>
     </div>
@@ -408,7 +408,7 @@
       contract: {}
     }
   },
-  created() {
+  mounted() {
     this.getDeliveryDetail()
   },
   methods: {
@@ -421,13 +421,14 @@
         this.contract = res.data.contract
         this.deliveryForm.products=res.data.products
         this.deliveryForm.orderId = res.data.order.id
+        // 获取收货人列表
         this.remoteMethod(res.data.order.soldToPartyCd)
         this.deliveryForm.consigneeId=res.data.order.soldToPartyCd
         //将发货方信息调整到外层
         this.deliveryForm.consignorCode = res.data.consignment.consignorCode
-        this.deliveryForm.transType = res.data.consignment.transType
+        this.deliveryForm.transType = res.data.consignment.transType.toString()
         this.deliveryForm.isReserveSend = res.data.consignment.isReserveSend
-        this.deliveryForm.isSeparatePackaging = res.data.consignment.isSeparatePackaging
+        this.deliveryForm.isSeparatePackaging = res.data.consignment.isSeparatePackaging.toString()
         this.deliveryForm.expectedArrivalDate = res.data.consignment.expectedArrivalDate
         this.deliveryForm.expectedWarrantyDate = res.data.consignment.expectedWarrantyDate
         this.deliveryForm.expectedCheckDate = res.data.consignment.expectedCheckDate

@@ -45,20 +45,20 @@ public class FcOrderConsignmentController extends BaseController {
      * @param fcOrderConsignment
      * @return
      */
-    @SaCheckPermission("order:consignment:add")
+//    @SaCheckPermission("order:consignment:add")
     @PostMapping("/add")
     public R<Void> add(@RequestBody @Validated FcOrderConsignment fcOrderConsignment) {
         return toAjax(iFcOrderConsignmentService.saveFcOrderConsignment(fcOrderConsignment));
     }
 
 
-    @SaCheckPermission("order:consignment:check")
+//    @SaCheckPermission("order:consignment:check")
     @PostMapping("/check")
     public R<Map<String,Object>> detail(@RequestBody FcOrderConsignment fcOrderConsignment) {
         return R.ok(iFcOrderConsignmentService.getDetailById(fcOrderConsignment.getId()));
     }
 
-    @SaCheckPermission("order:consignment:approve")
+//    @SaCheckPermission("order:consignment:approve")
     @PostMapping("/approve")
     public R<Void> approve(@RequestBody FcOrderConsignment fcOrderConsignment) {
         iFcOrderConsignmentService.approve(fcOrderConsignment);
@@ -66,7 +66,7 @@ public class FcOrderConsignmentController extends BaseController {
     }
 
 
-    @SaCheckPermission("order:consignment:update")
+//    @SaCheckPermission("order:consignment:update")
     @PostMapping("/update")
     public R<Void> update(@RequestBody FcOrderConsignment fcOrderConsignment) {
         return toAjax(iFcOrderConsignmentService.updateFcOrderConsignment(fcOrderConsignment));

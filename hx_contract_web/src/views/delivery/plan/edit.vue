@@ -648,6 +648,7 @@
                 placeholder="请输入"
                 style="width: 70%"
                 v-model="scope.row.reportCustomsNum"
+                @input="changNum(scope.row)"
               />
             </template>
           </el-table-column>
@@ -660,6 +661,9 @@
           <el-table-column label="剩余报关金额" align="center" min-width="60px" prop="remainingReportCustomsAmount">
           </el-table-column>
           <el-table-column label="本次报关金额" align="center" min-width="60px" prop="currentReportCustomsAmount">
+            <template slot-scope="scope">
+              {{scope.row.reportCustomsNum*scope.row.unitPrice}}
+            </template>
           </el-table-column>
           <el-table-column label="实际报关金额" align="center" min-width="60px" prop="realityReportCustomsAmount">
             <template slot-scope="scope">
@@ -862,6 +866,13 @@ export default {
     this.getPlanDetail()
   },
   methods: {
+    // 报关数量改变
+    changNum(row){
+      if(  row.reportCustomsNum != NaN && row.reportCustomsNum != undefined && row.reportCustomsNum != '' &&
+        row.unitPrice != NaN && row.unitPrice != undefined && row.unitPrice != '' ){
+        row.currentReportCustomsAmount = row.reportCustomsNum * row.unitPrice
+      }
+    },
     // 获取计划详细
     getPlanDetail(){
       this.loading=true

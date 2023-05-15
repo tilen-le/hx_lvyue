@@ -7,9 +7,9 @@
           {{ fcOrderInvoice.invoiceNumber }}
         </div>
         <div>
-          <el-button @click="approveInvoice(1)" type="primary" v-show="invoiceForm.hasConsApprove && fcOrderInvoice.approvalStatus=='0'">
+          <el-button @click="approveInvoice(1)" type="primary" v-hasPermi="['invoice:approve:pass']"  v-show="invoiceForm.hasConsApprove && fcOrderInvoice.approvalStatus=='0'">
             审批通过</el-button>
-          <el-button @click="approveInvoice(2)" type="primary" v-show="invoiceForm.hasConsApprove && fcOrderInvoice.approvalStatus=='0'">
+          <el-button @click="approveInvoice(2)" type="primary" v-hasPermi="['invoice:approve:reject']"  v-show="invoiceForm.hasConsApprove && fcOrderInvoice.approvalStatus=='0'">
             审批驳回</el-button>
           <i class="el-icon-close" style="cursor: pointer;margin-left: 15px" @click="close"></i>
         </div>
@@ -17,7 +17,7 @@
     </div>
 
     <el-descriptions title="开票信息" size="medium" border :column="3">
-      <el-descriptions-item label="开票信息">开票类型: 标准开票</el-descriptions-item>
+      <el-descriptions-item label="开票类型">标准开票</el-descriptions-item>
       <el-descriptions-item label="订单名称">{{ fcOrderInvoice.orderTitle}}</el-descriptions-item>
       <el-descriptions-item label="客户名称">{{ fcOrderInvoice.customer }}</el-descriptions-item>
       <el-descriptions-item label="发票类型">

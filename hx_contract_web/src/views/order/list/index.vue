@@ -3,7 +3,7 @@
     <div class="angel-card">
       <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch">
         <el-row>
-          <el-col :span="6">
+          <el-col :span="8">
             <el-form-item label="订单编号" prop="orderNumber">
               <el-input
                 v-model="queryParams.orderNumber"
@@ -13,7 +13,7 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="8">
             <el-form-item label="收货人" prop="reciver">
               <el-input
                 v-model="queryParams.reciver"
@@ -23,7 +23,7 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="8">
             <el-form-item label="发货状态" prop="consignmentStatus">
               <el-select
                 v-model="queryParams.consignmentStatus"
@@ -40,7 +40,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="8">
             <el-form-item label="库存状态" prop="storeStatus">
               <el-select
                 v-model="queryParams.storeStatus"
@@ -81,7 +81,11 @@
               <el-table-column label="订单数量" align="center" key="num" prop="num"/>
               <el-table-column label="单价" align="center" key="unitPrice" prop="unitPrice"/>
               <el-table-column label="库存数量" align="center" key="inStorageNum" prop="inStorageNum"/>
-              <el-table-column label="已发货数量" align="center" key="inTransitNum" prop="inTransitNum"/>
+              <el-table-column label="已发货数量" align="center" key="inTransitNum" prop="inTransitNum">
+                <template slot-scope="scope">
+                  {{scope.row.num-scope.row.notSentNum}}
+                </template>
+              </el-table-column>
               <el-table-column label="未发货数量" align="center" key="notSentNum" prop="notSentNum"/>
               <el-table-column label="在途数量" align="center" key="inTransitNum" prop="inTransitNum"/>
             </el-table>
@@ -132,7 +136,7 @@
               size="mini"
               type="text"
               @click="detail(scope.row)"
-              v-hasPermi="['order:detail:check']"
+              v-hasPermi="['order:list:detail']"
             >详情
             </el-button>
             <el-button
@@ -143,6 +147,7 @@
             >开票
             </el-button>
             <el-button
+              v-show="scope.row.sumInTransitNum>0"
               size="mini"
               type="text"
               @click="delivery(scope.row)"
@@ -198,7 +203,6 @@ export default {
   },
   methods: {
     handleQuery() {
-
       this.getList()
     },
     resetQuery() {

@@ -35,8 +35,8 @@
           </el-col>
           <el-col :span="12">
             <el-form-item style="width:100%;text-align: right">
-              <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">查询</el-button>
-              <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+              <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" has-permi="['claim:all:list']">查询</el-button>
+              <el-button icon="el-icon-refresh" size="mini" @click="resetQuery" has-permi="['claim:list:reset']">重置</el-button>
             </el-form-item>
           </el-col>
         </el-row>
