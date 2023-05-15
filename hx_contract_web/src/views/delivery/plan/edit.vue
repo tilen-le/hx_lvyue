@@ -58,7 +58,7 @@
                   v-for="item in customer"
                   :key="item.id"
                   :label="item.name"
-                  :value="item.id">
+                  :value="item.id.toString()">
                   {{ item.name }}({{ item.code }})
                 </el-option>
               </el-select>
@@ -79,7 +79,7 @@
                   v-for="item in customer2"
                   :key="item.id"
                   :label="item.name"
-                  :value="item.id">
+                  :value="item.id.toString()">
                   {{ item.name }}({{ item.code }})
                 </el-option>
               </el-select>
@@ -1034,7 +1034,7 @@ export default {
     // 单证人员、财务人员
     initKeeper() {
       const params = {
-        roleName: "财务",
+        roleId: "1653338831736295426",
       }
       const params2 = {
         roleName: "单证专员",
@@ -1101,9 +1101,9 @@ export default {
           } else {
             this.planForm.file = []
           }
-          for (let order of this.planForm.orderList) {
-            order.orderProductId=order.productId
-          }
+          // for (let financial of this.planForm.financialList) {
+          //   financial.orderProductId=financial.productId
+          // }
           updatePlanApi(this.planForm).then(res => {
             this.$message({
               message: '更新完成',

@@ -83,7 +83,7 @@
         >
           <template slot-scope="scope">
             <el-button
-              v-show="scope.row.reportCustomsComplted==0"
+              v-show="scope.row.isNoticeDocumentSpecialist==0"
               size="mini"
               type="text"
               @click="notifyCommissioner(scope.row)"
@@ -99,7 +99,7 @@
             >报关完成
             </el-button>
             <el-button
-              v-show="scope.row.reportCustomsComplted==1"
+              v-show="scope.row.syncSapSuccess==0"
               size="mini"
               type="text"
               @click="synchronizeSAP(scope.row)"

@@ -976,7 +976,7 @@ export default {
       this.searchLoading5=true
       this.searchLoading6=true
       const params = {
-        roleName: "财务",
+        roleId: "1653338831736295426",
       }
       const params2 = {
         roleName: "单证专员",
@@ -1046,9 +1046,6 @@ export default {
             }
           } else {
             this.planForm.file = []
-          }
-          for (let order of this.planForm.orderList) {
-            order.orderProductId=order.productId
           }
           addPlanApi(this.planForm).then(res => {
             this.$message({
