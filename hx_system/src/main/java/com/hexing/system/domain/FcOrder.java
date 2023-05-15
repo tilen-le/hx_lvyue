@@ -43,10 +43,7 @@ public class FcOrder extends BaseEntity {
      * 币种
      */
     private String currency;
-    /**
-     * 订单状态（0：启用，1：禁用）
-     */
-    private String status;
+
     /**
      * SAP创建时间
      */
@@ -200,11 +197,8 @@ public class FcOrder extends BaseEntity {
     @TableField(exist = false)
     private String sumInTransitNum;
 
-
-    @TableField(exist = false)
     private Integer consignmentStatus;
 
-    @TableField(exist = false)
     private Integer storeStatus;
 
     public String getMarketingDepartmentId(String marketingDepartment){

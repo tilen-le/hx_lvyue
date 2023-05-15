@@ -25,6 +25,24 @@
         </where>
     </select>
 
+    <select id="listCustomer" resultType="com.hexing.system.domain.FcCustomer">
+        SELECT *
+        from fc_customer fc
+        left join fc_customer_consignment fcc
+        on fc.id = fcc.customer_id
+        <where>
+            <if test="param.name!=null and param.name != ''">
+                and fc.name like concat('%', #{param.name}, '%')
+            </if>
+            <if test="param.name!=null and param.name != ''">
+                and fc.`status` = #{param.status}
+            </if>
+            <if test="param.nickName!=null and param.nickName != ''">
+                and fcc.name like concat('%', #{param.nickName}, '%')
+            </if>
+        </where>
+    </select>
+
 
 </mapper>
 

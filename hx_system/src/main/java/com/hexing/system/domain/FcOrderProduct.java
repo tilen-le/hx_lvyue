@@ -26,6 +26,8 @@ public class FcOrderProduct extends BaseEntity {
      * 订单主键
      */
     private Long orderId;
+
+    private String orderNumber;
     /**
      * sap明细号
      */
@@ -63,6 +65,8 @@ public class FcOrderProduct extends BaseEntity {
      * 在途
      */
     private String inTransitNum;
+
+    private String sendNum;
     /**
      * 未发
      */

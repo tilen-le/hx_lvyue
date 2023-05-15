@@ -98,7 +98,9 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
     @Override
     public int saveFcOrderInvoice(FcOrderInvoice fcOrderInvoice) {
         log.error(JsonUtils.toJsonString(fcOrderInvoice));
-        fcOrderInvoice.setInvoiceNumber(generateOrderCode());
+        if (Objects.equals(fcOrderInvoice.getApprovalStatus(),0)){
+            fcOrderInvoice.setInvoiceNumber(generateOrderCode());
+        }
         Integer version = ossService.getVersion(fcOrderInvoice.getId(), 2);
         fcOrderInvoice.setCurrentVersion(version);
         int result = baseMapper.insert(fcOrderInvoice);
@@ -129,8 +131,13 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
         if (Objects.isNull(orderInvoice)) {
             throw new ServiceException("该开票单不存在");
         }
-        if (fcOrderInvoice.getApprovalStatus() != 3 && fcOrderInvoice.getApprovalStatus() != 2) {
-            throw new ServiceException("当前审批状态的开票单不允许修改");
+        Integer status = fcOrderInvoice.getApprovalStatus();
+        if (orderInvoice.getApprovalStatus() != 3 && orderInvoice.getApprovalStatus() != 2) {
+            if (Objects.equals(0,status)||Objects.equals(3,status)){
+
+            }else {
+                throw new ServiceException("当前审批状态的开票单不允许修改");
+            }
         }
         Integer version = ossService.getVersion(fcOrderInvoice.getId(), 2);
         fcOrderInvoice.setCurrentVersion(version);
@@ -345,10 +352,14 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
         FcCustomerInvoice fcCustomerInvoice = customerInvoiceMapper.selectById(fcOrderInvoice.getOpeningBank());
         List<FcOrderInvoiceDetail> fcOrderInvoiceDetails = fcOrderInvoiceDetailMapper.selectList(new LambdaUpdateWrapper<FcOrderInvoiceDetail>()
                 .eq(FcOrderInvoiceDetail::getInvoiceId, id));
-        fcOrderInvoiceDetails.forEach(item -> {
-            FcOrderProduct product = productMapper.selectById(item.getOrderProductId());
-            item.setProduct(product);
-        });
+        if (CollectionUtils.isEmpty(fcOrderInvoiceDetails)){
+            fcOrderInvoiceDetails = new ArrayList<>();
+        }else {
+            fcOrderInvoiceDetails.forEach(item -> {
+                FcOrderProduct product = productMapper.selectById(item.getOrderProductId());
+                item.setProduct(product==null?new FcOrderProduct():product);
+            });
+        }
         //附件
         List<FcOssRelevance> ossRelevanceList = fcOssRelevanceMapper.selectList(new LambdaQueryWrapper<FcOssRelevance>()
                 .eq(FcOssRelevance::getType, 2)

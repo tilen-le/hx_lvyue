@@ -10,6 +10,7 @@ import com.hexing.common.constant.UserConstants;
 import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.domain.entity.SysRole;
 import com.hexing.common.core.page.TableDataInfo;
+import com.hexing.common.utils.JsonUtils;
 import com.hexing.common.utils.StringUtils;
 import com.hexing.system.domain.FcCustomer;
 import com.hexing.system.domain.form.CustomerForm;
@@ -40,6 +41,7 @@ public class FcCustomerServiceImpl implements IFcCustomerService {
      */
     @Override
     public int saveCustomer(CustomerForm fcCustomer) {
+        log.error(JsonUtils.toJsonString(fcCustomer));
         LambdaQueryWrapper<FcCustomer> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(FcCustomer::getCode, fcCustomer.getKunnr());
         FcCustomer existCustomer = baseMapper.selectOne(queryWrapper);
@@ -69,7 +71,7 @@ public class FcCustomerServiceImpl implements IFcCustomerService {
 
     @Override
     public TableDataInfo<FcCustomer> listCustomer(FcCustomer fcCustomer, PageQuery pageQuery) {
-        Page<FcCustomer> page = baseMapper.selectPage(pageQuery.build(), buildQueryWrapper(fcCustomer));
+        Page<FcCustomer> page = baseMapper.listCustomer(pageQuery.build(), fcCustomer);
         return TableDataInfo.build(page);
     }
 

@@ -1,18 +1,13 @@
 package com.hexing.system.service.impl;
 
-import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.ObjectUtil;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.domain.R;
 import com.hexing.common.core.page.TableDataInfo;
-import com.hexing.common.exception.ServiceException;
 import com.hexing.common.utils.JsonUtils;
 import com.hexing.common.utils.StringUtils;
 import com.hexing.system.domain.*;
@@ -20,12 +15,13 @@ import com.hexing.system.domain.form.*;
 import com.hexing.system.domain.vo.PaymentClaimVO;
 import com.hexing.system.mapper.*;
 import com.hexing.system.service.IOrderService;
-import com.hexing.system.utils.HttpKit;
+import com.hexing.system.task.CustomerTask;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Type;
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
@@ -38,17 +34,21 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 @Slf4j
-public class OrderServiceImpl implements IOrderService {
+public class OrderServiceImpl extends ServiceImpl<FcOrderMapper , FcOrder> implements IOrderService {
 
     private final FcOrderMapper baseMapper;
     private final FcContractMapper fcContractMapper;
     private final FcOrderProductMapper fcOrderProductMapper;
     private final FcOrderConsignmentMapper fcOrderConsignmentMapper;
 
+    private final FcOrderConsignmentDetailMapper orderConsignmentDetailMapper;
+
     private final FcOrderPayMilestoneMapper fcOrderPayMilestoneMapper;
     private final FcPaymentClaimMapper fcPaymentClaimMapper;
 
-    private final HttpKit httpKit;
+    @Resource
+    @Lazy
+    private SyncService syncService;
 
     private final FcShippingPlanFinancialAccountingMapper planFinancialAccountingMapper;
 
@@ -104,8 +104,8 @@ public class OrderServiceImpl implements IOrderService {
         queryWrapper.clear();
         queryWrapper.eq(FcOrderPayMilestone::getOrderNumber, milestoneForm.getVbeln());
         List<FcOrderPayMilestone> payMilestones = fcOrderPayMilestoneMapper.selectList(new LambdaQueryWrapper<FcOrderPayMilestone>()
-                .eq(FcOrderPayMilestone::getOrderNumber,fcOrder.getOrderNumber())
-                .le(FcOrderPayMilestone::getExpectPayDate,date));
+                .eq(FcOrderPayMilestone::getOrderNumber, fcOrder.getOrderNumber())
+                .le(FcOrderPayMilestone::getExpectPayDate, date));
         List<String> allPlanList = payMilestones.stream().map(FcOrderPayMilestone::getPlanPayAmount).collect(Collectors.toList());
         AtomicReference<Double> sum = new AtomicReference<>(0.0);
         allPlanList.forEach(item -> {
@@ -174,7 +174,7 @@ public class OrderServiceImpl implements IOrderService {
             existOrder.setSaleOrgCd(orderForm.getVkorg());
             existOrder.setSaleOrg(orderForm.getVtext());
             existOrder.setFactory(orderForm.getWerks());
-           // existOrder.setTaxRate(orderForm.getZsl() == null ? "0" : orderForm.getZsl());
+            // existOrder.setTaxRate(orderForm.getZsl() == null ? "0" : orderForm.getZsl());
             existOrder.setIsBackupTableDirectly(orderForm.getItext2());
             existOrder.setDistributionChannelCd(orderForm.getVtweg());
             existOrder.setDistributionChannel(orderForm.getVtwegT());
@@ -211,7 +211,6 @@ public class OrderServiceImpl implements IOrderService {
             //收票方
             existOrder.setBileeCd(orderForm.getKunnrBp());
             existOrder.setBillee(orderForm.getKunnrBpT());
-           // existOrder.setTaxRate(orderForm.getZsl() == null ? "0" : orderForm.getZsl());
             existOrder.setIsBackupTableDirectly(orderForm.getItext2());
             //销售组织
             existOrder.setSaleOrgCd(orderForm.getVkorg());
@@ -227,63 +226,35 @@ public class OrderServiceImpl implements IOrderService {
             existOrder.setPayee(orderForm.getButxt());
             baseMapper.insert(existOrder);
         }
-        StockForm stockForm = getStore(orderForm);
-        FcOrderProduct fcOrderProduct = fcOrderProductMapper.selectOne(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderId, existOrder.getId()).eq(FcOrderProduct::getSapDetailNumber,orderForm.getPosnr()));
+        FcOrderProduct fcOrderProduct = fcOrderProductMapper.selectOne(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderId, existOrder.getId()).eq(FcOrderProduct::getSapDetailNumber, orderForm.getPosnr()));
         if (ObjectUtil.isNull(fcOrderProduct)) {
             fcOrderProduct = new FcOrderProduct();
-            fcOrderProduct.setOrderId(existOrder.getId());
-            fcOrderProduct.setNum(orderForm.getZmeng());
-            fcOrderProduct.setProductNumber(orderForm.getMatnr());
-            fcOrderProduct.setProductModel(orderForm.getZcpxh());
-            fcOrderProduct.setProductName(orderForm.getMaktx());
-            fcOrderProduct.setUnitPrice(orderForm.getNetprZpr0());
-            fcOrderProduct.setTaxRate(orderForm.getZsl());
-            fcOrderProduct.setInStorageNum(stockForm == null ? "0" : stockForm.getKzsl().toString());
-            fcOrderProduct.setInTransitNum(stockForm == null ? "0" : stockForm.getZtsl().toString());
-            fcOrderProduct.setNotSentNum(stockForm == null ? orderForm.getZmeng() : (Double.parseDouble(orderForm.getZmeng()) - stockForm.getFhsl()) + "");
-            fcOrderProduct.setSapDetailNumber(orderForm.getPosnr());
-            fcOrderProductMapper.insert(fcOrderProduct);
-        } else {
-            fcOrderProduct.setOrderId(existOrder.getId());
-            fcOrderProduct.setNum(orderForm.getZmeng());
-            fcOrderProduct.setProductNumber(orderForm.getMatnr());
-            fcOrderProduct.setSapDetailNumber(orderForm.getPosnr());
-            fcOrderProduct.setProductName(orderForm.getMaktx());
-            fcOrderProduct.setTaxRate(orderForm.getZsl());
-            fcOrderProduct.setInStorageNum(stockForm == null ? "0" : stockForm.getKzsl().toString());
-            fcOrderProduct.setInTransitNum(stockForm == null ? "0" : stockForm.getZtsl().toString());
-            fcOrderProduct.setNotSentNum(stockForm == null ? orderForm.getZmeng() : (Double.parseDouble(orderForm.getZmeng()) - stockForm.getFhsl()) + "");
-            fcOrderProduct.setUnitPrice(orderForm.getNetprZpr0());
-            fcOrderProductMapper.updateById(fcOrderProduct);
         }
+        fcOrderProduct.setOrderId(existOrder.getId());
+        fcOrderProduct.setOrderNumber(existOrder.getOrderNumber());
+        fcOrderProduct.setNum(orderForm.getZmeng());
+        fcOrderProduct.setProductNumber(orderForm.getMatnr());
+        fcOrderProduct.setProductModel(orderForm.getZcpxh());
+        fcOrderProduct.setProductName(orderForm.getMaktx());
+        fcOrderProduct.setUnitPrice(orderForm.getNetprZpr0());
+        fcOrderProduct.setTaxRate(orderForm.getZsl());
+        fcOrderProduct.setSapDetailNumber(orderForm.getPosnr());
+        //计算库存锁定数量
+        String orderLineSum = fcOrderConsignmentMapper.getOrderLineSum(existOrder.getId(), orderForm.getPosnr());
+        double v = Double.parseDouble(fcOrderProduct.getNum()) - Double.parseDouble(orderLineSum);
+        fcOrderProduct.setNotSentNum(String.valueOf(v));
+        fcOrderProductMapper.insertOrUpdate(fcOrderProduct);
+        //初始状态更新库存
+        syncService.getStore(orderForm);
     }
 
-    /**
-     * 获取库存信息
-     * @param orderForm
-     * @return
-     */
-    public StockForm getStore(OrderForm orderForm) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("interfaceCode", "ZLVY_KCGX");
-        Map<String, String> data = new HashMap<>();
-        data.put("IV_MATNR", orderForm.getMatnr());
-        data.put("IV_WERKS", orderForm.getWerks());
-        data.put("IV_VBELN", orderForm.getVbeln());
-        data.put("IV_POSNR", orderForm.getPosnr());
-        params.put("data", data);
-        String result = httpKit.getData(params);
-        log.error(result);
-        if (ObjectUtil.isNotNull(result)) {
-            JSONObject obj = JSONObject.parseObject(result);
-            StockForm stockForm = obj.getObject("data", StockForm.class);
-            return stockForm;
-        }
-        return null;
-    }
 
     @Override
     public TableDataInfo<FcOrder> listOrders(FcOrder fcOrder, PageQuery pageQuery) {
+        String orderNumber = fcOrder.getOrderNumber();
+        if (Objects.nonNull(orderNumber)) {
+            fcOrder.setOrderNumber(orderNumber.toUpperCase());
+        }
         Page<FcOrder> page = baseMapper.selectPageOrderList(pageQuery.build(), fcOrder);
         page.getRecords().forEach(item -> {
             LambdaQueryWrapper<FcOrderProduct> queryWrapper = new LambdaQueryWrapper<>();
@@ -296,8 +267,6 @@ public class OrderServiceImpl implements IOrderService {
                 double sumInTransitNum = products.stream().mapToDouble(s -> Double.parseDouble(s.getInTransitNum())).sum();
                 item.setSum(String.valueOf(sum));
                 item.setSumInTransitNum(String.valueOf(sumInTransitNum));
-                item.setConsignmentStatus(getConsignmentStatus(item.getId()));
-                item.setStoreStatus(getStoreStatus(item.getId()));
             }
         });
         return TableDataInfo.build(page);
@@ -310,38 +279,28 @@ public class OrderServiceImpl implements IOrderService {
      * 3.未发货是所有行项目已发都为0
      */
     private Integer getConsignmentStatus(Long orderId) {
-        //FcOrder fcOrder = this.baseMapper.selectById(orderId);
         List<FcOrderProduct> products = fcOrderProductMapper.selectList(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderId, orderId));
-        Double orderSum = products.stream().mapToDouble(item-> Double.parseDouble(item.getNum())).sum();
-        Double sum = fcOrderConsignmentMapper.getConsignmentSum(orderId);
-        if (ObjectUtil.isNull(sum) || sum == 0) {
-            return 3;
-        } else {
-            double v = sum;
-            int compare = Double.compare(v, orderSum);
-            if (compare == 0) {
+        List<Long> ids = products.stream().map(FcOrderProduct::getId).collect(Collectors.toList());
+        List<FcOrderConsignmentDetail> consignmentDetails = orderConsignmentDetailMapper.selectList(new LambdaQueryWrapper<FcOrderConsignmentDetail>()
+                .in(FcOrderConsignmentDetail::getOrderProductId, ids));
+        if (CollectionUtils.isNotEmpty(consignmentDetails)) {
+            for (int i = 0; i < products.size(); i++) {
+                FcOrderProduct item = products.get(i);
+                List<FcOrderConsignmentDetail> detailList = orderConsignmentDetailMapper.selectList(new LambdaQueryWrapper<FcOrderConsignmentDetail>()
+                        .eq(FcOrderConsignmentDetail::getOrderProductId, item.getId()));
+                if (CollectionUtils.isNotEmpty(detailList)) {
+                    double sum = detailList.stream().mapToDouble(s -> Double.parseDouble(Objects.isNull(s.getProductNum())?"0":s.getProductNum())).sum();
+                    if (item.getNum().compareTo(String.valueOf(sum)) > 0) {
+                        return 2;
+                    }
+                }
                 return 1;
-            } else if (compare < 0) {
-                return 2;
-            } else {
-                throw new ServiceException("订单发货核对异常");
             }
         }
+        return 3;
     }
 
-    /**
-     * 库存状态，部分备货，备货完成，未备货
-     * 库存状态：全部产品行未发货=库存，备货状态为备货完成，
-     * 部分备货是有产品行不等于库存，量，
-     * 未备货是所有库存都为0且剩余发货不为0
-     * @param orderId
-     * @return
-     */
-    //todo
-    private Integer getStoreStatus(Long orderId) {
-        FcOrder fcOrder = this.baseMapper.selectById(orderId);
-        return 1;
-    }
+
 
     @Override
     public FcOrder getOrderDetailById(Long id) {
@@ -356,6 +315,7 @@ public class OrderServiceImpl implements IOrderService {
         fcOrder.setConsignmentStatus(consignmentStatus);
         FcContract fcContract = getContact(fcOrder.getContractNumber());
         List<FcOrderProduct> products = fcOrderProductMapper.selectList(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderId, id).orderByAsc(FcOrderProduct::getSapDetailNumber));
+        syncService.syncStore(products);
         List<FcOrderPayMilestone> milestones = fcOrderPayMilestoneMapper.selectList(new LambdaQueryWrapper<FcOrderPayMilestone>().eq(FcOrderPayMilestone::getOrderNumber, fcOrder.getOrderNumber()));
         //发货单明细
         LambdaQueryWrapper<FcOrderConsignment> wrapper = new LambdaQueryWrapper<FcOrderConsignment>()
@@ -368,12 +328,12 @@ public class OrderServiceImpl implements IOrderService {
                 item.setCustomer(fcOrder.getReciver());
                 item.setAmount(item.getConsignmentAmount());
             });
-        }else {
+        } else {
             consignments = new ArrayList<>();
         }
         //认领单
         List<PaymentClaimVO> paymentClaims = fcPaymentClaimMapper.selectPaymentClaimByOrder(id);
-        if (CollectionUtils.isEmpty(paymentClaims)){
+        if (CollectionUtils.isEmpty(paymentClaims)) {
             paymentClaims = new ArrayList<>();
         }
         //接口日志
@@ -394,7 +354,7 @@ public class OrderServiceImpl implements IOrderService {
                 .eq(FcOrder::getReciver, code)
                 .or().eq(FcOrder::getSoldToParty, code)
                 .or().eq(FcOrder::getBileeCd, code)
-                .or().eq(FcOrder::getPayerCd,code);
+                .or().eq(FcOrder::getPayerCd, code);
         return baseMapper.selectList(queryWrapper);
     }
 

@@ -1,6 +1,7 @@
 package com.hexing.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.hexing.common.exception.ServiceException;
 import com.hexing.system.domain.FcCustomer;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,9 +49,9 @@ public class FcCustomerInvoiceImpl implements IFcCustomerInvoiceService {
         return baseMapper.updateById(fcCustomerInvoice);
     }
 
-    @Override
-    public List<FcCustomerInvoice> listFcCustomerInvoice(Long userId) {
-        return baseMapper.selectList(new LambdaQueryWrapper<FcCustomerInvoice>().eq(FcCustomerInvoice::getDeleted, "0").eq(FcCustomerInvoice::getCustomerId, userId));
+    public List<FcCustomerInvoice> listFcCustomerInvoice(Long id) {
+        List<FcCustomerInvoice> fcCustomerInvoices = baseMapper.selectList(new LambdaQueryWrapper<FcCustomerInvoice>().eq(FcCustomerInvoice::getDeleted, "0").eq(FcCustomerInvoice::getCustomerId, id));
+        return CollectionUtils.isNotEmpty(fcCustomerInvoices)?fcCustomerInvoices:new ArrayList<>();
     }
 
     @Override
@@ -58,7 +60,7 @@ public class FcCustomerInvoiceImpl implements IFcCustomerInvoiceService {
         queryWrapper.eq(FcCustomer::getCode, code);
         FcCustomer fcCustomer = fcCustomerMapper.selectOne(queryWrapper);
         if (ObjectUtils.isNull(fcCustomer)) {
-            throw new ServiceException("该收票方不存在");
+            throw new ServiceException("该收票方客户不存在");
         }
         return listFcCustomerInvoice(fcCustomer.getId());
     }
