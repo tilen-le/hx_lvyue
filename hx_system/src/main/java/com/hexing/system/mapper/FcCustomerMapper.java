@@ -1,5 +1,6 @@
 package com.hexing.system.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hexing.common.core.mapper.BaseMapperPlus;
 import com.hexing.system.domain.FcCustomer;
 import org.apache.ibatis.annotations.Param;
@@ -14,4 +15,5 @@ public interface FcCustomerMapper extends BaseMapperPlus<FcCustomerMapper, FcCus
 
     List<FcCustomer> getCustomerlist(@Param("param") FcCustomer fcCustomer);
 
+    Page<FcCustomer> listCustomer(@Param("page") Page<Object> build,@Param("param") FcCustomer fcCustomer);
 }

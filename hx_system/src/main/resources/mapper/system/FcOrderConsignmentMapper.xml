@@ -3,11 +3,12 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hexing.system.mapper.FcOrderConsignmentMapper">
-    <select id="listFcOrder" resultType="com.hexing.system.domain.FcOrderConsignment" parameterType="com.hexing.system.domain.FcOrderConsignment">
+    <select id="listFcOrder" resultType="com.hexing.system.domain.FcOrderConsignment"
+            parameterType="com.hexing.system.domain.FcOrderConsignment">
         select fcc.id,
         fcc.consigment_number,
         fcc.approval_status,
-        fc.order_title      orderTitle,
+        fc.order_title orderTitle,
         fc.sold_to_party_cd customer,
         fcc.create_time,
         fcc.consignment_amount,
@@ -15,21 +16,21 @@
         from fc_order_consignment fcc
         left join fc_order fc on fc.id = fcc.order_id
         <where>
-        <if test="param.orderNumber!=null and param.orderNumber != ''">
-            fc.order_number like  concat('%', #{param.orderNumber}, '%')
-        </if>
-        <if test="param.customer!=null and param.customer!=''">
-            and fc.sold_to_party like concat('%', #{param.customer}, '%')
-        </if>
-        <if test="null!=param.approvalStatus">
-            and fcc.approval_status = #{param.approvalStatus}
-        </if>
-        <if test="param.productDateStart!=null">
-            fcc.productDate >= #{param.productDateStart}
-        </if>
-         <if test="param.productDateEnd!=null">
-             fcc.productDate >= #{param.productDateEnd}
-         </if>
+            <if test="param.orderNumber!=null and param.orderNumber != ''">
+                fc.order_number like concat('%', #{param.orderNumber}, '%')
+            </if>
+            <if test="param.customer!=null and param.customer!=''">
+                and fc.sold_to_party like concat('%', #{param.customer}, '%')
+            </if>
+            <if test="null!=param.approvalStatus">
+                and fcc.approval_status = #{param.approvalStatus}
+            </if>
+            <if test="param.productDateStart!=null">
+                fcc.productDate >= #{param.productDateStart}
+            </if>
+            <if test="param.productDateEnd!=null">
+                fcc.productDate >= #{param.productDateEnd}
+            </if>
         </where>
         order by fcc.update_time desc
     </select>
@@ -40,6 +41,16 @@
                  LEFT JOIN fc_order_consignment_detail focd on foc.id = focd.consignment_id
         where fo.id = #{orderId}
           and foc.sync_sap_status = 1
-        and foc.approval_status = 3
+          and foc.approval_status = 3
+    </select>
+    <select id="getOrderLineSum" resultType="java.lang.String">
+        SELECT  IFNULL(SUM(focd.product_num),0)
+        from fc_order_product fcp
+                 left JOIN
+             fc_order_consignment foc on foc.order_id = fcp.order_id
+                 left join fc_order_consignment_detail focd
+                           on focd.consignment_id = foc.id and fcp.id = focd.order_product_id
+        where fcp.order_id = #{orderId}
+          and fcp.sap_detail_number = #{lineNumber}
     </select>
 </mapper>

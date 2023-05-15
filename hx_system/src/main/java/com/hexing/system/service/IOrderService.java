@@ -1,10 +1,12 @@
 package com.hexing.system.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.domain.R;
 import com.hexing.common.core.page.TableDataInfo;
 import com.hexing.system.domain.FcContract;
 import com.hexing.system.domain.FcOrder;
+import com.hexing.system.domain.FcOrderProduct;
 import com.hexing.system.domain.form.FcShippingPlanReportInfoVo;
 import com.hexing.system.domain.form.OrderForm;
 import com.hexing.system.domain.form.ReciveOrderDTO;
@@ -16,7 +18,7 @@ import java.util.Map;
 /**
  * @author firerock_tech
  */
-public interface IOrderService {
+public interface IOrderService extends IService<FcOrder> {
 
     /**
      * 保存推送订单
@@ -42,8 +44,6 @@ public interface IOrderService {
      * @return
      */
     TableDataInfo<FcOrder> listOrders(FcOrder fcOrder, PageQuery pageQuery);
-
-    StockForm getStore(OrderForm orderForm);
 
 
     /**

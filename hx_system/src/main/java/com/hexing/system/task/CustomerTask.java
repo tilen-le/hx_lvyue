@@ -4,12 +4,17 @@ import cn.hutool.core.util.ObjectUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hexing.system.domain.FcOrder;
+import com.hexing.system.domain.FcOrderProduct;
 import com.hexing.system.domain.form.*;
+import com.hexing.system.mapper.FcOrderProductMapper;
 import com.hexing.system.service.IFcContractService;
 import com.hexing.system.service.IFcCustomerService;
 import com.hexing.system.service.IFcPaymentService;
+import com.hexing.system.service.IOrderService;
+import com.hexing.system.service.impl.SyncService;
 import com.hexing.system.utils.HttpKit;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -36,6 +41,12 @@ public class CustomerTask {
 
     @Resource
     private IFcPaymentService iFcPaymentService;
+
+    @Resource
+    private SyncService syncService;
+
+    @Resource
+    private FcOrderProductMapper orderProductMapper;
 
 
     public void getCustomer() {
@@ -66,24 +77,14 @@ public class CustomerTask {
         }
     }
 
-    public void getStore(OrderForm orderForm) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("interfaceCode", "ZLVY_KCGX");
-        Map<String, String> data = new HashMap<>();
-        data.put("IV_MATNR", orderForm.getMatnr());
-        data.put("IV_WERKS", orderForm.getWerks());
-        data.put("IV_VBELN", orderForm.getVbeln());
-        data.put("IV_POSNR", orderForm.getPosnr());
-        params.put("data", data);
-        String result = httpKit.getData(params);
-        if (ObjectUtil.isNotNull(result)) {
-            Type type = new TypeToken<ResultForm<ContractList>>() {
-            }.getType();
-            ResultForm<ContractList> customers = new Gson().fromJson(result, type);
-            customers.getData().getItData().forEach(item -> {
-                fcContractService.saveContract(item);
-            });
-        }
+
+
+    /**
+     * 更新库存
+     */
+    public void getStore() {
+        List<FcOrderProduct> fcOrderProducts = orderProductMapper.selectList();
+        syncService.syncStore(fcOrderProducts);
     }
 
 

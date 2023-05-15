@@ -18,4 +18,6 @@ public interface FcOrderConsignmentMapper extends BaseMapperPlus<FcOrderConsignm
 
     @Select("SELECT MAX(id) FROM fc_order_consignment")
     Long selectMaxid();
+
+    String getOrderLineSum(@Param("orderId") Long orderId,@Param("lineNumber") String lineNumber);
 }
