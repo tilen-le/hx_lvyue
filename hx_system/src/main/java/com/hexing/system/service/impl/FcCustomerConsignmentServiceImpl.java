@@ -67,4 +67,16 @@ public class FcCustomerConsignmentServiceImpl implements IFcCustomerConsignmentS
         fcCustomerConsignment.setDeleted("1");
         return baseMapper.updateById(fcCustomerConsignment);
     }
+
+    @Override
+    public FcCustomerConsignment getById(Long id) {
+        LambdaQueryWrapper<FcCustomerConsignment> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(FcCustomerConsignment::getId, id);
+        FcCustomerConsignment fcCustomerConsignment = baseMapper.selectOne(queryWrapper);
+        if (ObjectUtil.isNull(fcCustomerConsignment)) {
+            throw new ServiceException("该地址不存在或已删除");
+        }
+        return fcCustomerConsignment;
+
+    }
 }

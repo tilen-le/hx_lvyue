@@ -2,9 +2,12 @@ package com.hexing.system.service;
 
 import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.page.TableDataInfo;
+import com.hexing.system.domain.FcOrder;
 import com.hexing.system.domain.FcPayment;
 import com.hexing.system.domain.FcPaymentClaim;
 import com.hexing.system.domain.form.PaymentForm;
+
+import java.util.List;
 
 /**
  * @author firerock_tech
@@ -26,6 +29,9 @@ public interface IFcPaymentService {
      * @return
      */
     int claimFcPayment(FcPaymentClaim fcPaymentClaim);
+
+
+
 
 
     /**

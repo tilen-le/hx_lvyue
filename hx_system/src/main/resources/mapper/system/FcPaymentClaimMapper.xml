@@ -19,6 +19,7 @@
         from fc_payment_claim fpc
                  left join fc_payment fp on fp.id = fpc.payment_id
                  left join sys_user u on u.user_id = fpc.claim_currency
+    order by fpc.update_time desc
     </select>
     <select id="getDetailById" resultType="com.hexing.system.domain.FcPaymentClaim">
         select fpc.id,

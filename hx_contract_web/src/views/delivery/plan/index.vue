@@ -57,9 +57,9 @@
         </el-table-column>
         <el-table-column label="联系方式" align="center" prop="contactInformation"
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="收货方" align="center" prop="consignee"
+        <el-table-column label="收货方" align="center" prop="consigneeName"
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="通知方" align="center" prop="notifyId"
+        <el-table-column label="通知方" align="center" prop="notifyName"
                          :show-overflow-tooltip="true"/>
         <el-table-column label="SHIPPING MARK" align="center" prop="shippingMark"
                          :show-overflow-tooltip="true"/>

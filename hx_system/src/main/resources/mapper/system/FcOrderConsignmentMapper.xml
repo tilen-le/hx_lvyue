@@ -31,7 +31,7 @@
              fcc.productDate >= #{param.productDateEnd}
          </if>
         </where>
-
+        order by fcc.update_time desc
     </select>
     <select id="getConsignmentSum" resultType="java.lang.Double">
         SELECT SUM(focd.product_num)

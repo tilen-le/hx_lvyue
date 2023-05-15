@@ -1,9 +1,9 @@
 package com.hexing.system.service.impl;
 
-import cn.hutool.json.JSON;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -20,8 +20,6 @@ import com.hexing.system.domain.FcOrder;
 import com.hexing.system.domain.FcPayment;
 import com.hexing.system.domain.FcPaymentClaim;
 import com.hexing.system.domain.FcPaymentClaimDetail;
-import com.hexing.system.domain.form.CustomerList;
-import com.hexing.system.domain.form.ResultForm;
 import com.hexing.system.domain.form.ResultInfo;
 import com.hexing.system.domain.form.SapResult;
 import com.hexing.system.mapper.FcOrderMapper;
@@ -33,10 +31,10 @@ import com.hexing.system.utils.HttpKit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.*;
 
 /**
@@ -56,11 +54,14 @@ public class FcPaymentClaimServiceImpl implements IFcPaymentClaimService {
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int saveFcPaymentClaim(FcPaymentClaim fcPaymentClaim) {
         LoginUser loginUser = LoginHelper.getLoginUser();
         LambdaQueryWrapper<FcPaymentClaim> queryWrapper = new LambdaQueryWrapper<>();
-        int count = baseMapper.selectCount(queryWrapper).intValue();
-        fcPaymentClaim.setClaimNumber("RL" + new DecimalFormat("0000000").format(count + 1));
+        Long count = baseMapper.selectCount(queryWrapper);
+        Long sequence = (count != null) ? count + 1 : 1;
+        String formattedSequence = String.format("%05d", sequence);
+        fcPaymentClaim.setClaimNumber("RL" + formattedSequence);
         fcPaymentClaim.setClaimCurrency(loginUser.getUserId().toString());
         if (fcPaymentClaim.getDetails() == null) {
             throw new ServiceException("认领明细不能为空");
@@ -71,18 +72,33 @@ public class FcPaymentClaimServiceImpl implements IFcPaymentClaimService {
         }
         fcPaymentClaim.setClaimAmount(totalAmount.toString());
         fcPaymentClaim.setSyncSapTime(new Date());
+
+        FcPayment fcPayment = fcPaymentMapper.selectById(fcPaymentClaim.getPaymentId());
+        BigDecimal amount = fcPayment.getReceivedAmount();
+        //固定死选择回款中的币种
+        fcPaymentClaim.setPaymentCurrency(fcPayment.getPaymentCurrency());
         /**
          * 同步sap
          */
         Map<String, String> resultMap = submitClaimToSap(fcPaymentClaim, "");
-        ResultInfo<SapResult> sapResult=isSuccess(resultMap.get("result"));
+        ResultInfo<SapResult> sapResult = isSuccess(resultMap.get("result"));
+        log.error("result:{}",resultMap);
+
         assert sapResult != null;
-        if("S".equals(sapResult.getData().getType())){
+        if ("S".equals(sapResult.getData().getType())) {
             fcPaymentClaim.setSyncSapInfo(sapResult.getData().getMessage());
             fcPaymentClaim.setSyncSapInfoTime(new Date());
-            fcPaymentClaim.setStatus("1");
-        }else {
-            throw new ServiceException("同步sap信息异常");
+            fcPaymentClaim.setStatus(1);
+            fcPaymentClaim.setSyncSapStatus(1);
+            fcPayment.setAllocatedAmount(fcPayment.getAllocatedAmount().add(new BigDecimal(fcPaymentClaim.getClaimAmount())));
+            fcPayment.setUndistributedAmount(amount.subtract(fcPayment.getAllocatedAmount()));
+            fcPaymentMapper.updateById(fcPayment);
+        } else {
+            //throw new ServiceException("同步sap信息异常"+sapResult.getData().getMessage());
+            fcPaymentClaim.setSyncSapInfo(sapResult.getData().getMessage());
+            fcPaymentClaim.setSyncSapInfoTime(new Date());
+            fcPaymentClaim.setSyncSapStatus(0);
+            fcPaymentClaim.setStatus(1);
         }
         int result = baseMapper.insert(fcPaymentClaim);
         if (result > 0) {
@@ -91,54 +107,68 @@ public class FcPaymentClaimServiceImpl implements IFcPaymentClaimService {
                 fcPaymentClaimDetailService.saveFcPaymentClaimDetail(item);
             });
         }
-        syncPaymentAmount(fcPaymentClaim);
+        //syncPaymentAmount(fcPaymentClaim);
         return result;
     }
 
     /**
      * 修改回款单认领金额
+     *
      * @param fcPaymentClaim
      */
-    private void syncPaymentAmount(FcPaymentClaim fcPaymentClaim){
-     LambdaQueryWrapper<FcPayment> queryWrapper=new LambdaQueryWrapper<>();
-     queryWrapper.eq(FcPayment::getId,fcPaymentClaim.getPaymentId());
-     FcPayment fcPayment=fcPaymentMapper.selectOne(queryWrapper);
-     Map<String,Object> params=new HashMap<>();
-     params.put("interfaceCode","ZLVY_KUHK");
-     Map<String,Object> data=new HashMap<>();
-     data.put("bukrs",fcPayment.getCorporateName());
-     data.put("belnr",fcPayment.getDocumentNumber());
-     data.put("budat",fcPayment.getPostingDate());
-     params.put("data",data);
-     log.error(JsonUtils.toJsonString(params));
-     String  result=httpKit.postData(params);
-     log.error(result);
+    private void syncPaymentAmount(FcPaymentClaim fcPaymentClaim) {
+        LambdaQueryWrapper<FcPayment> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(FcPayment::getId, fcPaymentClaim.getPaymentId());
+        FcPayment fcPayment = fcPaymentMapper.selectOne(queryWrapper);
+        Map<String, Object> params = new HashMap<>();
+        params.put("interfaceCode", "ZLVY_KUHK");
+        Map<String, Object> data = new HashMap<>();
+        data.put("bukrs", fcPayment.getCorporateName());
+        data.put("belnr", fcPayment.getDocumentNumber());
+        data.put("budat", fcPayment.getPostingDate());
+        params.put("data", data);
+        log.error(JsonUtils.toJsonString(params));
+        String result = httpKit.postData(params);
+        log.error(result);
     }
+
     @Override
     public String updateFcPaymentClaim(FcPaymentClaim fcPaymentClaim) {
         LambdaQueryWrapper<FcPaymentClaim> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(FcPaymentClaim::getId, fcPaymentClaim.getId())
-                .eq(FcPaymentClaim::getStatus, "1");
+        queryWrapper.eq(FcPaymentClaim::getId, fcPaymentClaim.getId());
         FcPaymentClaim existClaim = baseMapper.selectOne(queryWrapper);
-        if (ObjectUtils.isNull(existClaim)) {
+        if (ObjectUtils.isNull(existClaim) || existClaim.getStatus() == 0) {
             throw new ServiceException("该认领单已撤销");
         }
         fcPaymentClaim.setCancelSapTime(new Date());
         /**
          * 同步sap
          */
+        FcPayment fcPayment = fcPaymentMapper.selectById(existClaim.getPaymentId());
+        BigDecimal amount = fcPayment.getReceivedAmount();
+        //固定死选择回款中的币种
+        fcPaymentClaim.setPaymentCurrency(fcPayment.getPaymentCurrency());
+
         Map<String, String> resultMap = submitClaimToSap(existClaim, "X");
-        ResultInfo<SapResult> sapResult=isSuccess(resultMap.get("result"));
+        ResultInfo<SapResult> sapResult = isSuccess(resultMap.get("result"));
         assert sapResult != null;
-        if("S".equals(sapResult.getData().getType())){
+        log.error("result:{}",resultMap);
+        if ("S".equals(sapResult.getData().getType())) {
             fcPaymentClaim.setCancelSapInfo(sapResult.getData().getMessage());
             fcPaymentClaim.setCancelSapInfoTime(new Date());
-            fcPaymentClaim.setStatus("0");
-        }else {
-            throw new ServiceException("同步sap信息异常");
+            fcPaymentClaim.setStatus(0);
+            fcPaymentClaim.setSyncSapStatus(1);
+            fcPayment.setAllocatedAmount(fcPayment.getAllocatedAmount().subtract(new BigDecimal(fcPaymentClaim.getClaimAmount())));
+            fcPayment.setUndistributedAmount(amount.subtract(fcPayment.getAllocatedAmount()));
+            fcPaymentMapper.updateById(fcPayment);
+        } else {
+            //throw new ServiceException("同步sap信息异常"+sapResult.getData().getMessage());
+            fcPaymentClaim.setCancelSapInfo(sapResult.getData().getMessage());
+            fcPaymentClaim.setCancelSapInfoTime(new Date());
+            fcPaymentClaim.setStatus(1);
+            fcPaymentClaim.setSyncSapStatus(0);
         }
-        existClaim.setStatus("0");
-        int result = baseMapper.updateById(existClaim);
+        int result = baseMapper.updateById(fcPaymentClaim);
         return result > 0 ? "回款撤销成功" : resultMap.get("result");
     }
 
@@ -162,7 +192,8 @@ public class FcPaymentClaimServiceImpl implements IFcPaymentClaimService {
     private Wrapper<FcPaymentClaim> buildQueryWrapper(FcPaymentClaim fcPaymentClaim) {
         QueryWrapper<FcPaymentClaim> wrapper = Wrappers.query();
         wrapper.eq("deleted", "0")
-                .eq(ObjectUtils.isNotNull(fcPaymentClaim.getPaymentId()), "payment_id", fcPaymentClaim.getPaymentId());
+                .eq(ObjectUtils.isNotNull(fcPaymentClaim.getPaymentId()), "payment_id", fcPaymentClaim.getPaymentId()
+                        ).orderByDesc("update_time");
         return wrapper;
     }
 
@@ -173,17 +204,17 @@ public class FcPaymentClaimServiceImpl implements IFcPaymentClaimService {
         queryWrapper.eq(FcPayment::getId, fcPaymentClaim.getPaymentId());
         FcPayment fcPayment = fcPaymentMapper.selectOne(queryWrapper);
         List<FcPaymentClaimDetail> details = fcPaymentClaim.getDetails();
-        if(details==null){
-            details=fcPaymentClaimDetailService.listClaimDetail(fcPaymentClaim.getId());
+        if (CollectionUtils.isEmpty(details)) {
+            details = fcPaymentClaimDetailService.listClaimDetail(fcPaymentClaim.getId());
         }
         Map<String, Object> params = new HashMap<>();
         params.put("interfaceCode", "ZLVY_RLD");
         List<Object> orders = new ArrayList<>(details.size());
         for (FcPaymentClaimDetail order : details) {
-            LambdaQueryWrapper<FcOrder> orderQuery=new LambdaQueryWrapper<>();
-            orderQuery.eq(FcOrder::getId,order.getOrderId());
-            FcOrder fcOrder=fcOrderMapper.selectOne(orderQuery);
-            if(ObjectUtils.isNull(fcOrder)){
+            LambdaQueryWrapper<FcOrder> orderQuery = new LambdaQueryWrapper<>();
+            orderQuery.eq(FcOrder::getId, order.getOrderId());
+            FcOrder fcOrder = fcOrderMapper.selectOne(orderQuery);
+            if (ObjectUtils.isNull(fcOrder)) {
                 throw new ServiceException("认领订单异常");
             }
             Map<String, Object> data = new HashMap<>();
@@ -214,8 +245,8 @@ public class FcPaymentClaimServiceImpl implements IFcPaymentClaimService {
     }
 
 
-    private ResultInfo<SapResult> isSuccess(String result){
-        if(StringUtils.isEmpty(result)){
+    private ResultInfo<SapResult> isSuccess(String result) {
+        if (StringUtils.isEmpty(result)) {
             return null;
         }
         Type type = new TypeToken<ResultInfo<SapResult>>() {

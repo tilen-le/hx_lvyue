@@ -40,4 +40,19 @@ public interface IFcShippingPlanService {
 
     R<FcShippingPlan> getShippingPlanDetail(Long id);
 
+    R<Void> updateFcShippingPlan(FcShippingPlan fcShippingPlan);
+
+    /**
+     * 通知单证专员
+     *
+     * @param id
+     * @return
+     */
+    R<Void> noticeDocumentSpecialist(Long id);
+
+
+    R<Void> reportCustomsCompleted(Long id);
+
+
+    R<String> shippingPlanSyncSap(Long id);
 }

@@ -3,6 +3,7 @@ package com.hexing.system.service;
 import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.page.TableDataInfo;
 import com.hexing.system.domain.FcApproveConfig;
+import com.hexing.system.domain.FcOrder;
 
 /**
  * @author firerock_tech
@@ -33,6 +34,8 @@ public interface IFcApproveConfigService {
      * @return
      */
     int removeFcApproveConfig(Long id);
+
+    FcApproveConfig getFcApproveConfig(FcOrder order);
 
 
     /**

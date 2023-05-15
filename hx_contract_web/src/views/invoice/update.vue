@@ -327,7 +327,7 @@
           <span>附件(送货单和验收单必需上传)</span>
         </div>
         <el-form-item label=" " label-width="10px" prop="files">
-          <fileUpload v-model="invoiceForm.ossList" :valueJson="true" style="margin: 15px"/>
+          <fileUpload v-model="invoiceForm.files" :valueJson="true" style="margin: 15px"/>
         </el-form-item>
       </div>
     </el-form>
@@ -355,7 +355,7 @@ export default {
   data() {
     return {
       invoiceForm: {
-        ossList: [],
+        files: [],
         productList: []
       },
       saleBank: [],
@@ -412,7 +412,7 @@ export default {
           consigneeId: result.fcOrderInvoice.consigneeId,
           consignmentId: result.fcOrderInvoice.consignmentId,
           bilee: result.fcOrderInvoice.customer,
-          ossList: result.ossList,
+          files: result.ossList,
           invoiceType: result.fcOrderInvoice.invoiceType,
           saleBank: result.fcOrderInvoice.saleBank,
           openingBank: result.fcCustomerInvoice.id,
@@ -525,6 +525,7 @@ export default {
       this.computeTotal();
     },
     cancel() {
+      this.$store.dispatch('tagsView/delView', this.$route)
       this.$router.go(-1)
     },
 
@@ -562,6 +563,7 @@ export default {
           } else {
             this.invoiceForm.files = []
           }
+          this.invoiceForm.id=this.$route.params.oid
           updateInvoice(this.invoiceForm).then(res => {
             this.$modal.msgSuccess("提交成功");
           })

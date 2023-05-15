@@ -4,9 +4,9 @@
       <el-form :model="queryParams" ref="queryForm" size="small" :inline="true">
         <el-row>
           <el-col :span="6">
-            <el-form-item label="回款编号" prop="name">
+            <el-form-item label="客户回款编号" prop="paymentNumber">
               <el-input
-                v-model="queryParams.name"
+                v-model="queryParams.paymentNumber"
                 placeholder="请输入"
                 clearable
                 style="width: 240px"
@@ -14,20 +14,23 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="认领状态" prop="status">
-              <el-select
-                v-model="queryParams.status"
-                placeholder="请选择"
+            <el-form-item label="订单" prop="orderTitle">
+              <el-input
+                v-model="queryParams.orderTitle"
+                placeholder="请输入"
                 clearable
                 style="width: 240px"
-              >
-                <el-option
-                  v-for="dict in dict.type.payment_claim_status"
-                  :key="dict.value"
-                  :label="dict.label"
-                  :value="dict.value"
-                />
-              </el-select>
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="客户" prop="customerName">
+              <el-input
+                v-model="queryParams.customerName"
+                placeholder="请输入"
+                clearable
+                style="width: 240px"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -42,7 +45,7 @@
     <div class="angel-card-table">
       <el-table v-loading="loading" :data="paymentList" border>
         <el-table-column label="认领单编号" align="center" key="claimNumber" prop="claimNumber"/>
-        <el-table-column label="回款编号" align="center" key="paymentNumber" prop="paymentNumber"/>
+        <el-table-column label="客户回款编号" align="center" key="paymentNumber" prop="paymentNumber"/>
         <el-table-column label="认领金额" align="center" key="claimAmount" prop="claimAmount"/>
         <el-table-column label="回款币种" align="center" key="paymentCurrency" prop="paymentCurrency"/>
         <el-table-column label="回款金额" align="center" key="receivedAmount" prop="receivedAmount"/>
@@ -112,7 +115,8 @@ export default {
       this.getList()
     },
     resetQuery() {
-
+      this.resetForm("queryForm");
+      this.handleQuery();
     },
     createClaim(row) {
       this.$modal.confirm('是否确认撤销该笔认领单数据项？').then(function () {

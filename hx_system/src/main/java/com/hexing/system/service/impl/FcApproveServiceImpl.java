@@ -1,5 +1,6 @@
 package com.hexing.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.hexing.system.domain.FcApprove;
 import com.hexing.system.mapper.FcApproveMapper;
 import com.hexing.system.service.IFcApproveService;
@@ -21,11 +22,16 @@ public class FcApproveServiceImpl implements IFcApproveService {
 
     @Override
     public int updateFcApprove(FcApprove fcApprove) {
-        return 0;
+        return baseMapper.updateById(fcApprove);
     }
 
     @Override
-    public FcApprove getFcApprove(String mainId) {
-        return null;
+    public FcApprove getFcApprove(Long mainId,Integer type) {
+            return baseMapper.selectOne(new LambdaQueryWrapper<FcApprove>()
+                    .eq(FcApprove::getMainId, mainId)
+                    .eq(FcApprove::getType, type));
+
     }
+
+
 }

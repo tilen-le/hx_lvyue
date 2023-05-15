@@ -8,62 +8,66 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
-* 订单产品表
-* @TableName fc_order_product
-*/
+ * 订单产品表
+ *
+ * @TableName fc_order_product
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("fc_order_product")
 public class FcOrderProduct extends BaseEntity {
 
     /**
-    * 主键
-    */
-   @TableId(value = "id",type = IdType.AUTO)
+     * 主键
+     */
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     /**
-    * 订单主键
-    */
+     * 订单主键
+     */
     private Long orderId;
     /**
-    * sap明细号
-    */
+     * sap明细号
+     */
     private String sapDetailNumber;
     /**
-    * 产品编号
-    */
+     * 产品编号
+     */
     private String productNumber;
     /**
-    * 产品型号
-    */
+     * 产品型号
+     */
     private String productModel;
+
     /**
-    * 产品名称
-    */
+     * 税率
+     */
+    private String taxRate;
+    /**
+     * 产品名称
+     */
     private String productName;
     /**
-    * 数量
-    */
+     * 数量
+     */
     private String num;
     /**
-    * 单价
-    */
+     * 单价
+     */
     private String unitPrice;
     /**
-    * 入库数
-    */
+     * 入库数
+     */
     private String inStorageNum;
     /**
-    * 在途
-    */
+     * 在途
+     */
     private String inTransitNum;
     /**
-    * 未发
-    */
+     * 未发
+     */
     private String notSentNum;
     private String deleted;
-
-
 
 
 }

@@ -4,6 +4,7 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hexing.common.constant.CacheNames;
@@ -19,6 +20,10 @@ import com.hexing.resource.oss.core.OssClient;
 import com.hexing.resource.oss.entity.UploadResult;
 import com.hexing.resource.oss.enumd.AccessPolicyType;
 import com.hexing.resource.oss.factory.OssFactory;
+import com.hexing.system.domain.FcOrderConsignment;
+import com.hexing.system.domain.FcOssRelevance;
+import com.hexing.system.domain.bo.SysOssCons;
+import com.hexing.system.mapper.FcOssRelevanceMapper;
 import com.hexing.system.service.ISysOssService;
 import com.hexing.system.domain.SysOss;
 import com.hexing.system.domain.bo.SysOssBo;
@@ -46,6 +51,8 @@ import java.util.stream.Collectors;
 public class SysOssServiceImpl implements ISysOssService, OssService {
 
     private final SysOssMapper baseMapper;
+
+    private final FcOssRelevanceMapper fcOssRelevanceMapper;
 
     @Override
     public TableDataInfo<SysOssVo> queryPageList(SysOssBo bo, PageQuery pageQuery) {
@@ -153,6 +160,12 @@ public class SysOssServiceImpl implements ISysOssService, OssService {
             storage.delete(sysOss.getUrl());
         }
         return baseMapper.deleteBatchIds(ids) > 0;
+    }
+
+    public Integer getVersion(Long mainId,Integer formType){
+        FcOssRelevance relevance = fcOssRelevanceMapper.selectOne(new LambdaQueryWrapper<FcOssRelevance>().eq(FcOssRelevance::getMainId, mainId).eq(FcOssRelevance::getType, formType).orderByDesc(FcOssRelevance::getVersion).last("limit 1"));
+        Integer version = Objects.isNull(relevance) ? 1 : relevance.getVersion() + 1;
+        return version;
     }
 
     /**

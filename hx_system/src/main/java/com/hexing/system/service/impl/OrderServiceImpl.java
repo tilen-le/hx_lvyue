@@ -167,7 +167,6 @@ public class OrderServiceImpl implements IOrderService {
             existOrder.setBileeCd(orderForm.getKunnrBp());
             existOrder.setBillee(orderForm.getKunnrBpT());
             existOrder.setAmount(orderForm.getAmount());
-            existOrder.setTaxRate(orderForm.getZsj());
             existOrder.setCustomerManagerNumber(orderForm.getKunnrEr());
             existOrder.setCustomerManager(orderForm.getKunnrErT());
             existOrder.setRequireDeliveryDate(orderForm.getVdatu());
@@ -175,7 +174,7 @@ public class OrderServiceImpl implements IOrderService {
             existOrder.setSaleOrgCd(orderForm.getVkorg());
             existOrder.setSaleOrg(orderForm.getVtext());
             existOrder.setFactory(orderForm.getWerks());
-            existOrder.setTaxRate(orderForm.getZsl() == null ? "0" : orderForm.getZsl());
+           // existOrder.setTaxRate(orderForm.getZsl() == null ? "0" : orderForm.getZsl());
             existOrder.setIsBackupTableDirectly(orderForm.getItext2());
             existOrder.setDistributionChannelCd(orderForm.getVtweg());
             existOrder.setDistributionChannel(orderForm.getVtwegT());
@@ -212,7 +211,7 @@ public class OrderServiceImpl implements IOrderService {
             //收票方
             existOrder.setBileeCd(orderForm.getKunnrBp());
             existOrder.setBillee(orderForm.getKunnrBpT());
-            existOrder.setTaxRate(orderForm.getZsl() == null ? "0" : orderForm.getZsl());
+           // existOrder.setTaxRate(orderForm.getZsl() == null ? "0" : orderForm.getZsl());
             existOrder.setIsBackupTableDirectly(orderForm.getItext2());
             //销售组织
             existOrder.setSaleOrgCd(orderForm.getVkorg());
@@ -238,6 +237,7 @@ public class OrderServiceImpl implements IOrderService {
             fcOrderProduct.setProductModel(orderForm.getZcpxh());
             fcOrderProduct.setProductName(orderForm.getMaktx());
             fcOrderProduct.setUnitPrice(orderForm.getNetprZpr0());
+            fcOrderProduct.setTaxRate(orderForm.getZsl());
             fcOrderProduct.setInStorageNum(stockForm == null ? "0" : stockForm.getKzsl().toString());
             fcOrderProduct.setInTransitNum(stockForm == null ? "0" : stockForm.getZtsl().toString());
             fcOrderProduct.setNotSentNum(stockForm == null ? orderForm.getZmeng() : (Double.parseDouble(orderForm.getZmeng()) - stockForm.getFhsl()) + "");
@@ -249,6 +249,7 @@ public class OrderServiceImpl implements IOrderService {
             fcOrderProduct.setProductNumber(orderForm.getMatnr());
             fcOrderProduct.setSapDetailNumber(orderForm.getPosnr());
             fcOrderProduct.setProductName(orderForm.getMaktx());
+            fcOrderProduct.setTaxRate(orderForm.getZsl());
             fcOrderProduct.setInStorageNum(stockForm == null ? "0" : stockForm.getKzsl().toString());
             fcOrderProduct.setInTransitNum(stockForm == null ? "0" : stockForm.getZtsl().toString());
             fcOrderProduct.setNotSentNum(stockForm == null ? orderForm.getZmeng() : (Double.parseDouble(orderForm.getZmeng()) - stockForm.getFhsl()) + "");
@@ -354,7 +355,7 @@ public class OrderServiceImpl implements IOrderService {
         Integer consignmentStatus = getConsignmentStatus(id);
         fcOrder.setConsignmentStatus(consignmentStatus);
         FcContract fcContract = getContact(fcOrder.getContractNumber());
-        List<FcOrderProduct> products = fcOrderProductMapper.selectList(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderId, id));
+        List<FcOrderProduct> products = fcOrderProductMapper.selectList(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderId, id).orderByAsc(FcOrderProduct::getSapDetailNumber));
         List<FcOrderPayMilestone> milestones = fcOrderPayMilestoneMapper.selectList(new LambdaQueryWrapper<FcOrderPayMilestone>().eq(FcOrderPayMilestone::getOrderNumber, fcOrder.getOrderNumber()));
         //发货单明细
         LambdaQueryWrapper<FcOrderConsignment> wrapper = new LambdaQueryWrapper<FcOrderConsignment>()
@@ -367,9 +368,14 @@ public class OrderServiceImpl implements IOrderService {
                 item.setCustomer(fcOrder.getReciver());
                 item.setAmount(item.getConsignmentAmount());
             });
+        }else {
+            consignments = new ArrayList<>();
         }
         //认领单
         List<PaymentClaimVO> paymentClaims = fcPaymentClaimMapper.selectPaymentClaimByOrder(id);
+        if (CollectionUtils.isEmpty(paymentClaims)){
+            paymentClaims = new ArrayList<>();
+        }
         //接口日志
         result.put("order", fcOrder);
         result.put("contract", fcContract);
@@ -384,7 +390,11 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public List<FcOrder> getOrdersByCusId(String code) {
         LambdaQueryWrapper<FcOrder> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.select(FcOrder::getId, FcOrder::getOrderTitle).eq(FcOrder::getReciver, code).or().eq(FcOrder::getSoldToParty, code);
+        queryWrapper.select(FcOrder::getId, FcOrder::getOrderTitle)
+                .eq(FcOrder::getReciver, code)
+                .or().eq(FcOrder::getSoldToParty, code)
+                .or().eq(FcOrder::getBileeCd, code)
+                .or().eq(FcOrder::getPayerCd,code);
         return baseMapper.selectList(queryWrapper);
     }
 
@@ -437,7 +447,7 @@ public class OrderServiceImpl implements IOrderService {
             vo.setProductNumber(product.getProductNumber());
             vo.setProductModel(product.getProductModel());
             //订单数量
-            vo.setProductNum(product.getNum());
+            vo.setNum(product.getNum());
             //产品单价
             vo.setUnitPrice(product.getUnitPrice());
             //sap物料编码

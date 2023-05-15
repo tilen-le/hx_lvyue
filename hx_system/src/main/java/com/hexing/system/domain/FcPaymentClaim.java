@@ -45,7 +45,7 @@ public class FcPaymentClaim extends BaseEntity {
     /**
      * 同步SAP状态
      */
-    private String syncSapStatus;
+    private Integer syncSapStatus;
     /**
      * 同步sap时间
      */
@@ -65,7 +65,7 @@ public class FcPaymentClaim extends BaseEntity {
     /**
      * 认领单状态【1.生效 0.失效】
      */
-    private String status;
+    private Integer status;
     /**
      * 认领人
      */

@@ -135,7 +135,7 @@
                 clearable
                 style="width: 90%">
                 <el-option
-                  v-for="dict in nation"
+                  v-for="dict in dict.type.nation"
                   :key="dict.value"
                   :label="dict.label"
                   :value="dict.value"
@@ -740,7 +740,7 @@ export default {
   name: "create",
   components: {Treeselect},
   dicts: ['sys_customer_status', 'sys_currency', 'continent', 'sys_y_n', 'sys_receive_master',
-    'sys_trans_category', 'trade_type', 'pol_cate', 'exs_cate', 'sold_for','sys_yes_no','ynn'],
+    'sys_trans_category', 'trade_type', 'pol_cate', 'exs_cate', 'sold_for','sys_yes_no','ynn','nation'],
   data() {
     return {
       planForm: {

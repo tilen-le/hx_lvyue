@@ -30,4 +30,6 @@ public interface ISysOssService {
 
     Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid);
 
+    Integer getVersion(Long mainId,Integer formType);
+
 }

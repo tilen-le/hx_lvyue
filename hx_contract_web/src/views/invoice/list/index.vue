@@ -47,7 +47,7 @@
                          :show-overflow-tooltip="true"/>
         <el-table-column label="客户名称" align="center" key="customer" prop="customer"
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="开票金额" align="center" prop="tax">
+        <el-table-column label="开票金额" align="center" prop="totalAmountWithTax">
         </el-table-column>
         <el-table-column label="审批状态" align="center" key="amount" prop="amount"
                          :show-overflow-tooltip="true">
@@ -67,9 +67,9 @@
                          :show-overflow-tooltip="true"/>
         <el-table-column label="工厂" align="center" key="" prop="factory"
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="SAP同步时间" align="center" key="" prop=""
+        <el-table-column label="SAP同步时间" align="center" key="" prop="syncSapTime"
                          :show-overflow-tooltip="true"/>
-        <el-table-column label="SAP订单" align="center" key="" prop=""
+        <el-table-column label="SAP订单" align="center" key="" prop="orderNumber"
                          :show-overflow-tooltip="true"/>
         <el-table-column
           label="操作"

@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.hexing.common.core.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -62,10 +63,7 @@ public class FcOrder extends BaseEntity {
      * 订单金额
      */
     private String amount;
-    /**
-     * 税率
-     */
-    private String taxRate;
+
     /**
      * 付款方编码
      */
@@ -210,6 +208,7 @@ public class FcOrder extends BaseEntity {
     private Integer storeStatus;
 
     public String getMarketingDepartmentId(String marketingDepartment){
+
         if ("国内".equals(marketingDepartment)){
             return "1";
         }else if ("国际".equals(marketingDepartment)){

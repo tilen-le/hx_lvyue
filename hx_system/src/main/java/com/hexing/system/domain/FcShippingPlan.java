@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hexing.common.core.domain.BaseEntity;
+import com.hexing.system.domain.bo.SysOssCons;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
@@ -59,13 +60,17 @@ public class FcShippingPlan extends BaseEntity {
      * INVOICE NO
      */
     @NotEmpty(message = "出库地点不能为空")
- @Length(min = 1, max = 50)
- private String invoiceNo;
- /**
-  * 客户联系人
-  */
- @NotEmpty(message = "客户联系人不能为空")
- private String customerContact;
+    @Length(min = 1, max = 50)
+    private String invoiceNo;
+    /**
+     * 客户联系人
+     */
+    @NotEmpty(message = "客户联系人不能为空")
+    private String customerContact;
+
+    @TableField(exist = false)
+    private String customerContactName;
+
     /**
      * 币种【无、ABS-阿根廷比索、BDT-孟加拉国塔卡、BRL-巴西市、CNY-中国人民币、COP-哥伦比亚比素、EUR-欧元、GHS-加纳塞地、IDR-印度尼西亚卢比、PEN-秘鲁素尔、USD-美元、ZAR-南非兰特】
      */
@@ -80,10 +85,18 @@ public class FcShippingPlan extends BaseEntity {
     @NotEmpty(message = "客户id不能为空")
     private String customerId;
     /**
+     * 客户
+     */
+    @TableField(exist = false)
+    private String customerName;
+    /**
      * 收货方
      */
     @NotEmpty(message = "收货方不能为空")
     private String consignee;
+
+    @TableField(exist = false)
+    private String consigneeName;
     /**
      * 大洲【亚洲、欧洲、非洲、大洋洲、南美洲、北美洲】
      */
@@ -107,6 +120,11 @@ public class FcShippingPlan extends BaseEntity {
      * 通知方【客户表id】
      */
     private String notifyId;
+    /**
+     * 通知方name
+     */
+    @TableField(exist = false)
+    private String notifyName;
     /**
      * 货代
      */
@@ -200,10 +218,22 @@ public class FcShippingPlan extends BaseEntity {
      * 单证专员
      */
     private String documentSpecialist;
+
+    /**
+     * 单证专员Name
+     */
+    @TableField(exist = false)
+    private String documentSpecialistName;
     /**
      * 财务人员
      */
     private String financialStaff;
+
+    /**
+     * 财务人员Name
+     */
+    @TableField(exist = false)
+    private String financialStaffName;
     /**
      * 报关单位
      */
@@ -253,9 +283,9 @@ public class FcShippingPlan extends BaseEntity {
     private String syncSapSuccess;
 
     /**
-     * 附件地址通过逗号隔开
+     * 当前附件版本
      */
-    private String attachment;
+    private Integer currentVersion;
 
 
     private String deleted;
@@ -271,12 +301,19 @@ public class FcShippingPlan extends BaseEntity {
     @TableField(exist = false)
     private List<FcShippingPlanReportInfo> reportList;
 
+    @TableField(exist = false)
+    private List<SysOssCons> file;
+
+
+    @TableField(exist = false)
+    private List<SysOss> sysOssList;
+
     public static void main(String[] args) {
         FcShippingPlan fcShippingPlan = new FcShippingPlan();
         fcShippingPlan.setAirFreight("a");
         Object o = JSON.toJSON(fcShippingPlan);
         System.out.println("o = " + o);
 
- }
+    }
 
 }

@@ -1,33 +1,42 @@
 package com.hexing.system.service.impl;
 
-import cn.hutool.json.JSONUtil;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.page.TableDataInfo;
+import com.hexing.common.core.service.DictService;
 import com.hexing.common.exception.ServiceException;
 import com.hexing.common.helper.LoginHelper;
 import com.hexing.common.utils.JsonUtils;
 import com.hexing.system.domain.*;
-import com.hexing.system.domain.vo.SysOssVo;
+import com.hexing.system.domain.bo.SysOssCons;
+import com.hexing.system.domain.form.SapJhkpForm;
 import com.hexing.system.mapper.*;
+import com.hexing.system.service.IFcApproveConfigService;
 import com.hexing.system.service.IFcApproveService;
-import com.hexing.system.service.IFcCustomerConsignmentService;
 import com.hexing.system.service.IFcOrderInvoiceService;
 import com.hexing.system.service.ISysOssService;
 import com.hexing.system.utils.HttpKit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author firerock_tech
@@ -38,7 +47,7 @@ import java.util.*;
 public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
 
     @Resource
-    private FcOrderInvoiceMapper baseMappr;
+    private FcOrderInvoiceMapper baseMapper;
     @Resource
     private FcOrderMapper fcOrderMapper;
 
@@ -49,72 +58,208 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
     private FcOrderProductMapper productMapper;
 
     @Resource
-    private IFcApproveService iFcApproveService;
+    private IFcApproveService fcApproveService;
+
+    @Resource
+    private FcApproveMapper approveMapper;
+
+    @Resource
+    private FcSaleBankMapper saleBankMapper;
+
+    @Resource
+    private FcCustomerMapper fcCustomerMapper;
 
     @Resource
     private FcCustomerConsignmentMapper fcCustomerConsignmentMapper;
 
     @Resource
     private FcOrderInvoiceDetailMapper fcOrderInvoiceDetailMapper;
+
+    private final IFcApproveConfigService approveConfigService;
+
+    private final FcApproveRecordMapper fcApproveRecordMapper;
     private final HttpKit httpKit;
 
-    private final ISysOssService iSysOssService;
+    private final FcCustomerInvoiceMapper customerInvoiceMapper;
+
+    private final DictService dictService;
+    private final SysOssMapper sysOssMapper;
+
+    private final ISysOssService ossService;
 
     public String generateOrderCode() {
         // 获取最新的订单ID
-        Long latestId = baseMappr.selectMaxid();
+        Long latestId = baseMapper.selectMaxid();
         Long sequence = (latestId != null) ? latestId + 1 : 1;
-
-        String formattedSequence = String.format("%04d", sequence); // 格式化为4位数字
-        return "I-" + formattedSequence;
+        String formattedSequence = String.format("%05d", sequence); // 格式化为6位数字
+        return "IN-" + formattedSequence;
     }
 
     @Override
     public int saveFcOrderInvoice(FcOrderInvoice fcOrderInvoice) {
-        LambdaQueryWrapper<FcOrderInvoice> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(FcOrderInvoice::getOrderId, fcOrderInvoice.getOrderId());
-        if (baseMappr.selectCount(queryWrapper) > 0) {
-            throw new ServiceException("该订单已存在开票申请");
-        }
-        if (fcOrderInvoice.getProductList() == null) {
-            throw new ServiceException("开票明细不能为空");
-        }
-
+        log.error(JsonUtils.toJsonString(fcOrderInvoice));
         fcOrderInvoice.setInvoiceNumber(generateOrderCode());
-        int result = baseMappr.insert(fcOrderInvoice);
+        Integer version = ossService.getVersion(fcOrderInvoice.getId(), 2);
+        fcOrderInvoice.setCurrentVersion(version);
+        int result = baseMapper.insert(fcOrderInvoice);
+        //附件处理
+        handleOssFile(fcOrderInvoice);
         if (result > 0) {
             for (FcOrderInvoiceDetail detail : fcOrderInvoice.getProductList()) {
+                String productId = detail.getOrderProductId();
+//                FcOrderProduct product = productMapper.selectById(productId);
+//                if (detail.getAppliedQuantity().compareTo(product.getInTransitNum()) > 0) {
+//                    throw new ServiceException("开票数量不能大于在途库数量");
+//                }
                 detail.setInvoiceId(fcOrderInvoice.getId());
                 fcOrderInvoiceDetailMapper.insert(detail);
             }
         }
-        FcOssRelevance fcOssRelevance = new FcOssRelevance();
-        fcOssRelevance.setOssId(Long.valueOf(fcOrderInvoice.getOssId()));
-        fcOssRelevance.setType(Integer.valueOf("2"));
-        fcOssRelevance.setMainId(fcOrderInvoice.getOrderId());
-        fcOssRelevanceMapper.insert(fcOssRelevance);
-        handleApprove(fcOrderInvoice);
+        //审批信息
+        if (Objects.equals(0, fcOrderInvoice.getApprovalStatus())) {
+            handleApprove(fcOrderInvoice);
+        }
         return result;
     }
 
-    private void handleApprove(FcOrderInvoice fcOrderInvoice) {
-        FcApprove fcApprove = new FcApprove();
-        fcApprove.setTitle("开票审批");
-        fcApprove.setType(2);
-        fcApprove.setOriginator(LoginHelper.getUserId().toString());
-        fcApprove.setStatus(Integer.valueOf("0"));
-        fcApprove.setRequestTime(new Date());
-        fcApprove.setMainId(fcOrderInvoice.getId());
-        iFcApproveService.saveFcApprove(fcApprove);
+    @Override
+    public int updateFcOrderInvoice(FcOrderInvoice fcOrderInvoice) {
+        log.error(JsonUtils.toJsonString(fcOrderInvoice));
+        FcOrderInvoice orderInvoice = baseMapper.selectById(fcOrderInvoice.getId());
+        if (Objects.isNull(orderInvoice)) {
+            throw new ServiceException("该开票单不存在");
+        }
+        if (fcOrderInvoice.getApprovalStatus() != 3 && fcOrderInvoice.getApprovalStatus() != 2) {
+            throw new ServiceException("当前审批状态的开票单不允许修改");
+        }
+        Integer version = ossService.getVersion(fcOrderInvoice.getId(), 2);
+        fcOrderInvoice.setCurrentVersion(version);
+        int result = baseMapper.updateById(fcOrderInvoice);
+        handleOssFile(fcOrderInvoice);
+        if (result > 0) {
+            List<FcOrderInvoiceDetail> productList = fcOrderInvoice.getProductList();
+            if (CollectionUtils.isNotEmpty(productList))
+            fcOrderInvoiceDetailMapper.updateBatchById(productList);
+        }
+        //审批信息
+        if (Objects.equals(0, fcOrderInvoice.getApprovalStatus())) {
+            handleApprove(fcOrderInvoice);
+        }
+
+        return result;
     }
 
-    private void submitSapInvoice(FcOrderInvoice fcOrderInvoice) {
-        if (fcOrderInvoice.getProductList() == null) {
+//    private String getInvoiceAmount(List<FcOrderInvoiceDetail> productList) {
+//        BigDecimal sum = BigDecimal.ZERO;
+//        for (int i = 0; i < productList.size(); i++) {
+//            FcOrderInvoiceDetail invoiceDetail = productList.get(i);
+//            FcOrderProduct product = productMapper.selectById(invoiceDetail.getOrderProductId());
+//            if (ObjectUtil.isNull(product)) {
+//                continue;
+//            }
+//            String unitPrice = product.getUnitPrice();
+//            if (StringUtils.isNotEmpty(unitPrice) && StringUtils.isNotEmpty(invoiceDetail.getAppliedQuantity())) {
+//                BigDecimal decimal = new BigDecimal(unitPrice).multiply(new BigDecimal(invoiceDetail.getAppliedQuantity()));
+//                sum = sum.add(decimal);
+//            }
+//        }
+//        return sum.toPlainString();
+//    }
+
+    private void handleOssFile(FcOrderInvoice fcOrderInvoice) {
+        List<SysOssCons> files = fcOrderInvoice.getFiles();
+        if (CollectionUtils.isNotEmpty(files)) {
+            List<String> fileIds = files.stream().map(SysOssCons::getOssId).collect(Collectors.toList());
+            fileIds.forEach(temp -> {
+                FcOssRelevance fcOssRelevance = new FcOssRelevance();
+                fcOssRelevance.setOssId(Long.parseLong(temp));
+                fcOssRelevance.setMainId(fcOrderInvoice.getId());
+                fcOssRelevance.setType(2);
+                fcOssRelevance.setVersion(fcOrderInvoice.getCurrentVersion());
+                fcOssRelevanceMapper.insert(fcOssRelevance);
+            });
+        }
+    }
+
+    private void handleApprove(FcOrderInvoice fcOrderInvoice) {
+        FcApprove fcApprove = fcApproveService.getFcApprove(fcOrderInvoice.getId(), 2);
+        if (Objects.isNull(fcApprove)) {
+            fcApprove = new FcApprove();
+        }
+        fcApprove.setTitle("开票审批" + fcOrderInvoice.getInvoiceNumber());
+        fcApprove.setType(2);
+        fcApprove.setOriginator(Objects.requireNonNull(LoginHelper.getUserId()).toString());
+        fcApprove.setStatus(0);
+        FcOrder order = fcOrderMapper.selectById(fcOrderInvoice.getOrderId());
+        FcApproveConfig approveConfig = approveConfigService.getFcApproveConfig(order);
+        if (Objects.isNull(approveConfig)) {
+            throw new ServiceException("未找到对应审批人，请维护审批配置");
+        }
+        fcApprove.setCurrentNode(approveConfig.getBookKeeper());
+        fcApprove.setRequestTime(new Date());
+        fcApprove.setMainId(fcOrderInvoice.getId());
+        fcApproveService.saveFcApprove(fcApprove);
+    }
+
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void approve(FcOrderInvoice fcOrderInvoice) {
+        Integer status = fcOrderInvoice.getApprovalStatus();
+        //撤销审批
+        baseMapper.update(null, new LambdaUpdateWrapper<FcOrderInvoice>().set(FcOrderInvoice::getApprovalStatus, status).eq(FcOrderInvoice::getId, fcOrderInvoice.getId()));
+        if (Objects.equals(1, status) || Objects.equals(2, status)) {
+            FcApprove fcApprove = fcApproveService.getFcApprove(fcOrderInvoice.getId(), 2);
+            fcApprove.setStatus(status);
+            fcApproveService.updateFcApprove(fcApprove);
+            FcApproveRecord approveRecord = new FcApproveRecord();
+            approveRecord.setApproveId(fcApprove.getId());
+            approveRecord.setResult(String.valueOf(status));
+            approveRecord.setOptUser(LoginHelper.getUsername());
+            fcApproveRecordMapper.insert(approveRecord);
+            //若审批通过
+            if (Objects.equals(1, status)) {
+                //创建开票同步SAP
+                String result = submitSapInvoice(fcOrderInvoice);
+                log.error(result);
+            }
+        }
+    }
+
+    /**
+     * *{
+     * *     "interfaceCode": "ZLVY_JHKP",
+     * *     "data": [{
+     * *         "VBELN_VA": "PN23.04005",
+     * *         "POSNR_VA": "10",
+     * *         "ZMENG": "1",
+     * *         "KUNNR_BP": "0080000000",
+     * *         "NETPR_ZFOB": "55",
+     * *         "ITEXT1": "普票",
+     * *         "ITEXT3": "",
+     * *         "ITEXT4": "个",
+     * *         "ITEXT5": "",
+     * *         "ITEXT6": "杭州市碧江区(18868899351)",
+     * *         "ITEXT7": "滨江支行",
+     * *         "CREATE_TYPE":"C",
+     * *         "LGORT":"3007",
+     * *         "VSTEL":"1007"
+     * *     }]
+     * * }
+     *
+     * @param fcOrderInvoice
+     * @return
+     */
+    @Async
+    public String submitSapInvoice(FcOrderInvoice fcOrderInvoice) {
+        Long invoiceId = fcOrderInvoice.getId();
+        List<FcOrderInvoiceDetail> details = fcOrderInvoiceDetailMapper.selectList(new LambdaQueryWrapper<FcOrderInvoiceDetail>().eq(FcOrderInvoiceDetail::getInvoiceId, invoiceId));
+        if (CollectionUtils.isEmpty(details)) {
             throw new ServiceException("开票明细不能为空");
         }
+        fcOrderInvoice = baseMapper.selectById(fcOrderInvoice.getId());
         Map<String, Object> params = new HashMap<>();
         params.put("interfaceCode", "ZLVY_JHKP");
-        List<FcOrderInvoiceDetail> details = fcOrderInvoice.getProductList();
         List<Object> data = new ArrayList<>(details.size());
         LambdaQueryWrapper<FcOrder> orderWrapper = new LambdaQueryWrapper<>();
         orderWrapper.eq(FcOrder::getId, fcOrderInvoice.getOrderId());
@@ -123,40 +268,49 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
             FcOrderProduct fcOrderProduct = productMapper.selectById(info.getOrderProductId());
             FcCustomerConsignment fcCustomerConsignment = fcCustomerConsignmentMapper.selectById(fcOrderInvoice.getConsignmentId());
             Map<String, Object> item = new HashMap<>();
+            String invoiceType = dictService.getDictLabel("invoice_type", fcOrderInvoice.getInvoiceType().toString());
+            FcCustomerInvoice customerInvoice = customerInvoiceMapper.selectById(fcOrderInvoice.getOpeningBank());
             item.put("VBELN_VA", order.getOrderNumber());
             item.put("POSNR_VA", fcOrderProduct.getSapDetailNumber());
-            item.put("CREATE_TYPE", "C");
             item.put("ZMENG", info.getAppliedQuantity());
             item.put("KUNNR_BP", fcOrderInvoice.getConsigneeId());
             item.put("NETPR_ZFOB", info.getInvoicingUnitPriceWithTax());
-            item.put("ITEXT1", fcOrderInvoice.getInvoiceType());
-            item.put("ITEXT3", "");
+            item.put("CREATE_TYPE", "C");
+            item.put("ITEXT1", invoiceType);
+            item.put("ITEXT3", info.getCustomerSpecName());
             item.put("ITEXT4", info.getUnit());
             item.put("ITEXT5", "");
-            item.put("ITEXT6", fcCustomerConsignment.getAddress() + "(" + fcCustomerConsignment.getPhone() + ")");
-            item.put("ITEXT7", fcOrderInvoice.getOpeningBank());
+            item.put("ITEXT6", fcCustomerConsignment.getLocation() + fcCustomerConsignment.getAddress() + "(" + fcCustomerConsignment.getPhone() + ")");
+            item.put("ITEXT7", customerInvoice.getOpeningBank() + "(" + customerInvoice.getAccount() + ")");
             item.put("LGORT", "3007");
             item.put("VSTEL", order.getFactory());
             data.add(item);
         }
         params.put("data", data);
-        httpKit.postData(params);
-    }
-
-
-    @Override
-    public int updateFcOrderInvoice(FcOrderInvoice fcOrderInvoice) {
-        LambdaQueryWrapper<FcOrderInvoice> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(FcOrderInvoice::getId, fcOrderInvoice.getId());
-        if (baseMappr.selectCount(queryWrapper) == 0) {
-            throw new ServiceException("该开票申请不存在或已删除");
+        log.error("param{}", JSON.toJSONString(params));
+        String result = httpKit.postData(params);
+        JSONObject resultObj = JSONObject.parseObject(result);
+        log.error("result{}", JSON.toJSONString(params));
+        SapJhkpForm jhkpForm = resultObj.getObject("data", SapJhkpForm.class);
+        if ("S".equals(jhkpForm.getEv_type())) {
+            baseMapper.update(null, new LambdaUpdateWrapper<FcOrderInvoice>()
+                    .eq(FcOrderInvoice::getOrderId, fcOrderInvoice.getOrderId())
+                    .set(FcOrderInvoice::getSyncSapStatus, 1)
+                    .set(FcOrderInvoice::getSyncSapVoucher, jhkpForm.getVf())
+                    .set(FcOrderInvoice::getSyncSapTime, new Date())
+            );
+        } else if ("E".equals(jhkpForm.getEv_type())) {
+            throw new ServiceException(jhkpForm.getEv_message());
         }
-        return baseMappr.updateById(fcOrderInvoice);
+        return result;
     }
+
+
+
 
     @Override
     public TableDataInfo<FcOrderInvoice> listFcOrderInvoice(FcOrderInvoice fcOrderInvoice, PageQuery pageQuery) {
-        Page<FcOrderInvoice> page = baseMappr.listPageInvoice(pageQuery.build(), fcOrderInvoice);
+        Page<FcOrderInvoice> page = baseMapper.listPageInvoice(pageQuery.build(), fcOrderInvoice);
         return TableDataInfo.build(page);
     }
 
@@ -170,21 +324,71 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
     }
 
     @Override
-    public Map<String,Object> getDetailById(Long id) {
-        Map<String,Object> result = new HashMap<>();
-        FcOrderInvoice fcOrderInvoice = baseMappr.selectById(id);
-        FcOrderInvoiceDetail[] fcOrderInvoiceDetails = fcOrderInvoiceDetailMapper.findAllFcOrderInvoiceDetail(id);
+    public Map<String, Object> getDetailById(Long id) {
+        Map<String, Object> result = new HashMap<>();
+        FcOrderInvoice fcOrderInvoice = baseMapper.selectById(id);
+        String consigneeId = fcOrderInvoice.getConsigneeId();
+        FcOrder fcOrder = fcOrderMapper.selectById(fcOrderInvoice.getOrderId());
+        FcCustomer fcCustomer = fcCustomerMapper.selectOne(new LambdaQueryWrapper<FcCustomer>()
+                .eq(FcCustomer::getCode, consigneeId));
+        fcOrderInvoice.setCustomer(fcOrder.getBillee());
+        fcOrderInvoice.setOrderTitle(fcOrder.getOrderTitle());
+        fcOrderInvoice.setFactory(fcOrder.getFactory());
+        if (fcCustomer != null) {
+            fcOrderInvoice.setConsigneeName(fcCustomer.getName());
+        }
+        FcSaleBank fcSaleBank = saleBankMapper.selectById(fcOrderInvoice.getSaleBank());
+        if (Objects.nonNull(fcSaleBank)) {
+            fcOrderInvoice.setSaleBankName(fcSaleBank.getBankName());
+        }
+        //收票方
+        FcCustomerInvoice fcCustomerInvoice = customerInvoiceMapper.selectById(fcOrderInvoice.getOpeningBank());
+        List<FcOrderInvoiceDetail> fcOrderInvoiceDetails = fcOrderInvoiceDetailMapper.selectList(new LambdaUpdateWrapper<FcOrderInvoiceDetail>()
+                .eq(FcOrderInvoiceDetail::getInvoiceId, id));
+        fcOrderInvoiceDetails.forEach(item -> {
+            FcOrderProduct product = productMapper.selectById(item.getOrderProductId());
+            item.setProduct(product);
+        });
+        //附件
+        List<FcOssRelevance> ossRelevanceList = fcOssRelevanceMapper.selectList(new LambdaQueryWrapper<FcOssRelevance>()
+                .eq(FcOssRelevance::getType, 2)
+                .eq(FcOssRelevance::getMainId, id)
+                .eq(FcOssRelevance::getVersion, fcOrderInvoice.getCurrentVersion()));
+        List<SysOss> ossList;
+        if (CollectionUtils.isNotEmpty(ossRelevanceList)) {
+            List<Long> idList = ossRelevanceList.stream().map(FcOssRelevance::getOssId).collect(Collectors.toList());
+            ossList = sysOssMapper.selectBatchIds(idList);
+        } else {
+            ossList = new ArrayList<>();
+        }
+
+        boolean hasConsApprove = hasConsApprove(fcOrderInvoice);
         FcCustomerConsignment fcCustomerConsignment = fcCustomerConsignmentMapper.selectById(fcOrderInvoice.getConsignmentId());
-        result.put("fcOrderInvoice",fcOrderInvoice);
-        result.put("fcOrderInvoiceDetail",fcOrderInvoiceDetails);
-        result.put("fcCustomerConsignment",fcCustomerConsignment);
+        result.put("fcOrderInvoice", fcOrderInvoice);
+        result.put("fcOrderInvoiceDetail", fcOrderInvoiceDetails);
+        result.put("fcCustomerConsignment", fcCustomerConsignment != null ? fcCustomerConsignment : new FcCustomerConsignment());
+        result.put("fcCustomerInvoice", fcCustomerInvoice != null ? fcCustomerInvoice : new FcCustomerInvoice());
+        result.put("ossList", ossList);
+        result.put("hasConsApprove", hasConsApprove);
         return result;
     }
 
-
-    private void submitInvoice(FcOrderInvoice fcOrderInvoice) {
-        Map<String, Object> params = new HashMap<>();
-
-
+    private boolean hasConsApprove(FcOrderInvoice fcOrderInvoice) {
+        if (LoginHelper.isAdmin()) {
+            return true;
+        }
+        String username = LoginHelper.getUsername();
+        Integer approvalStatus = fcOrderInvoice.getApprovalStatus();
+        if (Objects.equals(0, approvalStatus)) {
+            FcApprove fcApprove = approveMapper.selectOne(new LambdaQueryWrapper<FcApprove>()
+                    .eq(FcApprove::getMainId, fcOrderInvoice.getId())
+                    .eq(FcApprove::getType, 2)
+                    .eq(FcApprove::getCurrentNode, username));
+            return Objects.nonNull(fcApprove);
+        } else {
+            return false;
+        }
     }
+
+
 }
