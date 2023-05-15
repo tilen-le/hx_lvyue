@@ -17,7 +17,7 @@
     </div>
 
     <el-descriptions title="开票信息" size="medium" border :column="3">
-      <el-descriptions-item label="开票信息">开票类型: 标准开票</el-descriptions-item>
+      <el-descriptions-item label="开票类型">标准开票</el-descriptions-item>
       <el-descriptions-item label="订单名称">{{ fcOrderInvoice.orderTitle}}</el-descriptions-item>
       <el-descriptions-item label="客户名称">{{ fcOrderInvoice.customer }}</el-descriptions-item>
       <el-descriptions-item label="发票类型">

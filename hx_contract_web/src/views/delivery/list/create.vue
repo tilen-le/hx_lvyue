@@ -95,7 +95,10 @@
       <div class="info-header">
         <div style="display: flex;align-items: center">
           <div class="line-item"></div>
-          <span>收货信息</span>
+          <span>收货信息
+            <!--            新增收货联系人-->
+              <el-button plain size="mini" type="primary" icon="el-icon-plus" circle @click="createAddress()"></el-button>
+          </span>
         </div>
         <el-row style="margin: 15px 15px 0 15px">
           <el-col :span="6">
@@ -118,6 +121,7 @@
                   {{ item.name }}({{ item.code }})
                 </el-option>
               </el-select>
+
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -334,13 +338,39 @@
       <el-button :loading="buttonLoading" type="primary" v-hasPermi="['order:create:save']" @click="submitForm(3)">保存为草稿</el-button>
       <el-button :loading="buttonLoading" type="primary" v-hasPermi="['order:create:approve']" @click="submitForm(0)">提交审核</el-button>
     </div>
+<!--新增收货方弹窗-->
+    <el-dialog title="新增收货方" :visible.sync="openAddress" width="600px" append-to-body>
+      <el-form ref="addressForm" :model="consigneeForm" :rules="addressRules" label-width="100px" label-position="left">
+        <el-form-item label="收货人" prop="name">
+          <el-input v-model="consigneeForm.name" placeholder="请输入" maxlength="30"/>
+        </el-form-item>
+        <el-form-item label="收货人电话" prop="phone">
+          <el-input v-model="consigneeForm.phone" placeholder="请输入收货人电话"  />
+        </el-form-item>
+        <el-form-item label="收货地址" prop="location">
+          <RegionSelect
+            style="width: 100%"
+            placeholder="请选择"
+            v-model="consigneeForm.location"
+          ></RegionSelect>
+        </el-form-item>
+        <el-form-item label="详细地址" prop="address">
+          <el-input v-model="consigneeForm.address" placeholder="请输入" maxlength="50"/>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitFormAddress">确 定</el-button>
+        <el-button @click="cancelFormAddress">取 消</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
   import RegionSelect from "@/components/Forms/RegionSelect.vue";
   import {getOrderDetail} from "@/api/order";
-  import {getAddressByCode, getOpenBankByBe, listCustomer} from "@/api/customer";
+  import { addAddress, getAddressByCode, getOpenBankByBe, listCustomer, updateAddress } from '@/api/customer'
   import {addDelivery} from "@/api/invoice";
 
   export default {
@@ -348,6 +378,15 @@
   components: {RegionSelect},
   dicts: ['sys_trans_category', 'sys_y_n','delivery_category', 'ynn'],
   data() {
+    const validatePhTelNumber = (rule, value, callback) => {
+      const reg = /^((\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14})|([1][3,4,5,6,7,8,9][0-9]{9})$/
+      if(reg.test(value)) {
+        callback();
+      } else {
+        callback(new Error("请输入正确格式手机号"));
+      }
+    };
+
     return {
       deliveryForm: {},
       address: [],
@@ -378,16 +417,68 @@
         ],
         consignorCode:[
           {required: true, message: "请选择", trigger: "blur"}
-        ]
+        ],
       },
       order: {},
-      contract: {}
+      contract: {},
+      // 收货人表单-----------
+      consigneeForm: {},
+      openAddress: false,
+      addressRules: {
+        name: [
+          {required: true, message: "请输入收货人", trigger: "blur"}
+        ],
+        phone: [
+          {required: true, trigger: "blur", message: "请输入收货电话"},
+          {required: true, trigger: "blur", validator: validatePhTelNumber}
+        ],
+        location: [
+          {required: true, message: "请选择收货地区", trigger: "blur"}
+        ],
+        address: [
+          {required: true, message: "请选择收货地区", trigger: "blur"}
+        ],
+      },
+      // --------------------
     }
   },
   created() {
     this.getOrderDetail()
   },
   methods: {
+    // 取消提交收获人
+    cancelFormAddress(){
+      this.openAddress = false
+    },
+    // 提交收获人
+    submitFormAddress() {
+      this.$refs["addressForm"].validate(valid => {
+        if (valid) {
+          addAddress(this.consigneeForm).then(res => {
+            this.$modal.msgSuccess("创建成功");
+            // 重新获取收货人列表
+            this.getAddressByCodeApi(this.order.reciverCd);
+            this.openAddress = false;
+          })
+        }
+      })
+    },
+    // 新增收获人
+    createAddress(){
+      // 请你先选择收货方
+      if(typeof this.deliveryForm.consigneeId === 'undefined' || this.deliveryForm.consigneeId == null || this.deliveryForm.consigneeId === ''){
+        this.$message({
+          message: '请您先选择收货方',
+          type: 'warning'
+        });
+        return
+      }
+      this.consigneeForm = {};
+      this.consigneeForm.customerId = this.deliveryForm.consigneeId
+      // 显示新增收货人弹窗
+      this.openAddress = true
+    },
+
     addressChange(val) {
       this.address.map(item => {
         if (item.id == val) {
