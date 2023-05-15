@@ -64,6 +64,11 @@ public class FcApproveConfigServiceImpl implements IFcApproveConfigService {
                 marketingDepartment = "国外";
             }
         }
+        if ("国内".equals(marketingDepartment)){
+            marketingDepartment = "1";
+        }else if ("国外".equals(marketingDepartment)){
+            marketingDepartment = "2";
+        }
         FcApproveConfig approveConfig = baseMapper.selectOne(new LambdaQueryWrapper<FcApproveConfig>()
                 .eq(FcApproveConfig::getFactory, order.getFactory())
                 .eq(FcApproveConfig::getSaleDept, order.getMarketingDepartmentId(marketingDepartment)).last("limit 1"));

@@ -1101,6 +1101,9 @@ export default {
           } else {
             this.planForm.file = []
           }
+          for (let order of this.planForm.orderList) {
+            order.orderProductId=order.productId
+          }
           updatePlanApi(this.planForm).then(res => {
             this.$message({
               message: '更新完成',

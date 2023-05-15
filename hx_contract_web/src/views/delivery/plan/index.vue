@@ -198,6 +198,7 @@ export default {
           message: '已为您通知',
           type: 'success'
         });
+        this.handleQuery()
       })
     },
     // 报关完成
@@ -229,6 +230,7 @@ export default {
             type: 'success'
           });
         })
+        this.handleQuery();
       }).catch(() => {
         this.$message({
           type: 'info',
