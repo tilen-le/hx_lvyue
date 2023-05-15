@@ -110,7 +110,7 @@
               :key="item.userId"
               :label="item.nickName"
               :value="item.userId"
-            />
+            >{{item.nickName}}({{item.userName}})</el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="仓储部经理" prop="wareManager">
@@ -120,7 +120,7 @@
               :key="item.userId"
               :label="item.nickName"
               :value="item.userId"
-            />
+            >{{item.nickName}}({{item.userName}})</el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -158,7 +158,7 @@
               :key="item.userId"
               :label="item.nickName"
               :value="item.userId"
-            />
+            >{{item.nickName}}({{item.userName}})</el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -200,9 +200,6 @@ export default {
         storeKeeper: [
           {required: true, message: "请选择收件人", trigger: "blur"},
         ],
-        wareManager: [
-          {required: true, message: "请添加", trigger: "blur"},
-        ]
       },
       invoiceRules: {
         factory: [
@@ -253,6 +250,7 @@ export default {
       this.$refs["invoiceForm"].validate(valid => {
         if (valid) {
           this.invoiceConfig.category = 2
+          this.invoiceConfig.saleDept = this.invoiceConfig.businessUnit
           if (this.invoiceConfig.id == undefined) {
             addApproveConfig(this.invoiceConfig).then(res => {
               this.$modal.msgSuccess("新增成功");
@@ -316,14 +314,17 @@ export default {
         pageSize: 100,
         pageNum: 1
       }
+      const params3 = {
+        roleId: "1653338831736295426",
+      }
       listStoreKeeper(params).then(res => {
         this.storeKeeper = res.rows
       })
       listWareKeeper(params).then(res => {
         this.wareKeeper = res.rows
       })
-      listBookKeeper(params).then(res => {
-        this.bookKeeper = res.rows
+      listBookKeeper(params3).then(res => {
+        this.bookKeeper = res.data
       })
     },
     handleDelete(row) {

@@ -24,7 +24,7 @@ export function listWareKeeper(query) {
 }
 export function listBookKeeper(query) {
   return request({
-    url: '/system/user/getUserByRole',
+    url: '/system/user/getUserByRoleId',
     method: 'get',
     params: query
   })

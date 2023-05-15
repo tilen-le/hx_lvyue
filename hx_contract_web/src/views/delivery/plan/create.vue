@@ -1047,6 +1047,9 @@ export default {
           } else {
             this.planForm.file = []
           }
+          for (let order of this.planForm.orderList) {
+            order.orderProductId=order.productId
+          }
           addPlanApi(this.planForm).then(res => {
             this.$message({
               message: '新增完成',
