@@ -25,7 +25,6 @@ import com.hexing.system.domain.form.OrderForm;
 import com.hexing.system.domain.form.SapFhdForm;
 import com.hexing.system.mapper.*;
 import com.hexing.system.service.*;
-import com.hexing.system.task.CustomerTask;
 import com.hexing.system.utils.HttpKit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -242,9 +241,9 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
         }
         FcApproveConfig fcApproveConfig = fcApproveConfigService.getFcApproveConfig(fcOrder);
         if (Objects.nonNull(fcApproveConfig)) {
-            String keeper = fcApproveConfig.getStoreKeeper();
-            SysUser sysUser = sysUserMapper.selectUserByUserName(keeper);
-            consignment.setStoreKeeper(fcApproveConfig.getStoreKeeper() + "(" + sysUser.getNickName() + ")");
+            Long keeperId = fcApproveConfig.getStoreKeeper();
+            SysUser sysUser = sysUserMapper.selectUserById(keeperId);
+            consignment.setStoreKeeper(sysUser.getUserName() + "(" + sysUser.getNickName() + ")");
         }
         boolean hasConsApprove = hasConsApprove(consignment);
         result.put("ossList", ossList);

@@ -34,11 +34,11 @@ public class FcApproveConfig extends BaseEntity {
     /**
      * 库管id
      */
-    private String storeKeeper;
+    private Long storeKeeper;
     /**
      * 仓储部经理id
      */
-    private String wareManager;
+    private Long wareManager;
     /**
      * 事业部
      */
@@ -46,7 +46,7 @@ public class FcApproveConfig extends BaseEntity {
     /**
      * 会计id
      */
-    private String bookKeeper;
+    private Long bookKeeper;
     private Integer delFlag;
     private Integer category;
 

@@ -493,6 +493,12 @@ public class SysUserServiceImpl implements ISysUserService, UserService {
         return R.ok(userList);
     }
 
+    @Override
+    public R<List<SysUser>> getUserByRoleId(String roleId) {
+        List<SysUser> userList = baseMapper.getUserByRoleId(Long.valueOf(roleId));
+        return R.ok(userList);
+    }
+
     @Cacheable(cacheNames = CacheNames.SYS_USER_NAME, key = "#userId")
     @Override
     public String selectUserNameById(Long userId) {

@@ -59,6 +59,12 @@ hexing:
   task:
     domain: http://115.238.36.165:4168/UIP/uip/uipManage/dataOper
 
+
+logging:
+  level:
+    org.springframework: info
+    com.hexing.**.service.impl: debug
+
 --- #activiti配置
 spring:
   activiti:
