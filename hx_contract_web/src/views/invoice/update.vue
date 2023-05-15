@@ -314,7 +314,8 @@
                 size="mini"
                 type="text"
                 icon="el-icon-edit"
-                @click="clear(scope.row)">重置
+                @click="clear(scope.row)"
+                has-permi="['invoice:update:reset']">重置
               </el-button>
             </template>
           </el-table-column>
@@ -331,10 +332,10 @@
       </div>
     </el-form>
     <div style="text-align: center">
-      <el-button @click="submitForm(3)" type="primary"
+      <el-button @click="submitForm(3)" type="primary" has-permi="['invoice:list:add']"
                  v-show="approvalStatus=='2' || approvalStatus=='3' || approvalStatus=='4'">
         保存为草稿</el-button>
-      <el-button @click="submitForm(0)" type="primary"
+      <el-button @click="submitForm(0)" type="primary" has-permi="['invoice:list:add']"
                  v-show="approvalStatus=='2' || approvalStatus=='3' || approvalStatus=='4'">
         提交审核</el-button>
     </div>

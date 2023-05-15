@@ -44,7 +44,7 @@ public class CustomerController extends BaseController {
      * @param pageQuery
      * @return
      */
-    @SaCheckPermission(" customer:all:list")
+    @SaCheckPermission(" customer:list:query")
     @GetMapping("/list")
     public TableDataInfo<FcCustomer> list(FcCustomer fcCustomer, PageQuery pageQuery) {
         return iFcCustomerService.listCustomer(fcCustomer, pageQuery);
@@ -63,7 +63,7 @@ public class CustomerController extends BaseController {
      * @param id
      * @return
      */
-    @SaCheckPermission(" customer:all:list")
+    @SaCheckPermission(" customer:list:detail")
     @GetMapping("/detail/{id}")
     public R<FcCustomer> detail(@PathVariable("id") String id) {
         return R.ok(iFcCustomerService.getCustomerById(id));
@@ -95,7 +95,7 @@ public class CustomerController extends BaseController {
      * @param fcCustomerConsignment
      * @return
      */
-    @SaCheckPermission("customer:address:add")
+    @SaCheckPermission("customer:address:update")
     @Log(title = "修改客户收货地址", businessType = BusinessType.UPDATE)
     @PutMapping("/updateAddress")
     public R<Void> updateAddress(@Validated @RequestBody FcCustomerConsignment fcCustomerConsignment) {

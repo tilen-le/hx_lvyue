@@ -47,13 +47,13 @@ public class InvoiceController extends BaseController {
      * @param pageQuery
      * @return
      */
-    @SaCheckPermission("invoice:list:add")
+    @SaCheckPermission("invoice:list:all")
     @GetMapping("/list")
     public TableDataInfo<FcOrderInvoice> list(FcOrderInvoice fcOrderInvoice, PageQuery pageQuery) {
         return iFcOrderInvoiceService.listFcOrderInvoice(fcOrderInvoice, pageQuery);
     }
 
-    @SaCheckPermission("invoice:list:add")
+    @SaCheckPermission("invoice:list:detail")
     @GetMapping("/detail")
     public R<Map<String,Object>> detail( FcOrderInvoice fcOrderInvoice) {
         return R.ok(iFcOrderInvoiceService.getDetailById(fcOrderInvoice.getId()));

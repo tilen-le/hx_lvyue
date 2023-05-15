@@ -313,8 +313,7 @@
                 type="text"
                 icon="el-icon-edit"
                 @click="resetRow(scope.row)"
-                v-hasPermi="['system:oss:download']"
-
+                v-hasPermi="['delivery:create:reset']"
               >重置
               </el-button>
             </template>

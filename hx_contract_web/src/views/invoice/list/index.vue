@@ -83,6 +83,7 @@
               type="text"
               v-show="scope.row.approvalStatus == '2' || scope.row.approvalStatus == '3' || scope.row.approvalStatus == '4'"
               @click="updateHandle(scope.row)"
+              v-hasPermi="['invoice:list:update']"
             >编辑
             </el-button>
             <el-button
@@ -97,6 +98,7 @@
               type="text"
               v-show="scope.row.approvalStatus == '0'"
               @click="revokeApprove(scope.row)"
+
             >撤销审批
             </el-button>
           </template>
