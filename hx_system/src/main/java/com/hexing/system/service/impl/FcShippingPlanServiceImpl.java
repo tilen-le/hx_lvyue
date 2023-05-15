@@ -82,6 +82,7 @@ public class FcShippingPlanServiceImpl implements IFcShippingPlanService {
         if (accountIfs.isEmpty()) {
             return R.fail("SAP财务核算收入不能为空");
         }
+        List<Long> orderIds = new ArrayList<>();
         //校验每个行明细的报关数量 逻辑：<=在途数量 <=报关剩余数量
         for (FcShippingPlanFinancialAccounting accountIf : accountIfs) {
             //报关数量
@@ -111,8 +112,14 @@ public class FcShippingPlanServiceImpl implements IFcShippingPlanService {
                     return R.fail("订单明细编号:" + accountIf.getSapMaterialCode() + "不能大于报关剩余数量");
                 }
             }
-
+            orderIds.add(fcOrderProduct.getOrderId());
         }
+        //校验所有订单的客户是否为同一个
+        boolean checkSoldToPartyCd = checkSoldToPartyCd(orderIds);
+        if (!checkSoldToPartyCd) {
+            return R.fail("发货计划只能为同一个客户的订单");
+        }
+
         fcShippingPlan.setPlanCode(codeGenerate.genShippingPlanCode());
         //是否通知单证专员
         fcShippingPlan.setIsNoticeDocumentSpecialist("0");
@@ -257,6 +264,7 @@ public class FcShippingPlanServiceImpl implements IFcShippingPlanService {
         if (accountIfs.isEmpty()) {
             return R.fail("SAP财务核算收入不能为空");
         }
+        List<Long> orderIds = new ArrayList<>();
         //校验每个行明细的报关数量 逻辑：<=在途数量 <=报关剩余数量
         for (FcShippingPlanFinancialAccounting accountIf : accountIfs) {
             //报关数量
@@ -285,7 +293,13 @@ public class FcShippingPlanServiceImpl implements IFcShippingPlanService {
                     return R.fail("订单明细编号:" + accountIf.getSapMaterialCode() + "不能大于报关剩余数量");
                 }
             }
+            orderIds.add(fcOrderProduct.getOrderId());
 
+        }
+        //校验所有订单的客户是否为同一个
+        boolean checkSoldToPartyCd = checkSoldToPartyCd(orderIds);
+        if (!checkSoldToPartyCd) {
+            return R.fail("发货计划只能为同一个客户的订单");
         }
         //附件处理
         FcOssRelevance relevance = fcOssRelevanceMapper.selectOne(new LambdaQueryWrapper<FcOssRelevance>().eq(FcOssRelevance::getMainId, fcShippingPlan.getId()).eq(FcOssRelevance::getType, 1).orderByDesc(FcOssRelevance::getVersion).last("limit 1"));
@@ -426,6 +440,21 @@ public class FcShippingPlanServiceImpl implements IFcShippingPlanService {
                 fcOssRelevance.setVersion(shippingPlan.getCurrentVersion());
                 fcOssRelevanceMapper.insert(fcOssRelevance);
             });
+        }
+    }
+
+    private boolean checkSoldToPartyCd(List<Long> orderIds) {
+        if (CollectionUtils.isEmpty(orderIds)) {
+            return false;
+        }
+        LambdaQueryWrapper<FcOrder> wrapper = new LambdaQueryWrapper<>();
+        wrapper.in(FcOrder::getId, orderIds);
+        List<FcOrder> fcOrders = fcOrderMapper.selectList(wrapper);
+        long count = fcOrders.stream().map(FcOrder::getSoldToPartyCd).distinct().count();
+        if (count == 1) {
+            return true;
+        } else {
+            return false;
         }
     }
 
