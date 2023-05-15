@@ -162,6 +162,35 @@
                  left join sys_role r on r.role_id = sur.role_id
         where r.role_name = #{roleName}
     </select>
+    <select id="getUserByRoleId" resultType="com.hexing.common.core.domain.entity.SysUser">\
+    select u.user_id,
+           u.dept_id,
+           u.user_name,
+           u.nick_name,
+           u.user_type,
+           u.email,
+           u.avatar,
+           u.phonenumber,
+           u.password,
+           u.sex,
+           u.status,
+           u.del_flag,
+           u.login_ip,
+           u.login_date,
+           u.create_by,
+           u.create_time,
+           u.remark,
+           r.role_id,
+           r.role_name,
+           r.role_key,
+           r.role_sort,
+           r.data_scope,
+           r.status as role_status
+    from sys_user u
+             left join sys_user_role sur on u.user_id = sur.user_id
+             left join sys_role r on r.role_id = sur.role_id
+    where r.role_id = #{roleId}
+    </select>
 
 
 </mapper>

@@ -26,15 +26,16 @@
     </select>
 
     <select id="listCustomer" resultType="com.hexing.system.domain.FcCustomer">
-        SELECT *
+        SELECT distinct fc.*
         from fc_customer fc
         left join fc_customer_consignment fcc
         on fc.id = fcc.customer_id
         <where>
-            <if test="param.name!=null and param.name != ''">
-                and fc.name like concat('%', #{param.name}, '%')
+            <if test="(param.name!=null and param.name != '') or (param.code!=null and param.code != '')">
+                and (fc.name like concat('%', #{param.name}, '%')
+                or fc.code like concat('%', #{param.code}, '%'))
             </if>
-            <if test="param.name!=null and param.name != ''">
+            <if test="param.status!=null">
                 and fc.`status` = #{param.status}
             </if>
             <if test="param.nickName!=null and param.nickName != ''">

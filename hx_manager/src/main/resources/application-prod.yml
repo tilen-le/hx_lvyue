@@ -1,6 +1,6 @@
 --- # 临时文件存储位置 避免临时文件被系统清理报错
 server:
-  port: 9310
+  port: 9528
   ssl:
     key-store: classpath:9749546_contract.api.jsonarray.com.pfx
     key-store-type: PKCS12
@@ -8,6 +8,13 @@ server:
     key-store-password: ijd4hfxv
 
 spring.servlet.multipart.location: /data/server/temp
+
+logging:
+  level:
+    org.springframework: info
+    com.hexing.**.service.impl: debug
+
+
 
 --- # 监控中心配置
 spring.boot.admin.client:

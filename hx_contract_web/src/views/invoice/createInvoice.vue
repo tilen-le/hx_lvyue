@@ -239,7 +239,7 @@
           </el-table-column>
           <el-table-column label="工厂" align="center" key="factory" prop="factory"
                            width="150"/>
-          <el-table-column label="剩余开票数量" align="center" key="inTransitNum" prop="inTransitNum"
+          <el-table-column label="在途库数量" align="center" key="inTransitNum" prop="inTransitNum"
                            width="150"/>
           <el-table-column label="申请开票数量" align="center" key="appliedQuantity" prop="appliedQuantity"
                            width="150">
@@ -282,6 +282,7 @@
           <el-table-column label="客户物料名称" align="center" key="customerMaterialName" prop="customerMaterialName"
                            width="150">
             <template slot-scope="scope">
+              <el-form-item :prop="'productList.' + scope.$index + '.customerMaterialName'" :rules="rules.customerMaterialName" style="text-align: center" label-width="0px">
               <el-input
                 controls-position="right"
                 max-length="50"
@@ -289,11 +290,13 @@
                 style="width: 70%"
                 v-model="scope.row.customerMaterialName"
               />
+              </el-form-item>
             </template>
           </el-table-column>
           <el-table-column label="客户规格名称" align="center" key="customerSpecName" prop="customerSpecName"
                            width="150">
             <template slot-scope="scope">
+              <el-form-item :prop="'productList.' + scope.$index + '.customerSpecName'" :rules="rules.customerSpecName" style="text-align: center" label-width="0px">
               <el-input
                 controls-position="right"
                 placeholder="请输入"
@@ -301,6 +304,7 @@
                 style="width: 70%"
                 v-model="scope.row.customerSpecName"
               />
+              </el-form-item>
             </template>
           </el-table-column>
           <el-table-column label="开票含税金额合计" align="center" key="invoicingAmountWithTax"
@@ -380,6 +384,12 @@ export default {
         ],
         unit: [
           {required: true, message: "请填写单位", trigger: "blur"},
+        ],
+        customerMaterialName: [
+          {required: true, message: "请填写客户物料名称", trigger: "blur"},
+        ],
+        customerSpecName: [
+          {required: true, message: "请填写客户规格名称", trigger: "blur"},
         ],
       }
     }

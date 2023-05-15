@@ -3,7 +3,7 @@
     <div class="angel-card">
       <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch">
         <el-row>
-          <el-col :span="6">
+          <el-col :span="8">
             <el-form-item label="客户名称" prop="name">
               <el-input
                 v-model="queryParams.name"
@@ -13,7 +13,7 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="8">
             <el-form-item label="收货人" prop="nickName">
               <el-input
                 v-model="queryParams.nickName"
@@ -23,7 +23,7 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="8">
             <el-form-item label="状态" prop="status">
               <el-select
                 v-model="queryParams.status"

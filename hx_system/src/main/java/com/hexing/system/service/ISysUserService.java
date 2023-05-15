@@ -224,4 +224,6 @@ public interface ISysUserService {
      * @return
      */
     R<List<SysUser>> getUserByRoleName(String roleName);
+
+    R<List<SysUser>> getUserByRoleId(String roleId);
 }

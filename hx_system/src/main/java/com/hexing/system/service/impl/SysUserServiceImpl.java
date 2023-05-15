@@ -489,10 +489,13 @@ public class SysUserServiceImpl implements ISysUserService, UserService {
 
     @Override
     public R<List<SysUser>> getUserByRoleName(String roleName) {
-        if (StringUtils.isEmpty(roleName)) {
-            return R.fail("角色名称不能为空");
-        }
         List<SysUser> userList = baseMapper.getUserByRoleName(roleName);
+        return R.ok(userList);
+    }
+
+    @Override
+    public R<List<SysUser>> getUserByRoleId(String roleId) {
+        List<SysUser> userList = baseMapper.getUserByRoleId(Long.valueOf(roleId));
         return R.ok(userList);
     }
 

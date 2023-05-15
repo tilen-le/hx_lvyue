@@ -34,7 +34,7 @@ public class FcApprove implements Serializable {
     /**
      * 当前节点
      */
-    private String currentNode;
+    private Long currentNode;
 
     /**
      * 发起人

@@ -501,6 +501,7 @@
                 placeholder="请输入"
                 style="width: 70%"
                 v-model="scope.row.num"
+                @input="changNum(scope.row)"
               />
             </template>
           </el-table-column>
@@ -859,6 +860,13 @@ export default {
     this.getDeptTree()
   },
   methods: {
+    // 报关数量改变
+    changNum(row){
+      if(  row.reportCustomsNum != NaN && row.reportCustomsNum != undefined && row.reportCustomsNum != '' &&
+        row.unitPrice != NaN && row.unitPrice != undefined && row.unitPrice != '' ){
+        row.currentReportCustomsAmount = row.reportCustomsNum * row.unitPrice
+      }
+    },
     // 下拉框--远程获取人员信息
     remoteMethod(query) {
       setTimeout(() => {
