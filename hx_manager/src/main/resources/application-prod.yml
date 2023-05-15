@@ -9,10 +9,6 @@ server:
 
 spring.servlet.multipart.location: /data/server/temp
 
-logging:
-  level:
-    org.springframework: info
-    com.hexing.**.service.impl: debug
 
 
 
@@ -46,7 +42,7 @@ spring:
           # rewriteBatchedStatements=true 批处理优化 大幅提升批量插入更新删除性能(对数据库有性能损耗 使用批量操作应考虑性能问题)
           url: jdbc:mysql://localhost:3306/hx_contract_system?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&autoReconnect=true&rewriteBatchedStatements=true
           username: root
-          password: guxiangYU!@123
+          password: *k:Atj9c9,h3
         # 从库数据源
         slave:
           lazy: true
@@ -54,7 +50,7 @@ spring:
           driverClassName: com.mysql.cj.jdbc.Driver
           url: jdbc:mysql://localhost:3306/hx_contract_system?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&autoReconnect=true&rewriteBatchedStatements=true
           username: root
-          password: guxiangYU!@123
+          password: *k:Atj9c9,h3
       hikari:
         # 最大连接池数量
         maxPoolSize: 20
@@ -72,6 +68,17 @@ spring:
         connectionTestQuery: SELECT 1
         # 多久检查一次连接的活性
         keepaliveTime: 30000
+
+hexing:
+  task:
+    domain: http://115.238.36.165:4168/UIP/uip/uipManage/dataOper
+
+
+
+logging:
+  level:
+    org.springframework: info
+    com.hexing.**.service.impl: debug
 
 --- # redis 单机配置(单机与集群只能开启一个另一个需要注释掉)
 spring:
