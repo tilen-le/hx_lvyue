@@ -1,6 +1,7 @@
 package com.hexing.system.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hexing.common.core.domain.BaseEntity;
@@ -46,4 +47,7 @@ public class FcCustomer extends BaseEntity {
      *
      */
     private String deleted;
+
+    @TableField(exist = false)
+    private String nickName;
 }

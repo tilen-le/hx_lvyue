@@ -10,7 +10,8 @@
         fco.order_number,
         fco.order_title,
         fco.amount,
-        fco.status,
+        fco.consignment_status,
+        fco.store_status,
         fco.sold_to_party_cd,
         fco.sold_to_party,
         fco.contract_number contractNumber,
@@ -24,6 +25,12 @@
             </if>
             <if test="order.reciver!=null and order.reciver !=''">
                 and fco.reciver  like concat('%', #{order.reciver}, '%')
+            </if>
+            <if test="order.consignmentStatus!=null ">
+                and fco.consignment_status  =#{order.consignmentStatus}
+            </if>
+            <if test="order.storeStatus!=null ">
+                and fco.store_status  = #{order.storeStatus}
             </if>
         </where>
         order by order_number desc

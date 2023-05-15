@@ -151,12 +151,7 @@ public class CustomerController extends BaseController {
         return toAjax(iFcCustomerInvoiceService.updateFcCustomerInvoice(fcCustomerInvoice));
     }
 
-    @SaCheckPermission("customer:openbank:list")
-    @Log(title = "获取开户行信息", businessType = BusinessType.EXPORT)
-    @PostMapping("/getOpenBank")
-    public R<List<FcCustomerInvoice>> getOpenBank(@RequestBody FcCustomerInvoice fcCustomerInvoice) {
-        return R.ok(iFcCustomerInvoiceService.listFcCustomerInvoice(fcCustomerInvoice.getCustomerId()));
-    }
+
 
     /**
      * 删除开户行信息

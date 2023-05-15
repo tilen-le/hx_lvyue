@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.rmi.ServerException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -81,10 +82,42 @@ public class FcShippingPlanServiceImpl implements IFcShippingPlanService {
         if (accountIfs.isEmpty()) {
             return R.fail("SAP财务核算收入不能为空");
         }
+        //校验每个行明细的报关数量 逻辑：<=在途数量 <=报关剩余数量
+        for (FcShippingPlanFinancialAccounting accountIf : accountIfs) {
+            //报关数量
+            BigDecimal reportNum = new BigDecimal(accountIf.getReportCustomsNum());
+            //获取订单明细在途数量
+            String orderProductId = accountIf.getProductId();
+
+            FcOrderProduct fcOrderProduct = fcOrderProductMapper.selectById(orderProductId);
+            BigDecimal inTransitNum = new BigDecimal(fcOrderProduct.getInTransitNum());
+            if (reportNum.compareTo(inTransitNum) == 1) {
+                return R.fail("订单明细编号:" + accountIf.getSapMaterialCode() + "不能大于在途数量");
+            }
+            //获取订单数量
+            BigDecimal num = new BigDecimal(fcOrderProduct.getNum());
+            if (reportNum.compareTo(num) == 1) {
+                return R.fail("订单明细编号:" + accountIf.getSapMaterialCode() + "不能大于订单数量");
+            }
+            //获取剩余报关数量
+            LambdaQueryWrapper<FcShippingPlanFinancialAccounting> financialWrapper = new LambdaQueryWrapper<>();
+            financialWrapper.eq(FcShippingPlanFinancialAccounting::getOrderProductId, accountIf.getOrderProductId())
+                    .orderByAsc(FcShippingPlanFinancialAccounting::getId)
+                    .last("limit 1");
+            FcShippingPlanFinancialAccounting lastFinancial = planFinancialAccountingMapper.selectOne(financialWrapper);
+            if (ObjectUtil.isNotNull(lastFinancial)) {
+                BigDecimal reportCustomsResidueNum = new BigDecimal(lastFinancial.getReportCustomsResidueNum());
+                if (reportNum.compareTo(reportCustomsResidueNum) == 1) {
+                    return R.fail("订单明细编号:" + accountIf.getSapMaterialCode() + "不能大于报关剩余数量");
+                }
+            }
+            accountIf.setOrderProductId(accountIf.getProductId());
+
+        }
         fcShippingPlan.setPlanCode(codeGenerate.genShippingPlanCode());
         //是否通知单证专员
         fcShippingPlan.setIsNoticeDocumentSpecialist("0");
-        //已经同步sap
+        //未同步sap
         fcShippingPlan.setSyncSapSuccess("0");
         //报关
         fcShippingPlan.setReportCustomsComplted("0");
@@ -222,6 +255,36 @@ public class FcShippingPlanServiceImpl implements IFcShippingPlanService {
         List<FcShippingPlanFinancialAccounting> accountIfs = fcShippingPlan.getFinancialList();
         if (accountIfs.isEmpty()) {
             return R.fail("SAP财务核算收入不能为空");
+        }
+        //校验每个行明细的报关数量 逻辑：<=在途数量 <=报关剩余数量
+        for (FcShippingPlanFinancialAccounting accountIf : accountIfs) {
+            //报关数量
+            BigDecimal reportNum = new BigDecimal(accountIf.getReportCustomsNum());
+            //获取订单明细在途数量
+            String orderProductId = accountIf.getOrderProductId();
+            FcOrderProduct fcOrderProduct = fcOrderProductMapper.selectById(orderProductId);
+            BigDecimal inTransitNum = new BigDecimal(fcOrderProduct.getInTransitNum());
+            if (reportNum.compareTo(inTransitNum) == 1) {
+                return R.fail("订单明细编号:" + accountIf.getSapMaterialCode() + "不能大于在途数量");
+            }
+            //获取订单数量
+            BigDecimal num = new BigDecimal(fcOrderProduct.getNum());
+            if (reportNum.compareTo(num) == 1) {
+                return R.fail("订单明细编号:" + accountIf.getSapMaterialCode() + "不能大于订单数量");
+            }
+            //获取剩余报关数量
+            LambdaQueryWrapper<FcShippingPlanFinancialAccounting> financialWrapper = new LambdaQueryWrapper<>();
+            financialWrapper.eq(FcShippingPlanFinancialAccounting::getOrderProductId, accountIf.getOrderProductId())
+                    .orderByAsc(FcShippingPlanFinancialAccounting::getId)
+                    .last("limit 1");
+            FcShippingPlanFinancialAccounting lastFinancial = planFinancialAccountingMapper.selectOne(financialWrapper);
+            if (ObjectUtil.isNotNull(lastFinancial)) {
+                BigDecimal reportCustomsResidueNum = new BigDecimal(lastFinancial.getReportCustomsResidueNum());
+                if (reportNum.compareTo(reportCustomsResidueNum) == 1) {
+                    return R.fail("订单明细编号:" + accountIf.getSapMaterialCode() + "不能大于报关剩余数量");
+                }
+            }
+            accountIf.setOrderProductId(accountIf.getProductId());
         }
         //附件处理
         FcOssRelevance relevance = fcOssRelevanceMapper.selectOne(new LambdaQueryWrapper<FcOssRelevance>().eq(FcOssRelevance::getMainId, fcShippingPlan.getId()).eq(FcOssRelevance::getType, 1).orderByDesc(FcOssRelevance::getVersion).last("limit 1"));

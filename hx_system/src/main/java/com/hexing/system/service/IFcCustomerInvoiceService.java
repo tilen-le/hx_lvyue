@@ -26,13 +26,8 @@ public interface IFcCustomerInvoiceService {
      */
     int updateFcCustomerInvoice(FcCustomerInvoice fcCustomerInvoice);
 
-    /**
-     * 获取客户开户行信息
-     *
-     * @param userId
-     * @return
-     */
-    List<FcCustomerInvoice> listFcCustomerInvoice(Long userId);
+
+
 
     /**
      * 通过收票方获取开户行信息
