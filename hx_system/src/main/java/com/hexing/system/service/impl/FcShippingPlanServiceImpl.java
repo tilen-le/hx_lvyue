@@ -87,7 +87,7 @@ public class FcShippingPlanServiceImpl implements IFcShippingPlanService {
             //报关数量
             BigDecimal reportNum = new BigDecimal(accountIf.getReportCustomsNum());
             //获取订单明细在途数量
-            String orderProductId = accountIf.getProductId();
+            String orderProductId = accountIf.getOrderProductId();
 
             FcOrderProduct fcOrderProduct = fcOrderProductMapper.selectById(orderProductId);
             BigDecimal inTransitNum = new BigDecimal(fcOrderProduct.getInTransitNum());
@@ -111,7 +111,6 @@ public class FcShippingPlanServiceImpl implements IFcShippingPlanService {
                     return R.fail("订单明细编号:" + accountIf.getSapMaterialCode() + "不能大于报关剩余数量");
                 }
             }
-            accountIf.setOrderProductId(accountIf.getProductId());
 
         }
         fcShippingPlan.setPlanCode(codeGenerate.genShippingPlanCode());
@@ -181,8 +180,10 @@ public class FcShippingPlanServiceImpl implements IFcShippingPlanService {
         fcShippingPlan.setConsigneeName(customerConsignee.getName());
         //通知方
         String notifyId = fcShippingPlan.getNotifyId();
-        FcCustomer customerNotify = customerService.getCustomerById(notifyId);
-        fcShippingPlan.setNotifyName(customerNotify.getName());
+        if (StringUtils.isNotEmpty(notifyId)) {
+            FcCustomer customerNotify = customerService.getCustomerById(notifyId);
+            fcShippingPlan.setNotifyName(customerNotify.getName());
+        }
         //客户
         String customerId = fcShippingPlan.getCustomerId();
         FcCustomer customer = customerService.getCustomerById(customerId);
@@ -194,11 +195,11 @@ public class FcShippingPlanServiceImpl implements IFcShippingPlanService {
         //单证专员
         String documentSpecialist = fcShippingPlan.getDocumentSpecialist();
         SysUser documentSpecia = sysUserService.selectUserByUserName(documentSpecialist);
-        fcShippingPlan.setDocumentSpecialistName(documentSpecia.getUserName());
+        fcShippingPlan.setDocumentSpecialistName(documentSpecia.getNickName());
         //财务人员
         String financialStaff = fcShippingPlan.getFinancialStaff();
         SysUser financialStaffUser = sysUserService.selectUserByUserName(financialStaff);
-        fcShippingPlan.setFinancialStaffName(financialStaffUser.getUserName());
+        fcShippingPlan.setFinancialStaffName(financialStaffUser.getNickName());
         //附件
         List<FcOssRelevance> ossRelevanceList = fcOssRelevanceMapper.selectList(new LambdaQueryWrapper<FcOssRelevance>()
                 .eq(FcOssRelevance::getType, 3)
@@ -261,8 +262,8 @@ public class FcShippingPlanServiceImpl implements IFcShippingPlanService {
             //报关数量
             BigDecimal reportNum = new BigDecimal(accountIf.getReportCustomsNum());
             //获取订单明细在途数量
-            String orderProductId = accountIf.getOrderProductId();
-            FcOrderProduct fcOrderProduct = fcOrderProductMapper.selectById(orderProductId);
+            String productId = accountIf.getOrderProductId();
+            FcOrderProduct fcOrderProduct = fcOrderProductMapper.selectById(productId);
             BigDecimal inTransitNum = new BigDecimal(fcOrderProduct.getInTransitNum());
             if (reportNum.compareTo(inTransitNum) == 1) {
                 return R.fail("订单明细编号:" + accountIf.getSapMaterialCode() + "不能大于在途数量");
@@ -284,7 +285,7 @@ public class FcShippingPlanServiceImpl implements IFcShippingPlanService {
                     return R.fail("订单明细编号:" + accountIf.getSapMaterialCode() + "不能大于报关剩余数量");
                 }
             }
-            accountIf.setOrderProductId(accountIf.getProductId());
+
         }
         //附件处理
         FcOssRelevance relevance = fcOssRelevanceMapper.selectOne(new LambdaQueryWrapper<FcOssRelevance>().eq(FcOssRelevance::getMainId, fcShippingPlan.getId()).eq(FcOssRelevance::getType, 1).orderByDesc(FcOssRelevance::getVersion).last("limit 1"));

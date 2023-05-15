@@ -93,6 +93,7 @@ public class FcShippingPlanController extends BaseController {
      * @param fcShippingPlan
      * @return
      */
+    //    @SaCheckPermission("order:shippingPlan:reportCustomsCompleted")
     @PostMapping("/reportCustomsCompleted")
     public R<Void> reportCustomsCompleted(@RequestBody FcShippingPlan fcShippingPlan) {
         return shippingPlanService.reportCustomsCompleted(fcShippingPlan.getId());
@@ -104,6 +105,7 @@ public class FcShippingPlanController extends BaseController {
      * @param fcShippingPlan
      * @return
      */
+    //    @SaCheckPermission("order:shippingPlan:shippingPlanSyncSap")
     @PostMapping("/shippingPlanSyncSap")
     public R<String> shippingPlanSyncSap(@RequestBody FcShippingPlan fcShippingPlan) {
         return shippingPlanService.shippingPlanSyncSap(fcShippingPlan.getId());

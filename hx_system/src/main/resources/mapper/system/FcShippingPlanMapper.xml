@@ -16,7 +16,8 @@
         a.notify_id,
         a.shipping_mark,
         a.report_customs_complted,
-        a.sync_sap_success
+        a.sync_sap_success,
+        a.is_notice_document_specialist
         FROM
         `fc_shipping_plan` AS a
         <where>
