@@ -264,7 +264,7 @@ public class OrderServiceImpl extends ServiceImpl<FcOrderMapper , FcOrder> imple
                 item.setHasChildren(true);
                 item.setProducts(products);
                 double sum = products.stream().mapToDouble(s -> Double.parseDouble(s.getNum())).sum();
-                double sumInTransitNum = products.stream().mapToDouble(s -> Double.parseDouble(s.getInTransitNum())).sum();
+                double sumInTransitNum = products.stream().mapToDouble(s -> Double.parseDouble(Objects.isNull(s.getInTransitNum())?"0.0":s.getInTransitNum())).sum();
                 item.setSum(String.valueOf(sum));
                 item.setSumInTransitNum(String.valueOf(sumInTransitNum));
             }
