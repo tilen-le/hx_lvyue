@@ -255,9 +255,9 @@ public class SysUserController extends BaseController {
         return userService.getUserByRoleName(roleName);
     }
 
-    @GetMapping("/getUserByRoleId")
-    public R<List<SysUser>> getUserByRoleId(String roleId) {
-        return userService.getUserByRoleId(roleId);
+    @GetMapping("/getUserByRoleKey")
+    public R<List<SysUser>>  getUserByRoleKey(String roleKey) {
+        return userService.getUserByRoleKey(roleKey);
     }
 
 }

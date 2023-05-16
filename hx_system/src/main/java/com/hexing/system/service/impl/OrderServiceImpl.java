@@ -7,7 +7,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.domain.R;
+import com.hexing.common.core.domain.model.LoginUser;
 import com.hexing.common.core.page.TableDataInfo;
+import com.hexing.common.helper.LoginHelper;
 import com.hexing.common.utils.JsonUtils;
 import com.hexing.common.utils.StringUtils;
 import com.hexing.system.domain.*;
@@ -147,6 +149,10 @@ public class OrderServiceImpl extends ServiceImpl<FcOrderMapper , FcOrder> imple
         LambdaQueryWrapper<FcOrder> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(FcOrder::getOrderNumber, orderForm.getVbeln());
         FcOrder existOrder = baseMapper.selectOne(queryWrapper);
+        String kunnrEr = orderForm.getKunnrEr();
+        if(Objects.nonNull(kunnrEr) && kunnrEr.startsWith("00")){
+            kunnrEr = kunnrEr.substring(2,kunnrEr.length()-1);
+        }
         if (ObjectUtil.isNotNull(existOrder)) {
             existOrder.setContractNumber(orderForm.getVbelnRe());
             existOrder.setOrderNumber(orderForm.getVbeln());
@@ -167,14 +173,14 @@ public class OrderServiceImpl extends ServiceImpl<FcOrderMapper , FcOrder> imple
             existOrder.setBileeCd(orderForm.getKunnrBp());
             existOrder.setBillee(orderForm.getKunnrBpT());
             existOrder.setAmount(orderForm.getAmount());
-            existOrder.setCustomerManagerNumber(orderForm.getKunnrEr());
+
+            existOrder.setCustomerManagerNumber(kunnrEr);
             existOrder.setCustomerManager(orderForm.getKunnrErT());
             existOrder.setRequireDeliveryDate(orderForm.getVdatu());
             //销售组织
             existOrder.setSaleOrgCd(orderForm.getVkorg());
             existOrder.setSaleOrg(orderForm.getVtext());
             existOrder.setFactory(orderForm.getWerks());
-            // existOrder.setTaxRate(orderForm.getZsl() == null ? "0" : orderForm.getZsl());
             existOrder.setIsBackupTableDirectly(orderForm.getItext2());
             existOrder.setDistributionChannelCd(orderForm.getVtweg());
             existOrder.setDistributionChannel(orderForm.getVtwegT());
@@ -206,7 +212,7 @@ public class OrderServiceImpl extends ServiceImpl<FcOrderMapper , FcOrder> imple
             existOrder.setPayerCd(orderForm.getKunnrPy());
             existOrder.setPayer(orderForm.getKunnrPyT());
             existOrder.setFactory(orderForm.getWerks());
-            existOrder.setCustomerManagerNumber(orderForm.getKunnrEr());
+            existOrder.setCustomerManagerNumber(kunnrEr);
             existOrder.setCustomerManager(orderForm.getKunnrErT());
             //收票方
             existOrder.setBileeCd(orderForm.getKunnrBp());
@@ -251,6 +257,11 @@ public class OrderServiceImpl extends ServiceImpl<FcOrderMapper , FcOrder> imple
 
     @Override
     public TableDataInfo<FcOrder> listOrders(FcOrder fcOrder, PageQuery pageQuery) {
+        //用户只可以查看属于自己部门的数据,管理员可查看全部
+        if (!LoginHelper.isAdmin()){
+            Long deptId = LoginHelper.getDeptId();
+            fcOrder.setDeptId(deptId);
+        }
         String orderNumber = fcOrder.getOrderNumber();
         if (Objects.nonNull(orderNumber)) {
             fcOrder.setOrderNumber(orderNumber.toUpperCase());

@@ -20,6 +20,9 @@
         from fc_order fco
         left join fc_contract fcc on fcc.contract_number= fco.contract_number
         <where>
+            <if test="order.deptId!=null and order.deptId !=''">
+               and  fco.customer_manager_number in (SELECT user_name from sys_user where dept_id = #{order.deptId})
+            </if>
             <if test="order.orderNumber!=null and order.orderNumber !=''">
                 and fco.order_number like concat('%', #{order.orderNumber}, '%')
             </if>

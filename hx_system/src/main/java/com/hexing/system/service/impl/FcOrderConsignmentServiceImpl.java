@@ -205,6 +205,7 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
         if (Objects.nonNull(orderNumber)) {
             fcOrderConsignment.setOrderNumber(orderNumber.toUpperCase());
         }
+
         Page<FcOrderConsignment> page = baseMapper.listFcOrder(pageQuery.build(), fcOrderConsignment);
         return TableDataInfo.build(page);
     }

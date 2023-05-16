@@ -494,8 +494,8 @@ public class SysUserServiceImpl implements ISysUserService, UserService {
     }
 
     @Override
-    public R<List<SysUser>> getUserByRoleId(String roleId) {
-        List<SysUser> userList = baseMapper.getUserByRoleId(Long.valueOf(roleId));
+    public R<List<SysUser>> getUserByRoleKey(String roleKey) {
+        List<SysUser> userList = baseMapper.getUserByRoleKey(roleKey);
         return R.ok(userList);
     }
 

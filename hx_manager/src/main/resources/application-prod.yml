@@ -1,21 +1,10 @@
 --- # 临时文件存储位置 避免临时文件被系统清理报错
 server:
   port: 9528
-  ssl:
-    key-store: classpath:9749546_contract.api.jsonarray.com.pfx
-    key-store-type: PKCS12
-    enabled: true
-    key-store-password: ijd4hfxv
-
-spring.servlet.multipart.location: /data/server/temp
-
-
-
-
 --- # 监控中心配置
 spring.boot.admin.client:
   # 增加客户端开关
-  enabled: true
+  enabled: false
   url: http://localhost:9090/admin
   instance:
     service-host-type: IP
@@ -40,17 +29,17 @@ spring:
           type: ${spring.datasource.type}
           driverClassName: com.mysql.cj.jdbc.Driver
           # rewriteBatchedStatements=true 批处理优化 大幅提升批量插入更新删除性能(对数据库有性能损耗 使用批量操作应考虑性能问题)
-          url: jdbc:mysql://localhost:3306/hx_contract_system?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&autoReconnect=true&rewriteBatchedStatements=true
+          url: jdbc:mysql://localhost:3306/hx_lvyue?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&autoReconnect=true&rewriteBatchedStatements=true
           username: root
-          password: *k:Atj9c9,h3
+          password: .k:Atj9c9,h3
         # 从库数据源
         slave:
           lazy: true
           type: ${spring.datasource.type}
           driverClassName: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://localhost:3306/hx_contract_system?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&autoReconnect=true&rewriteBatchedStatements=true
+          url: jdbc:mysql://localhost:3306/hx_lvyue?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&autoReconnect=true&rewriteBatchedStatements=true
           username: root
-          password: *k:Atj9c9,h3
+          password: .k:Atj9c9,h3
       hikari:
         # 最大连接池数量
         maxPoolSize: 20
@@ -71,7 +60,7 @@ spring:
 
 hexing:
   task:
-    domain: http://115.238.36.165:4168/UIP/uip/uipManage/dataOper
+    domain: http://192.168.3.158:8080/UIP/uip/uipManage/dataOper
 
 
 

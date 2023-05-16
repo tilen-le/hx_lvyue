@@ -86,6 +86,9 @@ public class FcOrder extends BaseEntity {
      */
     private Date requireDeliveryDate;
 
+    @TableField(exist = false)
+    private  Long deptId;
+
     /**
      * 客户经理工号
      */
