@@ -116,6 +116,11 @@ public class FcShippingPlan extends BaseEntity {
      * 是否通知单证专员【0.否 1.是】
      */
     private String isNoticeDocumentSpecialist;
+
+    /**
+     * 是否已通知单证专员 【0.否 1.是】
+     */
+    private String alreadyNoticeDocumentSpecialist;
     /**
      * 通知方【客户表id】
      */
