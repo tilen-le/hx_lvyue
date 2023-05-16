@@ -300,7 +300,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="角色">
+            <el-form-item label="角色" prop="roleIds">
               <el-select v-model="form.roleIds" multiple placeholder="请选择角色">
                 <el-option
                   v-for="item in roleOptions"
@@ -479,7 +479,9 @@ export default {
             message: "请输入正确的手机号码",
             trigger: "blur"
           }
-        ]
+        ],
+        deptId: [{required: true, message: "部门不能为空", trigger: "blur"}],
+        roleIds: [{required: true, message: "角色不能为空", trigger: "blur"}],
       }
     };
   },

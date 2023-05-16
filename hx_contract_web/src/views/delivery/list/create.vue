@@ -11,9 +11,15 @@
           <el-col :span="6">
             <el-form-item label="合同名称" style="width: 100%">
               <el-input
+                v-if="null!=contract"
                 placeholder=""
                 disabled
                 v-model="contract.contractName"
+                style="width: 100%"
+              />
+              <el-input
+                v-else
+                disabled
                 style="width: 100%"
               />
             </el-form-item>

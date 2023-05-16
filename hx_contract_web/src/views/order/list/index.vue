@@ -140,6 +140,7 @@
             >详情
             </el-button>
             <el-button
+              v-show="scope.row.sumInTransitNum>0"
               size="mini"
               type="text"
               @click="addInvoice(scope.row)"

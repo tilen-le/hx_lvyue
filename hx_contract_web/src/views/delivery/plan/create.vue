@@ -648,6 +648,7 @@
                 placeholder="请输入"
                 style="width: 70%"
                 v-model="scope.row.reportCustomsNum"
+                @input="changNum(scope.row)"
               />
             </template>
           </el-table-column>

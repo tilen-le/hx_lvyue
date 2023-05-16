@@ -661,9 +661,9 @@
           <el-table-column label="剩余报关金额" align="center" min-width="100px" prop="remainingReportCustomsAmount">
           </el-table-column>
           <el-table-column label="本次报关金额" align="center" min-width="100px" prop="currentReportCustomsAmount">
-            <template slot-scope="scope">
-              {{scope.row.reportCustomsNum*scope.row.unitPrice}}
-            </template>
+<!--            <template slot-scope="scope">-->
+<!--              {{scope.row.reportCustomsNum*scope.row.unitPrice}}-->
+<!--            </template>-->
           </el-table-column>
           <el-table-column label="实际报关金额" align="center" min-width="300px" prop="realityReportCustomsAmount">
             <template slot-scope="scope">

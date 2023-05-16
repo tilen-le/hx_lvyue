@@ -547,6 +547,8 @@ export default {
             this.invoiceForm.files = []
           }
           addInvoice(this.invoiceForm).then(res => {
+            // 跳转开票列表页面
+            this.$router.push(`/invoice/list`)
             this.$modal.msgSuccess("提交成功");
           })
         }
