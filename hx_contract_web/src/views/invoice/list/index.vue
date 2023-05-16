@@ -90,7 +90,7 @@
               size="mini"
               type="text"
               @click="detail(scope.row)"
-              v-hasPermi="['invoice:list:add']"
+              v-hasPermi="['invoice:list:detail']"
             >详情
             </el-button>
             <el-button

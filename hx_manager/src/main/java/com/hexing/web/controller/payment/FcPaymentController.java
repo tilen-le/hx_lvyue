@@ -99,7 +99,7 @@ public class FcPaymentController extends BaseController {
      * @param pageQuery
      * @return
      */
-    @SaCheckPermission("claim:all:list")
+//    @SaCheckPermission("claim:all:list")
     @GetMapping("/claim/all/list")
     public TableDataInfo<FcPaymentClaim> claimList(FcPaymentClaim fcPaymentClaim, PageQuery pageQuery) {
         return fcPaymentClaimService.listClaimPage(fcPaymentClaim, pageQuery);
