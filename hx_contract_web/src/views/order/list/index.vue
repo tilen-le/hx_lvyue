@@ -148,7 +148,7 @@
             >开票
             </el-button>
             <el-button
-              v-show="scope.row.sumInTransitNum>0"
+              v-show="scope.row.storeStatus==1||scope.row.storeStatus==2"
               size="mini"
               type="text"
               @click="delivery(scope.row)"

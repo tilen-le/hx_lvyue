@@ -30,7 +30,7 @@
             <el-form-item label="客户名称" prop="bilee">
               <el-input
                 style="width: 90%"
-                v-model="invoiceForm.bilee"
+                v-model="invoiceForm.soldToParty"
                 disabled
               />
             </el-form-item>
@@ -155,7 +155,8 @@
       <div class="invoice-header" style="margin-top: 15px">
         <div style="display: flex;align-items: center">
           <div class="line-item"></div>
-          <span>客户信息</span>
+          <span>客户信息<!--            新增收货联系人-->
+              <el-button plain size="mini" type="primary" icon="el-icon-plus" circle @click="createAddress()"></el-button></span>
         </div>
         <el-row>
           <el-col :span="6">
@@ -210,8 +211,11 @@
                            width="150"/>
           <el-table-column label="已下单数量" align="center" key="num" prop="num"
                            width="150"/>
-          <el-table-column label="单位" align="center" key="unit" prop="unit"
+          <el-table-column align="center" key="unit" prop="unit"
                            width="150">
+            <template slot="header" slot-scope="scope">
+              单位<span style="color: red">*</span>
+            </template>
             <template slot-scope="scope">
               <el-form-item :prop="'productList.' + scope.$index + '.unit'" :rules="rules.unit" style="text-align: center" label-width="0px">
                 <el-input
@@ -224,17 +228,19 @@
               </el-form-item>
             </template>
           </el-table-column>
-          <el-table-column label="财务软件编吗" align="center" key="sapFinancialCode" prop="sapFinancialCode"
+          <el-table-column label="财务软件编码" align="center" key="sapFinancialCode" prop="sapFinancialCode"
                            width="150">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.sapFinancialCode" placeholder="请选择">
-                <el-option
-                  v-for="dict in dict.type.finance_cate"
-                  :key="dict.value"
-                  :label="dict.label"
-                  :value="dict.value"
-                />
-              </el-select>
+              <el-form-item style="text-align: center" label-width="0px">
+                <el-select v-model="scope.row.sapFinancialCode" placeholder="请选择">
+                  <el-option
+                    v-for="dict in dict.type.finance_cate"
+                    :key="dict.value"
+                    :label="dict.label"
+                    :value="dict.value"
+                  />
+                </el-select>
+              </el-form-item>
             </template>
           </el-table-column>
           <el-table-column label="工厂" align="center" key="factory" prop="factory"
@@ -279,8 +285,11 @@
           </el-table-column>
           <el-table-column label="税率" align="center" key="taxRate" prop="taxRate" width="150">
           </el-table-column>
-          <el-table-column label="客户物料名称" align="center" key="customerMaterialName" prop="customerMaterialName"
+          <el-table-column align="center" key="customerMaterialName" prop="customerMaterialName"
                            width="150">
+            <template slot="header" slot-scope="scope">
+              客户物料名称<span style="color: red">*</span>
+            </template>
             <template slot-scope="scope">
               <el-form-item :prop="'productList.' + scope.$index + '.customerMaterialName'" :rules="rules.customerMaterialName" style="text-align: center" label-width="0px">
               <el-input
@@ -293,8 +302,11 @@
               </el-form-item>
             </template>
           </el-table-column>
-          <el-table-column label="客户规格名称" align="center" key="customerSpecName" prop="customerSpecName"
+          <el-table-column align="center" key="customerSpecName" prop="customerSpecName"
                            width="150">
+            <template slot="header" slot-scope="scope">
+              客户规格名称<span style="color: red">*</span>
+            </template>
             <template slot-scope="scope">
               <el-form-item :prop="'productList.' + scope.$index + '.customerSpecName'" :rules="rules.customerSpecName" style="text-align: center" label-width="0px">
               <el-input
@@ -339,6 +351,32 @@
       <el-button :loading="buttonLoading" type="primary" @click="submitForm(0)" v-hasPermi="['invoice:list:approve']">提交审核</el-button>
       <el-button @click="cancel" v-hasPermi="['invoice:create:cancel']">取 消</el-button>
     </div>
+
+    <!--新增收货方弹窗-->
+    <el-dialog title="新增收货方" :visible.sync="openAddress" width="600px" append-to-body>
+      <el-form ref="addressForm" :model="consigneeForm" :rules="addressRules" label-width="100px" label-position="left">
+        <el-form-item label="收货人" prop="name">
+          <el-input v-model="consigneeForm.name" placeholder="请输入" maxlength="30"/>
+        </el-form-item>
+        <el-form-item label="收货人电话" prop="phone">
+          <el-input v-model="consigneeForm.phone" placeholder="请输入收货人电话"  />
+        </el-form-item>
+        <el-form-item label="收货地址" prop="location">
+          <RegionSelect
+            style="width: 100%"
+            placeholder="请选择"
+            v-model="consigneeForm.location"
+          ></RegionSelect>
+        </el-form-item>
+        <el-form-item label="详细地址" prop="address">
+          <el-input v-model="consigneeForm.address" placeholder="请输入" maxlength="50"/>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitFormAddress">确 定</el-button>
+        <el-button @click="cancelFormAddress">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -347,11 +385,21 @@ import {getOrderDetail} from "@/api/order";
 import {listAvailableBank} from "@/api/system/bank";
 import {getAddressByCode, getOpenBankByBe, listCustomer} from "@/api/customer";
 import {addInvoice} from "@/api/invoice";
+import RegionSelect from '@/components/Forms/RegionSelect.vue'
 
 export default {
   name: "createInvoice",
+  components: { RegionSelect },
   dicts: ['invoice_type', 'finance_cate'],
   data() {
+    const validatePhTelNumber = (rule, value, callback) => {
+      const reg = /^((\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14})|([1][3,4,5,6,7,8,9][0-9]{9})$/
+      if(reg.test(value)) {
+        callback();
+      } else {
+        callback(new Error("请输入正确格式手机号"));
+      }
+    };
     return {
       invoiceForm: {},
       saleBank: [],
@@ -391,7 +439,29 @@ export default {
         customerSpecName: [
           {required: true, message: "请填写客户规格名称", trigger: "blur"},
         ],
-      }
+        files: [
+          {required: true, message: "请上传附件", trigger: "blur"},
+        ],
+      },
+      // 收货人表单-----------
+      consigneeForm: {},
+      openAddress: false,
+      addressRules: {
+        name: [
+          {required: true, message: "请输入收货人", trigger: "blur"}
+        ],
+        phone: [
+          {required: true, trigger: "blur", message: "请输入收货电话"},
+          {required: true, trigger: "blur", validator: validatePhTelNumber}
+        ],
+        location: [
+          {required: true, message: "请选择收货地区", trigger: "blur"}
+        ],
+        address: [
+          {required: true, message: "请选择收货地区", trigger: "blur"}
+        ],
+      },
+      // --------------------
     }
   },
   created() {
@@ -399,6 +469,41 @@ export default {
     this.getSaleBank()
   },
   methods: {
+    // 取消提交收获人
+    cancelFormAddress(){
+      this.openAddress = false
+    },
+    // 提交收获人
+    submitFormAddress() {
+      this.$refs["addressForm"].validate(valid => {
+        if (valid) {
+          addAddress(this.consigneeForm).then(res => {
+            this.$modal.msgSuccess("创建成功");
+            /** 获取客户信息列表**/
+            getAddressByCode(this.invoiceForm.consigneeId).then(res => {
+              this.address = res.data
+            })
+            this.openAddress = false;
+          })
+        }
+      })
+    },
+    // 新增收获人
+    createAddress(){
+      // 客户不存在
+      if(typeof this.invoiceForm.consigneeId === 'undefined' || this.invoiceForm.consigneeId == null || this.invoiceForm.consigneeId === ''){
+        this.$message({
+          message: '客户不存在',
+          type: 'warning'
+        });
+        return
+      }
+      this.consigneeForm = {};
+      this.consigneeForm.customerId = this.invoiceForm.consigneeId
+      // 显示新增收货人弹窗
+      this.openAddress = true
+    },
+
     invoiceUnitPrice(val, row) {
       if (row.invoicingUnitPriceWithTax && row.appliedQuantity) {
         const totalAmount = row.invoicingUnitPriceWithTax * row.appliedQuantity
@@ -424,10 +529,15 @@ export default {
         let totalAmountWithTax = 0;
         let tax = 0;
         for (const product of productList) {
-          if (product.invoicingAmountWithTax) {
+          if (typeof product.invoicingAmountWithTax !== 'undefined' &&
+            product.invoicingAmountWithTax != null &&
+            product.invoicingAmountWithTax !== '') {
             totalAmountWithTax += product.invoicingAmountWithTax
           }
-          if (product.taxRate) {
+          if (
+            typeof product.taxRate !== 'undefined' &&
+            product.taxRate != null &&
+            product.taxRate !== '') {
             tax += (product.invoicingAmountWithTax * product.taxRate)
           }
         }
@@ -454,6 +564,7 @@ export default {
           orderId: order.id,
           orderTitle: order.orderTitle,
           soldToPartyCd: order.soldToPartyCd,
+          soldToParty: order.soldToParty,
           consigneeId: order.bileeCd,
           totalAmountWithTax: undefined,
           totalAmountWithoutTax: undefined,
