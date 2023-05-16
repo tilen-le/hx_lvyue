@@ -188,7 +188,8 @@
       const params = {id: this.id, approvalStatus: val}
       this.$modal.confirm('是否确认审批该发货？').then(function () {
         approveDelivery(params).then(res => {
-          this.$modal.msgSuccess("审批成功");
+          this.$modal.msgSuccess("操作完成");
+          this.$router.push("/delivery/list")
         })
       });
     }

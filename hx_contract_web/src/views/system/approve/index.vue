@@ -320,10 +320,10 @@ export default {
         roleKey: "finance",
       }
       listStoreKeeper(params1).then(res => {
-        this.storeKeeper = res.rows
+        this.storeKeeper = res.data
       })
       listWareKeeper(params2).then(res => {
-        this.wareKeeper = res.rows
+        this.wareKeeper = res.data
       })
       listBookKeeper(params3).then(res => {
         this.bookKeeper = res.data

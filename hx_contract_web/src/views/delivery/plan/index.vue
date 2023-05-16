@@ -83,7 +83,7 @@
         >
           <template slot-scope="scope">
             <el-button
-              v-show="scope.row.isNoticeDocumentSpecialist==0"
+              v-show="scope.row.alreadyNoticeDocumentSpecialist==0"
               size="mini"
               type="text"
               @click="notifyCommissioner(scope.row)"

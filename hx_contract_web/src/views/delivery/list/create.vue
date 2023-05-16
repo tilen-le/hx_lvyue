@@ -344,7 +344,7 @@
       <el-button :loading="buttonLoading" type="primary" v-hasPermi="['order:create:save']" @click="submitForm(3)">保存为草稿</el-button>
       <el-button :loading="buttonLoading" type="primary" v-hasPermi="['order:create:approve']" @click="submitForm(0)">提交审核</el-button>
     </div>
-<!--新增收货方弹窗-->
+    <!--新增收货方弹窗-->
     <el-dialog title="新增收货方" :visible.sync="openAddress" width="600px" append-to-body>
       <el-form ref="addressForm" :model="consigneeForm" :rules="addressRules" label-width="100px" label-position="left">
         <el-form-item label="收货人" prop="name">

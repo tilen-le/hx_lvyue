@@ -5,6 +5,9 @@
         <div>
           <span>开票编号：</span>
           {{ fcOrderInvoice.invoiceNumber }}
+          <br>
+          <span>订单编号：</span>
+          {{ fcOrderInvoice.orderNumber }}
         </div>
         <div>
           <el-button @click="approveInvoice(1)" type="primary" v-hasPermi="['order:consignment:approve']"  v-show="invoiceForm.hasConsApprove && fcOrderInvoice.approvalStatus=='0'">
