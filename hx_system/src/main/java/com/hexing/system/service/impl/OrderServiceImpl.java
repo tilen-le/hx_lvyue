@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hexing.common.core.domain.PageQuery;
 import com.hexing.common.core.domain.R;
-import com.hexing.common.core.domain.model.LoginUser;
 import com.hexing.common.core.page.TableDataInfo;
 import com.hexing.common.helper.LoginHelper;
 import com.hexing.common.utils.JsonUtils;
@@ -17,7 +16,7 @@ import com.hexing.system.domain.form.*;
 import com.hexing.system.domain.vo.PaymentClaimVO;
 import com.hexing.system.mapper.*;
 import com.hexing.system.service.IOrderService;
-import com.hexing.system.task.CustomerTask;
+import com.hexing.system.service.ISysDataScopeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
@@ -47,6 +46,8 @@ public class OrderServiceImpl extends ServiceImpl<FcOrderMapper , FcOrder> imple
 
     private final FcOrderPayMilestoneMapper fcOrderPayMilestoneMapper;
     private final FcPaymentClaimMapper fcPaymentClaimMapper;
+
+    private final ISysDataScopeService sysDataScopeService;
 
     @Resource
     @Lazy
@@ -261,6 +262,7 @@ public class OrderServiceImpl extends ServiceImpl<FcOrderMapper , FcOrder> imple
         if (!LoginHelper.isAdmin()){
             Long deptId = LoginHelper.getDeptId();
             fcOrder.setDeptId(deptId);
+            String deptAndChild = sysDataScopeService.getDeptAndChild(deptId);
         }
         String orderNumber = fcOrder.getOrderNumber();
         if (Objects.nonNull(orderNumber)) {

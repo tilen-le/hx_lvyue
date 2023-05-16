@@ -137,5 +137,8 @@ public class FcOrderConsignment extends BaseEntity {
     @TableField(exist = false)
     private String storeKeeper;
 
+    @TableField(exist = false)
+    private Long deptId;
+
 
 }
