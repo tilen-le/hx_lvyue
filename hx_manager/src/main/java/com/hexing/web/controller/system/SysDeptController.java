@@ -14,7 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 部门信息
@@ -116,4 +118,18 @@ public class SysDeptController extends BaseController {
         deptService.checkDeptDataScope(deptId);
         return toAjax(deptService.deleteDeptById(deptId));
     }
+
+    /**
+     * 加载对应角色部门列表树
+     */
+    @GetMapping(value = "/roleDeptTreeselect/{roleId}")
+    public R<Map<String, Object>> roleDeptTreeselect(@PathVariable("roleId") Long roleId)
+    {
+        Map<String, Object> ajax = new HashMap<>();
+        List<SysDept> depts = deptService.selectDeptList(new SysDept());
+        ajax.put("checkedKeys", deptService.selectDeptListByRoleId(roleId));
+        ajax.put("depts", deptService.buildDeptTreeSelect(depts));
+        return R.ok(ajax);
+    }
+
 }
