@@ -201,12 +201,16 @@ public class FcShippingPlanServiceImpl implements IFcShippingPlanService {
         fcShippingPlan.setCustomerContactName(customerConsignment.getName());
         //单证专员
         String documentSpecialist = fcShippingPlan.getDocumentSpecialist();
-        SysUser documentSpecia = sysUserService.selectUserByUserName(documentSpecialist);
-        fcShippingPlan.setDocumentSpecialistName(documentSpecia.getNickName());
+        if (StringUtils.isNotEmpty(documentSpecialist)) {
+            SysUser documentSpecia = sysUserService.selectUserByUserName(documentSpecialist);
+            fcShippingPlan.setDocumentSpecialistName(documentSpecia.getNickName());
+        }
         //财务人员
         String financialStaff = fcShippingPlan.getFinancialStaff();
-        SysUser financialStaffUser = sysUserService.selectUserByUserName(financialStaff);
-        fcShippingPlan.setFinancialStaffName(financialStaffUser.getNickName());
+        if (StringUtils.isNotEmpty(financialStaff)) {
+            SysUser financialStaffUser = sysUserService.selectUserByUserName(financialStaff);
+            fcShippingPlan.setFinancialStaffName(financialStaffUser.getNickName());
+        }
         //附件
         List<FcOssRelevance> ossRelevanceList = fcOssRelevanceMapper.selectList(new LambdaQueryWrapper<FcOssRelevance>()
                 .eq(FcOssRelevance::getType, 3)

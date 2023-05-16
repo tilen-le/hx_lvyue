@@ -441,16 +441,35 @@ public class OrderServiceImpl extends ServiceImpl<FcOrderMapper , FcOrder> imple
                 //剩余报关金额=产品总金额
                 vo.setRemainingReportCustomsAmount(amount);
             } else {
-                //不为null则获取最后一次报关的剩余数量
-                FcShippingPlanFinancialAccounting fcShippingPlanFinancialAccounting = accountings.get(accountings.size() - 1);
-                vo.setReportCustomsResidueNum(fcShippingPlanFinancialAccounting.getReportCustomsResidueNum());
-                //不为null则获取最后一次计算出来的报关总金额
-                vo.setRemainingReportCustomsAmount(fcShippingPlanFinancialAccounting.getRemainingReportCustomsAmount());
+                //不为null则统计出已报关总数量
+                BigDecimal countReportCustomsNum = new BigDecimal(0);
+                //已报关总金额
+                BigDecimal countReportCustomsAmount = new BigDecimal(0);
+                for (FcShippingPlanFinancialAccounting accounting : accountings) {
+                    BigDecimal reportCustomsNum = new BigDecimal(accounting.getReportCustomsNum());
+                    countReportCustomsNum = countReportCustomsNum.add(reportCustomsNum);
+                    countReportCustomsAmount = countReportCustomsAmount.add(accounting.getCurrentReportCustomsAmount());
+                }
+                //产品总数量
+                BigDecimal num = new BigDecimal(product.getNum());
+                //剩余报关数量
+                BigDecimal reportCustomsResidueNum = num.subtract(countReportCustomsNum);
+                vo.setReportCustomsResidueNum(reportCustomsResidueNum.toString());
+                //剩余报关金额
+                vo.setRemainingReportCustomsAmount(amount.subtract(countReportCustomsAmount));
             }
             vo.setOrderProductId(product.getId().toString());
             voList.add(vo);
         });
         return R.ok(voList);
+    }
+
+    public static void main(String[] args) {
+        BigDecimal countReportCustomsNum = new BigDecimal(0);
+        BigDecimal reportCustomsNum = new BigDecimal("3.00");
+        countReportCustomsNum.add(reportCustomsNum);
+        System.out.println(countReportCustomsNum.toString());
+
     }
 
 }
