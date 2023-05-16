@@ -210,8 +210,11 @@
                            width="200"/>
           <el-table-column label="已下单数量" align="center" key="num" prop="num"
                            width="150"/>
-          <el-table-column label="单位" align="center" key="unit" prop="unit"
+          <el-table-column align="center" key="unit" prop="unit"
                            width="150">
+            <template slot="header" slot-scope="scope">
+              单位<span style="color: red">*</span>
+            </template>
             <template slot-scope="scope">
               <el-form-item :prop="'productList.' + scope.$index + '.unit'" :rules="rules.unit" style="text-align: center" label-width="0px">
                 <el-input
@@ -224,17 +227,19 @@
               </el-form-item>
             </template>
           </el-table-column>
-          <el-table-column label="财务软件编吗" align="center" key="sapFinancialCode" prop="sapFinancialCode"
+          <el-table-column label="财务软件编码" align="center" key="sapFinancialCode" prop="sapFinancialCode"
                            width="150">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.sapFinancialCode" placeholder="请选择">
-                <el-option
-                  v-for="dict in dict.type.finance_cate"
-                  :key="dict.value"
-                  :label="dict.label"
-                  :value="dict.value"
-                />
-              </el-select>
+              <el-form-item style="text-align: center" label-width="0px">
+                <el-select v-model="scope.row.sapFinancialCode" placeholder="请选择">
+                  <el-option
+                    v-for="dict in dict.type.finance_cate"
+                    :key="dict.value"
+                    :label="dict.label"
+                    :value="dict.value"
+                  />
+                </el-select>
+              </el-form-item>
             </template>
           </el-table-column>
           <el-table-column label="工厂" align="center" key="factory" prop="factory"
@@ -280,8 +285,11 @@
           <el-table-column label="税率" align="center" key="taxRate" prop="taxRate"
                            width="150">
           </el-table-column>
-          <el-table-column label="客户物料名称" align="center" key="customerMaterialName" prop="customerMaterialName"
+          <el-table-column align="center" key="customerMaterialName" prop="customerMaterialName"
                            width="150">
+            <template slot="header" slot-scope="scope">
+              客户物料名称<span style="color: red">*</span>
+            </template>
             <template slot-scope="scope">
               <el-form-item :prop="'productList.' + scope.$index + '.customerMaterialName'" :rules="rules.customerMaterialName" style="text-align: center" label-width="0px">
                 <el-input
@@ -294,8 +302,11 @@
               </el-form-item>
             </template>
           </el-table-column>
-          <el-table-column label="客户规格名称" align="center" key="customerSpecName" prop="customerSpecName"
+          <el-table-column align="center" key="customerSpecName" prop="customerSpecName"
                            width="150">
+            <template slot="header" slot-scope="scope">
+              客户规格名称<span style="color: red">*</span>
+            </template>
             <template slot-scope="scope">
               <el-form-item :prop="'productList.' + scope.$index + '.customerSpecName'" :rules="rules.customerSpecName" style="text-align: center" label-width="0px">
                 <el-input
@@ -398,6 +409,9 @@ export default {
         ],
         customerSpecName: [
           {required: true, message: "请填写客户规格名称", trigger: "blur"},
+        ],
+        files: [
+          {required: true, message: "请上传附件", trigger: "blur"},
         ],
       },
       approvalStatus: null
@@ -503,10 +517,15 @@ export default {
         let totalAmountWithTax = 0;
         let tax = 0;
         for (const product of productList) {
-          if (product.invoicingAmountWithTax) {
+          if (typeof product.invoicingAmountWithTax !== 'undefined' &&
+            product.invoicingAmountWithTax != null &&
+            product.invoicingAmountWithTax !== '') {
             totalAmountWithTax += product.invoicingAmountWithTax
           }
-          if (product.taxRate) {
+          if (
+            typeof product.taxRate !== 'undefined' &&
+            product.taxRate != null &&
+            product.taxRate !== '') {
             tax += (product.invoicingAmountWithTax * product.taxRate)
           }
         }
@@ -575,6 +594,7 @@ export default {
           }
           this.invoiceForm.id=this.$route.params.oid
           updateInvoice(this.invoiceForm).then(res => {
+            this.$router.push(`/invoice/list`)
             this.$modal.msgSuccess("提交成功");
           })
         }

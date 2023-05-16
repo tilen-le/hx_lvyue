@@ -153,11 +153,12 @@ export default {
       this.$router.push(`/invoice/detail/index/${row.id}`)
     },
     revokeApprove(row){
-      const params = {id: row.id, approvalStatus: 3}
+      const params = {id: row.id, approvalStatus: 4}
+      let that=this
       this.$modal.confirm('确认撤销该开票的审批？').then(function () {
         approveInvoice(params).then(res => {
-          this.$modal.msgSuccess("撤销成功");
-          this.getList();
+          that.$modal.msgSuccess("撤销成功");
+          that.getList();
         })
       })
     },

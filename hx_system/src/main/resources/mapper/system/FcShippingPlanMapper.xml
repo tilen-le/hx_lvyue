@@ -17,7 +17,7 @@
         a.shipping_mark,
         a.report_customs_complted,
         a.sync_sap_success,
-        a.is_notice_document_specialist
+        a.already_notice_document_specialist
         FROM
         `fc_shipping_plan` AS a
         <where>
@@ -28,6 +28,7 @@
                 and a.consignee = #{fcShippingPlan.consignee}
             </if>
         </where>
+        order by a.create_time desc
     </select>
 
 </mapper>

@@ -127,6 +127,8 @@ public class FcShippingPlanServiceImpl implements IFcShippingPlanService {
         fcShippingPlan.setSyncSapSuccess("0");
         //报关
         fcShippingPlan.setReportCustomsComplted("0");
+        //是否已通知单证专员
+        fcShippingPlan.setAlreadyNoticeDocumentSpecialist("0");
         fcShippingPlan.setCurrentVersion(1);
         planMapper.insert(fcShippingPlan);
         //附件处理
@@ -344,7 +346,7 @@ public class FcShippingPlanServiceImpl implements IFcShippingPlanService {
             return R.fail("报关已完成的发货计划不支持该操作");
         }
         //TODO  通知单证专员 message
-        fcShippingPlan.setIsNoticeDocumentSpecialist("1");
+        fcShippingPlan.setAlreadyNoticeDocumentSpecialist("1");
         planMapper.updateById(fcShippingPlan);
         return R.ok();
     }

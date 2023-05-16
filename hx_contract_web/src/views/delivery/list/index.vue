@@ -168,11 +168,12 @@ export default {
       })
     },
     revokeApprove(row){
-      const params = {id: row.id, approvalStatus: 3}
+      const params = {id: row.id, approvalStatus: 4}
+      let that=this
       this.$modal.confirm('确认撤销该发货单的审批？').then(function () {
         approveDelivery(params).then(res => {
-          this.$modal.msgSuccess("撤销成功");
-          this.getList();
+          that.$modal.msgSuccess("撤销成功");
+          that.getList();
         })
       })
     },

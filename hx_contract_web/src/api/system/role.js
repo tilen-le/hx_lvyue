@@ -10,14 +10,14 @@ export function listRole(query) {
 }
 export function listStoreKeeper(query) {
   return request({
-    url: '/system/role/getUserByRoleKey',
+    url: '/system/user/getUserByRoleKey',
     method: 'get',
     params: query
   })
 }
 export function listWareKeeper(query) {
   return request({
-    url: '/system/role/getUserByRoleKey',
+    url: '/system/user/getUserByRoleKey',
     method: 'get',
     params: query
   })
