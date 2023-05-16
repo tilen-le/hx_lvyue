@@ -17,6 +17,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,20 +99,28 @@ public class SyncService {
      * @return
      */
     private Integer getStoreStatus(String orderNumber) {
-        List<FcOrderProduct> products = fcOrderProductMapper.selectList(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderNumber, orderNumber));
+        FcOrder one = orderService.lambdaQuery().eq(FcOrder::getOrderNumber, orderNumber).one();
+        List<FcOrderProduct> products = fcOrderProductMapper.selectList(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderId, one.getId()));
         double sum = products.stream().mapToDouble(s -> Double.parseDouble(s.getInStorageNum())).sum();
         double nSentSum = products.stream().mapToDouble(s -> Double.parseDouble(s.getNotSentNum())).sum();
-        if (sum==0 && nSentSum ==0){
+        if (sum==0 && nSentSum >0){
             return 3;
         }else {
             for (int i = 0; i < products.size(); i++) {
                 FcOrderProduct product = products.get(i);
-                if (product.getInTransitNum().compareTo(product.getNotSentNum()) < 0) {
+                int compare = Double.compare(Double.parseDouble(product.getInStorageNum()), Double.parseDouble(product.getNotSentNum()));
+                if (compare < 0) {
                     return 2;
                 }
+
             }
             return 1;
         }
+    }
+
+    public static void main(String[] args) {
+
+        System.out.println();
     }
 
 }

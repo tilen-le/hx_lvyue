@@ -67,7 +67,7 @@ public class InvoiceController extends BaseController {
     }
 
 
-//    @SaCheckPermission("invoice:list:approve")
+    //@SaCheckPermission(value = "invoice:list:approve")
     @PostMapping("/approve")
     public R<Void> approve(@RequestBody FcOrderInvoice fcOrderInvoice) {
         iFcOrderInvoiceService.approve(fcOrderInvoice);

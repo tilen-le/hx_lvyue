@@ -92,5 +92,5 @@ public interface SysUserMapper extends BaseMapperPlus<SysUserMapper, SysUser, Sy
      */
     List<SysUser> getUserByRoleName(String roleName);
 
-    List<SysUser> getUserByRoleKey(String roleKey);
+    List<SysUser> getUserByRoleKey(@Param("roleKey") String roleKey);
 }

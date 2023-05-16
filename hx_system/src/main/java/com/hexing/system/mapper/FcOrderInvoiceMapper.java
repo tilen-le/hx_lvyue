@@ -15,4 +15,6 @@ public interface FcOrderInvoiceMapper extends BaseMapperPlus<FcOrderInvoiceMappe
     Page<FcOrderInvoice> listPageInvoice(@Param("page") Page<FcOrderInvoice> page, @Param("invoice") FcOrderInvoice invoice);
     @Select("SELECT MAX(id) FROM Fc_Order_Invoice")
     Long selectMaxid();
+
+    String selectSumInTransitNum(@Param("orderId") Long orderId, @Param("productId") String productId);
 }

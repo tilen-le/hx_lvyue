@@ -84,7 +84,6 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
         // 获取最新的订单ID
         Long latestId = baseMapper.selectMaxid();
         Long sequence = (latestId != null) ? latestId + 1 : 1;
-
         String formattedSequence = String.format("%05d", sequence); // 格式化为6位数字
         return "DG-" + formattedSequence;
     }
@@ -102,15 +101,15 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
         //附件处理
         Integer version = ossService.getVersion(fcOrderConsignment.getId(), 1);
         fcOrderConsignment.setCurrentVersion(version);
-        //待审批才创建发货单号
-        if (Objects.equals(fcOrderConsignment.getApprovalStatus(), 0)) {
+        Integer approvalStatus = fcOrderConsignment.getApprovalStatus();
+        if (Objects.equals(approvalStatus, 0) || Objects.equals(approvalStatus,3)) {
             fcOrderConsignment.setConsigmentNumber(generateInvoiceCode());
         }
+        int result = baseMapper.insert(fcOrderConsignment);
         //审批信息
-        if (Objects.equals(0, fcOrderConsignment.getApprovalStatus())) {
+        if (Objects.equals(0, approvalStatus)) {
             handleApprove(fcOrderConsignment);
         }
-        int result = baseMapper.insert(fcOrderConsignment);
         handleOssFile(fcOrderConsignment);
         if (result > 0) {
             products.forEach(item -> {
@@ -121,15 +120,21 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
                 fcOrderConsignmentDetailMapper.insert(item);
                 //库存锁定
                 FcOrderProduct product = fcOrderProductMapper.selectById(productId);
-                if (item.getProductNum().compareTo(product.getInStorageNum()) > 0) {
+                String productNum = Objects.nonNull(item.getProductNum())?item.getProductNum():"0";
+                if (Double.valueOf(productNum).compareTo(Double.valueOf(product.getInStorageNum())) > 0 ) {
                     throw new ServiceException("行项目" + product.getSapDetailNumber() + "库存不足");
+                }
+                if (Double.valueOf(productNum).compareTo(Double.valueOf(product.getNotSentNum())) > 0){
+                    throw new ServiceException("行项目" + product.getSapDetailNumber() + "发货数量不允许超过未发货数量");
                 }
                 double v = Double.parseDouble(product.getNotSentNum()) - Double.parseDouble(item.getProductNum());
                 product.setNotSentNum(String.valueOf(v));
                 fcOrderProductMapper.updateById(product);
             });
         }
-
+        //更新订单发货状态
+        Integer consignmentStatus = orderService.getConsignmentStatus(fcOrderConsignment.getOrderId());
+        orderService.lambdaUpdate().set(FcOrder::getConsignmentStatus,consignmentStatus).eq(FcOrder::getId,fcOrderConsignment.getOrderId()).update();
         return result;
     }
 
@@ -224,7 +229,7 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
             item.setOrderProduct(orderProduct);
             productList.add(orderProduct);
         });
-        syncService.syncStore(productList);
+        //syncService.syncStore(productList);
         FcOrder fcOrder = fcOrderMapper.selectById(consignment.getOrderId());
         FcContract fcContract = orderService.getContact(fcOrder.getContractNumber());
         FcCustomerConsignment customerConsignment = fcCustomerConsignmentMapper.selectById(consignment.getAddressId());
@@ -341,7 +346,11 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
         orderWrapper.eq(FcOrder::getId, fcOrderConsignment.getOrderId());
         FcOrder order = fcOrderMapper.selectOne(orderWrapper);
         List<OrderForm> forms = new ArrayList<>();
-        for (FcOrderConsignmentDetail info : details) {
+        for (int i = 0; i < details.size(); i++) {
+            FcOrderConsignmentDetail info = details.get(i);
+            if (Objects.isNull(info.getProductNum()) || Double.parseDouble(info.getProductNum()) == 0.0){
+                continue;
+            }
             FcOrderProduct fcOrderProduct = fcOrderProductMapper.selectById(info.getOrderProductId());
             FcCustomerConsignment consignment = fcCustomerConsignmentMapper.selectById(fcOrderConsignment.getAddressId());
             OrderForm orderForm = new OrderForm();
@@ -364,12 +373,10 @@ public class FcOrderConsignmentServiceImpl implements IFcOrderConsignmentService
             item.put("LTCADD_RE", consignment.getLocation() + consignment.getAddress() + " " + consignment.getLocation());
             item.put("LTCNAME_RE", consignment.getName());
             item.put("LTCTEL_RE", consignment.getPhone());
-
             item.put("LTCPR", info.getTechnicalRequirement());
             item.put("RESWK", order.getFactory());
             item.put("VSTEL", order.getFactory());
-            item.put("LGORT", "3001");
-
+            item.put("LGORT", "3007");
             data.add(item);
         }
         Map<String, Object> item01 = new HashMap<>(1);

@@ -6,30 +6,38 @@
 
     <select id="listPageInvoice" resultType="com.hexing.system.domain.FcOrderInvoice">
         select foi.id,
-               foi.invoice_number,
-               fc.order_title orderTitle,
-               fc.billee customer,
-               foi.tax,
-               foi.approval_status,
-               foi.create_by,
-               foi.create_time,
-               foi.total_amount_with_tax,
-               con.contract_name contractName,
-               fc.business_unit businessUnit,
-               fc.factory factory,
-               fc.order_number,
-               foi.sync_sap_time
+        foi.invoice_number,
+        fc.order_title orderTitle,
+        fc.billee customer,
+        foi.tax,
+        foi.approval_status,
+        foi.create_by,
+        foi.create_time,
+        foi.total_amount_with_tax,
+        con.contract_name contractName,
+        fc.business_unit businessUnit,
+        fc.factory factory,
+        fc.order_number,
+        foi.sync_sap_time
         from fc_order_invoice foi
-                 left join fc_order fc on fc.id = foi.order_id
+        left join fc_order fc on fc.id = foi.order_id
         left join fc_contract con on con.contract_number=fc.contract_number
         <where>
             <if test="invoice.invoiceNumber!=null and invoice.invoiceNumber != ''">
-                foi.invoice_number like  concat('%', #{invoice.invoiceNumber}, '%')
+                foi.invoice_number like concat('%', #{invoice.invoiceNumber}, '%')
             </if>
             <if test="null!=invoice.approvalStatus">
                 and foi.approval_status = #{invoice.approvalStatus}
             </if>
         </where>
         order by foi.update_time desc
+    </select>
+    <select id="selectSumInTransitNum" resultType="java.lang.String">
+        SELECT IFNULL(SUM(foid.applied_quantity), 0)
+        from fc_order fc
+                 left join fc_order_invoice foi on fc.id = foi.order_id
+                 left join fc_order_invoice_detail foid on foi.id = foid.invoice_id
+        where fc.id = #{orderId}
+          and foid.order_product_id = #{productId}
     </select>
 </mapper>

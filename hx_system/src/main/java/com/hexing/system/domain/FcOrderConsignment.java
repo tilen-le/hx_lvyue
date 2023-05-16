@@ -42,7 +42,7 @@ public class FcOrderConsignment extends BaseEntity {
     /**
      * 订单主键
      */
-    private String orderId;
+    private Long orderId;
     /**
      * 发货原因
      */

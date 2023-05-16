@@ -83,4 +83,6 @@ public interface IOrderService extends IService<FcOrder> {
      * @return
      */
     R<List<FcShippingPlanReportInfoVo>> getOrderAndProduct(List<String> productIds);
+
+    Integer getConsignmentStatus(Long orderId);
 }

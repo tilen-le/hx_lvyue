@@ -20,6 +20,7 @@ import com.hexing.common.helper.LoginHelper;
 import com.hexing.common.utils.JsonUtils;
 import com.hexing.system.domain.*;
 import com.hexing.system.domain.bo.SysOssCons;
+import com.hexing.system.domain.form.OrderForm;
 import com.hexing.system.domain.form.SapJhkpForm;
 import com.hexing.system.mapper.*;
 import com.hexing.system.service.IFcApproveConfigService;
@@ -29,12 +30,12 @@ import com.hexing.system.service.ISysOssService;
 import com.hexing.system.utils.HttpKit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -87,6 +88,10 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
 
     private final ISysOssService ossService;
 
+    @Resource
+    @Lazy
+    private SyncService syncService;
+
     public String generateOrderCode() {
         // 获取最新的订单ID
         Long latestId = baseMapper.selectMaxid();
@@ -98,7 +103,7 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
     @Override
     public int saveFcOrderInvoice(FcOrderInvoice fcOrderInvoice) {
         log.error(JsonUtils.toJsonString(fcOrderInvoice));
-        if (Objects.equals(fcOrderInvoice.getApprovalStatus(),0)){
+        if (Objects.equals(fcOrderInvoice.getApprovalStatus(),0) || Objects.equals(fcOrderInvoice.getApprovalStatus(),3)){
             fcOrderInvoice.setInvoiceNumber(generateOrderCode());
         }
         Integer version = ossService.getVersion(fcOrderInvoice.getId(), 2);
@@ -109,10 +114,13 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
         if (result > 0) {
             for (FcOrderInvoiceDetail detail : fcOrderInvoice.getProductList()) {
                 String productId = detail.getOrderProductId();
-//                FcOrderProduct product = productMapper.selectById(productId);
-//                if (detail.getAppliedQuantity().compareTo(product.getInTransitNum()) > 0) {
-//                    throw new ServiceException("开票数量不能大于在途库数量");
-//                }
+                FcOrderProduct product = productMapper.selectById(productId);
+                //累计开票限制
+                String sumInTransitNum = baseMapper.selectSumInTransitNum(fcOrderInvoice.getOrderId(),productId);
+                Double v =Double.parseDouble(product.getInTransitNum()) -  Double.parseDouble(sumInTransitNum) ;
+                if (Double.valueOf(detail.getAppliedQuantity()).compareTo(v) > 0) {
+                    throw new ServiceException("可开票数量不足");
+                }
                 detail.setInvoiceId(fcOrderInvoice.getId());
                 fcOrderInvoiceDetailMapper.insert(detail);
             }
@@ -271,11 +279,23 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
         LambdaQueryWrapper<FcOrder> orderWrapper = new LambdaQueryWrapper<>();
         orderWrapper.eq(FcOrder::getId, fcOrderInvoice.getOrderId());
         FcOrder order = fcOrderMapper.selectOne(orderWrapper);
-        for (FcOrderInvoiceDetail info : details) {
+        List<OrderForm> forms = new ArrayList<>();
+        for (int i = 0; i < details.size(); i++) {
+            FcOrderInvoiceDetail info = details.get(i);
+            if (Objects.isNull( info.getAppliedQuantity()) || Objects.equals(Double.parseDouble(info.getAppliedQuantity()),0.0)){
+                continue;
+            }
             FcOrderProduct fcOrderProduct = productMapper.selectById(info.getOrderProductId());
             FcCustomerConsignment fcCustomerConsignment = fcCustomerConsignmentMapper.selectById(fcOrderInvoice.getConsignmentId());
             Map<String, Object> item = new HashMap<>();
             String invoiceType = dictService.getDictLabel("invoice_type", fcOrderInvoice.getInvoiceType().toString());
+            OrderForm orderForm = new OrderForm();
+            orderForm.setMatnr(fcOrderProduct.getProductNumber());
+            orderForm.setWerks(order.getFactory());
+            orderForm.setVbeln(order.getOrderNumber());
+            orderForm.setPosnr(fcOrderProduct.getSapDetailNumber());
+            orderForm.setOrderProduct(fcOrderProduct);
+            forms.add(orderForm);
             FcCustomerInvoice customerInvoice = customerInvoiceMapper.selectById(fcOrderInvoice.getOpeningBank());
             item.put("VBELN_VA", order.getOrderNumber());
             item.put("POSNR_VA", fcOrderProduct.getSapDetailNumber());
@@ -300,6 +320,10 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
         log.error("result{}", JSON.toJSONString(params));
         SapJhkpForm jhkpForm = resultObj.getObject("data", SapJhkpForm.class);
         if ("S".equals(jhkpForm.getEv_type())) {
+            //更新在途库存信息
+            for (OrderForm orderForm : forms) {
+                syncService.getStore(orderForm);
+            }
             baseMapper.update(null, new LambdaUpdateWrapper<FcOrderInvoice>()
                     .eq(FcOrderInvoice::getOrderId, fcOrderInvoice.getOrderId())
                     .set(FcOrderInvoice::getSyncSapStatus, 1)
@@ -341,6 +365,7 @@ public class FcOrderInvoiceServiceImpl implements IFcOrderInvoiceService {
         fcOrderInvoice.setCustomer(fcOrder.getBillee());
         fcOrderInvoice.setOrderTitle(fcOrder.getOrderTitle());
         fcOrderInvoice.setFactory(fcOrder.getFactory());
+        fcOrderInvoice.setOrderNumber(fcOrder.getOrderNumber());
         if (fcCustomer != null) {
             fcOrderInvoice.setConsigneeName(fcCustomer.getName());
         }

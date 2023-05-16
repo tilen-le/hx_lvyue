@@ -35,14 +35,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 @Slf4j
-public class OrderServiceImpl extends ServiceImpl<FcOrderMapper , FcOrder> implements IOrderService {
+public class OrderServiceImpl extends ServiceImpl<FcOrderMapper, FcOrder> implements IOrderService {
 
     private final FcOrderMapper baseMapper;
     private final FcContractMapper fcContractMapper;
     private final FcOrderProductMapper fcOrderProductMapper;
     private final FcOrderConsignmentMapper fcOrderConsignmentMapper;
-
-    private final FcOrderConsignmentDetailMapper orderConsignmentDetailMapper;
 
     private final FcOrderPayMilestoneMapper fcOrderPayMilestoneMapper;
     private final FcPaymentClaimMapper fcPaymentClaimMapper;
@@ -151,8 +149,8 @@ public class OrderServiceImpl extends ServiceImpl<FcOrderMapper , FcOrder> imple
         queryWrapper.eq(FcOrder::getOrderNumber, orderForm.getVbeln());
         FcOrder existOrder = baseMapper.selectOne(queryWrapper);
         String kunnrEr = orderForm.getKunnrEr();
-        if(Objects.nonNull(kunnrEr) && kunnrEr.startsWith("00")){
-            kunnrEr = kunnrEr.substring(2,kunnrEr.length()-1);
+        if (Objects.nonNull(kunnrEr) && kunnrEr.startsWith("00")) {
+            kunnrEr = kunnrEr.substring(2, kunnrEr.length() - 1);
         }
         if (ObjectUtil.isNotNull(existOrder)) {
             existOrder.setContractNumber(orderForm.getVbelnRe());
@@ -259,11 +257,11 @@ public class OrderServiceImpl extends ServiceImpl<FcOrderMapper , FcOrder> imple
     @Override
     public TableDataInfo<FcOrder> listOrders(FcOrder fcOrder, PageQuery pageQuery) {
         //用户只可以查看属于自己部门的数据,管理员可查看全部
-        if (!LoginHelper.isAdmin()){
-            Long deptId = LoginHelper.getDeptId();
-            fcOrder.setDeptId(deptId);
-            String deptAndChild = sysDataScopeService.getDeptAndChild(deptId);
-        }
+//        if (!LoginHelper.isAdmin()) {
+//            Long deptId = LoginHelper.getDeptId();
+//            fcOrder.setDeptId(deptId);
+//            String deptAndChild = sysDataScopeService.getDeptAndChild(deptId);
+//        }
         String orderNumber = fcOrder.getOrderNumber();
         if (Objects.nonNull(orderNumber)) {
             fcOrder.setOrderNumber(orderNumber.toUpperCase());
@@ -277,7 +275,7 @@ public class OrderServiceImpl extends ServiceImpl<FcOrderMapper , FcOrder> imple
                 item.setHasChildren(true);
                 item.setProducts(products);
                 double sum = products.stream().mapToDouble(s -> Double.parseDouble(s.getNum())).sum();
-                double sumInTransitNum = products.stream().mapToDouble(s -> Double.parseDouble(Objects.isNull(s.getInTransitNum())?"0.0":s.getInTransitNum())).sum();
+                double sumInTransitNum = products.stream().mapToDouble(s -> Double.parseDouble(Objects.isNull(s.getInTransitNum()) ? "0.0" : s.getInTransitNum())).sum();
                 item.setSum(String.valueOf(sum));
                 item.setSumInTransitNum(String.valueOf(sumInTransitNum));
             }
@@ -287,32 +285,25 @@ public class OrderServiceImpl extends ServiceImpl<FcOrderMapper , FcOrder> imple
 
     /**
      * 发货状态：
-     * 1.全部产品行都完成发货，未发货数量都为0，
-     * 2.发货状态为发货完成，部分发货是有产品行还有未发货数量，
+     * 1.全部产品行都完成发货，未发货数量都为0，发货状态为发货完成
+     * 2.部分发货是有产品行还有未发货数量，
      * 3.未发货是所有行项目已发都为0
      */
-    private Integer getConsignmentStatus(Long orderId) {
+    public Integer getConsignmentStatus(Long orderId) {
         List<FcOrderProduct> products = fcOrderProductMapper.selectList(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderId, orderId));
-        List<Long> ids = products.stream().map(FcOrderProduct::getId).collect(Collectors.toList());
-        List<FcOrderConsignmentDetail> consignmentDetails = orderConsignmentDetailMapper.selectList(new LambdaQueryWrapper<FcOrderConsignmentDetail>()
-                .in(FcOrderConsignmentDetail::getOrderProductId, ids));
-        if (CollectionUtils.isNotEmpty(consignmentDetails)) {
-            for (int i = 0; i < products.size(); i++) {
-                FcOrderProduct item = products.get(i);
-                List<FcOrderConsignmentDetail> detailList = orderConsignmentDetailMapper.selectList(new LambdaQueryWrapper<FcOrderConsignmentDetail>()
-                        .eq(FcOrderConsignmentDetail::getOrderProductId, item.getId()));
-                if (CollectionUtils.isNotEmpty(detailList)) {
-                    double sum = detailList.stream().mapToDouble(s -> Double.parseDouble(Objects.isNull(s.getProductNum())?"0":s.getProductNum())).sum();
-                    if (item.getNum().compareTo(String.valueOf(sum)) > 0) {
-                        return 2;
-                    }
-                }
-                return 1;
+        boolean all = products.stream().allMatch(item -> Double.valueOf(item.getNotSentNum()).compareTo(0.0) == 0);
+        if (all) {
+            return 1;
+        } else {
+            boolean any = products.stream().anyMatch(item -> Double.valueOf(item.getNotSentNum()).compareTo(0.0) > 0);
+            if (any) {
+                return 2;
+            } else {
+                return 3;
             }
         }
-        return 3;
-    }
 
+    }
 
 
     @Override
@@ -328,7 +319,7 @@ public class OrderServiceImpl extends ServiceImpl<FcOrderMapper , FcOrder> imple
         fcOrder.setConsignmentStatus(consignmentStatus);
         FcContract fcContract = getContact(fcOrder.getContractNumber());
         List<FcOrderProduct> products = fcOrderProductMapper.selectList(new LambdaQueryWrapper<FcOrderProduct>().eq(FcOrderProduct::getOrderId, id).orderByAsc(FcOrderProduct::getSapDetailNumber));
-        syncService.syncStore(products);
+        //syncService.syncStore(products);
         List<FcOrderPayMilestone> milestones = fcOrderPayMilestoneMapper.selectList(new LambdaQueryWrapper<FcOrderPayMilestone>().eq(FcOrderPayMilestone::getOrderNumber, fcOrder.getOrderNumber()));
         //发货单明细
         LambdaQueryWrapper<FcOrderConsignment> wrapper = new LambdaQueryWrapper<FcOrderConsignment>()
@@ -347,7 +338,7 @@ public class OrderServiceImpl extends ServiceImpl<FcOrderMapper , FcOrder> imple
         //认领单
         List<PaymentClaimVO> paymentClaims = fcPaymentClaimMapper.selectPaymentClaimByOrder(id);
         if (CollectionUtils.isEmpty(paymentClaims)) {
-            paymentClaims = new ArrayList<>();
+            paymentClaims = Collections.EMPTY_LIST;
         }
         //接口日志
         result.put("order", fcOrder);
