@@ -43,13 +43,13 @@ public class CustomerController extends BaseController {
      * @param pageQuery
      * @return
      */
-    @SaCheckPermission(" customer:list:query")
+//    @SaCheckPermission(" customer:list:query")
     @GetMapping("/list")
     public TableDataInfo<FcCustomer> list(FcCustomer fcCustomer, PageQuery pageQuery) {
         return iFcCustomerService.listCustomer(fcCustomer, pageQuery);
     }
 
-    @SaCheckPermission(" customer:all:list")
+//    @SaCheckPermission(" customer:all:list")
     @GetMapping("/all")
     public R<List<FcCustomer>> all(FcCustomer fcCustomer) {
         return R.ok(iFcCustomerService.allCustomer(fcCustomer));

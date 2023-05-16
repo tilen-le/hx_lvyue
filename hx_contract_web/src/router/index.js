@@ -166,7 +166,7 @@ export const dynamicRoutes = [
     path: '/invoice/detail',
     component: Layout,
     hidden: true,
-    permissions: ['invoice:list:add'],
+    permissions: ['invoice:list:detail'],
     children: [
       {
         path: 'index/:oid(\\d+)',
