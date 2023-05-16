@@ -36,6 +36,7 @@
     <el-table v-loading="loading" ref="multipleTable" :data="roleList" :row-key="getRowKey" @selection-change="handleSelectionChange">
       <el-table-column type="selection" :reserve-selection="true" width="55" align="center" />
       <el-table-column label="角色编号" prop="roleId" width="120" />
+      <el-table-column label="角色Key" prop="roleKey" width="120" />
       <el-table-column label="角色名称" prop="roleName" :show-overflow-tooltip="true" width="150" />
       <el-table-column label="权限字符" prop="roleKey" :show-overflow-tooltip="true" width="150" />
       <el-table-column label="显示顺序" prop="roleSort" width="100" />

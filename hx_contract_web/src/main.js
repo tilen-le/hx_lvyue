@@ -67,6 +67,8 @@ Vue.use(directive)
 Vue.use(plugins)
 Vue.use(VueMeta)
 Vue.use(FormDesigner)
+
+
 DictData.install()
 
 

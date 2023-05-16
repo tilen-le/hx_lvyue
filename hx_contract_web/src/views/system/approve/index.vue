@@ -310,17 +310,19 @@ export default {
       this.getStoreKeeper()
     },
     getStoreKeeper() {
-      const params = {
-        pageSize: 100,
-        pageNum: 1
+      const params1 = {
+        roleKey: "storeKeeper",
+      }
+      const params2 = {
+        roleKey: "wareManager",
       }
       const params3 = {
-        roleId: "1653338831736295426",
+        roleKey: "finance",
       }
-      listStoreKeeper(params).then(res => {
+      listStoreKeeper(params1).then(res => {
         this.storeKeeper = res.rows
       })
-      listWareKeeper(params).then(res => {
+      listWareKeeper(params2).then(res => {
         this.wareKeeper = res.rows
       })
       listBookKeeper(params3).then(res => {

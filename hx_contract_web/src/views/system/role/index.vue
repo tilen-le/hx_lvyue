@@ -107,6 +107,7 @@
       <el-table v-loading="loading" :data="roleList" border @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"/>
         <el-table-column label="角色编号" prop="roleId" width="200" align="center"/>
+        <el-table-column label="角色Key" prop="roleKey" width="120" />
         <el-table-column label="角色名称" prop="roleName" :show-overflow-tooltip="true" align="center"/>
         <el-table-column label="显示顺序" prop="roleSort" align="center"/>
         <el-table-column label="状态" align="center">
@@ -166,6 +167,11 @@
           <el-col :span="12">
             <el-form-item label="角色名称" prop="roleName">
               <el-input v-model="form.roleName" placeholder="请输入角色名称" style="width: 100%"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="角色Key" prop="roleKey">
+              <el-input v-model="form.roleKey" placeholder="请输入角色Key" style="width: 100%"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">

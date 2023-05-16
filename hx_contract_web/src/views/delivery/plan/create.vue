@@ -467,7 +467,7 @@
         <div style="display: flex;justify-content: space-between;align-items: center;padding-right: 15px">
           <div style="display: flex;align-items: center">
             <div class="line-item"></div>
-            <span>实际业务报关信息</span>
+            <span>实际业务报关信息(<span style="color: red">PS：请注意文本框中的数量、金额等字段可能存在遮挡</span>)</span>
           </div>
           <el-button type="primary" icon="el-icon-plus" @click="createReport"  style="margin-left: 15px">添加行
           </el-button>
@@ -483,7 +483,7 @@
               {{scop.$index+1}}
             </template>
           </el-table-column>
-          <el-table-column label="货物描述(中文)" align="center" min-width="60px" prop="goodsDescCn">
+          <el-table-column label="货物描述(中文)" align="center" min-width="100px" prop="goodsDescCn">
             <template slot-scope="scope">
               <el-input
                 controls-position="right"
@@ -494,7 +494,7 @@
               />
             </template>
           </el-table-column>
-          <el-table-column label="报关数量" align="center" min-width="60px" prop="num">
+          <el-table-column label="报关数量" align="center" min-width="300px" prop="num">
             <template slot-scope="scope">
               <el-input-number :min="0"
                 controls-position="right"
@@ -505,7 +505,7 @@
               />
             </template>
           </el-table-column>
-          <el-table-column label="报关金额" align="center" min-width="60px" prop="amount">
+          <el-table-column label="报关金额" align="center" min-width="300px" prop="amount">
             <template slot-scope="scope">
               <el-input-number :min="0" :precision="2"
                 controls-position="right"
@@ -515,7 +515,7 @@
               />
             </template>
           </el-table-column>
-          <el-table-column label="品牌型号" align="center" min-width="60px" prop="brandModel">
+          <el-table-column label="品牌型号" align="center" min-width="100px" prop="brandModel">
             <template slot-scope="scope">
               <el-input
                 controls-position="right"
@@ -526,7 +526,7 @@
               />
             </template>
           </el-table-column>
-          <el-table-column label="包装件数" align="center" min-width="60px" prop="packNumber">
+          <el-table-column label="包装件数" align="center" min-width="300px" prop="packNumber">
             <template slot-scope="scope">
               <el-input-number :min="0"
                 controls-position="right"
@@ -536,7 +536,7 @@
               />
             </template>
           </el-table-column>
-          <el-table-column label="包装种类" align="center" min-width="60px" prop="packagingType">
+          <el-table-column label="包装种类" align="center" min-width="100px" prop="packagingType">
             <template slot-scope="scope">
               <el-input
                 controls-position="right"
@@ -547,7 +547,7 @@
               />
             </template>
           </el-table-column>
-          <el-table-column label="毛重" align="center" min-width="60px" prop="grossWeight">
+          <el-table-column label="毛重" align="center" min-width="150px" prop="grossWeight">
             <template slot-scope="scope">
               <el-input
                 maxlength="100"
@@ -559,7 +559,7 @@
               />
             </template>
           </el-table-column>
-          <el-table-column label="净重" align="center" min-width="60px" prop="netWeight">
+          <el-table-column label="净重" align="center" min-width="150px" prop="netWeight">
             <template slot-scope="scope">
               <el-input
                 controls-position="right"
@@ -570,7 +570,7 @@
               />
             </template>
           </el-table-column>
-          <el-table-column label="体积(CBM)" align="center" min-width="60px" prop="volume">
+          <el-table-column label="体积(CBM)" align="center" min-width="150px" prop="volume">
             <template slot-scope="scope">
               <el-input
                 controls-position="right"
@@ -601,7 +601,7 @@
         <div style="display: flex;justify-content: space-between;align-items: center;padding-right: 15px">
           <div style="display: flex;align-items: center">
             <div class="line-item"></div>
-            <span>SAP财务核算收入</span>
+            <span>SAP财务核算收入(<span style="color: red">PS：请注意文本框中的数量、金额等字段可能存在遮挡</span>)</span>
           </div>
           <el-button type="primary" icon="el-icon-plus" @click="createActInfo" style="margin-left: 15px">添加行
           </el-button>
@@ -617,7 +617,7 @@
               {{scop.$index+1}}
             </template>
           </el-table-column>
-          <el-table-column label="是否同步SAP" align="center" min-width="60px" prop="sapSyncFlag">
+          <el-table-column label="是否同步SAP" align="center" min-width="80px" prop="sapSyncFlag">
             <template slot-scope="scope">
               <el-select
                 v-model="scope.row.sapSyncFlag"
@@ -631,17 +631,17 @@
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column label="订单名称" align="center" min-width="60px" prop="orderTitle">
+          <el-table-column label="订单名称" align="center" min-width="100px" prop="orderTitle">
           </el-table-column>
-          <el-table-column label="订单编号" align="center" min-width="60px" prop="orderNumber">
+          <el-table-column label="订单编号" align="center" min-width="100px" prop="orderNumber">
           </el-table-column>
-          <el-table-column label="订单明细编号" align="center" min-width="60px" prop="productNumber">
+          <el-table-column label="订单明细编号" align="center" min-width="100px" prop="productNumber">
           </el-table-column>
-          <el-table-column label="产品型号" align="center" min-width="60px" prop="productModel">
+          <el-table-column label="产品型号" align="center" min-width="100px" prop="productModel">
           </el-table-column>
-          <el-table-column label="产品型号名" align="center" min-width="60px" prop="">
+          <el-table-column label="产品型号名" align="center" min-width="100px" prop="">
           </el-table-column>
-          <el-table-column label="报关数量" align="center" min-width="60px" prop="reportCustomsNum">
+          <el-table-column label="报关数量" align="center" min-width="150px" prop="reportCustomsNum">
             <template slot-scope="scope">
               <el-input
                 controls-position="right"
@@ -651,17 +651,17 @@
               />
             </template>
           </el-table-column>
-          <el-table-column label="报关剩余数量" align="center" min-width="60px" prop="reportCustomsResidueNum">
+          <el-table-column label="报关剩余数量" align="center" min-width="100px" prop="reportCustomsResidueNum">
           </el-table-column>
-          <el-table-column label="订单数量" align="center" min-width="60px" prop="num">
+          <el-table-column label="订单数量" align="center" min-width="100px" prop="num">
           </el-table-column>
-          <el-table-column label="产品总金额" align="center" min-width="60px" prop="totalProductAmount">
+          <el-table-column label="产品总金额" align="center" min-width="100px" prop="totalProductAmount">
           </el-table-column>
-          <el-table-column label="剩余报关金额" align="center" min-width="60px" prop="remainingReportCustomsAmount">
+          <el-table-column label="剩余报关金额" align="center" min-width="100px" prop="remainingReportCustomsAmount">
           </el-table-column>
-          <el-table-column label="本次报关金额" align="center" min-width="60px" prop="currentReportCustomsAmount">
+          <el-table-column label="本次报关金额" align="center" min-width="100px" prop="currentReportCustomsAmount">
           </el-table-column>
-          <el-table-column label="实际报关金额" align="center" min-width="60px" prop="realityReportCustomsAmount">
+          <el-table-column label="实际报关金额" align="center" min-width="300px" prop="realityReportCustomsAmount">
             <template slot-scope="scope">
               <el-input-number :min="0" :precision="2"
                 controls-position="right"
@@ -670,9 +670,9 @@
               />
             </template>
           </el-table-column>
-          <el-table-column label="单价" align="center" min-width="60px" prop="unitPrice">
+          <el-table-column label="单价" align="center" min-width="100px" prop="unitPrice">
           </el-table-column>
-          <el-table-column label="SAP物料编码" align="center" min-width="60px" prop="sapMaterialCode">
+          <el-table-column label="SAP物料编码" align="center" min-width="100px" prop="sapMaterialCode">
           </el-table-column>
           <el-table-column
             label="操作"
@@ -976,10 +976,10 @@ export default {
       this.searchLoading5=true
       this.searchLoading6=true
       const params = {
-        roleId: "1653338831736295426",
+        roleKey: "finance",
       }
       const params2 = {
-        roleName: "单证专员",
+        roleKey: "documentSpecial",
       }
       listBookKeeper(params).then(res => {
         this.bookKeeper = res.data
@@ -1009,7 +1009,7 @@ export default {
     doSelectedOrders(){
       let myProductIds=[]
       this.$refs.orderListTable.selection.forEach(function(e) {
-        myProductIds.push(e.productId);
+        myProductIds.push(e.orderProductId);
       })
       // 获取SAP财务核算收入列表
       listSAPFinancialApi(myProductIds).then(res=>{

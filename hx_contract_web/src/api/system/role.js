@@ -10,21 +10,21 @@ export function listRole(query) {
 }
 export function listStoreKeeper(query) {
   return request({
-    url: '/system/role/storeKeeper',
+    url: '/system/role/getUserByRoleKey',
     method: 'get',
     params: query
   })
 }
 export function listWareKeeper(query) {
   return request({
-    url: '/system/role/wareKeeper',
+    url: '/system/role/getUserByRoleKey',
     method: 'get',
     params: query
   })
 }
 export function listBookKeeper(query) {
   return request({
-    url: '/system/user/getUserByRoleId',
+    url: '/system/user/getUserByRoleKey',
     method: 'get',
     params: query
   })
@@ -32,7 +32,7 @@ export function listBookKeeper(query) {
 
 export function listDocKeeper(query) {
   return request({
-    url: '/system/user/getUserByRole',
+    url: '/system/user/getUserByRoleKey',
     method: 'get',
     params: query
   })
