@@ -34,7 +34,7 @@
               type="text"
               icon="el-icon-edit"
               @click="updateAddress(scope.row)"
-              v-hasPermi="['customer:msg:edit']"
+              v-hasPermi="['customer:address:edit']"
             >编辑
             </el-button>
             <el-button
@@ -42,7 +42,7 @@
               type="text"
               icon="el-icon-edit"
               @click="handleDelete(scope.row)"
-              v-hasPermi="['customer:msg:delete']"
+              v-hasPermi="['customer:address:delete']"
             >删除
             </el-button>
           </template>
@@ -141,6 +141,7 @@
     getAddress,
     getCustomer,
     getOpenBank,
+    getOpenBankByBe,
     updateAddress,
     updateOpenBank
   } from "@/api/customer";
@@ -202,7 +203,7 @@
     this.customerId = cid;
     this.detail(cid)
     this.getAddress(cid)
-    this.getInvoiceList(cid)
+    // this.getInvoiceList(cid)
   },
   methods: {
     close() {
@@ -211,6 +212,7 @@
     detail(cid) {
       getCustomer(cid).then(res => {
         this.customerDetail = res.data
+        this.getInvoiceList(res.data.code)
       })
     },
     formatAddress(row) {
@@ -266,11 +268,15 @@
         }
       })
     },
-    getInvoiceList() {
+    getInvoiceList(code) {
       const params = {
-        customerId: this.customerId
+        // customerId: this.customerId
+        code:code
       }
-      getOpenBank(params).then(res => {
+      // getOpenBank(params).then(res => {
+      //   this.invoice = res.data
+      // })
+      getOpenBankByBe(params).then(res => {
         this.invoice = res.data
       })
     },

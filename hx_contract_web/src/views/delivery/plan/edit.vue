@@ -731,7 +731,7 @@
       </el-table>
       <span slot="footer" class="dialog-footer">
       <el-button @click="undoSelectedOrders">取 消</el-button>
-      <el-button type="primary" @click="doSelectedOrders" v-hasPermi="['delivery:all:list']" >确 定</el-button>
+      <el-button type="primary" @click="doSelectedOrders"  >确 定</el-button>
   </span>
     </el-dialog>
   </div>

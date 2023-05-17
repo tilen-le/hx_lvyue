@@ -43,13 +43,13 @@ public class CustomerController extends BaseController {
      * @param pageQuery
      * @return
      */
-//    @SaCheckPermission(" customer:list:query")
+    @SaCheckPermission("customer:list:query")
     @GetMapping("/list")
     public TableDataInfo<FcCustomer> list(FcCustomer fcCustomer, PageQuery pageQuery) {
         return iFcCustomerService.listCustomer(fcCustomer, pageQuery);
     }
 
-//    @SaCheckPermission(" customer:all:list")
+//    @SaCheckPermission("customer:all:list")
     @GetMapping("/all")
     public R<List<FcCustomer>> all(FcCustomer fcCustomer) {
         return R.ok(iFcCustomerService.allCustomer(fcCustomer));
@@ -69,26 +69,26 @@ public class CustomerController extends BaseController {
      * @param id
      * @return
      */
-    @SaCheckPermission(" customer:list:detail")
+    @SaCheckPermission("customer:list:detail")
     @GetMapping("/detail/{id}")
     public R<FcCustomer> detail(@PathVariable("id") String id) {
         return R.ok(iFcCustomerService.getCustomerById(id));
     }
 
-//    @SaCheckPermission("customer:address:add")
+    @SaCheckPermission("customer:address:add")
     @Log(title = "新增客户收货地址", businessType = BusinessType.INSERT)
     @PostMapping("/addAddress")
     public R<Void> addAddress(@Validated @RequestBody FcCustomerConsignment fcCustomerConsignment) {
         return toAjax(iFcCustomerConsignmentService.saveFcCustomerConsignment(fcCustomerConsignment));
     }
 
-    @SaCheckPermission("customer:list:detail")
+//    @SaCheckPermission("customer:list:detail")
     @PostMapping("/getAddress")
     public R<List<FcCustomerConsignment>> getAddress(@RequestBody FcCustomerConsignment fcCustomerConsignment) {
         return R.ok(iFcCustomerConsignmentService.listFcCustomerConsignment(fcCustomerConsignment.getCustomerId()));
     }
 
-    @SaCheckPermission("customer:address:list")
+//    @SaCheckPermission("customer:address:list")
     @PostMapping("/getAddressByCode")
     public R<List<FcCustomerConsignment>> getAddressByCode(@RequestBody FcCustomer fcCustomer) {
         return R.ok(iFcCustomerConsignmentService.listFcCustomerConsignmentByCode(fcCustomer.getCode()));
@@ -101,7 +101,7 @@ public class CustomerController extends BaseController {
      * @param fcCustomerConsignment
      * @return
      */
-    @SaCheckPermission("customer:address:update")
+    @SaCheckPermission("customer:address:edit")
     @Log(title = "修改客户收货地址", businessType = BusinessType.UPDATE)
     @PutMapping("/updateAddress")
     public R<Void> updateAddress(@Validated @RequestBody FcCustomerConsignment fcCustomerConsignment) {
@@ -115,7 +115,7 @@ public class CustomerController extends BaseController {
      * @param fcCustomerConsignment
      * @return
      */
-    @SaCheckPermission("customer:address:remove")
+    @SaCheckPermission("customer:address:delete")
     @Log(title = "删除客户收货地址", businessType = BusinessType.DELETE)
     @DeleteMapping("/deleteAddress")
     public R<Void> deleteAddress(@Validated @RequestBody FcCustomerConsignment fcCustomerConsignment) {
@@ -166,7 +166,7 @@ public class CustomerController extends BaseController {
         return toAjax(iFcCustomerInvoiceService.removeFcCustomerInvoice(fcCustomerInvoice));
     }
 
-    @SaCheckPermission("customer:openbank:list")
+//    @SaCheckPermission("customer:openbank:list")
     @Log(title = "获取开户行信息", businessType = BusinessType.EXPORT)
     @PostMapping("/getOpenBankByBe")
     public R<List<FcCustomerInvoice>> getOpenBankByBe(@RequestBody FcCustomer fcCustomer ) {
