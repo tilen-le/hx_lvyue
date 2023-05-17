@@ -75,14 +75,14 @@ public class CustomerController extends BaseController {
         return R.ok(iFcCustomerService.getCustomerById(id));
     }
 
-    @SaCheckPermission("customer:address:add")
+//    @SaCheckPermission("customer:address:add")
     @Log(title = "新增客户收货地址", businessType = BusinessType.INSERT)
     @PostMapping("/addAddress")
     public R<Void> addAddress(@Validated @RequestBody FcCustomerConsignment fcCustomerConsignment) {
         return toAjax(iFcCustomerConsignmentService.saveFcCustomerConsignment(fcCustomerConsignment));
     }
 
-    @SaCheckPermission("customer:address:list")
+    @SaCheckPermission("customer:list:detail")
     @PostMapping("/getAddress")
     public R<List<FcCustomerConsignment>> getAddress(@RequestBody FcCustomerConsignment fcCustomerConsignment) {
         return R.ok(iFcCustomerConsignmentService.listFcCustomerConsignment(fcCustomerConsignment.getCustomerId()));
