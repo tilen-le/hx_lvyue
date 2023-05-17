@@ -39,8 +39,8 @@
           <el-col :span="7">
               <el-form-item style="width:100%;text-align: right">
                 <el-button type="primary" size="mini" @click="addPlan" v-hasPermi="['delivery:plan:add']">创建发货计划</el-button>
-                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" >查询</el-button>
-                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery" v-hasPermi="['delivery:plan:query']" >查询</el-button>
+                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery" v-hasPermi="['delivery:plan:reset']">重置</el-button>
               </el-form-item>
           </el-col>
         </el-row>
@@ -87,7 +87,7 @@
               size="mini"
               type="text"
               @click="notifyCommissioner(scope.row)"
-              v-hasPermi="['invoice:list:add']"
+              v-hasPermi="['delivery:plan:inform']"
             >通知单证专员
             </el-button>
             <el-button
@@ -95,7 +95,7 @@
               size="mini"
               type="text"
               @click="completeCustomsDeclaration(scope.row)"
-              v-hasPermi="['invoice:list:add']"
+              v-hasPermi="['delivery:plan:declare']"
             >报关完成
             </el-button>
             <el-button
@@ -103,14 +103,14 @@
               size="mini"
               type="text"
               @click="synchronizeSAP(scope.row)"
-              v-hasPermi="['invoice:list:add']"
+              v-hasPermi="['delivery:plan:sap']"
             >同步SAP
             </el-button>
             <el-button
               size="mini"
               type="text"
               @click="toDetail(scope.row)"
-              v-hasPermi="['delivery:plan:add']"
+              v-hasPermi="['delivery:plan:detail']"
             >详情
             </el-button>
 <!--            同步完成后不可编辑-->
@@ -119,7 +119,7 @@
               size="mini"
               type="text"
               @click="toEdit(scope.row)"
-              v-hasPermi="['delivery:plan:add']"
+              v-hasPermi="['delivery:plan:edit']"
             >编辑
             </el-button>
           </template>
@@ -240,11 +240,11 @@ export default {
     },
     // 跳转详情
     toDetail(row){
-      this.$router.push(`/plan/create/detail/${row.id}`)
+      this.$router.push(`/plan/list/detail/${row.id}`)
     },
     // 跳转编辑
     toEdit(row){
-      this.$router.push(`/plan/create/edit/${row.id}`)
+      this.$router.push(`/plan/list/edit/${row.id}`)
     },
   }
 }

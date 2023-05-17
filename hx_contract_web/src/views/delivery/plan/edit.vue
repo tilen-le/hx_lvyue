@@ -470,7 +470,8 @@
             <div class="line-item"></div>
             <span>实际业务报关信息(<span style="color: red">PS：请注意文本框中的数量、金额等字段可能存在遮挡</span>)</span>
           </div>
-          <el-button type="primary" icon="el-icon-plus" @click="createReport" style="margin-left: 15px">添加行
+          <el-button type="primary" icon="el-icon-plus" @click="createReport"
+                     v-hasPermi="['plan:edit:addRows']" style="margin-left: 15px">添加行
           </el-button>
         </div>
         <el-table
@@ -590,6 +591,7 @@
               <el-button
                 type="text"
                 @click="removeReport(scope.row, scope.$index)"
+                v-hasPermi="['plan:edit:delete']"
               >删除
               </el-button>
             </template>
@@ -603,7 +605,8 @@
             <div class="line-item"></div>
             <span>SAP财务核算收入(<span style="color: red">PS：请注意文本框中的数量、金额等字段可能存在遮挡</span>)</span>
           </div>
-          <el-button type="primary" icon="el-icon-plus" @click="createActInfo" style="margin-left: 15px">添加行
+          <el-button type="primary" icon="el-icon-plus" @click="createActInfo"
+                     v-hasPermi="['plan:edit:addRows']" style="margin-left: 15px">添加行
           </el-button>
         </div>
         <el-table
@@ -687,6 +690,7 @@
               <el-button
                 type="text"
                 @click="removeSap(scope.row, scope.$index)"
+                v-hasPermi="['plan:edit:delete']"
               >删除
               </el-button>
             </template>
@@ -705,8 +709,8 @@
       </div>
     </el-form>
     <div style="text-align: right">
-      <el-button type="primary" @click="submitForm">提 交</el-button>
-      <el-button @click="cancel">取 消</el-button>
+      <el-button type="primary" @click="submitForm" v-hasPermi="['plan:edit:commit']">提 交</el-button>
+      <el-button @click="cancel" v-hasPermi="['plan:edit:cancel']">取 消</el-button>
     </div>
     <!--    订单列表选择弹窗-->
     <el-dialog title="SAP财务核算收入新增" :visible.sync="dialogVisible" >

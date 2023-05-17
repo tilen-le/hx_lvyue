@@ -108,8 +108,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitFormAddress" v-hasPermi="['customer:address:add','customer:address:update']">确 定</el-button>
-        <el-button @click="cancel" v-hasPermi="['customer:address:cancel']">取 消</el-button>
+        <el-button type="primary" @click="submitFormAddress" >确 定</el-button>
+        <el-button @click="cancel" >取 消</el-button>
       </div>
     </el-dialog>
     <el-dialog :title="invoiceTitle" :visible.sync="openInvoice" width="600px" append-to-body>
@@ -125,8 +125,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitInvoice" v-hasPermi="['customer:address:add','customer:address:update']">确 定</el-button>
-        <el-button @click="cancelInvoice" v-hasPermi="['customer:address:cancel']">取 消</el-button>
+        <el-button type="primary" @click="submitInvoice" >确 定</el-button>
+        <el-button @click="cancelInvoice" >取 消</el-button>
       </div>
     </el-dialog>
   </div>
