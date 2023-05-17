@@ -450,6 +450,8 @@ public class OrderServiceImpl extends ServiceImpl<FcOrderMapper, FcOrder> implem
                 vo.setRemainingReportCustomsAmount(amount.subtract(countReportCustomsAmount));
             }
             vo.setOrderProductId(product.getId().toString());
+            //返回前端是否同步sap默认值
+            vo.setSapSyncFlag("1");
             voList.add(vo);
         });
         return R.ok(voList);

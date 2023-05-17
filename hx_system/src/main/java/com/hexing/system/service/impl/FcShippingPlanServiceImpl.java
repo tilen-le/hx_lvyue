@@ -18,6 +18,7 @@ import com.hexing.system.domain.form.FcShippingPlanReportInfoVo;
 import com.hexing.system.mapper.*;
 import com.hexing.system.service.*;
 import com.hexing.system.utils.HttpKit;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
  * @author firerock_tech
  */
 @Service
+@Slf4j
 public class FcShippingPlanServiceImpl implements IFcShippingPlanService {
 
     @Resource
@@ -129,7 +131,13 @@ public class FcShippingPlanServiceImpl implements IFcShippingPlanService {
         fcShippingPlan.setReportCustomsComplted("0");
         //是否已通知单证专员
         fcShippingPlan.setAlreadyNoticeDocumentSpecialist("0");
-        fcShippingPlan.setCurrentVersion(1);
+        //附件版本
+        List<SysOssCons> file = fcShippingPlan.getFile();
+        if (CollectionUtils.isNotEmpty(file)) {
+            fcShippingPlan.setCurrentVersion(1);
+        } else {
+            fcShippingPlan.setCurrentVersion(0);
+        }
         planMapper.insert(fcShippingPlan);
         //附件处理
         handleOssFile(fcShippingPlan);
@@ -362,6 +370,11 @@ public class FcShippingPlanServiceImpl implements IFcShippingPlanService {
         if ("1".equals(reportCustomsCompleted)) {
             return R.fail("报关已完成的发货计划不支持该操作");
         }
+        //判断是否上传附件
+        Integer currentVersion = fcShippingPlan.getCurrentVersion();
+        if (currentVersion == 0) {
+            return R.fail("报关完成需上传附件");
+        }
         //TODO  通知财务专员 message
         fcShippingPlan.setReportCustomsComplted("1");
         planMapper.updateById(fcShippingPlan);
@@ -408,7 +421,7 @@ public class FcShippingPlanServiceImpl implements IFcShippingPlanService {
             item.put("KUNNR_BP", order.getSoldToPartyCd());
             item.put("NETPR_ZFOB", fcOrderProduct.getUnitPrice());
             item.put("ITEXT1", "普票");
-            item.put("ITEXT3", fcOrderProduct.getProductModel());
+            item.put("ITEXT3", "");
             item.put("ITEXT4", "");
             item.put("ITEXT5", "");
             item.put("ITEXT6", fcShippingPlan.getContactInformation());
@@ -419,7 +432,9 @@ public class FcShippingPlanServiceImpl implements IFcShippingPlanService {
             data.add(item);
         }
         params.put("data", data);
+        log.info("======发货计划同步sap请求报文={}", params.toString());
         String body = httpKit.postData(params);
+        log.info("======发货计划同步sap返回报文={}", body);
         JSONObject jsonObject = JSONObject.parseObject(body);
         JSONObject dataJO = jsonObject.getJSONObject("data");
         String vl = dataJO.getString("vl");

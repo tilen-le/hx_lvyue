@@ -92,5 +92,10 @@ public class FcShippingPlanReportInfoVo {
      */
     private String sapMaterialCode;
 
+    /**
+     * 是否同步sap标识： 默认“是=1 否=2”
+     */
+    private String sapSyncFlag;
+
 
 }
